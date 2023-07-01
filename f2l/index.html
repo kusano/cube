@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>F2L</title>    
+    <link rel="stylesheet" href="../bulma.min.css">
+    <style>
+      th.number_ {
+        width: 3em;
+      }
+      th.id {
+        width: 3em;
+      }
+      th.image_ {
+        width: 100px;
+      }
+      th.algorithm {
+        width: 18em;
+      }
+      th.memo {
+        min-width: 18em;
+      }
+      td.number_ {
+        text-align: right !important;
+      }
+      td.algorithm, span.algorithm {
+        font-weight: bold;
+      }
+      .disabled {
+        color: lightgray;
+      }
+      address {
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>F2L</h1>
+        <ul>
+          <li>F面は青。</li>
+          <li>左右対称（IDの英字が同じで数字が違うもの）は省略。</li>
+          <li><span class="algorithm">y</span> が先頭にあるのはFLスロットに入れる手順。</li>
+          <ul>
+            <li>赤がF面のときにはこの手順を使う。</li>
+          </ul>
+          <li><span class="algorithm">-</span> はIT化が完了する位置。</li>
+          <li><span class="algorithm">[?]</span> は開始前の持ち替えやAUFと相殺しうる手順。</li>
+          <li>手順や分類は以下のページを参照した。</li>
+          <ul>
+            <li><a href="https://www.daaokacubeblog.com/891/">F2L基本41種 手順表【CFOP】 – だーおかCubelog</a></li>
+            <li><a href="https://youcuber.github.io/f2l/">F2Lの分類</a></li>
+            <li><a href="https://www.youtube.com/playlist?list=PLMMCdZoFQcn6yRx1Z-S4_eR3WbexD7mJ_">F2L - YouTube</a></li>
+          </ul>
+          <li>画像は <a href="http://cube.rider.biz/visualcube.php">VisualCube (v0.5.5)</a> で生成した。</li>
+          <ul>
+            <li><a href="http://cube.rider.biz/visualcube.php?fmt=svg&stage=f2l&case=">http://cube.rider.biz/visualcube.php?fmt=svg&stage=f2l&case=</a></li>
+          </ul>
+        </ul>
+        <hr>
+        <h2>上面の色が同じ</h2>
+        <ul>
+          <li>コーナーとエッジが離れていれば、 コーナーをスロットに退避してI化する。</li>
+        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th class="number_">#</th>
+              <th class="id">ID</th>
+              <th class="image_">Image</th>
+              <th class="algorithm">Algorithm</th>
+              <th class="memo">Memo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="number_" rowspan="2">1</td>
+              <td class="id" rowspan="2">I2</td>
+              <td class="image_" rowspan="2"><img src="images/f2l_01.svg" width="64" height="64"></td>
+              <td class="algorithm">- [U] R U' R'</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="algorithm disabled">[y]</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="number_" rowspan="2">7</td>
+              <td class="id" rowspan="2">S2</td>
+              <td class="image_" rowspan="2"><img src="images/f2l_07.svg" width="64" height="64"></td>
+              <td class="algorithm">[U'] R U2 R' - U2 R U' R'</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="algorithm disabled">[y]</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="number_" rowspan="2">5</td>
+              <td class="id" rowspan="2">Q2</td>
+              <td class="image_" rowspan="2"><img src="images/f2l_05.svg" width="64" height="64"></td>
+              <td class="algorithm">[U'] R U R' - U2 R U' R'</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="algorithm disabled">[y]</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="number_" rowspan="2">15</td>
+              <td class="id" rowspan="2">K2</td>
+              <td class="image_" rowspan="2"><img src="images/f2l_15.svg" width="64" height="64"></td>
+              <td class="algorithm">R U R' U2 R U' R' - U R U' R'</td>
+              <td class="memo">コーナーを、向きを変えつつスロットに入れる。5手目以降はE2。</td>
+            </tr>
+            <tr>
+              <td class="algorithm">[y] L' U L - U2 F U F'</td>
+              <td class="memo">コーナーを回しつつエッジを退避してT化。</td>
+            </tr>
+            <tr></tr>
+          </tbody>
+        </table>
+        <p><br></p>
+        <h2>上面が側面の2色</h2>
+        <ul>
+          <li>基本的には、コーナーをスロットに退避してT化する。</li>
+          <li>JとLはコーナーのD色の位置で判断できる。</li>
+        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th class="number_">#</th>
+              <th class="id">ID</th>
+              <th class="image_">Image</th>
+              <th class="algorithm">Algorithm</th>
+              <th class="memo">Memo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="number_" rowspan="2">4</td>
+              <td class="id" rowspan="2">T1</td>
+              <td class="image_" rowspan="2"><img src="images/f2l_04.svg" width="64" height="64"></td>
+              <td class="algorithm">- R U R'</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="algorithm disabled">[y]</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="number_" rowspan="3">10</td>
+              <td class="id" rowspan="3">R1</td>
+              <td class="image_" rowspan="3"><img src="images/f2l_10.svg" width="64" height="64"></td>
+              <td class="algorithm">[U'] R U R' - U R U R'</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="algorithm">[U2] R U' R' - U' R U R'</td>
+              <td class="memo">エッジをスロットに退避するパターン。</td>
+            </tr>
+            <tr>
+              <td class="algorithm disabled">[y]</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="number_" rowspan="2">12</td>
+              <td class="id" rowspan="2">J1</td>
+              <td class="image_" rowspan="2"><img src="images/f2l_12.svg" width="64" height="64"></td>
+              <td class="algorithm">R U' R' U R U' R' - U2 R U' R'</td>
+              <td class="memo">コーナーの向きを変えつつエッジをスロットに入れる。5手目以降はG2。</td>
+            </tr>
+            <tr>
+              <td class="algorithm">[y U] L' U2 L - U' F U F'</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="number_" rowspan="2">14</td>
+              <td class="id" rowspan="2">L1</td>
+              <td class="image_" rowspan="2"><img src="images/f2l_14.svg" width="64" height="64"></td>
+              <td class="algorithm">[U'] R U' R' - U R U R'</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="algorithm disabled">[y]</td>
+              <td class="memo"></td>
+            </tr>
+            <tr></tr>
+          </tbody>
+        </table>
+        <p><br></p>
+        <h2>底面の色が上面にある</h2>
+        <ul>
+          <li>コーナーとエッジが離れていれば、エッジをスロットに退避してI化する。</li>
+        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th class="number_">#</th>
+              <th class="id">ID</th>
+              <th class="image_">Image</th>
+              <th class="algorithm">Algorithm</th>
+              <th class="memo">Memo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="number_" rowspan="2">21</td>
+              <td class="id" rowspan="2">V1</td>
+              <td class="image_" rowspan="2"><img src="images/f2l_21.svg" width="64" height="64"></td>
+              <td class="algorithm">[U2] R U R' - U R U' R'</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="algorithm disabled">[y]</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="number_" rowspan="2">19</td>
+              <td class="id" rowspan="2">U2</td>
+              <td class="image_" rowspan="2"><img src="images/f2l_19.svg" width="64" height="64"></td>
+              <td class="algorithm">[U] R U2 R' - U R U' R'</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="algorithm disabled">[y]</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="number_" rowspan="2">23</td>
+              <td class="id" rowspan="2">M1</td>
+              <td class="image_" rowspan="2"><img src="images/f2l_23.svg" width="64" height="64"></td>
+              <td class="algorithm">[U] R U' R' U' R U' R' - U R U' R'</td>
+              <td class="memo">先にR面を上げてコーナーをスロットに入れる。6手目以降はE2。</td>
+            </tr>
+            <tr>
+              <td class="algorithm disabled">[y]</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="number_" rowspan="2">17</td>
+              <td class="id" rowspan="2">N2</td>
+              <td class="image_" rowspan="2"><img src="images/f2l_17.svg" width="64" height="64"></td>
+              <td class="algorithm">R U2 R' - U' R U R'</td>
+              <td class="memo">エッジの退避と同時にコーナーの向きを変える。</td>
+            </tr>
+            <tr>
+              <td class="algorithm disabled">[y]</td>
+              <td class="memo"></td>
+            </tr>
+            <tr></tr>
+          </tbody>
+        </table>
+        <p><br></p>
+        <h2>エッジがスロットに入っている</h2>
+        <ul>
+          <li>コーナーの上面が底面の色ならB1かB2。</li>
+          <li>それ以外はエッジを上げてT化する手順が多い。</li>
+        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th class="number_">#</th>
+              <th class="id">ID</th>
+              <th class="image_">Image</th>
+              <th class="algorithm">Algorithm</th>
+              <th class="memo">Memo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="number_" rowspan="2">34</td>
+              <td class="id" rowspan="2">G1</td>
+              <td class="image_" rowspan="2"><img src="images/f2l_34.svg" width="64" height="64"></td>
+              <td class="algorithm">[U] R U R' - U2 R U R'</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="algorithm">[y U] L' U L - U2 L' U L</td>
+              <td class="memo">コーナーを退避しつつエッジを移動してI化。</td>
+            </tr>
+            <tr>
+              <td class="number_" rowspan="4">35</td>
+              <td class="id" rowspan="4">H1</td>
+              <td class="image_" rowspan="4"><img src="images/f2l_35.svg" width="64" height="64"></td>
+              <td class="algorithm">[U'] R U R' - U F' U' F</td>
+              <td class="memo">(a) コーナーの底面の色が前向き。</td>
+            </tr>
+            <tr>
+              <td class="algorithm">[y U2] F U F' - U' L' U L</td>
+              <td class="memo">(b) コーナーの底面の色が横向き。</td>
+            </tr>
+            <tr>
+              <td class="algorithm">[y' U2] f R f' - U' R' U R</td>
+              <td class="memo">(c) <span class="algorithm">f'</span>によってエッジの向きを変える。</span></td>
+            </tr>
+            <tr>
+              <td class="algorithm">[y U] L' U L U' L' U L - U2 F U F'</td>
+              <td class="memo">(d) G1のFLスロットの手順でK2にする。7手目以降はK2。</td>
+            </tr>
+            <tr>
+              <td class="number_" rowspan="3">32</td>
+              <td class="id" rowspan="3">B1</td>
+              <td class="image_" rowspan="3"><img src="images/f2l_32.svg" width="64" height="64"></td>
+              <td class="algorithm">[U] R U' R' U R U' R' - U R U' R'</td>
+              <td class="memo">セクシームーブ×3が有名だが、リグリップせずに <span class="algorithm">U</span> を右手で回せるので、逆セクシー×3のほうが良い。6手目以降はE2。</td>
+            </tr>
+            <tr>
+              <td class="algorithm">[y'] R' U' R U R' U' R - U R' U' R</td>
+              <td class="memo">エッジが背面にあるときは、セクシームーブ×3だとリグリップも押し込みも不要になる。</td>
+            </tr>
+            <tr>
+              <td class="algorithm disabled">[y]</td>
+              <td class="memo">対称なので上の左右逆の手順で良い。</td>
+            </tr>
+            <tr>
+              <td class="number_" rowspan="2">31</td>
+              <td class="id" rowspan="2">B2</td>
+              <td class="image_" rowspan="2"><img src="images/f2l_31.svg" width="64" height="64"></td>
+              <td class="algorithm">R U' R' - F' U2 F</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="algorithm disabled">[y]</td>
+              <td class="memo">対称なので上の左右逆の手順で良い。</td>
+            </tr>
+            <tr></tr>
+          </tbody>
+        </table>
+        <h5>H1の手順の使い分け</h5>
+        <p>持ち替えや <span class="algorithm">F</span> 系の動きを最小限にし、 <span class="algorithm">B</span> 系の動きを使わないために、エッジのあるスロットの場所と、エッジのEOが合っているか（エッジのあるスロットとペアを入れるスロットが異なる場合は、EOが合っていることもある）で使い分ける。</p>
+        <ul>
+          <li>エッジがFRスロットかBLスロットにある場合は、手順 (a) を使う。</li>
+          <li>エッジがFLスロットにあり、EOが合っていない場合は、手順 (b) を使う。</li>
+          <li>エッジがBRスロットにあり、EOが合っていない場合は、手順 (c) を使う。</li>
+          <li>エッジがFLスロットかBRスロットにあり、EOが合っている場合は、手順 (d) を使う。</li>
+        </ul>
+        <p><br></p>
+        <h2>コーナーがスロットに入っている</h2>
+        <ul>
+          <li>コーナーの向きが合っていればA2。</li>
+          <li>エッジの上面とコーナーの側面が異色なら、F1。</li>
+          <li>エッジの上面とコーナーの側面が同色なら、E2。</li>
+        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th class="number_">#</th>
+              <th class="id">ID</th>
+              <th class="image_">Image</th>
+              <th class="algorithm">Algorithm</th>
+              <th class="memo">Memo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="number_" rowspan="2">30</td>
+              <td class="id" rowspan="2">F1</td>
+              <td class="image_" rowspan="2"><img src="images/f2l_30.svg" width="64" height="64"></td>
+              <td class="algorithm">R U R' - U' R U R'</td>
+              <td class="memo">コーナーのD色が側面になるようにコーナーを上げてT化。</td>
+            </tr>
+            <tr>
+              <td class="algorithm">[y U2] L' U L - F U F'</td>
+              <td class="memo">コーナーを上げるときに向きを変えてT化。</td>
+            </tr>
+            <tr>
+              <td class="number_" rowspan="2">27</td>
+              <td class="id" rowspan="2">E2</td>
+              <td class="image_" rowspan="2"><img src="images/f2l_27.svg" width="64" height="64"></td>
+              <td class="algorithm">R U' R' - U R U' R'</td>
+              <td class="memo">コーナーのD色が上面になるようにコーナーを上げてI化。</td>
+            </tr>
+            <tr>
+              <td class="algorithm">[y] L' U2 L - F U2 F'</td>
+              <td class="memo"></td>
+            </tr>
+            <tr>
+              <td class="number_" rowspan="3">25</td>
+              <td class="id" rowspan="3">A2</td>
+              <td class="image_" rowspan="3"><img src="images/f2l_25.svg" width="64" height="64"></td>
+              <td class="algorithm">[U'] F' U' F U - R U R'</td>
+              <td class="memo">(a) EOは合っているが、Fを含む。</td>
+            </tr>
+            <tr>
+              <td class="algorithm">[y U'] L' U L - U F U' F'</td>
+              <td class="memo">(b)</td>
+            </tr>
+            <tr>
+              <td class="algorithm">[y2 U'] f' L f - U L U' L'</td>
+              <td class="memo">(c) <span class="algorithm">f</span> でI化。</td>
+            </tr>
+            <tr></tr>
+          </tbody>
+        </table>
+        <h5>A2の手順の使い分け</h5>
+        <ul>
+          <li>エッジの上面とコーナーの前面（裏にあるときは背面）が異色の場合は、手順 (b) を使う。</li>
+          <li>エッジの上面とコーナーの前面が同色で、EOが合っていない場合は、<span class="algorithm">y</span> か <span class="algorithm">y'</span> で持ち替えて、手順 (b) を使う。</li>
+          <li>エッジの上面とコーナーの前面が同色で、EOが合っている場合は、コーナーのあるスロットに応じて、手順 (a) か (c) を使う。</li>
+        </ul>
+        <p><br></p>
+        <h2>コーナーもエッジもスロットに入っている</h2>
+        <ul>
+          <li>C1とD1は、前面に色が揃っているとき（D1のFRスロット）だけペアのまま上げ、それ以外は上げてちぎる。</li>
+        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th class="number_">#</th>
+              <th class="id">ID</th>
+              <th class="image_">Image</th>
+              <th class="algorithm">Algorithm</th>
+              <th class="memo">Memo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="number_" rowspan="2">39</td>
+              <td class="id" rowspan="2">C1</td>
+              <td class="image_" rowspan="2"><img src="images/f2l_39.svg" width="64" height="64"></td>
+              <td class="algorithm">R U' R' U R U2 R' - U R U' R'</td>
+              <td class="memo">4手目以降はU2。</td>
+            </tr>
+            <tr>
+              <td class="algorithm">[y] L' U L U L' U' L - U2 L' U L</td>
+              <td class="memo">4手目以降はQ1。</td>
+            </tr>
+            <tr>
+              <td class="number_" rowspan="2">41</td>
+              <td class="id" rowspan="2">D1</td>
+              <td class="image_" rowspan="2"><img src="images/f2l_41.svg" width="64" height="64"></td>
+              <td class="algorithm">R U R' U' R U' R' - U2 F' U' F</td>
+              <td class="memo">5手目以降はK1。</td>
+            </tr>
+            <tr>
+              <td class="algorithm">[y] L' U L U L' U L - U' F U F'</td>
+              <td class="memo">6手目以降はR1。</td>
+            </tr>
+            <tr>
+              <td class="number_" rowspan="2">37</td>
+              <td class="id" rowspan="2">A0</td>
+              <td class="image_" rowspan="2"><img src="images/f2l_37.svg" width="64" height="64"></td>
+              <td class="algorithm">R U2 R' U R U2 R' - U F' U' F</td>
+              <td class="memo">手順が特殊。</td>
+            </tr>
+            <tr>
+              <td class="algorithm disabled">[y]</td>
+              <td class="memo">対称なので上の左右逆の手順で良い。</td>
+            </tr>
+            <tr></tr>
+          </tbody>
+        </table>
+        <p><br></p>
+        <h2>手順の使い方</h2>
+        <h3>EO</h3>
+        <p>
+          Edge Orientation。上記の手順の使い分けや、以降の説明にこの用語を使う。
+        </p>
+        <p>
+          注目しているエッジについて、エッジが上段にあってF面かB面の色がU面にあるとき、もしくはエッジが中段にあってF面かB面の色がF面かB面にあるとき、EOが合っていると言う。
+          次の状態は、青をF面としたときに青赤エッジのEOが合っている例である。
+        </p>
+        <p>
+          <img src="images/eo_0.svg" width="128" height="128">&nbsp;<!-- http://cube.rider.biz/visualcube.php?fmt=svg&view=trans&fd=ttttttttttttrrttrtttttfftfttdtdddtdtttttlttltttttbttbt -->
+          <img src="images/eo_1.svg" width="128" height="128">&nbsp;<!-- http://cube.rider.biz/visualcube.php?fmt=svg&view=trans&fd=tttttttftttttrttrttrttfttfttdtdddtdtttttlttltttttbttbt -->
+          <img src="images/eo_2.svg" width="128" height="128">&nbsp;<!-- http://cube.rider.biz/visualcube.php?fmt=svg&view=trans&fd=tttttttttttttrttrttttffttfttdtdddtdtttttlrtltttttbttbt -->
+          <img src="images/eo_3.svg" width="128" height="128"><!-- http://cube.rider.biz/visualcube.php?fmt=svg&view=trans&fd=tttttttttttttrttrtttttfttfttdtdddtdttttrlttltttttbftbt -->
+        </p>
+        <p>
+          これらの例で青赤エッジの青と赤が逆ならば、EOが合っていない。
+        </p>
+        <p>
+          <span class="algorithm">X</span>、<span class="algorithm">X2</span>、<span class="algorithm">X'</span> を合わせて、「<span class="algorithm">X</span> 系の動き」と言うことにする。EOが合っているかどうかを変えるためには、<span class="algorithm">U</span>、<span class="algorithm">D</span>、<span class="algorithm">L</span>、<span class="algorithm">R</span> 系の動き以外の、持ち替えや <span class="algorithm">F</span> 系の動き、二層回しなどが必要となる。正しくスロットインされた状態はEOが合っているので、EOが合っているエッジは <span class="algorithm">U</span>、<span class="algorithm">D</span>、<span class="algorithm">L</span>、<span class="algorithm">R</span> 系の動きだけでスロットインができる。一方、EOが合っていないエッジを正しくスロットインするためには、<span class="algorithm">U</span>、<span class="algorithm">D</span>、<span class="algorithm">L</span>、<span class="algorithm">R</span> 系以外の動きが必要になる。
+        </p>
+        <p>
+          <span class="algorithm">U</span>、<span class="algorithm">D</span>、<span class="algorithm">L</span>、<span class="algorithm">R</span> 系以外の動きは回しづらいので、EOが合っている場合はこれらの動きを使わず、EOが合っていない場合でも最小限にすることが目標となる。
+        </p>
+        <h3>コーナーもエッジもスロットに入っていない場合</h3>
+        <p>
+          F2Lの各手順は、上下方向を中心に180度回転した状態でも回しやすい。例えば、S2のこの状態
+        </p>
+        <p>
+          <img src="images/noslot_0.svg" width="128" height="128"><!-- http://cube.rider.biz/visualcube.php?fmt=svg&view=trans&fd=tttfttttfrtttrttrtttdtfttfttdtdddtdttrttlttltttttbttbt -->
+        </p>
+        <p>
+          は、<span class="algorithm">U' R U2 R' U2 R U' R'</span> と回す。この手順を元に、180度回転した状態
+        </p>
+        <p>
+          <img src="images/noslot_1.svg" width="128" height="128"><!-- http://cube.rider.biz/visualcube.php?fmt=svg&view=trans&fd=bttttbttttlttrttrtttttfttfttdtdddtdtltttlttltttdtbttbt -->
+        </p>
+        <p>
+          は、<span class="algorithm">U' L U2 L' U2 L U' L'</span> と回せる（裏F2L）。むしろ、揃えたスロットはもう見る必要が無いので、裏側のスロットから揃えていくことが望ましい。
+        </p>
+        <p>
+          一方、上下方向を中心に90度回転した状態は回しづらい。この場合は、<span class="algorithm">y</span> か <span class="algorithm">y'</span> で持ち替えて回す。持ち替えが手間に思えるが、EOから、この持ち替えや <span class="algorithm">F</span> 系の動きなどは使わなければならない。そのため、コーナーもエッジもスロットに入っていない場合には、基本的には、FLスロットの手順は載せていない。
+        </p>
+        <p>
+          ただ、FLスロットの手順がFRスロットの手順に比べて短い場合は例外。この場合は、持ち替えてFLスロットの手順を使うより、FRスロットの手順を使ったほうが良い。例えば、K2のこの状態
+        </p>
+        <p>
+          <img src="images/noslot_2.svg" width="128" height="128"><!-- http://cube.rider.biz/visualcube.php?fmt=svg&view=trans&fd=tttlttlttttttrttrtftttfttfttdtdddtdttfdtlttltttttbttbt -->
+        </p>
+        <p>
+          は、持ち替えてFRスロットの手順を使う <span class="algorithm">y' R U R' U2 R U' R' U R U' R'</span> で、最小限必要となる1回の持ち替えのみで揃えることはできる。しかし、FLスロットの手順を使って <span class="algorithm">L' U L U2 F U F'</span> のほうが楽である。なお、最後の <span class="algorithm">U2 F U F'</span> は、持ち替える <span class="algorithm">y U2 L U L'</span> や二層回しを使う <span class="algorithm">d' U' L U L'</span> でも良い。他の手順でも同様。U面の向きや埋まっているスロットの位置などに応じて使い分けができると良い。
+        </p>
+        <p>
+          格納するスロットがFRであっても、他のスロットが空いているならば、そのスロットを使った手順と見なしてFLスロットの手順を使うこともできる（空きスロット）。例えば、K2の状態
+        </p>
+        <p>
+          <img src="images/noslot_3.svg" width="128" height="128"><!-- http://cube.rider.biz/visualcube.php?fmt=svg&view=trans&fd=tttttttffrtttrttrttrdtfttfttdtdddtdtttttlttltttttbttbt -->
+        </p>
+        <p>
+          で、FLスロットが空いているならば、<span class="algorithm">U L' U L U R U R'</span> と回すことができる。載せている手順の <span class="algorithm">-</span> がIT化が完了する位置なので、<span class="algorithm">-</span> の前までは手順通りに回し、<span class="algorithm">-</span> 以降のスロットインの手順を適宜変えれば良い。
+        </p>
+        <p>
+          結局、コーナーもエッジもスロットに入っていない場合には、（格納するスロットかどうかに関わらず）空いているスロットを使ってIT化完了前までの手順を回せるなら回し、回せないならば <span class="algorithm">y</span> か <span class="algorithm">y'</span> で持ち替えて回し、スロットインすれば良い。
+        </p>
+        <h3>コーナーかエッジがスロットに入っている場合</h3>
+        <p>
+          F2Lの手順としては、コーナーやエッジがあるスロットとペアを格納するスロットが同じだが、実際に揃える際にはこれらのスロットは異なることがある。IT化までは、スロットやペアがあるスロットを手順のFRスロットとして手順を回し、スロットインの手順を適宜変える。
+        </p>
+        <p>
+          コーナーもエッジもスロットに無い場合のように持ち替えてから手順を回すと、持ち替えや <span class="algorithm">F</span> 系の動きなどが2回になってしまうことがあるので、FRスロットとFLスロットの両方の手順を載せている。エッジやコーナーのあるスロットが背面の場合は、このどちらのかの手順を180度回転した手順として回せる。
+        </p>
+        <p>
+          スロットイン以外に <span class="algorithm">F</span> 系の動きが出てくる場合、180度回転した手順が回しづらかったり、スロットの位置関係によっては持ち替えや <span class="algorithm">F</span> 系の動きなどが2回になってしまうので、他の手順も載せ、スロットやEOに応じた使い分けを記載している。
+        </p>
+        <hr>
+        <address>
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>
