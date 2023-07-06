@@ -6,6 +6,9 @@
     <title>PLL 3側面判断</title>    
     <link rel="stylesheet" href="../bulma.min.css">
     <style>
+      dt {
+        font-weight: bold;
+      }
       .case {
         font-weight: bold;
       }
@@ -38,8 +41,32 @@
           ルービックキューブのCFOPのPLLは、2個の側面を見るだけで、どのケースかを判断できることが知られている。とはいえ、それはなかなか大変である。一方、B面を見ることはしたくない。ということで、L面とF面、R面の3側面での判断方法をまとめた。
         </p>
         <hr>
-        <h2 id="recognition">判断</h2>
-        個数はL面かF面、R面にあるもので、B面にあるものは含まない。
+        <h2>用語</h2>
+        <p>
+          <a href="http://cubing.pt/wp-content/uploads/2017/03/pll2side-20140531.pdf">Mark49152’s Two-Sided PLL Recognition Guide</a> を参照した。
+        </p>
+        <dl>
+          <dt>3-bar</dt>
+          <dd>同色が3個並んでいる（<span style="color: #ee0000">■■■</span>）。</dd>
+          <dt>Lights</dt>
+          <dd>Headlightsとも。1個の側面の両端に同色がある（<span style="color: #ee0000">■</span><span style="color: #808080">■</span><span style="color: #ee0000">■</span>）。</dd>
+          <dt>2-bar</dt>
+          <dd>同色が2個並んでいる（<span style="color: #ee0000">■■</span><span style="color: #808080">■</span>）</dd>
+          <dt>Bookends</dt>
+          <dd>2個の側面を見たとき、同色がその両端にある（<span style="color: #ee0000">■</span><span style="color: #808080">■■ ■■</span><span style="color: #ee0000">■</span>）。前面にbookendsがあるとき、背面には3-barかlightsがある。</dd>
+          <dt>対面色</dt>
+          <dd>□ と <span style="color: #fefe00">■</span>、<span style="color: #ee0000">■</span> と <span style="color: #ffa100">■</span>、<span style="color: #0000f2">■</span> と <span style="color: #00d800">■</span>。
+          <dt>隣接色</dt>
+          <dd>同色でも対面色でもない色の組み合わせ。</dd>
+        </dl>
+        <h2>判断</h2>
+        <ul>
+          <li>個数はL面かF面、R面にあるもので、B面にあるものは含まない。</li>
+          <li>Lightsなどの個数や配置で絞り込み、それらが同じものを、bookendsの有無（＝B面に3-barかlightsがあるかどうか）や、lightsが対面色かどうかで見分ける。</li>
+          <li><span class="case">Xa</span> と <span class="case">Xb</span> は側面の配置や2-barが左右のどちらに寄っているかで区別できる。</li>
+          <li>画像は <a href="http://cube.rider.biz/visualcube.php">VisualCube (v0.5.5)</a> で生成した。</li>
+        </ul>
+        <br>
         <ul class="recognition">
           <li>
             <img src="images/300.svg" width="64" height="64">
