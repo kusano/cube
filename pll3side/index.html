@@ -28,6 +28,9 @@
         margin-left: 1em;
         margin-right: 1em;
       }
+      .caseside td {
+        text-align: right;
+      }
       address {
         text-align: right;
       }
@@ -49,11 +52,11 @@
           <dt>3-bar</dt>
           <dd>同色が3個並んでいる（<span style="color: #ee0000">■■■</span>）。</dd>
           <dt>Lights</dt>
-          <dd>Headlightsとも。1個の側面の両端に同色がある（<span style="color: #ee0000">■</span><span style="color: #808080">■</span><span style="color: #ee0000">■</span>）。</dd>
+          <dd>Headlightsとも。両端に同色がある（<span style="color: #ee0000">■</span><span style="color: #808080">■</span><span style="color: #ee0000">■</span>）。</dd>
           <dt>2-bar</dt>
           <dd>同色が2個並んでいる（<span style="color: #ee0000">■■</span><span style="color: #808080">■</span>）</dd>
           <dt>Bookends</dt>
-          <dd>2個の側面を見たとき、同色がその両端にある（<span style="color: #ee0000">■</span><span style="color: #808080">■■ ■■</span><span style="color: #ee0000">■</span>）。前面にbookendsがあるとき、背面には3-barかlightsがある。</dd>
+          <dd>隣接した2個の側面を見て、同色がその両端にある（<span style="color: #ee0000">■</span><span style="color: #808080">■■ ■■</span><span style="color: #ee0000">■</span>）。前面にbookendsがあるとき、背面には3-barかlightsがある。</dd>
           <dt>対面色</dt>
           <dd>□ と <span style="color: #fefe00">■</span>、<span style="color: #ee0000">■</span> と <span style="color: #ffa100">■</span>、<span style="color: #0000f2">■</span> と <span style="color: #00d800">■</span>。
           <dt>隣接色</dt>
@@ -563,6 +566,163 @@
             </ul>
           </ul>
         </ul>
+        <h2>おまけ</h2>
+        <h3>ケースごとの側面の個数</h3>
+        <table class="has-text-centered">
+          <thead>
+            <tr>
+              <th></th>
+              <th><span class="case">Skip</span></th>
+              <th><span class="case">E</span></th>
+              <th><span class="case">U</span></th>
+              <th><span class="case">A</span></th>
+              <th><span class="case">H</span></th>
+              <th><span class="case">Z</span></th>
+              <th><span class="case">T</span></th>
+              <th><span class="case">Y</span></th>
+              <th><span class="case">J</span></th>
+              <th><span class="case">R</span></th>
+              <th><span class="case">F</span></th>
+              <th><span class="case">V</span></th>
+              <th><span class="case">N</span></th>
+              <th><span class="case">Ga/Gc</span></th>
+              <th><span class="case">Gb/Gd</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>3-bar</th>
+              <td>4</td>
+              <td>0</td>
+              <td>1</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>1</td>
+              <td>0</td>
+              <td>1</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <th>Lights</th>
+              <td>0</td>
+              <td>0</td>
+              <td>3</td>
+              <td>1</td>
+              <td>4</td>
+              <td>4</td>
+              <td>1</td>
+              <td>0</td>
+              <td>0</td>
+              <td>1</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <th>対面色のLights</th>
+              <td>0</td>
+              <td>0</td>
+              <td>1</td>
+              <td>0</td>
+              <td>4</td>
+              <td>0</td>
+              <td>1</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <th>2-bar</th>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>2</td>
+              <td>0</td>
+              <td>0</td>
+              <td>2</td>
+              <td>2</td>
+              <td>3</td>
+              <td>1</td>
+              <td>0</td>
+              <td>2</td>
+              <td>4</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>PLL一覧</h3>
+        <table class="has-text-centered">
+          <tr>
+            <td><img src="images/skip.svg"><br><span class="case">Skip</span></td>
+            <td><img src="images/e.svg"><br><span class="case">E</span></td>
+            <td><img src="images/ua.svg"><br><span class="case">Ua</span></td>
+            <td><img src="images/ub.svg"><br><span class="case">Ub</span></td>
+            <td><img src="images/aa.svg"><br><span class="case">Aa</span></td>
+            <td><img src="images/ab.svg"><br><span class="case">Ab</span></td>
+          </tr>
+          <tr>
+            <td><img src="images/h.svg"><br><span class="case">H</span></td>
+            <td><img src="images/z.svg"><br><span class="case">Z</span></td>
+            <td><img src="images/t.svg"><br><span class="case">T</span></td>
+            <td><img src="images/y.svg"><br><span class="case">Y</span></td>
+            <td><img src="images/ja.svg"><br><span class="case">Ja</span></td>
+            <td><img src="images/jb.svg"><br><span class="case">Jb</span></td>
+          </tr>
+          <tr>
+            <td><img src="images/ra.svg"><br><span class="case">Ra</span></td>
+            <td><img src="images/rb.svg"><br><span class="case">Rb</span></td>
+            <td><img src="images/f.svg"><br><span class="case">F</span></td>
+            <td><img src="images/v.svg"><br><span class="case">V</span></td>
+            <td><img src="images/na.svg"><br><span class="case">Na</span></td>
+            <td><img src="images/nb.svg"><br><span class="case">Nb</span></td>
+          </tr>
+          <tr>
+            <td><img src="images/ga.svg"><br><span class="case">Ga</span></td>
+            <td><img src="images/gb.svg"><br><span class="case">Gb</span></td>
+            <td><img src="images/gc.svg"><br><span class="case">Gc</span></td>
+            <td><img src="images/gd.svg"><br><span class="case">Gd</span></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <!--
+          skip: http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=
+          e   : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=x%27RU%27R%27DRUR%27D%27RUR%27DRU%27R%27D%27x
+          ua  : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=RU%27RURURU%27R%27U%27R2
+          ub  : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=R2URUR%27U%27R%27U%27R%27UR%27
+          aa  : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=x%27R2D2R%27U%27RD2R%27UR%27x
+          ab  : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=x%27RU%27RD2R%27URD2R2%27x
+          h   : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=M2%27U%27M2%27U2%27M2%27U%27M2%27
+          z   : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=M2%27U%27M2%27U%27M%27U2%27M2%27U2%27M%27U2%27
+          t   : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=RUR%27U%27R%27FR2U%27R%27U%27RUR%27F%27
+          y   : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=FRU%27R%27U%27RUR%27F%27RUR%27U%27R%27FRF%27
+          ja  : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y%27R%27UL%27U2RU%27R%27U2LRU%27y
+          jb  : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=RUR%27F%27RUR%27U%27R%27FR2U%27R%27U%27
+          ra  : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=yRU%27R%27U%27RURDR%27U%27RD%27R%27U2R%27U%27y%27
+          rb  : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=R%27U2RU2R%27FRUR%27U%27R%27F%27R2U%27
+          f   : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=R%27U%27F%27RUR%27U%27R%27FR2U%27R%27U%27RUR%27UR
+          v   : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=R%27UR%27U%27yR%27F%27R2U%27R%27UR%27FRFy%27
+          na  : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=RUR%27URUR%27F%27RUR%27U%27R%27FR2U%27R%27U2RU%27R%27
+          nb  : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=R%27URU%27R%27F%27U%27FRUR%27FR%27F%27RU%27R
+          ga  : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=R2UR%27UR%27U%27RU%27R2U%27DR%27URD%27U
+          gb  : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=F%27U%27FR2uR%27URU%27Ru%27R2
+          gc  : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y%27R2U%27RU%27RUR%27UR2UD%27RU%27R%27DU%27y
+          gd  : http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=D%27RUR%27U%27DR2U%27RU%27R%27UR%27UR2U
+        -->
         <hr>
         <address>
           <a href="https://twitter.com/kusano_k">@kusano_k</a>
