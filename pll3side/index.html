@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>PLL 3側面判断</title>    
+    <link rel="stylesheet" href="../bulma.min.css">
+    <style>
+      .case {
+        font-weight: bold;
+      }
+      ul.recognition {
+        margin-left: 0;
+      }
+      .recognition li {
+        display: flex;
+        align-items: center;
+      }
+      .recognition li::before {
+        content: "●";
+        margin-right: 0.5em;
+      }
+      .result {
+        font-size: large;
+        margin-left: 1em;
+        margin-right: 1em;
+      }
+      address {
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>PLL 3側面判断</h1>
+        <p>
+          ルービックキューブのCFOPのPLLは、2個の側面を見るだけで、どのケースかを判断できることが知られている。とはいえ、それはなかなか大変である。一方、B面を見ることはしたくない。ということで、L面とF面、R面の3側面での判断方法をまとめた。
+        </p>
+        <hr>
+        <ul>
+          <li><a href="#recognition">判断</a></li>
+          <ul>
+            <li><a href="#300">3-barが3個</a></li>
+            <li><a href="#030">Lightsが3個</a></li>
+            <li><a href="#003">2-barが3個</a></li>
+            <li><a href="#120">3-barが1個、lightsが2個</a></li>
+            <li><a href="#102">3-barが1個、2-barが2個</a></li>
+            <li><a href="#012">Lightsが1個、2-barが2個</a></li>
+            <li><a href="#002">2-barが2個</a></li>
+            <li><a href="#011">Lightsが1個、2-barが1個</a></li>
+            <li><a href="#100">3-barが1個</a></li>
+            <li><a href="#010">Lightsが1個</a></li>
+            <li><a href="#001">2-barが1個</a></li>
+            <li><a href="#000">3-barもlightsも2-barも無い</a></li>
+          </ul>
+        </ul>
+        <hr>
+        <h2 id="recognition">判断</h2>
+        個数はL面かF面、R面にあるもので、B面にあるものは含まない。
+        <h3 id="300">3-barが3個</h3>
+        <ul class="recognition">
+          <li>
+            <img src="images/300.svg" width="64" height="64">
+            <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrrrrrrrrfffffffffdddddddddlllllllllooobbbbbb -->
+            3-barが3個
+            <span class="result">⇒</span>
+            <img src="images/300_skip.svg" width="64" height="64">
+            <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case= -->
+            <span class="case">PLL Skip</span>
+          </li>
+        </ul>
+        <h3 id="030">Lightsが3個</h3>
+        <ul class="recognition">
+          <li>
+            <img src="images/030.svg" width="64" height="64">
+            <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurorrrrrrrfofffffffdddddddddlolllllllooobbbbbb -->
+            Lightsが3個
+          </li>
+          <ul>
+            <li>
+              <img src="images/030_3.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurlrrrrrrrfbfffffffdddddddddlrlllllllooobbbbbb -->
+              対面色のlightsが3個
+              <span class="result">⇒</span>
+              <img src="images/030_3_h.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=M2%27U%27M2%27U2%27M2%27U%27M2%27 -->
+              <span class="case">H-perm</span>
+            </li>
+            <li>
+              <img src="images/030_1.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurlrrrrrrrfofffffffdddddddddlolllllllooobbbbbb -->
+              対面色のlightsが1個
+            </li>
+            <ul>
+              <li>
+                <img src="images/030_1_r.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurlrrrrrrrfofffffffdddddddddlolllllllooobbbbbb -->
+                対面色のlightsが右にある
+                <span class="result">⇒</span>
+                <img src="images/030_1_r_ua.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=RU%27RURURU%27R%27U%27R2 -->
+                <span class="case">Ua-perm</span>
+              </li>
+              <li>
+                <img src="images/030_1_l.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurorrrrrrrfofffffffdddddddddlrlllllllooobbbbbb -->
+                対面色のlightsが左にある
+                <span class="result">⇒</span>
+                <img src="images/030_1_l_ub.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=R2URUR%27U%27R%27U%27R%27UR%27 -->
+                <span class="case">Ub-perm</span>
+              </li>
+            </ul>
+            <li>
+              <img src="images/030_0.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurorrrrrrrfofffffffdddddddddlolllllllooobbbbbb -->
+              対面色のlightsが無い
+              <span class="result">⇒</span>
+              <img src="images/030_0_z.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=M2%27U%27M2%27U%27M%27U2%27M2%27U2%27M%27U2%27 -->
+              <span class="case">Z-perm</span>
+            </li>
+            <ul>
+              <li>L面とF面のエッジが入れ替わっているなら、手順表の向き。そうでなければ、90度回せば手順表の向きになる。</li>
+            </ul>
+          </ul>
+        </ul>
+        <h3 id="003">2-barが3個</h3>
+        <ul class="recognition">
+          <li>
+            <img src="images/003.svg" width="64" height="64">
+            <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuullorrrrrrffoffffffdddddddddbbollllllooobbbbbb -->
+            2-barが3個
+          </li>
+          <ul>
+            <li>
+              <img src="images/003_1.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuullfrrrrrrffbffffffdddddddddbbollllllooobbbbbb -->
+              Bookendsがある
+            </li>
+            <ul>
+              <li>
+                <img src="images/003_1_l.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuullfrrrrrrffbffffffdddddddddbbollllllooobbbbbb -->
+                2-barが左寄り
+                <span class="result">⇒</span>
+                <img src="images/003_1_l_ja.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y2R%27UL%27U2RU%27R%27U2LRU%27y%27 -->
+                <span class="case">Ja-perm</span>
+              </li>
+              <li>
+                <img src="images/003_1_r.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuobbrrrrrrbffffffffdddddddddfrrllllllooobbbbbb -->
+                2-barが右寄り
+                <span class="result">⇒</span>
+                <img src="images/003_1_r_jb.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y%27RUR%27F%27RUR%27U%27R%27FR2U%27R%27U%27 -->
+                <span class="case">Jb-perm</span>
+              </li>
+            </ul>
+            <li>
+              <img src="images/003_0.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuollrrrrrroffffffffdddddddddorrllllllooobbbbbb -->
+              Bookendsが無い
+            </li>
+            <ul>
+              <li>
+                <img src="images/003_0_r.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuollrrrrrroffffffffdddddddddorrllllllooobbbbbb -->
+                2-barが右寄り
+                <span class="result">⇒</span>
+                <img src="images/003_0_r_na.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=RUR%27URUR%27F%27RUR%27U%27R%27FR2U%27R%27U2RU%27R%27 -->
+                <span class="case">Na-perm</span>
+              </li>
+              <li>
+                <img src="images/003_0_l.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuullorrrrrrffoffffffdddddddddrrollllllooobbbbbb -->
+                2-barが左寄り
+                <span class="result">⇒</span>
+                <img src="images/003_0_l_nb.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=R%27URU%27R%27F%27U%27FRUR%27FR%27F%27RU%27R -->
+                <span class="case">Nb-perm</span>
+            </ul>
+          </ul>
+        </ul>
+        <h3 id="120">3-barが1個、lightsが2個</h3>
+        <ul class="recognition">
+          <li>
+            <img src="images/120.svg" width="64" height="64">
+            <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurorrrrrrrfffffffffdddddddddlolllllllooobbbbbb -->
+            3-barが1個、lightsが2個
+          </li>
+          <ul>
+            <li>
+              <img src="images/120_l.svg" width="64" height="64">
+              3-barの左のlightsが対面色か、右のlightsが隣接色
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurorrrrrrrfffffffffdddddddddlrlllllllooobbbbbb -->
+              <span class="result">⇒</span>
+              <img src="images/120_l_ua.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y2RU%27RURURU%27R%27U%27R2y2 -->
+              <span class="case">Ua-perm</span>
+            </li>
+            <li>
+              <img src="images/120_r.svg" width="64" height="64">
+              3-barの右のlightsが対面色か、左のlightsが隣接色
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurlrrrrrrrfffffffffdddddddddlolllllllooobbbbbb -->
+              <span class="result">⇒</span>
+              <img src="images/120_r_ub.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y2R2URUR%27U%27R%27U%27R%27UR%27y2 -->
+              <span class="case">Ub-perm</span>
+            </li>
+          </ul>
+        </ul>
+        <h3 id="102">3-barが1個、2-barが2個</h3>
+        <ul class="recognition">
+          <li>
+            <img src="images/102.svg" width="64" height="64">
+            <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrorrrrrrfffffffffdddddddddbbollllllooobbbbbb -->
+            3-barが1個、2-barが2個
+          </li>
+          <ul>
+            <li>
+              <img src="images/102_l.svg" width="64" height="64">
+              2-barが左寄り
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrorrrrrrfffffffffdddddddddbbollllllooobbbbbb -->
+              <span class="result">⇒</span>
+              <img src="images/102_l_ja.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y%27R%27UL%27U2RU%27R%27U2LRU%27y -->
+              <span class="case">Ja-perm</span>
+            </li>
+            <li>
+              <img src="images/102_r.svg" width="64" height="64">
+              2-barが右寄り
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuobbrrrrrrfffffffffdddddddddollllllllooobbbbbb -->
+              <span class="result">⇒</span>
+              <img src="images/102_r_jb.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=RUR%27F%27RUR%27U%27R%27FR2U%27R%27U%27 -->
+              <span class="case">Jb-perm</span>
+            </li>
+          </ul>
+        </ul>
+        <h3 id="012">Lightsが1個、2-barが2個</h3>
+        <ul class="recognition">
+          <li>
+            <img src="images/012.svg" width="64" height="64">
+            <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrorrrrrrfofffffffdddddddddollllllllooobbbbbb -->
+            Lightsが1個、2-barが2個
+          </li>
+          <ul>
+            <li>
+              <img src="images/012_c.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrorrrrrrfofffffffdddddddddollllllllooobbbbbb -->
+              Lightsが中央
+              <span class="result">⇒</span>
+              <img src="images/012_c_t.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=RUR%27U%27R%27FR2U%27R%27U%27RUR%27F%27 -->
+              <span class="case">T-perm</span>
+            </li>
+            <li>
+              <img src="images/012_l.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrorrrrrroffffffffdddddddddbobllllllooobbbbbb -->
+              Lightsが左
+              <span class="result">⇒</span>
+              <img src="images/012_l_aa.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=x%27R2D2R%27U%27RD2R%27UR%27x -->
+              <span class="case">Aa-perm</span>
+            </li>
+            <li>
+              <img src="images/012_r.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuubobrrrrrrffoffffffdddddddddollllllllooobbbbbb -->
+              Lightsが右
+              <span class="result">⇒</span>
+              <img src="images/012_r_ab.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=yx%27RU%27RD2R%27URD2R2%27xy%27 -->
+              <span class="case">Ab-perm</span>
+            </li>
+          </ul>
+        </ul>
+        <h3 id="002">2-barが2個</h3>
+        <ul class="recognition">
+          <li>
+            <img src="images/002.svg" width="64" height="64">
+            <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuollrrrrrroooffffffdddddddddrrollllllooobbbbbb -->
+            2-barが2個
+          </li>
+          <ul>
+            <li>
+              <img src="images/002_b.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuollrrrrrroooffffffdddddddddrrollllllooobbbbbb -->
+              2-barが左右の側面にある
+              <span class="result">⇒</span>
+              <img src="images/002_b_t.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y%27RUR%27U%27R%27FR2U%27R%27U%27RUR%27F%27y%27 -->
+              <span class="case">T-perm</span>
+            </li>
+            <li>
+              <img src="images/002_a.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrorrrrrroffffffffdddddddddooollllllooobbbbbb -->
+              2-barが隣接した側面にある
+            </li>
+            <ul>
+              <li>
+                <img src="images/002_a_a.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrorrrrrroffffffffdddddddddooollllllooobbbbbb -->
+                2-barが隣接している
+              </li>
+              <ul>
+                <li>
+                  <img src="images/002_a_a_1.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrbrrrrrrbffffffffdddddddddooollllllooobbbbbb -->
+                  Bookendsがある
+                </li>
+                <ul>
+                  <li>
+                    <img src="images/002_a_a_1_r.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrbrrrrrrbffffffffdddddddddooollllllooobbbbbb -->
+                    2-barが右にある
+                    <span class="result">⇒</span>
+                    <img src="images/002_a_a_1_r_ab.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y2x%27RU%27RD2R%27URD2R2%27xy2 -->
+                    <span class="case">Ab-perm</span>
+                  </li>
+                  <li>
+                    <img src="images/002_a_a_1_l.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuooorrrrrrffbffffffdddddddddbllllllllooobbbbbb -->
+                    2-barが左にある
+                    <span class="result">⇒</span>
+                    <img src="images/002_a_a_1_l_aa.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=yx%27R2D2R%27U%27RD2R%27UR%27xy%27 -->
+                    <span class="case">Aa-perm</span>
+                  </li>
+                </ul>
+                <li>
+                  <img src="images/002_a_a_0.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrorrrrrroffffffffdddddddddooollllllooobbbbbb -->
+                  Bookendsが無い
+                  <span class="result">⇒</span>
+                  <img src="images/002_a_a_0_v.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=yR%27UR%27U%27yR%27F%27R2U%27R%27UR%27FRFy2 -->
+                  <span class="case">V-perm</span>
+                </li>
+              </ul>
+              <li>
+                <img src="images/002_a_b.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuorrrrrrrrffoffffffdddddddddooollllllooobbbbbb -->
+                2-barが隣接していない
+                <span class="result">⇒</span>
+                <img src="images/002_a_b_y.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=FRU%27R%27U%27RUR%27F%27RUR%27U%27R%27FRF%27 -->
+                <span class="case">Y-perm</span>
+              </li>
+            </ul>
+          </ul>
+        </ul>
+        <h3 id="011">Lightsが1個、2-barが1個</h3>
+        <ul class="recognition">
+          <li>
+            <img src="images/011.svg" width="64" height="64">
+            <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuoffrrrrrroooffffffdddddddddlolllllllooobbbbbb -->
+            Lightsが1個、2-barが1個
+          </li>
+          <ul>
+            <li>
+              <img src="images/011_b.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuoffrrrrrroooffffffdddddddddlolllllllooobbbbbb -->
+              Lightsと2-barが左右の側面にある
+            </li>
+            <ul>
+              <li>
+                <img src="images/011_b_o.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuoffrrrrrroooffffffdddddddddlrlllllllooobbbbbb -->
+                Lightsが対面色
+              </li>
+              <ul>
+                <li>
+                  <img src="images/011_b_o_r.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuoffrrrrrroooffffffdddddddddlrlllllllooobbbbbb -->
+                  2-barが右寄り
+                  <span class="result">⇒</span>
+                  <img src="images/011_b_o_r_gb.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=yF%27U%27FR2uR%27URU%27Ru%27R2 -->
+                  <span class="case">Gb-perm</span>
+                </li>
+                <li>
+                  <img src="images/011_b_o_l.svg" width="64" height="64">
+                  <!--  -->
+                  2-barが左寄り
+                  <span class="result">⇒</span>
+                  <img src="images/011_b_o_l_gd.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=D%27RUR%27U%27DR2U%27RU%27R%27UR%27UR2U -->
+                  <span class="case">Gd-perm</span>
+                </li>
+              </ul>
+              <li>
+                <img src="images/011_b_a.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuoffrrrrrroooffffffdddddddddlolllllllooobbbbbb -->
+                Lightsが隣接色
+              </li>
+              <ul>
+                <li>
+                  <img src="images/011_b_a_l.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuoffrrrrrroooffffffdddddddddlolllllllooobbbbbb -->
+                  Lightsが左の側面にある
+                  <span class="result">⇒</span>
+                  <img src="images/011_b_a_l_ab.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y%27x%27RU%27RD2R%27URD2R2%27xy2 -->
+                  <span class="case">Ab-perm</span>
+                </li>
+                <li>
+                  <img src="images/011_b_a_r.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurorrrrrrroooffffffdddddddddffollllllooobbbbbb -->
+                  Lightsが右の側面にある
+                  <span class="result">⇒</span>
+                  <img src="images/011_b_a_r_aa.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=x%27R2D2R%27U%27RD2R%27UR%27xy%27 -->
+                  <span class="case">Aa-perm</span>
+                </li>
+              </ul>
+            </ul>
+            <li>
+              <img src="images/011_a.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrorrrrrrfofffffffdddddddddooollllllooobbbbbb -->
+              Lightsと2-barが隣接した側面にある
+            </li>
+            <ul>
+              <li>
+                <img src="images/011_a_a.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrorrrrrrfofffffffdddddddddooollllllooobbbbbb -->
+                Lightsと2-barが隣接している
+              </li>
+              <ul>
+                <li>
+                  <img src="images/011_a_a_a.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrorrrrrrfofffffffdddddddddooollllllooobbbbbb -->
+                  Lightsが隣接色
+                </li>
+                <ul>
+                  <li>
+                    <img src="images/011_a_a_a_l.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrorrrrrrfofffffffdddddddddooollllllooobbbbbb -->
+                    Lightsが2-barの左にある
+                    <span class="result">⇒</span>
+                    <img src="images/011_a_a_a_l_ab.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=yRU%27R%27U%27RURDR%27U%27RD%27R%27U2R%27U%27y%27 -->
+                    <span class="case">Ra-perm</span>
+                  </li>
+                  <li>
+                    <img src="images/011_a_a_a_r.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurorrrrrrroffffffffdddddddddooollllllooobbbbbb -->
+                    Lightsが2-barの右にある
+                    <span class="result">⇒</span>
+                    <img src="images/011_a_a_a_r_rb.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=yR%27U2RU2R%27FRUR%27U%27R%27F%27R2U%27y%27 -->
+                    <span class="case">Rb-perm</span>
+                  </li>
+                </ul>
+                <li>
+                  <img src="images/011_a_a_o.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurlrrrrrrroffffffffdddddddddooollllllooobbbbbb -->
+                  Lightsが対面色
+                  <span class="result">⇒</span>
+                  <img src="images/011_b_a_o_t.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y2RUR%27U%27R%27FR2U%27R%27U%27RUR%27F%27y2 -->
+                  <span class="case">T-perm</span>
+                </li>
+              </ul>
+              <li>
+                <img src="images/011_a_s.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuobbrrrrrrfofffffffdddddddddooollllllooobbbbbb -->
+                Lightsと2-barの間が空いている
+              </li>
+              <ul>
+                <li>
+                  <img src="images/011_a_s_s.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurbbrrrrrrfrfffffffdddddddddooollllllooobbbbbb -->
+                  Lightsの間とLightsと2-barの間が同色
+                </li>
+                <ul>
+                  <li>
+                    <img src="images/011_a_s_s_l.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurbbrrrrrrfrfffffffdddddddddooollllllooobbbbbb -->
+                    Lightsが2-barの左にある
+                    <span class="result">⇒</span>
+                    <img src="images/011_a_s_s_l_aa.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y%27x%27R2D2R%27U%27RD2R%27UR%27x -->
+                    <span class="case">Aa-perm</span>
+                  </li>
+                  <li>
+                    <img src="images/011_a_s_s_r.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuooorrrrrrflfffffffdddddddddbblllllllooobbbbbb -->
+                    Lightsが2-barの右にある
+                    <span class="result">⇒</span>
+                    <img src="images/011_a_s_s_r_ab.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=x%27RU%27RD2R%27URD2R2%27xy -->
+                    <span class="case">Ab-perm</span>
+                  </li>
+                </ul>
+                <li>
+                  <img src="images/011_a_s_d.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuobbrrrrrrfofffffffdddddddddooollllllooobbbbbb -->
+                  Lightsの間とLightsと2-barの間が異色
+                </li>
+                <ul>
+                  <li>
+                    <img src="images/011_a_s_d_l.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuobbrrrrrrfofffffffdddddddddooollllllooobbbbbb -->
+                    Lightsが2-barの左にある
+                    <span class="result">⇒</span>
+                    <img src="images/011_a_s_d_l_ga.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=yR2UR%27UR%27U%27RU%27R2U%27DR%27URD%27Uy2 -->
+                    <span class="case">Ga-perm</span>
+                  </li>
+                  <li>
+                    <img src="images/011_a_s_d_r.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuubobrrrrrrffoffffffdddddddddooollllllooobbbbbb -->
+                    Lightsが2-barの右にある
+                    <span class="result">⇒</span>
+                    <img src="images/011_a_s_d_r_gc.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y2R2U%27RU%27RUR%27UR2UD%27RU%27R%27DU%27y2 -->
+                    <span class="case">Gc-perm</span>
+                  </li>
+                </ul>
+              </ul>
+            </ul>
+          </ul>
+        </ul>
+        <h3 id="100">3-barが1個</h3>
+        <ul class="recognition">
+          <li>
+            <img src="images/100.svg" width="64" height="64">
+            <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuooorrrrrrfffffffffdddddddddooollllllooobbbbbb -->
+            3-barが1個
+            <span class="result">⇒</span>
+            <img src="images/100_f.svg" width="64" height="64">
+            <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=yR%27U%27F%27RUR%27U%27R%27FR2U%27R%27U%27RUR%27URy%27 -->
+            <span class="case">F-perm</span>
+          </li>
+        </ul>
+        <h3 id="010">Lightsが1個</h3>
+        <ul class="recognition">
+          <li>
+            <img src="images/010.svg" width="64" height="64">
+            <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuooorrrrrrfofffffffdddddddddooollllllooobbbbbb -->
+            Lightsが1個
+          </li>
+          <ul>
+            <li>
+              <img src="images/010_c.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuooorrrrrrfofffffffdddddddddooollllllooobbbbbb -->
+              Lightsが手前の側面にある
+            </li>
+            <ul>
+              <li>
+                <img src="images/010_c_l.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuooorrrrrrfofffffffdddddddddofollllllooobbbbbb -->
+                Lightsの両端の色が左のエッジにある
+                <span class="result">⇒</span>
+                <img src="images/010_c_l_gb.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y2F%27U%27FR2uR%27URU%27Ru%27R2y%27 -->
+                <span class="case">Gb-perm</span>
+              </li>
+              <li>
+                <img src="images/010_c_r.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuoforrrrrrfofffffffdddddddddooollllllooobbbbbb -->
+                Lightsの両端の色が右のエッジにある
+                <span class="result">⇒</span>
+                <img src="images/010_c_r_gd.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=yD%27RUR%27U%27DR2U%27RU%27R%27UR%27UR2Uy2 -->
+                <span class="case">Gd-perm</span>
+              </li>
+            </ul>
+            <li>
+              <img src="images/010_s.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurorrrrrrroooffffffdddddddddooollllllooobbbbbb -->
+              Lightsが左か右の側面にある
+            </li>
+            <ul>
+              <li>
+                <img src="images/010_s_5.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurfrrrrrrrorfffffffdddddddddooollllllooobbbbbb -->
+                Lightsからのチェッカーが5個
+              </li>
+              <ul>
+                <li>
+                  <img src="images/010_s_5_r.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurfrrrrrrrorfffffffdddddddddooollllllooobbbbbb -->
+                  Lightsが右の側面にある
+                  <span class="result">⇒</span>
+                  <img src="images/010_s_5_r_ra.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y2RU%27R%27U%27RURDR%27U%27RD%27R%27U2R%27U%27y%27y%27 -->
+                  <span class="case">Ra-perm</span>
+                </li>
+                <li>
+                  <img src="images/010_s_5_l.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuooorrrrrrfloffffffdddddddddlflllllllooobbbbbb -->
+                  Lightsが左の側面にある
+                  <span class="result">⇒</span>
+                  <img src="images/010_s_5_l_rb.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y%27R%27U2RU2R%27FRUR%27U%27R%27F%27R2U%27y -->
+                  <span class="case">Rb-perm</span>
+                </li>
+              </ul>
+              <li>
+                <img src="images/010_s_4.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurfrrrrrrroofffffffdddddddddooollllllooobbbbbb -->
+                Lightsからのチェッカーが4個
+              </li>
+              <ul>
+                <li>
+                  <img src="images/010_s_4_r.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurfrrrrrrroofffffffdddddddddooollllllooobbbbbb -->
+                  Lightsが右の側面にある
+                  <span class="result">⇒</span>
+                  <img src="images/010_s_4_r_ga.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y2R2UR%27UR%27U%27RU%27R2U%27DR%27URD%27Uy -->
+                  <span class="case">Ga-perm</span>
+                </li>
+                <li>
+                  <img src="images/010_s_4_l.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuooorrrrrrfooffffffdddddddddlflllllllooobbbbbb -->
+                  Lightsが左の側面にある
+                  <span class="result">⇒</span>
+                  <img src="images/010_s_4_l_gc.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=R2U%27RU%27RUR%27UR2UD%27RU%27R%27DU%27y -->
+                  <span class="case">Gc-perm</span>
+                </li>
+              </ul>
+            </ul>
+          </ul>
+        </ul>
+        <h3 id="001">2-barが1個</h3>
+        <ul class="recognition">
+          <li>
+            <img src="images/001.svg" width="64" height="64">
+            <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuooorrrrrroffffffffdddddddddooollllllooobbbbbb -->
+            2-barが1個
+          </li>
+          <ul>
+            <li>
+              <img src="images/001_c.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuooorrrrrroffffffffdddddddddooollllllooobbbbbb -->
+              2-barが手前の側面にある
+            </li>
+            <ul>
+              <li>
+                <img src="images/001_c_r.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuooorrrrrroffffffffdddddddddooollllllooobbbbbb -->
+                2-barが右寄り
+                <span class="result">⇒</span>
+                <img src="images/001_c_r_gb.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=F%27U%27FR2uR%27URU%27Ru%27R2 -->
+                <span class="case">Gb-perm</span>
+              </li>
+              <li>
+                <img src="images/001_c_l.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuooorrrrrrffoffffffdddddddddooollllllooobbbbbb -->
+                2-barが左寄り
+                <span class="result">⇒</span>
+                <img src="images/001_c_l_gd.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y%27D%27RUR%27U%27DR2U%27RU%27R%27UR%27UR2Uy -->
+                <span class="case">Gd-perm</span>
+              </li>
+            </ul>
+            <li>
+              <img src="images/001_s.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuorrrrrrrroooffffffdddddddddooollllllooobbbbbb -->
+              2-barが左か右の側面にある
+            </li>
+            <ul>
+              <li>
+                <img src="images/001_s_b.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuorrrrrrrroooffffffdddddddddooollllllooobbbbbb -->
+                2-barが奥寄りにある
+              </li>
+              <ul>
+                <li>
+                  <img src="images/001_s_b_1.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuorrrrrrrrrooffffffdddddddddooollllllooobbbbbb -->
+                  Bookendsがある
+                </li>
+                <ul>
+                  <li>
+                    <img src="images/001_s_b_1_r.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuorrrrrrrrrooffffffdddddddddooollllllooobbbbbb -->
+                    2-barが右の側面にある
+                    <span class="result">⇒</span>
+                    <img src="images/001_s_b_1_r_rb.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y2R%27U2RU2R%27FRUR%27U%27R%27F%27R2U%27y2 -->
+                    <span class="case">Rb-perm</span>
+                  </li>
+                  <li>
+                    <img src="images/001_s_b_1_l.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuooorrrrrroolffffffdddddddddllollllllooobbbbbb -->
+                    2-barが左の側面にある
+                    <span class="result">⇒</span>
+                    <img src="images/001_s_b_1_l_ra.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y%27RU%27R%27U%27RURDR%27U%27RD%27R%27U2R%27U%27y -->
+                    <span class="case">Ra-perm</span>
+                  </li>
+                </ul>
+                <li>
+                  <img src="images/001_s_b_0.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuorrrrrrrroooffffffdddddddddooollllllooobbbbbb -->
+                  Bookendsが無い
+                  <span class="result">⇒</span>
+                  <img src="images/001_s_b_0_V.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y2R%27UR%27U%27yR%27F%27R2U%27R%27UR%27FRFy -->
+                  <span class="case">V-perm</span>
+                </li>
+              </ul>
+              <li>
+                <img src="images/001_s_f.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrorrrrrroooffffffdddddddddooollllllooobbbbbb -->
+                2-barが手前寄りにある
+              </li>
+              <ul>
+                <li>
+                  <img src="images/001_s_f_1.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrbrrrrrrbooffffffdddddddddooollllllooobbbbbb -->
+                  Bookendsがある
+                </li>
+                <ul>
+                  <li>
+                    <img src="images/001_s_f_1_r.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrbrrrrrrbooffffffdddddddddooollllllooobbbbbb -->
+                    2-barが右の側面にある
+                    <span class="result">⇒</span>
+                    <img src="images/001_s_f_1_r_gc.svg" width="64" height="64">
+                    <!--http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y%27R2U%27RU%27RUR%27UR2UD%27RU%27R%27DU%27y  -->
+                    <span class="case">Gc-perm</span>
+                  </li>
+                  <li>
+                    <img src="images/001_s_f_1_l.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuooorrrrrroobffffffdddddddddbllllllllooobbbbbb -->
+                    2-barが左の側面にある
+                    <span class="result">⇒</span>
+                    <img src="images/001_s_f_1_l_ga.svg" width="64" height="64">
+                    <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y%27R2UR%27UR%27U%27RU%27R2U%27DR%27URD%27Uy -->
+                    <span class="case">Ga-perm</span>
+                  </li>
+                </ul>
+                <li>
+                  <img src="images/001_s_f_0.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuurrorrrrrroooffffffdddddddddooollllllooobbbbbb -->
+                  Bookendsが無い
+                  <span class="result">⇒</span>
+                  <img src="images/001_s_f_0_y.svg" width="64" height="64">
+                  <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=yFRU%27R%27U%27RUR%27F%27RUR%27U%27R%27FRF%27y%27 -->
+                  <span class="case">Y-perm</span>
+                </li>
+              </ul>
+            </ul>
+          </ul>
+        </ul>
+        <h3 id="000">3-barもlightsも2-barも無い</h3>
+        <ul class="recognition">
+          <li>
+            <img src="images/000.svg" width="64" height="64">
+            <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuooorrrrrroooffffffdddddddddooollllllooobbbbbb -->
+            3-barもlightsも2-barも無い
+          </li>
+          <ul>
+            <li>
+              <img src="images/000_1.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuoorrrrrrrrooffffffdddddddddooollllllooobbbbbb -->
+              Bookendsがある
+              <span class="result">⇒</span>
+              <img src="images/000_1_f.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=y%27R%27U%27F%27RUR%27U%27R%27FR2U%27R%27U%27RUR%27URy -->
+              <span class="case">F-perm</span>
+            </li>
+            <li>
+              <img src="images/000_0.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuooorrrrrroooffffffdddddddddooollllllooobbbbbb -->
+              Bookendsが無い
+              <span class="result">⇒</span>
+              <img src="images/000_0_e.svg" width="64" height="64">
+              <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&case=x%27RU%27R%27DRUR%27D%27RUR%27DRU%27R%27D%27x -->
+              <span class="case">E-perm</span>
+            </li>
+            <ul>
+              <li>
+                <img src="images/000_1_f_v.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&stage=pll&view=plan&fd=uuuuuuuuuoofrrrrrrofoffffffdddddddddfoollllllooobbbbbb -->
+                のV字の同色があれば、手順表の向き。無ければ、90度回すと手順表の向きになる。
+              </li>
+            </ul>
+          </ul>
+        </ul>
+        <hr>
+        <address>
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>
