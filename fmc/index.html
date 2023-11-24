@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>FMC</title>    
+    <link rel="stylesheet" href="../bulma.min.css">
+    <link rel="stylesheet" href="../katex/katex.min.css">
+    <style>
+      .example {
+        font-size: x-large;
+        vertical-align: middle;
+      }
+      .example img {
+        vertical-align: middle;
+      }
+      th.id {
+        width: 8em;
+      }
+      th.image_ {
+        width: 100px;
+      }
+      th.images {
+        width: 240px;
+      }
+      th.algorithm {
+        width: 12em;
+      }
+      th.memo {
+        min-width: 18em;
+      }
+      td.number_ {
+        text-align: right !important;
+      }
+      td.algorithm, span.algorithm {
+        font-weight: bold;
+      }
+      .disabled {
+        color: lightgray;
+      }
+      address {
+        text-align: right;
+      }
+    </style>
+    <script defer src="../katex/katex.min.js"></script>
+    <script defer src="../katex/contrib/auto-render.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        for (var e of document.getElementsByClassName("latex")) {
+          renderMathInElement(e, {
+            delimiters: [
+              {left: "$$", right: "$$", display: true},
+              {left: "$", right: "$", display: false},
+          ]});
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>FMC</h1>
+        <hr>
+        <p>
+          ルービックキューブのFMC（Fewest Move Challenge、最小手数競技）とは、通常の競技のように揃える時間を競うのではなく、短い手数で揃えることを競う競技である。
+          FMCで使う解法をまとめる。
+          このページの解法で30手を切ることは目指せる。
+        </p>
+        <p>
+          もちろん他の解法もある。
+          2023年現在、この解法が主流のように思えるが、上位に他の解法の人もいる。
+          また、細かいところでも他のテクニックが色々とありそう。
+        </p>
+        <h2>全体の流れ</h2>
+        <p>
+          次の順番で進める。
+        </p>
+        <ol>
+          <li>EO</li>
+          <li>DR</li>
+          <li>HTR</li>
+          <li>（FR）</li>
+          <li>スケルトン作成</li>
+          <li>インサート</li>
+          <li>スライスインサート</li>
+        </ol>
+        <p>
+          各ステップでは、軸が違うものを試して手数が短くなるものを選択したり、NISSで逆方向から手順を探したりする。
+          色々試してDRが完了した状態を何個も見つけ、その中で良いものを1個選択して、多少NISSを使ったりしつつ完成に向かうという流れが良いのではないかと思う。
+        </p>
+        <h2>EO</h2>
+        <p class="example">
+          <img src="images/init.svg" width="128" height="128">
+          <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&alg=x2R%27U%27FU%27L2BR2F2ULB2U%27F2UB2L2F2L2U2F2UL%27U2R%27U%27F -->
+          ⇒
+          <img src="images/eo.svg" width="128" height="128">
+          <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&alg=x2R%27U%27FU%27L2BR2F2ULB2U%27F2UB2L2F2L2U2F2UL%27U2R%27U%27FLBL%27UR2F -->
+        </p>
+        <p>
+          Scramble: <span class="algorithm">R' U' F U' L2 B R2 F2 U L B2 U' F2 U B2 L2 F2 L2 U2 F2 U L' U2 R' U' F</span><br>
+          Solution: <span class="algorithm">L B L' U R2 F</span>
+        </p>
+        <p>以降、各ステップで揃える例を載せていく。</p>
+        <p>
+          EO（Edge Orientation）はエッジの向きを揃えるステップである。
+        </p>
+        <p>
+          エッジの向きは、U/DステッカーがU/D面にあるときを正しい向きとする。
+          U/Dステッカーが無いエッジは、U/Dステッカーの代わりにF/Bステッカーを見る。
+          エッジがE層にあるときは、U/D面の代わりにF/B面にステッカーがあるときを正しい向きとする。
+          これは「F/B軸」に対する定義で、他にL/R軸とU/D軸も考えられる。
+          U/Dのステッカーと面をまず見ているのに「F/B軸」と言っているのは、この定義の「U/D」を「L/R」に置き換えてもエッジが正しい向きかどうかが変化せず、「F/B」を「L/R」に置き換えると変化しうるからである。
+        </p>
+        <p>
+          EOが完了した（全てのエッジの向きが正しくなった）かどうかと、<span class="algorithm">&lt;U, D, L, R, F2, B2&gt;</span> の動きだけで（<span class="algorithm">F</span>と<span class="algorithm">B</span>の90度回転を使わないで）キューブを揃えられるかどうかは同値である。
+        </p>
+        <h3>解法</h3>
+        <p>
+          F/B軸の場合の解法。
+          他の軸の場合は適宜面や動きを置き換える。
+          同様に、他のステップも特定の軸の場合の解法を書く。
+        </p>
+        <p>
+          <span class="algorithm">F</span> か <span class="algorithm">F'</span> でF面にある4個のエッジの向きが合っているかどうかが反転する。
+          合っていない4個のエッジをF面に集めて、<span class="algorithm">F</span> か <span class="algorithm">F'</span> でそれらのエッジの向きが合う。
+          <span class="algorithm">F</span> の代わりに <span class="algorithm">B</span> でも良い。
+        <p>
+          向きの合っていないエッジの個数は必ず偶数である。
+          向きの合っていないエッジの個数が4の倍数でないときは、3個の向きの合っていないエッジをF面に集めて <span class="algorithm">F</span> によって向きの合っていないエッジを1個にしたり、1個のエッジをF面に置いて3個にしたりする。
+          エッジの個数は12個なので、スクランブル状態で向きの合っていないエッジは6個になる確率が高い。
+          F面かB面に3個のエッジを集めて向きの合っていないエッジを4個にし、もう一方の面に4個を集めて全てのエッジの向きを合わせることが多い。
+        </p>
+        <h2>DR</h2>
+        <p class="example">
+          <img src="images/eo.svg" width="128" height="128">
+          ⇒
+          <img src="images/dr.svg" width="128" height="128">
+          <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&alg=x2R%27U%27FU%27L2BR2F2ULB2U%27F2UB2L2F2L2U2F2UL%27U2R%27U%27FLBL%27UR2FD2R%27U%27DRDR -->
+        </p>
+        <p>
+          Scramble: <span class="algorithm disabled">R' U' F U' L2 B R2 F2 U L B2 U' F2 U B2 L2 F2 L2 U2 F2 U L' U2 R' U' F</span><br>
+          Solution: <span class="algorithm disabled">L B L' U R2 F</span> <span class="algorithm">D2 R' U' D R D R</span>
+        </p>
+        <p>
+          （U/D軸の）DR（Domino Reduction）とは、EOに加え、U/D面にU/Dステッカーだけが見えている状態にすることである。
+          この状態のキューブは、<span class="algorithm">&lt;U, D, L2, R2, F2, B2&gt;</span> の動きだけでキューブを揃えることができる。
+        </p>
+        <p>
+          DRは次の2個のステップに分かれる。
+        </p>
+        <h3>DR ?e?c</h3>
+        <p>
+          EOでエッジの向きは揃えているので、DRの条件を満たすためには、U/DステッカーのあるエッジをU/D面に、それ以外のエッジのE層に置くことになる。
+          この位置が合っていないエッジの個数を2eなどのように表す。
+          コーナーの向きを、U/DステッカーがU/D面を向いているときに合っていると定めたとき、向きの合っていないコーナーの個数を3cなどのように表す。
+        </p>
+        <p>
+          なお、エッジについては、U/D面にあるE層エッジの個数で表しているものもある。
+          この場合は、eの値が半分になる。
+          DRトリガーの一覧を見るときなどには注意が必要。
+          また、「DR ?e?c」について、「DRまで残り何個」という意味で、マイナスを使って「DR-?e?c」と書いている人も多い。
+        </p>
+        <p>
+          このステップでは、DR 2e4cかDR 2e3cの状態を目指す。
+          DR 4e4cでも良いが、次のDRトリガーのステップで手数が掛かるので、DRトリガーに容易に持ち込める場合だけにするのが良いと思う。
+          DR 2e0cやDR 4e0cでも良い。
+          しかし、このステップで手数が掛かってしまう場合が多いと思う。
+        </p>
+        <p>
+          <span class="algorithm">L</span> か <span class="algorithm">L'</span>（<span class="algorithm">R</span> か <span class="algorithm">R'</span>）でL面（R面）にあるキューブの状態が変わるので、EOの場合と同様に、L面（R面）に合っていないキューブを持っていって状態を変えれば良い。
+        </p>
+        <h3>DRトリガー</h3>
+        <p>
+          DRトリガーとは、DRが完了した状態にするときに最後に使う手順である。
+          <span class="algorithm">&lt;U, D, L2, R2, F2, B2&gt;</span> の動きでは、合っていないピースの個数は変化しない。
+          これらの動きで次のDRトリガーが使える位置にピースを持っていって、DRトリガーを使う。
+        </p>
+        <p>
+          DRトリガー。
+          次のページから良く使うものを転載した。
+          最後の動きは逆でも良いので、次のHTRの手数が短くなるほうを選ぶ。
+        </p>
+        <p>
+          <a href="https://kzykzy33550336.blogspot.com/2021/12/dr.html">DRトリガー　集めました</a>
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th class="id">?e?c</th>
+              <th class="image_">Image</th>
+              <th class="algorithm">Algorithm</th>
+              <th class="memo">Memo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2e4c</td>
+              <td>
+                <img src="images/dr1.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=bttbttbtblttlttlttdtdttdttdttfttttttrrrttttttttutttttt -->
+              </td>
+              <td><span class="algorithm">R U2 R'</span></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>2e3c</td>
+              <td>
+                <img src="images/dr2.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=bbttttttruttbttbttttbttdttdttlttttttdtttttttttrrtttttt -->
+              </td>
+              <td><span class="algorithm">R U R'</span></td>
+              <td>2e3cは2種類あるので手数が短くなるほうを選ぶ。</td>
+            </tr>
+            <tr>
+              <td>2e3c</td>
+              <td>
+                <img src="images/dr3.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ttttttbblfttfttdttrrdttdttbttrttttuttttttttttttttttttt -->
+              </td>
+              <td><span class="algorithm">R U' R'</span></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>4e4c</td>
+              <td>
+                <img src="images/dr4.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ttfttfttfrrrrtrrrrttdttdttdttbttbttbtttttttttuttuttutt -->
+              </td>
+              <td><span class="algorithm">R</span></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>2e0c</td>
+              <td>
+                <img src="images/dr5.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=tttbttttttttrttttttttttdtttttttttttttltttttttttttttttt -->
+              </td>
+              <td><span class="algorithm">L U2 B2 D2 R</span></td>
+              <td>位置の合っていないエッジを同じ面に持ってきて、その面以外を順に180度回転。</td>
+            </tr>
+            <tr>
+              <td>4e0c</td>
+              <td>
+                <img src="images/dr6.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=tttbttttttttrtrttttttttdttttttfttttttltttttlttttuttttt -->
+              </td>
+              <td><span class="algorithm">L U2 D2 R</span></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>HTR</h2>
+        <p class="example">
+          <img src="images/dr.svg" width="128" height="128">
+          ⇒
+          <img src="images/htr.svg" width="128" height="128">
+          <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&alg=x2R%27U%27FU%27L2BR2F2ULB2U%27F2UB2L2F2L2U2F2UL%27U2R%27U%27FLBL%27UR2FD2R%27U%27DRDRB2U%27R2UL2F2B2D%27 -->
+        </p>
+        <p>
+          Scramble: <span class="algorithm disabled">R' U' F U' L2 B R2 F2 U L B2 U' F2 U B2 L2 F2 L2 U2 F2 U L' U2 R' U' F</span><br>
+          Solution: <span class="algorithm disabled">L B L' U R2 F D2 R' U' D R D R</span> <span class="algorithm">B2 U' R2 U L2 F2 B2 D'</span>
+        </p>
+        <p>
+          HTR（Half Turn Reduction）とは、キューブを180度回転（<span class="algorithm">&lt;U2, D2, L2, R2, F2, B2&gt;</span>）だけで揃えられる状態にすることである。
+          EOやDRと異なり、特定の軸というものはない。
+        </p>
+        <p>
+          HTRが完了しているかどうかは、次の条件を全て満たしているかどうかと同値である。
+        </p>
+        <ul>
+          <li>U/D面、F/B面、L/R面にはそれぞれの色のステッカーのみがある。</li>
+          <ul>
+            <li>これは必要条件であって、十分条件ではないことに注意。</li>
+          </ul>
+          <li>U/D面（他の面でも良い）が180度回転だけで揃えられる状態になっている。</li>
+          <li>2個のコーナーの2点交換でコーナーを揃えるとき、交換回数が偶数になる。</li>
+          <ul>
+            <li>180度回転では、コーナーは2組の交換が同時に起こるため。</li>
+            <li><a href="https://www.youtube.com/watch?v=eYiIHLMLPUc">目隠しルービックキューブの分析</a> のようにコーナーの本来あるべき位置を辿っていったとき、サイズが偶数のループの個数が偶数であることと同値であり、これで調べる。</li>
+          </ul>
+        </ul>
+        <p>
+          HTRが一番難しい。
+          以降では、QT、コーナーの揃え方、エッジの揃え方の順に説明する。
+        </p>
+        <h3>QT</h3>
+        <p>
+          QT（Quarter Turns）とは、HTR完了までに必要な90度回転の最小回数である。
+          （U/D軸の）DRが完了した時点で側面の90度回転は使わないので、90度回転は <span class="algorithm">&lt;U, D&gt;</span> である。
+          HTRが完了したら180度回転だけでキューブを揃えられるため、キューブを揃えるまでに必要な90度回転と言い換えても良い。
+          QTの偶奇と、2個の交換でコーナーを揃えるときの交換回数の偶奇は一致する。
+        </p>
+        <p>
+          QTは、HTRでコーナーを揃えるときの指針になるとともに、HTRに掛かる手数の目安になる。
+          DRが完了した段階でQTを調べて、例えば、多少手数が短くてもQTが多かったら、そのDRは諦めて他のDRを探すということができる。
+        </p>
+        <p>
+          この節の内容は次の文章を元にしている。
+          筆者は、QTの偶奇（パリティ）に加えてU/D面の状態の考慮も必要なことを指して、hyper-parityと言っている。
+        </p>
+        <p>
+          <a href="https://docs.google.com/document/d/1Onc2lu5iW_ODnT71oN5lgpVVjVqbvUMzaylzxgykx0I/edit#heading=h.bijbq6juxqv">Hyper-Parity - Google ドキュメント</a>
+        </p>
+        <h4>U/D面</h4>
+        <p>
+          DRが完了しているので、U/D面にはU/Dステッカーだけがある。
+          180度回転で一致するものを同一視すると、U/D面の状態は次の4個の状態に分けられる。
+        </p>
+        <p>
+          見づらいので黄色を黒にしている。
+          D面の何も無いように見えるところは、実際は白色。
+          画像は例で、全ての状態を列挙しているわけではない。
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th class="id">Name</th>
+              <th class="images">Images</th>
+              <th class="memo">Memo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Solved</td>
+              <td>
+                <img src="images/qt_ud_solved1.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=dtdtttdtdttttttttttttttttttntntttntntttttttttttttttttt -->
+                <img src="images/qt_ud_solved2.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=dtntttdtnttttttttttttttttttntdtttntdtttttttttttttttttt -->
+                <img src="images/qt_ud_solved3.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=dtntttntdttttttttttttttttttntdtttdtntttttttttttttttttt -->
+              </td>
+              <td>
+                完成状態。
+                本当に完成していなくても、180度回転で揃う状態であれば良い。
+              </td>
+            </tr>
+            <tr>
+              <td>Bars</td>
+              <td>
+                <img src="images/qt_ud_bars1.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=dtdtttntnttttttttttttttttttdtntttdtntttttttttttttttttt -->
+                <img src="images/qt_ud_bars2.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=dtntttdtdttttttttttttttttttntntttdtntttttttttttttttttt -->
+              </td>
+              <td>
+                （180度回転によって）上下にバーができる状態。
+                上下のバーが90度ずれている。
+                180度ずれているとSolvedになる。
+              </td>
+            </tr>
+            <tr>
+              <td>Slashes</td>
+              <td>
+                <img src="images/qt_ud_slashes1.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=dtntttntdttttttttttttttttttdtntttntdtttttttttttttttttt -->
+              </td>
+              <td>
+                上下にずれたスラッシュができている。
+                スラッシュの向きが揃っていると、Solved。
+              </td>
+            </tr>
+            <tr>
+              <td>Bar/Slash</td>
+              <td>
+                <img src="images/qt_ud_barslash1.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=dtntttntdttttttttttttttttttdtntttdtntttttttttttttttttt -->
+                <img src="images/qt_ud_barslash2.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=dtntttdtdttttttttttttttttttdtntttntntttttttttttttttttt -->
+              </td>
+              <td>
+                バーとスラッシュができている。
+                上に1個で下に3個のときがBarsと良く似ているので注意。
+                3個の色が集まっている角、もしくはその対角の位置の反対側に同じ色の1個があるのが、Bar/Slash。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          1回の90度回転で可能な遷移を線で結ぶと下の図になる。
+        </p>
+        <p>
+          <img src="images/qt_ud_maze.png" width="450" height="150">
+        </p>
+        <h4>F/B面</h4>
+        <p>
+          F/B面に対してL/R面は一意に定まるので、L/R面を見る必要は無い。
+          F/D面の状態は次の4通りに分けられる。
+          FとB、LとRは同一視する。
+          合っていないコーナーの個数が6個と8個のときは、それぞれ2個と0個の場合と同様に進め、途中でU面の代わりにD面を回すなどすれば良い。
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th class="id">Name</th>
+              <th class="images">Images</th>
+              <th class="memo">Memo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Solved</td>
+              <td>
+                <img src="images/qt_fb_solved1.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ttttttttttttttttttbtbtttbtbttttttttttttttttttbtbtttbtb -->
+              </td>
+              <td>
+                完成状態。
+              </td>
+            </tr>
+            <tr>
+              <td>One Face</td>
+              <td>
+                <img src="images/qt_fb_oneface1.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ttttttttttttttttttbtbtttbtbttttttttttttttttttbtbtttbtb -->
+                <img src="images/qt_fb_oneface2.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ttttttttttttttttttrtbtttbtrttttttttttttttttttbtrtttrtb -->
+                <img src="images/qt_fb_oneface3.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ttttttttttttttttttbtrtttbtrttttttttttttttttttrtbtttrtb -->
+              </td>
+              <td>
+                合っていない4個のコーナーを180度回転でU面に集めることが可能な状態。
+                ここからは1回の90度回転で揃う。
+              </td>
+            </tr>
+            <tr>
+              <td>Bars</td>
+              <td>
+                <img src="images/qt_fb_bars1.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ttttttttttttttttttrtrtttbtrttttttttttttttttttbtbtttrtb -->
+                <img src="images/qt_fb_bars2.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ttttttttttttttttttrtrtttbtbttttttttttttttttttrtbtttrtb -->
+              </td>
+              <td>
+                上下に90度ずれたバーを作れる状態。180度ずれているとOne barになる。
+              </td>
+            </tr>
+            <tr>
+              <td>One Bar</td>
+              <td>
+                <img src="images/qt_fb_onebar1.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ttttttttttttttttttrtrtttbtbttttttttttttttttttbtbtttbtb -->
+                <img src="images/qt_fb_onebar2.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ttttttttttttttttttbtrtttbtrttttttttttttttttttbtbtttbtb -->
+              </td>
+              <td>
+                バーを1個だけ作れる状態。合っていないコーナーが2個。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          1QTで可能な遷移を線で結ぶと下の図になる。
+          U/D面と似ているが、Solvedの位置が異なることに注意。
+        </p>
+        <p>
+          <img src="images/qt_fb_maze.png" width="450" height="150">
+        </p>
+        <h4>Hyper-Parity Maze</h4>
+        <p>
+          U/D面とF/B面の状態には存在しない組み合わせもあるし、遷移に制限が掛かる。
+          U/D面とF/B面の状態の組み合わせに対し、可能な遷移を図示したのが次の「Hyper-Parity Maze」である。
+          この迷路上で、QTの偶奇が合うようにSolved+Solvedに遷移するときの移動回数が、そのコーナーの状態のQTである。
+        </p>
+        <p>
+          <img src="images/hyper_parity_maze.png" width="650" height="550">
+        </p>
+        <p>
+          基本的には、偶奇が異なってもQTが±1のルートがある。
+          ただし、Solve + Solved（偶数: 0、奇数: 3）、Bars + One Face（偶数: 4、奇数: 1）、Bar/Slash + Bars（偶数: 2、奇数: 5）は大きく変わる。
+        </p>
+        <p>
+          U/D面とF/B面の状態が同じでも、Hyper-Parity Maze上の状態は異なることがある。
+          判別方法は次の通り。          
+        </p>
+        <h5>Solved + One Face</h5>
+        <table>
+          <thead>
+            <tr>
+              <th class="id">Name</th>
+              <th class="image_">Image</th>
+              <th class="memo">Memo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ST1</td>
+              <td>
+                <img src="images/maze_st1.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=dtdtttdtdtttttttttrtrtttbtbntntttntntttttttttrtrtttbtb -->
+              </td>
+              <td>
+                Same。U/D面がUのコーナーのF/B面の色が全て同じ。
+              </td>
+            </tr>
+            <tr>
+              <td>ST2</td>
+              <td>
+                <img src="images/maze_st2.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=dtdtttdtdtttttttttbtrtttbtrntntttntntttttttttrtbtttrtb -->
+              </td>
+              <td>
+                Different。U/D面がUのコーナーのF/B面の色が2色ずつである。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h5>Bars + Bars</h5>
+        <table>
+          <thead>
+            <tr>
+              <th class="id">Name</th>
+              <th class="image_">Image</th>
+              <th class="memo">Memo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>BB1</td>
+              <td>
+                <img src="images/maze_bb1.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=dtdtttntntttttttttrtrtttbtrntdtttntdtttttttttbtbtttrtb -->
+              </td>
+              <td>
+                Same。
+                U/D面とF/B面に同時にバーを作ることができ、U/D面がUのコーナーのF/B面の色が2色ずつである。
+                色が異なるのに「Same」なのは、Solved + One Faceに遷移するときの90度回転でF/B面の色が変わることで、ST1に遷移できるからだろう。
+              </td>
+            </tr>
+            <tr>
+              <td>BB2</td>
+              <td>
+                <img src="images/maze_bb2.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ntdtttntdtttttttttbtrtttrtrdtdtttntntttttttttrtbtttbtb -->
+              </td>
+              <td>
+                Different。
+                U/D面がUのコーナーのF/B面の色が全て同じ。
+              </td>
+            </tr>
+            <tr>
+              <td>BB3</td>
+              <td>
+                <img src="images/maze_bb3.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ntdtttdtdtttttttttbtbtttbtrntntttntdtttttttttrtrtttrtb -->
+              </td>
+              <td>
+                Exclusive。
+                U/D面とF/B面に同時にバーを作ることができない。
+                なお、F/B面に縦（U/D軸方向）に同じ色が並んでいても、バーとは見なさない。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h5>Bar/Slash + One Face</h5>
+        <table>
+          <thead>
+            <tr>
+              <th class="id">Name</th>
+              <th class="image_">Image</th>
+              <th class="memo">Memo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>BS1</td>
+              <td>
+                <img src="images/maze_bs1.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=dtdtttntntttttttttbtbtttrtrntdtttdtntttttttttbtbtttbtb -->
+              </td>
+              <td>
+                Parallel。
+                U/D面をバーとスラッシュの状態にし、合っていない2個のコーナーでF/B面にバーを作ったとき、U/D面とF/B面のバーが並行になっている。
+              </td>
+            </tr>
+            <tr>
+              <td>BS2</td>
+              <td>
+                <img src="images/maze_bs2.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=dtntttdtntttttttttbtbtttrtrntdtttdtntttttttttbtbtttbtb -->
+              </td>
+              <td>
+                Perpendicular。
+                U/D面をバーとスラッシュの状態にし、合っていない2個のコーナーでF/B面にバーを作ったとき、U/D面とF/B面のバーが垂直になっている。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>コーナーの揃え方</h3>
+        <p>
+          素直にQTを減らしていけば良い。
+          Hyper-Parity Maze上の遷移は数が多いので、U/D面の状態とF/B面の状態に分けて、どの形で <span class="algorithm">U</span> などを回せば遷移できるのかを書く。
+          U/D面とF/B面を同時に目的の状態に遷移可能な形にすれば良い。
+          これは、最初の1回の遷移以外は、直前の動きを <span class="algorithm">U</span> と <span class="algorithm">U'</span> のどちらにするかと、
+          <span class="algorithm">R2</span> と <span class="algorithm">F2</span>、<span class="algorithm">R2 U2 F2</span>、<span class="algorithm">F2 U2 R2</span> のいずれかの手順で達成できる（らしい）。
+        </p>
+        <h4>U/D面</h4>
+        <table>
+          <thead>
+            <tr>
+              <th class="id">State 1</th>
+              <th class="image_">Image 1</th>
+              <th class="id">State 2</th>
+              <th class="image_">Image 2</th>
+              <th class="memo">Memo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Slashes</td>
+              <td>
+                <img src="images/qt_ud_slashes2.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ntdtttdtnttttttttttttttttttntdtttdtntttttttttttttttttt -->
+              </td>
+              <td>Solved</td>
+              <td><img src="images/qt_ud_solved3.svg" width="64" height="64"></td>
+              <td>U面にスラッシュを作る。</td>
+            </tr>
+            <tr>
+              <td>Solved</td>
+              <td><img src="images/qt_ud_solved1.svg" width="64" height="64"></td>
+              <td>Solved</td>
+              <td><img src="images/qt_ud_solved1.svg" width="64" height="64"></td>
+              <td>U面を同色にする。</td>
+            </tr>
+            <tr>
+              <td>Solved</td>
+              <td><img src="images/qt_ud_solved2.svg" width="64" height="64"></td>
+              <td>Bars</td>
+              <td>
+                <img src="images/qt_ud_bars3.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=dtdtttntnttttttttttttttttttntdtttntdtttttttttttttttttt -->
+              </td>
+              <td>U面にバーを作る。</td>
+            </tr>
+            <tr>
+              <td>Bars</td>
+              <td><img src="images/qt_ud_bars2.svg" width="64" height="64"></td>
+              <td>Bar/Slash</td>
+              <td>
+                <img src="images/qt_ud_barslash3.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=dtdtttdtnttttttttttttttttttntntttdtntttttttttttttttttt -->
+              </td>              
+              <td>U面にUが1個か3個にする。</td>
+            </tr>
+            <tr>
+              <td>Bar/Slash</td>
+              <td><img src="images/qt_ud_barslash1.svg" width="64" height="64"></td>
+              <td>Bar/Slash</td>
+              <td>
+                <img src="images/qt_ud_barslash4.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ntdtttdtnttttttttttttttttttdtntttdtntttttttttttttttttt -->
+              </td>
+              <td>U面にバーかスラッシュを作る。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>F/B面</h4>
+        <table>
+          <thead>
+            <tr>
+              <th class="id">State 1</th>
+              <th class="image_">Image 1</th>
+              <th class="id">State 2</th>
+              <th class="image_">Image 2</th>
+              <th class="memo">Memo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Solved</td>
+              <td><img src="images/qt_fb_solved1.svg" width="64" height="64"></td>
+              <td>One Face</td>
+              <td><img src="images/qt_fb_oneface1.svg" width="64" height="64"></td>
+              <td>
+                Solved → One Face: そもそもこの図の形しかない。
+                One Face → Solved: 合っていない4個のコーナーをU面かD面に集める。</td>
+            </tr>
+            <tr>
+              <td>One Face</td>
+              <td>
+                <img src="images/qt_fb_oneface4.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ttttttttttttttttttrtbtttrtbttttttttttttttttttrtbtttrtb -->
+              </td>
+              <td>One Face</td>
+              <td><img src="images/qt_fb_oneface4.svg" width="64" height="64"></td>
+              <td>
+                合っていないコーナーを対角の位置に置く。
+                コーナーのF/B面の色は90度回転で反転するので、90度回転してもこの形のままになる。
+              </td>
+            </tr>
+            <tr>
+              <td>One Face</td>
+              <td><img src="images/qt_fb_oneface3.svg" width="64" height="64"></td>
+              <td>Bars</td>
+              <td><img src="images/qt_fb_bars1.svg" width="64" height="64"></td>
+              <td>合っていない4個のコーナーのうち2個をU面に持ってくる。</td>
+            </tr>
+            <tr>
+              <td>Bars</td>
+              <td><img src="images/qt_fb_bars2.svg" width="64" height="64"></td>
+              <td>One Bar</td>
+              <td><img src="images/qt_fb_onebar2.svg" width="64" height="64"></td>
+              <td>
+                Bars → One Bar: 合っていない4個のコーナーのうち1個か3個をU面に持ってくる。
+                One Bar → Bars: 合っていない2個のコーナーのうち1個をU面に持ってくる。
+              </td>
+            </tr>
+            <tr>
+              <td>One Bar</td>
+              <td><img src="images/qt_fb_onebar1.svg" width="64" height="64"></td>
+              <td>One Bar</td>
+              <td>
+                <img src="images/qt_fb_onebar3.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ttttttttttttttttttrtbtttbtbttttttttttttttttttbtrtttbtb -->
+              </td>
+              <td>合っていない2個のコーナーをU面かD面に置く。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>エッジの揃え方</h3>
+        <p>
+          コーナーを揃える手順を元に、途中にコーナーの状態を変えないような動きを挿入して、エッジを揃える。
+        </p>
+        <p>
+          次のドキュメントが詳しい。エッジの手順というより、コーナーもエッジも合わせて揃えていく。
+        </p>
+        <p>
+          <a href="https://docs.google.com/document/d/1HjS92UBCeCasbW44ezE0fjt5vmWQvlfkaC4rA113nmw/edit">HTR Theory - Google ドキュメント</a>
+        </p>
+        <p>
+          覚えきれないので、私はこの中の1QTの手順を主に使っている。
+          コーナーのQTを減らしていき、1QTになったところで手順を使う。
+        </p>
+        <p>
+          手順一覧。合っていないエッジとコーナーを表示している。
+          1QTから1回の90度回転で、F/B面がSolvedだがU/D面がSolvedではない状態に行くことはないので、U/D面は気にする必要が無い。
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 12em">Bad Edges</th>
+              <th class="image_">Image</th>
+              <th class="algorithm">Algorithm</th>
+              <th class="memo">Memo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>UL, UF, UR, UB</td>
+              <td>
+                <img src="images/htr_1qt1.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=tttttttttbbbttttttrrrtttttttttttttttbbbttttttrrrtttttt -->
+              </td>
+              <td><span class="algorithm">U</span></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>DL, UF, DR, UB</td>
+              <td>
+                <img src="images/htr_1qt2.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=tttttttttbtbttttbtrrrtttttttttttttttbtbttttbtrrrtttttt -->
+              </td>
+              <td><span class="algorithm">F2 B2 D</span></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>UL, DF, UR, UB</td>
+              <td>
+                <img src="images/htr_1qt3.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=tttttttttbbbttttttrtrttttrttttttttttbbbttttttrrrtttttt -->
+              </td>
+              <td><span class="algorithm">R2 F2 R2 U</span></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>UL, DF, DR, UB</td>
+              <td>
+                <img src="images/htr_1qt4.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=tttttttttbtbttttbtrtrttttrttttttttttbbbttttttrrrtttttt -->
+              </td>
+              <td><span class="algorithm">F2 R2 F2 R2 F2 R2 U</span></td>
+              <td>インサートの2e2eの手順（6手のほう）。</td>
+            </tr>
+            <tr>
+              <td>DF, UR, DR, UB</td>
+              <td>
+                <img src="images/htr_1qt5.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=tttttttttbbbttttbtrtrttttrttttttttttbtbttttttrrrtttttt -->
+              </td>
+              <td><span class="algorithm">R2 F2 R2 U2 F2 R2 F2 U</span></td>
+              <td>インサートの2e2eの手順（8手のほう）。最後の <span class="algorithm">U2</span> はキャンセルで消える。</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          F/B面にある合っていないエッジの個数が2個ではないときは、1QTから揃えることはできない。
+          2QTに戻り、<span class="algorithm">R2 L2</span> や <span class="algorithm">F2 B2</span>、<span class="algorithm">R2 F2 R2</span> などのコーナーの状態を変えない手順で、エッジの状態を変える。
+        </p>
+        <p>
+          どうしようもないときは、先にコーナーを揃え、その後で次の手順を使ってエッジを揃える。
+          一見短い手順に思えるが、セットアップも含めると、基本的には1QTのときに揃えたほうが良いはず。
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 12em">Bad Edges</th>
+              <th class="image_">Image</th>
+              <th class="algorithm">Algorithm</th>
+              <th class="memo">Memo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>DL, UF, DR, UB</td>
+              <td>
+                <img src="images/htr_0qt1.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ttttttttttttttttbttrtttttttttttttttttttttttbttrttttttt -->
+              </td>
+              <td><span class="algorithm">U F2 B2 D'</span></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>UF, DR</td>
+              <td>
+                <img src="images/htr_0qt2.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ttttttttttttttttbttrtttttttttttttttttttttttttttttttttt -->
+              </td>
+              <td><span class="algorithm">U F2 L2 B2 D'</span></td>
+              <td></td>
+            </tr>            
+          </tbody>
+        </table>
+        <h2>FR</h2>
+        <p class="example">
+          <img src="images/htr.svg" width="128" height="128">
+          ⇒
+          <img src="images/fr.svg" width="128" height="128">
+          <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&alg=x2R%27U%27FU%27L2BR2F2ULB2U%27F2UB2L2F2L2U2F2UL%27U2R%27U%27FLBL%27UR2FD2R%27U%27DRDRB2U%27R2UL2F2B2D%27R2F2R2F2U2R2F2U2 -->
+        </p>
+        <p>
+          Scramble: <span class="algorithm disabled">R' U' F U' L2 B R2 F2 U L B2 U' F2 U B2 L2 F2 L2 U2 F2 U L' U2 R' U' F</span><br>
+          Solution: <span class="algorithm disabled">L B L' U R2 F D2 R' U' D R D R B2 U' R2 U L2 F2 B2 D'</span> <span class="algorithm">R2 F2 R2 F2 U2 R2 F2 U2</span>
+        </p>
+        <p>
+          このステップは必須ではない。
+        </p>
+        <p>
+          参考: <a href="https://docs.google.com/document/d/1ABI-7W5KpoSavKJuPx_5wlOMWdtgYNpNzCp8fDsEgEw/edit">Floppy Reduction - Google ドキュメント</a>
+        </p>
+        <p>
+          FR（Floppy Reduction）とは、キューブを <span class="algorithm">&lt;L2, R2, F2, B2, E&gt;</span> の動きだけで揃えられる状態にすることである。
+          E層以外を <span class="algorithm">&lt;L2, R2, F2, B2&gt;</span> の動きで揃えられる状態と言っても良い。
+          HTRと異なり、DRのように軸がある。
+          スライスインサート（後述）のために、DRと同じ軸を採用するのが良いと思う。
+        </p>
+        <p>
+          次の両方の条件を満たしていることと同値である。
+        </p>
+        <ul>
+          <li>URFとDFRやUFとDFなど、U面とD面の同じ位置にあるキューブの色が（U面とD面以外は）同じである。</li>
+          <li>正四面体の頂点であるULB, DFL, URF, DBR（下図参照）の位置のコーナーを2点交換で揃えるときの交換回数の偶奇と、E層を2点交換で揃えるときの偶奇が等しい（パリティが合っている）。</li>
+          <ul>
+            <li><span class="algorithm">&lt;L2, R2, F2, B2&gt;</span> の動きでは、この位置のコーナーとE層のエッジが同時に2点交換されるため。</li>
+            <li>QTの分析と同様に、キューブのあるべき位置を辿っていったときのループのサイズの偶奇で調べる。</li>
+            <li>これらの偶奇が一致していればFRを完了させるのに必要な <span class="algorithm">U2</span> の回数は偶数、一致していなければ奇数。</li>
+          </ul>
+        </ul>
+        <p>
+          <img src="images/tetra.svg" width="128" height="128">
+          <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=dtttttttdrtttttttrttbtttbttutttttttultttttttlttftttftt -->
+        </p>
+        <h3>解法</h3>
+        <ol>
+          <li>FRが完了した状態になっているなら終わり。</li>
+          <li>次の条件を全て満たしているなら、1回の <span class="algorithm">U2</span>（もしくは <span class="algorithm">D2</span>、以下同様）で揃えられるので、揃える。方法は6と同じ。</li>
+          <ul>
+            <li>パリティが合っていない。</li>
+            <li>M列もS列も合っていないエッジが2個で、U面とD面に1個ずつになっている。</li>
+            <li>上下のコーナーの色が異なる。</li>
+          </ul>
+          <li>そうではないとき、パリティが合っていないなら <span class="algorithm">U2</span>。</li>
+          <ul>
+            <li>HTRの最後の手順は <span class="algorithm">U</span> などの動きなので、それを逆にすれば良い。</li>
+          </ul>
+          <li>M列とS列に、合っていないエッジが2個あるならば、U面とD面に1個ずつになるようにする。</li>
+          <ul>
+            <li>合っていないエッジが0個か4個の列はそのままで良い。</li>
+            <li>このとき、色が同じコーナーが対角の位置にこないようにする。</li>            
+          </ul>
+          <li><span class="algorithm">U2</span>。</li>
+          <li>U面かD面に合っていないエッジを集め、同じ色のコーナーを対角の位置に置く。</li>
+          <ul>
+            <li><span class="algorithm">R2 U2 R2 U2 ...</span> などでこのようにできる。</li>
+          </ul>
+          <li><span class="algorithm">U2</span>。</li>
+        </ol>
+        <h3>FRは必要なのか？</h3>
+        <p>
+          HTRから直接スケルトンを作るときに、充分に短い手数の解を見つけられる実力があるならば不要である。
+          FRで使う動きはHTR後に許されている動きに含まれているので、もしFRしてからスケルトンを作るのが最適な手順ならば、その手順を見つけられるはずだからである。
+        </p>
+        <p>
+          その実力が無いとき、まずはFRを使わずにスケルトンを作り、終了時間が近くなったときに短い手順が見つかっていなかったらFRを試すというのが良さそうに思える。
+          しかし、FRからスケルトンを作る場合はスライスインサートができる形になるというのが大きなメリットだが、スライスインサートは通常のインサートよりも手間が掛かるので、間に合わない可能性がある。
+          まずはFRを試すというのも、後からFRを使わない短い解法が見つかったら、FRに掛けた時間が無駄になってしまう。
+          FRを使わないスケルトン作成をまず試し、良い手順が無さそうならFRで解いて保険として、その後またFRを使わないで解法を探すというのが良いだろうか？
+        </p>
+        <h2>スケルトン作成</h2>
+        HTRから直接。
+        <p class="example">
+          <img src="images/htr.svg" width="128" height="128">
+          ⇒
+          <img src="images/skeleton1.svg" width="128" height="128">
+          <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&alg=x2R%27U%27FU%27L2BR2F2ULB2U%27F2UB2L2F2L2U2F2UL%27U2R%27U%27FLBL%27UR2FD2R%27U%27DRDRB2U%27R2UL2F2B2D%27B2D2L2F2L2U2R2U2 -->
+        </p>
+        <p>
+          Scramble: <span class="algorithm disabled">R' U' F U' L2 B R2 F2 U L B2 U' F2 U B2 L2 F2 L2 U2 F2 U L' U2 R' U' F</span><br>
+          Solution: <span class="algorithm disabled">L B L' U R2 F D2 R' U' D R D R B2 U' R2 U L2 F2 B2 D'</span> <span class="algorithm">B2 D2 L2 F2 L2 U2 R2 U2</span>
+        </p>
+        FRから。
+        <p class="example">
+          <img src="images/fr.svg" width="128" height="128">
+          ⇒
+          <img src="images/skeleton2.svg" width="128" height="128">
+          <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&alg=x2R%27U%27FU%27L2BR2F2ULB2U%27F2UB2L2F2L2U2F2UL%27U2R%27U%27FLBL%27UR2FD2R%27U%27DRDRB2U%27R2UL2F2B2D%27R2F2R2F2U2R2F2U2B2F2L2F2L2F2 -->
+        </p>
+        <p>
+          Scramble: <span class="algorithm disabled">R' U' F U' L2 B R2 F2 U L B2 U' F2 U B2 L2 F2 L2 U2 F2 U L' U2 R' U' F</span><br>
+          Solution: <span class="algorithm disabled">L B L' U R2 F D2 R' U' D R D R B2 U' R2 U L2 F2 B2 D' R2 F2 R2 F2 U2 R2 F2 U2</span> <span class="algorithm">B2 F2 L2 F2 L2 F2</span>
+        </p>
+        <p>
+          少数のエッジ以外が揃った「骨組み」を作る。
+          揃っていないエッジを「2e2e」などのように表す。
+          この表記は2点交換が2個という意味で、4個のエッジをローテートさせると揃う「4e」とは異なる。
+          2e2eか3eができると良い。2e2e2e2eや4e、2e2e3eなどでもだめなわけではないが、インサートの手数がどうしても長くなってしまう。
+          E層のみが揃っていない状態にできるとなお良い。
+          もちろん、（短い手数で）キューブが完全に揃うのがベストである。
+        </p>
+        <p>
+          このステップには、これといったアルゴリズムは無さそう。
+          私は、1x1x2のブロックを見つけて2x2x2にし、2x2x3にして、これを壊さずに動かせる面は2個しかないので、そこを動かしてコーナーを揃えるということをしている。
+          DRが出てくる前に広く使われていたブロックビルディングと同じことなので、その説明が参考になる。
+        </p>
+        <p>
+          <a href="https://kawam1123.github.io/translation/FMC/FMC-Tutorial/v3/chapter2#blockbuilding">第2章 ソルブの進め方 - 最少手数競技入門 by Sebastiano Tronto 第三版 - スピードキューブ日本語翻訳</a>
+        </p>
+        <p>
+          FRを経ている場合は、容易にE層以外を揃えることができる。
+          知らないと困る手順は、インサートの2e2eの手順である <span class="algorithm">R2 F2 R2 F2 R2 F2</span> くらい。
+        </p>
+        <h2>インサート</h2>
+        <p class="example">
+          <img src="images/skeleton1.svg" width="128" height="128">
+          ⇒
+          <img src="images/finish.svg" width="128" height="128">
+          <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&alg=x2 -->
+        </p>
+        <p>
+          Scramble: <span class="algorithm disabled">R' U' F U' L2 B R2 F2 U L B2 U' F2 U B2 L2 F2 L2 U2 F2 U L' U2 R' U' F</span><br>
+          Solution: <span class="algorithm disabled">L B L' U R2 F D2 R' U' D R D R B2 U' R2 U <s>L2</s></span> <span class="algorithm"><s>L2</s> D2 R2 D2 L2 U2</span> <span class="algorithm disabled">F2 B2 D' B2 D2 L2 F2 L2 U2 R2 U2</span>
+        </p>
+        <p>
+          ここまでの解法の途中に手順を「挿入」することで、残りのエッジを揃える。
+        </p>
+        <p>
+          後述のNISSを使っている場合は、NISSを使わない形に書き下す。
+          揃っていないエッジにマスキングテープなどを貼り、マークを書き込んで目印にする。
+          私は、2e2eの場合は交換するエッジに同じマークを書き、3eの場合は1, 2, 3と交換の順に数字を書いている。
+          最初から手順を回していき、次のエッジ交換手順が使える位置になったところに手順を挿入する。
+          エッジ交換手順は交換するエッジ以外に影響しないので、これによって最後まで回したときにキューブが完成する。
+          前後の動きとのキャンセルがなるべく多くなるところに挿入すると良い。
+        </p>
+        <h3>エッジ交換手順</h3>
+        <p>
+          下記のページから良く使うものを抜粋した。
+        </p>
+        <p>
+          <a href="https://blog.uesyuu.com/post/2020-09-13-post-495/">DRで使うエッジ手順まとめ - uesyuu's Blog</a>
+        </p>
+        <p>
+          この手順をそのまま使うだけではなく、逆にしたり、左右を反転したり、順番を並び替えられる動きは並び替えたりしても使う。
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 12em">Edges</th>
+              <th class="image_">Image</th>
+              <th class="algorithm">Algorithm</th>
+              <th class="memo">Memo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>DF→UF→UB</td>
+              <td>
+                <img src="images/insert1.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=tutttttdtttttttttttftttttbttdtttttttttttttttttbttttttt -->
+              </td>
+              <td><span class="algorithm">U2 L R' F2 L' R</span></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>DF→UF→UB</td>
+              <td>
+                <img src="images/insert1.svg" width="64" height="64">
+              </td>
+              <td><span class="algorithm">(F2 R2 U2 R2)×2</span></td>
+              <td>
+                上の手順と同じ交換で、6手が8手と増えている。
+                しかし、全て180度回転であるため、180度回転を多用するこの解法では大きなキャンセルが起こる可能性がある。
+                最初に180度回転する面が上の手順とは違うことに注意。
+              </td>
+            </tr>
+            <tr>
+              <td>UF→UL→DF</td>
+              <td>
+                <img src="images/insert2.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=tttttttttbbbttttttrtrttttrttttttttttbbbttttttrrrtttttt -->
+              </td>
+              <td><span class="algorithm">R2 B2 L2 D L2 B2 R2 U</span></td>
+              <td>
+                HTR後にエッジがこの状態になることはないが、HTR前に挿入しようとすると必要になることがある。
+                <span class="algorithm">[R2 Fw2 R2, U] U2</span> というコミュテーター。
+              </td>
+            </tr>
+            <tr>
+              <td>UF↔DF, UR↔DR</td>
+              <td>
+                <img src="images/insert3.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=tttttututtrtttttrttbtttttbttdtttdttttttttttttttttttttt -->
+              </td>
+              <td><span class="algorithm">(R2 F2)×3</span></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>UF↔DF, UR↔DR</td>
+              <td>
+                <img src="images/insert3.svg" width="64" height="64">
+              </td>
+              <td><span class="algorithm">R2 B2 L2 F2 L2 B2</span></td>
+              <td>
+                上の手順とは全く別に思えるが、<span class="algorithm">R2 Fw2 R2 F2 R2 Fw2</span> ということである。
+              </td>
+            </tr>
+            <tr>
+              <td>UF↔DF, UR↔DL</td>
+              <td>
+                <img src="images/insert4.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=tttttututtlttttttttbtttttbttdtdttttttttttttrtttttttttt -->
+              </td>
+              <td><span class="algorithm">R2 F2 R2 D2 F2 R2 F2 D2</span></td>
+              <td>2個上の手順の途中に <span class="algorithm">D2</span>。</td>
+            </tr>
+            <tr>
+              <td>UF↔DF, UR↔DL</td>
+              <td>
+                <img src="images/insert4.svg" width="64" height="64">
+              </td>
+              <td><span class="algorithm">R2 B2 L2 U2 F2 L2 B2 D2</span></td>
+              <td>2個上の手順の途中に <span class="algorithm">U2</span> と <span class="algorithm">D2</span>。</td>
+            </tr>
+            <tr>
+              <td>UF↔UB, DF↔DB</td>
+              <td>
+                <img src="images/insert5.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=tdtttttdtttttttttttftttttfttutttttutttttttttttbtttttbt -->
+              </td>
+              <td><span class="algorithm">U2 L2 R2 D2 L2 R2</span></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>UF↔DB, UB↔DF</td>
+              <td>
+                <img src="images/insert6.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=tutttttutttttttttttftttttfttdtttttdtttttttttttbtttttbt -->
+              </td>
+              <td><span class="algorithm">U2 D2 L' R F2 B2 L R'</span></td>
+              <td>対角同士の交換。</td>
+            </tr>
+            <tr>
+              <td>UL↔DR, UF↔DF</td>
+              <td>
+                <img src="images/insert7.svg" width="64" height="64">
+                <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=tttdtdtuttlttttttttbtttttbttdttttttttrtttttttttttttttt -->
+              </td>
+              <td><span class="algorithm">R2 U2 F2 R2 F2 U2 R2 F2</span></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>スライスインサート</h2>
+        <p class="example">
+          <img src="images/skeleton2.svg" width="128" height="128">
+          ⇒
+          <img src="images/finish.svg" width="128" height="128">
+        </p>
+        <p>
+          Scramble: <span class="algorithm disabled">R' U' F U' L2 B R2 F2 U L B2 U' F2 U B2 L2 F2 L2 U2 F2 U L' U2 R' U' F</span><br>
+          Solution: <span class="algorithm disabled">L B L' U R2 F D2 R' U' D R D R B2 U' R2 U L2 F2 B2 D'</span> <span class="algorithm">E'</span> <span class="algorithm disabled">R2 F2 R2 F2 U2</span> <span class="algorithm">E2</span> <span class="algorithm disabled">R2 F2 U2</span> <span class="algorithm">E'</span> <span class="algorithm disabled">B2 F2 L2 F2 L2 F2</span>
+        </p>
+        <p>
+          <span class="algorithm">E</span> を使わないように書き換えると、
+        </p>
+        <p>
+          Solution: <span class="algorithm disabled">L B L' U R2 F D2 R' U' D R D R B2 U' R2 U L2 F2 B2</span> <span class="algorithm">U' B2 R2 B2 R2 D2 F2 L2 U D</span> <span class="algorithm disabled">B2 F2 L2 F2 L2 F2</span>
+        </p>
+        <p>
+          <span class="algorithm">&lt;E&gt;</span> を挿入してE層のエッジを揃える。
+          DR完了後はE層に含まれるのは本来E層にあるべきエッジのみであることと、（持ち替えや二層回しを使っていなければ）センターは動かないことから、通常のインサートと異なり、複数の箇所に分割して挿入することができる。
+          また、<span class="algorithm">&lt;E&gt;</span> は <span class="algorithm">&lt;U, D&gt;</span> とキャンセルしうるため、少ない手数でE層のエッジを揃えることができる。
+          たいていは+1手。
+          追加の手数無しで揃えられることも多い。
+        </p>
+        <h3>解法</h3>
+        <p>
+          この配信を見た。
+        </p>
+        <p>
+          <a href="https://twitcasting.tv/megadbl/movie/780607925">スライスインサートの話 - Shota (@MegaDBL) - ツイキャス</a>
+        </p>
+        <p>
+          元ネタはこの動画らしい。
+        </p>
+        <p>
+          <a href="https://www.youtube.com/watch?v=QWITBAaGnGM">Using rNISS to Find E-Slice Insertions - YouTube</a>
+        </p>
+        <p>
+          抽象的に説明をするのが難しいので、上記の例にスライスインサートする流れを書く。
+        </p>
+        <p>
+          スクランブルに続けて、（NISSを展開した）解法を書く。
+          DRが完了している区間（NISSを使っている場合、後半にDRが完了してない区間が出てくる）の最初の <span class="algorithm">&lt;U, D&gt;</span> と最後の <span class="algorithm">&lt;U, D&gt;</span> に印を付ける。
+        </p>
+        <p>
+          <span class="algorithm">R' U' F U' L2 B R2 F2 U L B2 U' F2 U B2 L2 F2 L2 U2 F2 U L' U2 R' U' F L B L' U R2 F D2 R' U' D R D R B2 <span style="color: red">[</span>U' R2 U L2 F2 B2 D' R2 F2 R2 F2 U2 R2 F2 U2<span style="color: red">]</span> B2 F2 L2 F2 L2 F2</span>
+        </p>
+        <p>
+          後の印以降を先頭に持ってくる。
+        </p>
+        <p>
+          <span class="algorithm">B2 F2 L2 F2 L2 F2 R' U' F U' L2 B R2 F2 U L B2 U' F2 U B2 L2 F2 L2 U2 F2 U L' U2 R' U' F L B L' U R2 F D2 R' U' D R D R B2 <span style="color: red">[</span>U' R2 U L2 F2 B2 D' R2 F2 R2 F2 U2 R2 F2 U2<span style="color: red">]</span></span>
+        </p>
+        <p>
+          印を付けた区間に <span class="algorithm">&lt;E&gt;</span> を挿入して、手順を回したときにキューブが完成するようにすれば良い。
+          今はE層にしか興味が無いので、印より前はE層の変化が同じ手順に変えてしまって良い。
+          これは、実際に回してE層がどうなったかを確認し、E層をそのようにする手順にする。
+          印の中も <span class="algorithm">&lt;U, D&gt;</span> 以外の動きが続くところは、等価な短い手順にしてしまう。
+          <span class="algorithm">&lt;U, D&gt;</span> 以外の箇所に <span class="algorithm">&lt;E&gt;</span> の挿入が必要になることがあるのか無いのかは分からないが、経験上必要になったことは無い。
+        </p>
+        <p>
+          <span class="algorithm">L2 R2 <span style="color: red">[</span>U' R2 U L2 F2 B2 D' F2 R2 U2 R2 F2 U2<span style="color: red">]</span></span>
+        </p>
+        <p>
+          これに対して <span class="algorithm">&lt;E&gt;</span> の挿入を試していく。
+          FMCのルール上 <span class="algorithm">E</span> は使えないので、解答にする際には <span class="algorithm">U D'</span> などとする必要がある。
+          <span class="algorithm">&lt;U, D&gt;</span> の後に挿入すると、<span class="algorithm">U</span> か <span class="algorithm">D</span> はまとめられて+1手になる。
+          <span class="algorithm">U2</span> の後に <span class="algorithm">E2</span> など、キャンセルで消える場合には+0手になる。
+          もし、<span class="algorithm">&lt;U, D&gt;</span> 以外の場所に挿入すると、+2手になる。
+          なるべく+0手に近づける。          
+        </p>
+        <p>
+          最後の <span class="algorithm">R2 F2 U2</span> の直前で、E層は <span class="algorithm">B2 R2</span> を回した状態になっている。
+          ここでどのような動きを挿入しても、 <span class="algorithm">R2 F2</span> では揃わない。
+          少し戻って次のように挿入することで、+1手の解が得られた。
+        </p>
+        <p>
+          <span class="algorithm">L2 R2 <span style="color: red">[</span>U' R2 U L2 F2 B2 D' <span style="color: red">E'</span> F2 R2 U2 <span style="color: red">E2</span> R2 F2 U2 <span style="color: red">E']</span></span>
+        </p>
+        <p>
+          すでに+1手の解が得られているので、もう手数が増えるような（<span class="algorithm">&lt;U, D&gt;</span> とキャンセルしないような）挿入は試す必要が無い。
+          <span class="algorithm">F2 R2 U2 R2 F2 U2</span> に+0手の挿入で揃えるためには、この直前でのE層は、揃っているか <span class="algorithm">E2</span>、<span class="algorithm">L2 R2</span>、<span class="algorithm">L2 R2 E2</span>のいずれかの手順を回した状態になっている必要がある。
+          これより前の挿入も、試すのは+0手のものだけである。
+          そのような挿入で得られる状態は、<span class="algorithm">F2 B2</span>、<span class="algorithm">R2 B2 E'</span>、<span class="algorithm">F2 B2 E</span>、<span class="algorithm">B2 R2</span>のいずれかの手順を回した状態である。
+          これらのうち、何もしないか（<span class="algorithm">D'</span> とキャンセルする）<span class="algorithm">E'</span> で一致するものは無いため、+0手の解は無い。
+        </p>
+        <h2>NISS</h2>
+        <p class="example">
+          <img src="images/init.svg" width="128" height="128">
+          ⇒
+          <img src="images/finish.svg" width="128" height="128">
+        </p>
+        <p>
+          Scramble: <span class="algorithm disabled">R' U' F U' L2 B R2 F2 U L B2 U' F2 U B2 L2 F2 L2 U2 F2 U L' U2 R' U' F</span>
+        </p>
+        <pre>(L F B2 R) // EO (L/R) (4/4)
+F' D2 B U // DR 2e3c (F/B) (4/8)
+D B' D // DR (F/B, 3qt) (3/11)
+F' R2 F D2 R2 F' // HTR (6/17)
+U2 F2 R2 D2 R2 B2 // FR (F/B) (6/23)
+L2 D2 U2 L2 // finish (4/27)</pre>
+        <p>
+          Solution: <span class="algorithm">F' D2 B U D B' D F' R2 F D2 R2 F' U2 F2 R2 D2 R2 B2 L2 D2 U2 L2 R' B2 F' L'</span>
+        </p>
+        <p>
+          NISSを使い、ついでに軸も色々と試して解いた例。
+        </p>
+        <p>
+          与えられたスクランブルで良い解が得られないとき、与えられたスクランブルの逆手順をスクランブルとして解き、その解の逆手順を解とする手法がある。
+          NISS（Normal-Inverse Scramble Switch）は、それを一般化し、解いているときの任意のタイミングで逆手順に切り替える手法である。
+        </p>
+        <h3>手法</h3>
+        <p>
+          途中まで解いてたときの手順が次のようになっていたとする。
+          カッコは逆方向からの手順だったという印である。
+          AやBは、実際には <span class="algorithm">L B L' U R2 F</span> などの手順。
+        </p>
+        <pre>A (B) // EO
+C // DR 2e3c
+(D) // hoge
+(E) // fuga</pre>
+        <p>
+          ここで、順方向から次のステップの手順を探すならば、カッコの付いている動きを逆から回し、スクランブルを回して、カッコの付いていない動きを回す。
+          例では、Eの逆手順 → Dの逆手順 → Bの逆手順 → スクランブル → A → C となる。
+          ここで良い手順Fが見つかったら、カッコを付けずにFを付け足す。
+        </p>
+        <p>
+          順方向で短い手順が見つからず「逆方向から探したいな」と思ったら、カッコの付いていない動きを逆から回し、スクランブルの逆手順を回して、カッコの付いている手順を回す。
+          例では、Cの逆手順 → Aの逆手順 → スクランブルの逆手順 → B → D → E となる。
+          見つけた手順は (F) のようにカッコを付けて書く。
+        </p>
+        <p>
+          キューブが完成したとき、もしくはインサートの前に、NISSを使わない形に書き下す。
+          これは、カッコの付いていない動きの後に、カッコの付いている動きを逆から書けば良い。
+        </p>
+        <pre>A (B) // EO
+C // DR 2e3c
+(D) // hoge
+(E) // fuga
+F // 2e2e</pre>
+        <p>
+          このようなスケルトンが得られたならば、A C F Eの逆手順 Dの逆手順 Bの逆手順 をスケルトンとしてインサート以降に進む。
+        </p>
+        <h3>気持ち</h3>
+        <p>
+          キューブが揃った状態からスクランブルと解答を続けて回すと、当たり前だが、キューブは揃った状態になる。
+          次の図のように円環になっている。
+        </p>
+        <p>
+          <img src="images/niss1.png" width="230" height="230">
+        </p>
+        <p>
+          この円環は、スクランブルの開始地点以外でも、どこから回し初めても1周するとキューブが揃った状態になる。
+          セクシームーブ6回の <span class="algorithm">(R U R' U')×6</span> はキューブが元に戻るが、切れ目を変えた <span class="algorithm">(R' U' R U)×6</span> でも元に戻る。
+        </p>
+        <p>
+          キューブを揃えるというのは、スクランブルに繋げて円環になるような手順を探すということである。
+          普通に（NISSを使わずに）揃えるときは、時計回りに手順を埋めていくことになる。
+          これを下の図のように両側から埋めていこうというのがNISSである。
+        </p>
+        <p>
+          <img src="images/niss2.png" width="230" height="230">
+        </p>
+        <h3>いつ使うのか？</h3>
+        <p>
+          一区切りっぽいところなら、基本的にどこでも使えるはず。
+          NISSで方向を切り替えると、今の状態を得られる手順の逆手順を回した状態になる。
+          ピースのあるべき位置を順に辿っていったときのループが逆向きになった状態になる。
+          次のようなことが成り立つ。
+        </p>
+        <ul>
+          <li>各面について、その面にあるセンターと同色のコーナーやエッジの個数は変化しない。</li>
+          <ul>
+            <li>スクランブルの逆手順を回したときに、途中で間違えてないかの確認に使える。</li>
+          </ul>
+          <li>EOが合っているエッジの個数は変化しない。</li>
+          <ul>
+            <li>位置は変化しうる。</li>
+            <li>F面に4個の合っていないエッジがあるとき、<span class="algorithm">F</span> でその4個のエッジの向きを合わせ、その後に方向を切り替えることで短いEO手順が得られる可能性がある。</li>
+          </ul>
+          <li>EOが完了しているかどうかは変化しない。</li>
+          <li>DRの「?e?c」の値は変化しない。</li>
+          <ul>
+            <li>合っていないエッジやコーナーの位置は変化しうるので、切り替えるとより短い手順が得られる可能性はある。</li>
+          </ul>
+          <li>DRが完了しているかどうかは変化しない。</li>
+          <li>HTRでのQTは変化しない。</li>
+          <ul>
+            <li>QTはここからキューブを揃えるために必要な90度回転の最小個数で、切り替えるとキューブを揃える逆手順に必要な最小個数となる。これらは一致する。</li>
+            <li>Hyper-Parity Mazeの状態は変化するし、より短い手順が得られる可能性はある。</li>
+          </ul>
+          <li>HTRのとき、F/B面にあるL/Rエッジの個数は変化しない。</li>
+          <ul>
+            <li>1QTになったときに、L/Rエッジが1個で揃えられないからと切り替えても無駄。</li>
+            <li>しかし、（F/B面の中での）位置は変化しうるので、L/Rエッジの個数が2個のときに切り替えて、より短い手順が得られる可能性はある。</li>
+          </ul>
+          <li>HTRが完了した後に切り替えても意味は薄い。</li>
+          <ul>
+            <li>後はキューブを完成させるだけなので、順方向でも逆方向でも最短な手数は同じ。</li>
+            <li>とはいえ、常に最短の手数が見つけられるわけでもないし、切り替えた方が短い手順を見つけやすくなることはあるかもしれない。</li>
+          </ul>
+        </ul>
+        <h2>キューブの状態数とEO → DR → HTRで揃えているもの</h2>
+        <p>
+          これを知ったからといってすぐにFMCが上達するわけではないが、何かの役に立つかもしれない。
+        </p>
+        <p>
+          ルービックキューブの状態数は、<span class="latex">$2^{11}\times 12! \times 3^7 \times 8! \times \frac{1}{2} = 43,252,003,274,489,856,000$</span> 通りであることが知られている。
+          エッジは1個の向きが2通りで12個ある。
+          ただし、パリティがあるので <span class="latex">$2^{11}$</span>。
+          コーナーは1個の向きが3通りで8個あり、パリティによって <span class="latex">$3^7$</span>。
+          エッジとコーナーの位置はそれぞれ <span class="latex">12!</span> と <span class="latex">8!</span> 通りだが、ここでもパリティがあり、2点交換での交換回数の偶奇が異なるような状態はキューブを分解しないと作れないので、<span class="latex">$\frac{1}{2}$</span>。
+        </p>
+        <p>
+          EOではエッジの向きを揃えている。
+          EOが完了した1個の状態には <span class="latex">$2^{11} = 2,048$</span> 個の状態が対応しており、EOが完了した状態の個数は、全ての状態の個数の <span class="latex">$\frac{1}{2,048}$</span> になる。
+        </p>
+        <p>
+          DRではコーナーの向きを揃えている。
+          コーナーの向きは <span class="latex">$3^7=2,187$</span> 通り。
+          さらに、エッジも揃えている。
+          エッジの向きはEOですでに揃えており、U/D面にU/Dステッカーが見えるようにするということは、U/D面にあるべきエッジを位置をU/D面に、E層にあるべきエッジの位置をE層にするということである。
+          EOが完了した段階ではエッジの配置は <span class="latex">$12! = 479,001,600$</span> 通りあり、これを <span class="latex">$8!\times 4!= 9,676,80$</span> 通りにしている。
+          DRが完了した1個の状態には、<span class="latex">$3^7 \times \binom{12}{8} = 1,082,565$</span> 個のEOが完了した状態が対応している。
+        </p>
+        <p>
+          HTRでは、下の○の位置にあるべきコーナーを○のどこかに、×にあるべきコーナーを×のどこかに移動する。
+          エッジは、DRで△の位置にあるべきエッジを△の場所に移動しており、これに加えて、○と×のエッジをそれぞれの位置に置くことになる。
+          これがF/B面にはF/Bのステッカーだけがあるようにすることに対応している。
+          U/D面の状態がSolvedであることをコーナーの位置で捉えると、○にあるコーナーの2組の2点交換を同時に行うことによって、上下に並んだ○と×を（U/D面以外は）同じ色にできることとなる。
+          2組の2点交換を同時に行うというのは、180度回転ではこの操作しかできないからである。
+          3cの状態にできないという点で、偶数回の2点交換とは異なる。
+          これは6通りある。
+          よって、HTRが完了した1個の状態には、<span class="latex">$\binom{8}{4}\times\binom{8}{4}\times 6 = 29,400$</span> 個のDRが完了した状態が対応している。
+        </p>
+        <p>
+          <img src="images/pattern.png" width="500" height="250">
+        </p>
+        <p>
+          HTRが完了した状態からキューブを完成させることは、○△×のそれぞれのグループ内での位置を揃えることである。
+          ただし、コーナーについてはHTRで一部を揃えている。
+          HTRが完了した状態は <span class="latex">$4!^5\times \frac{1}{6} \times \frac{1}{2} = 663,552$</span> 個ある。
+          <span class="latex">$\frac{1}{6}$</span> はHTRでコーナーを揃えている分で、<span class="latex">$\frac{1}{2}$</span> はエッジとコーナーの位置のパリティである。
+        </p>
+        <p>
+          各ステップで完了した1個の状態に直前のステップの何個の状態が対応しているのかを掛け合わせると、キューブの全ての状態数になる。
+        </p>
+        <p class="latex">
+          $$2,048\times 1,082,565\times 29,400\times 663,552=43,252,003,274,489,856,000$$
+        </p>
+        <h2>統計</h2>
+        <h3>各ステップの最小手数</h3>
+        <p>
+          EO, DR, HTR, finishの各ステップで、軸を固定し、前後のステップとの繋がりを一切考慮しない場合に、最小手数の分布がどのようになるのかを調べた。
+        </p>
+        <p>
+          <a href="https://github.com/kusano/fmc_analysis">kusano/fmc_analysis</a>
+        </p>
+        <p>
+          例えば、4手のDRの手順を見つけたら、それは1 %未満の幸運でありDRで粘っても手順を縮められる可能性は低い、9手のDRの手順を見つけたらまだ縮められる可能性がある……というような使い方ができる。
+          もっとも、人力で最小手数が常に見つけられるわけではないし、逆にEOの段階でDRの手数が短くなるような最後の動きを選択したりもするので、そんなに当てになるものではない。
+          何度もFMCを解いて、「自分ならDRはこのくらいの手数で解ける」という感覚を身に付けることのほうが重要だろう。
+        </p>
+        <h4>EO</h4>
+        <p>平均: 4.61手</p>
+        <table style="text-align: right; width: 40em">
+          <thead>
+            <tr>
+              <th style="width: 6em">moves</th>
+              <th style="width: 8em">num.</th>
+              <th style="width: 8em">%</th>
+              <th style="width: 8em">cum.</th>
+              <th style="width: 8em">%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0</td><td>1</td><td>0.05 %</td><td>1</td><td>0.05 %</td></tr>
+            <tr><td>1</td><td>2</td><td>0.10 %</td><td>3</td><td>0.15 %</td></tr>
+            <tr><td>2</td><td>25</td><td>1.22 %</td><td>28</td><td>1.37 %</td></tr>
+            <tr><td>3</td><td>202</td><td>9.86 %</td><td>230</td><td>11.23 %</td></tr>
+            <tr><td>4</td><td>620</td><td>30.27 %</td><td>850</td><td>41.50 %</td></tr>
+            <tr><td>5</td><td>900</td><td>43.95 %</td><td>1,750</td><td>85.45 %</td></tr>
+            <tr><td>6</td><td>285</td><td>13.92 %</td><td>2,035</td><td>99.37 %</td></tr>
+            <tr><td>7</td><td>13</td><td>0.63 %</td><td>2,048</td><td>100.00 %</td></tr>
+          </tbody>
+        </table>
+        <h4>DR</h4>
+        <p>平均: 7.80手</p>
+        <table style="text-align: right; width: 40em">
+          <thead>
+            <tr>
+              <th style="width: 6em">moves</th>
+              <th style="width: 8em">num.</th>
+              <th style="width: 8em">%</th>
+              <th style="width: 8em">cum.</th>
+              <th style="width: 8em">%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0</td><td>1</td><td>0.00 %</td><td>1</td><td>0.00 %</td></tr>
+            <tr><td>1</td><td>2</td><td>0.00 %</td><td>3</td><td>0.00 %</td></tr>
+            <tr><td>2</td><td>17</td><td>0.00 %</td><td>20</td><td>0.00 %</td></tr>
+            <tr><td>3</td><td>134</td><td>0.01 %</td><td>154</td><td>0.01 %</td></tr>
+            <tr><td>4</td><td>1,065</td><td>0.10 %</td><td>1,219</td><td>0.11 %</td></tr>
+            <tr><td>5</td><td>8,190</td><td>0.76 %</td><td>9,409</td><td>0.87 %</td></tr>
+            <tr><td>6</td><td>54,694</td><td>5.05 %</td><td>64,103</td><td>5.92 %</td></tr>
+            <tr><td>7</td><td>267,576</td><td>24.72 %</td><td>331,679</td><td>30.64 %</td></tr>
+            <tr><td>8</td><td>560,568</td><td>51.78 %</td><td>892,247</td><td>82.42 %</td></tr>
+            <tr><td>9</td><td>187,204</td><td>17.29 %</td><td>1,079,451</td><td>99.71 %</td></tr>
+            <tr><td>10</td><td>3,114</td><td>0.29 %</td><td>1,082,565</td><td>100.00 %</td></tr>
+          </tbody>
+        </table>
+        <h4>HTR</h4>
+        <p>平均: 8.80手</p>
+        <table style="text-align: right; width: 40em">
+          <thead>
+            <tr>
+              <th style="width: 6em">moves</th>
+              <th style="width: 8em">num.</th>
+              <th style="width: 8em">%</th>
+              <th style="width: 8em">cum.</th>
+              <th style="width: 8em">%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0</td><td>1</td><td>0.00 %</td><td>1</td><td>0.00 %</td></tr>
+            <tr><td>1</td><td>2</td><td>0.01 %</td><td>3</td><td>0.01 %</td></tr>
+            <tr><td>2</td><td>9</td><td>0.03 %</td><td>12</td><td>0.04 %</td></tr>
+            <tr><td>3</td><td>36</td><td>0.12 %</td><td>48</td><td>0.16 %</td></tr>
+            <tr><td>4</td><td>124</td><td>0.42 %</td><td>172</td><td>0.59 %</td></tr>
+            <tr><td>5</td><td>530</td><td>1.80 %</td><td>702</td><td>2.39 %</td></tr>
+            <tr><td>6</td><td>1,806</td><td>6.14 %</td><td>2,508</td><td>8.53 %</td></tr>
+            <tr><td>7</td><td>3,732</td><td>12.69 %</td><td>6,240</td><td>21.22 %</td></tr>
+            <tr><td>8</td><td>5,158</td><td>17.54 %</td><td>11,398</td><td>38.77 %</td></tr>
+            <tr><td>9</td><td>7,070</td><td>24.05 %</td><td>18,468</td><td>62.82 %</td></tr>
+            <tr><td>10</td><td>7,218</td><td>24.55 %</td><td>25,686</td><td>87.37 %</td></tr>
+            <tr><td>11</td><td>3,202</td><td>10.89 %</td><td>28,888</td><td>98.26 %</td></tr>
+            <tr><td>12</td><td>488</td><td>1.66 %</td><td>29,376</td><td>99.92 %</td></tr>
+            <tr><td>13</td><td>24</td><td>0.08 %</td><td>29,400</td><td>100.00 %</td></tr>
+          </tbody>
+        </table>
+        <h4>Finish</h4>
+        <p>平均: 10.13手</p>
+        <table style="text-align: right; width: 40em">
+          <thead>
+            <tr>
+              <th style="width: 6em">moves</th>
+              <th style="width: 8em">num.</th>
+              <th style="width: 8em">%</th>
+              <th style="width: 8em">cum.</th>
+              <th style="width: 8em">%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0</td><td>1</td><td>0.00 %</td><td>1</td><td>0.00 %</td></tr>
+            <tr><td>1</td><td>6</td><td>0.00 %</td><td>7</td><td>0.00 %</td></tr>
+            <tr><td>2</td><td>27</td><td>0.00 %</td><td>34</td><td>0.01 %</td></tr>
+            <tr><td>3</td><td>120</td><td>0.02 %</td><td>154</td><td>0.02 %</td></tr>
+            <tr><td>4</td><td>519</td><td>0.08 %</td><td>673</td><td>0.10 %</td></tr>
+            <tr><td>5</td><td>1,932</td><td>0.29 %</td><td>2,605</td><td>0.39 %</td></tr>
+            <tr><td>6</td><td>6,484</td><td>0.98 %</td><td>9,089</td><td>1.37 %</td></tr>
+            <tr><td>7</td><td>20,310</td><td>3.06 %</td><td>29,399</td><td>4.43 %</td></tr>
+            <tr><td>8</td><td>55,034</td><td>8.29 %</td><td>84,433</td><td>12.72 %</td></tr>
+            <tr><td>9</td><td>113,892</td><td>17.16 %</td><td>198,325</td><td>29.89 %</td></tr>
+            <tr><td>10</td><td>178,495</td><td>26.90 %</td><td>376,820</td><td>56.79 %</td></tr>
+            <tr><td>11</td><td>179,196</td><td>27.01 %</td><td>556,016</td><td>83.79 %</td></tr>
+            <tr><td>12</td><td>89,728</td><td>13.52 %</td><td>645,744</td><td>97.32 %</td></tr>
+            <tr><td>13</td><td>16,176</td><td>2.44 %</td><td>661,920</td><td>99.75 %</td></tr>
+            <tr><td>14</td><td>1,488</td><td>0.22 %</td><td>663,408</td><td>99.98 %</td></tr>
+            <tr><td>15</td><td>144</td><td>0.02 %</td><td>663,552</td><td>100.00 %</td></tr>
+          </tbody>
+        </table>
+        <h3>QTの分布</h3>
+        <p>
+          DRが完了した状態について、QTの分布を調べた。
+        </p>
+        <p>
+          <a href="https://github.com/kusano/fmc_hyper_parity">kusano/fmc_hyper_parity</a>
+        </p>
+        <p>
+          あるDRを見つけたときに、そのままHTRに進むのか、他のDRを探すのかの判断に使えるかもしれない。
+        </p>
+        <table style="text-align: right; width: 40em">
+          <thead>
+            <tr>
+              <th style="width: 6em">QT</th>
+              <th style="width: 8em">num.</th>
+              <th style="width: 8em">%</th>
+              <th style="width: 8em">cum.</th>
+              <th style="width: 8em">%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0</td><td>192</td><td>0.48 %</td><td>192</td><td>0.48 %</td></tr>
+            <tr><td>1</td><td>1,152</td><td>2.86 %</td><td>1,344</td><td>3.33 %</td></tr>
+            <tr><td>2</td><td>5,760</td><td>14.29 %</td><td>7,104</td><td>17.62 %</td></tr>
+            <tr><td>3</td><td>11,328</td><td>28.10 %</td><td>18,432</td><td>45.71 %</td></tr>
+            <tr><td>4</td><td>14,208</td><td>35.24 %</td><td>32,640</td><td>80.95 %</td></tr>
+            <tr><td>5</td><td>7,680</td><td>19.05 %</td><td>40,320</td><td>100.00 %</td></tr>
+          </tbody>
+        </table>
+        <p>
+          元になったHyper-Parityの状態別の発生確率は次の通り。
+        </p>
+        <table style="width: 60em">
+          <thead>
+          <tr>
+            <th style="width: 8em">UD</th>
+            <th style="width: 8em">FB</th>
+            <th style="width: 12em"></th>
+            <th style="width: 6em; text-align: right">Parity</th>
+            <th style="width: 2em; text-align; right">QT</th>
+            <th style="width: 6em; text-align: right">num.</th>
+            <th style="width: 6em; text-align: right">%</th>
+            <th style="width: 12em"></th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr><td>Slashes</td><td>One Face</td><td></td><td style="text-align: right">0</td><td style="text-align: right">2</td><td style="text-align: right">192</td><td style="text-align: right">0.48 %</td><td><div style="width: 0.48em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Slashes</td><td>One Face</td><td></td><td style="text-align: right">1</td><td style="text-align: right">1</td><td style="text-align: right">192</td><td style="text-align: right">0.48 %</td><td><div style="width: 0.48em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Slashes</td><td>Bars</td><td></td><td style="text-align: right">0</td><td style="text-align: right">4</td><td style="text-align: right">384</td><td style="text-align: right">0.95 %</td><td><div style="width: 0.95em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Slashes</td><td>Bars</td><td></td><td style="text-align: right">1</td><td style="text-align: right">3</td><td style="text-align: right">384</td><td style="text-align: right">0.95 %</td><td><div style="width: 0.95em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Solved</td><td>Solved</td><td></td><td style="text-align: right">0</td><td style="text-align: right">0</td><td style="text-align: right">192</td><td style="text-align: right">0.48 %</td><td><div style="width: 0.48em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Solved</td><td>Solved</td><td></td><td style="text-align: right">1</td><td style="text-align: right">3</td><td style="text-align: right">192</td><td style="text-align: right">0.48 %</td><td><div style="width: 0.48em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Solved</td><td>One Face</td><td>(Same)</td><td style="text-align: right">0</td><td style="text-align: right">2</td><td style="text-align: right">192</td><td style="text-align: right">0.48 %</td><td><div style="width: 0.48em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Solved</td><td>One Face</td><td>(Same)</td><td style="text-align: right">1</td><td style="text-align: right">1</td><td style="text-align: right">192</td><td style="text-align: right">0.48 %</td><td><div style="width: 0.48em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Solved</td><td>One Face</td><td>(Different)</td><td style="text-align: right">0</td><td style="text-align: right">2</td><td style="text-align: right">768</td><td style="text-align: right">1.90 %</td><td><div style="width: 1.90em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Solved</td><td>One Face</td><td>(Different)</td><td style="text-align: right">1</td><td style="text-align: right">3</td><td style="text-align: right">768</td><td style="text-align: right">1.90 %</td><td><div style="width: 1.90em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Solved</td><td>Bars</td><td></td><td style="text-align: right">0</td><td style="text-align: right">2</td><td style="text-align: right">768</td><td style="text-align: right">1.90 %</td><td><div style="width: 1.90em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Solved</td><td>Bars</td><td></td><td style="text-align: right">1</td><td style="text-align: right">3</td><td style="text-align: right">768</td><td style="text-align: right">1.90 %</td><td><div style="width: 1.90em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Solved</td><td>OneBar</td><td></td><td style="text-align: right">0</td><td style="text-align: right">4</td><td style="text-align: right">1,536</td><td style="text-align: right">3.81 %</td><td><div style="width: 3.81em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Solved</td><td>OneBar</td><td></td><td style="text-align: right">1</td><td style="text-align: right">5</td><td style="text-align: right">1,536</td><td style="text-align: right">3.81 %</td><td><div style="width: 3.81em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bars</td><td>Solved</td><td></td><td style="text-align: right">0</td><td style="text-align: right">4</td><td style="text-align: right">384</td><td style="text-align: right">0.95 %</td><td><div style="width: 0.95em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bars</td><td>Solved</td><td></td><td style="text-align: right">1</td><td style="text-align: right">3</td><td style="text-align: right">384</td><td style="text-align: right">0.95 %</td><td><div style="width: 0.95em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bars</td><td>One Face</td><td></td><td style="text-align: right">0</td><td style="text-align: right">4</td><td style="text-align: right">768</td><td style="text-align: right">1.90 %</td><td><div style="width: 1.90em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bars</td><td>One Face</td><td></td><td style="text-align: right">1</td><td style="text-align: right">1</td><td style="text-align: right">768</td><td style="text-align: right">1.90 %</td><td><div style="width: 1.90em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bars</td><td>Bars</td><td>(Same)</td><td style="text-align: right">0</td><td style="text-align: right">2</td><td style="text-align: right">768</td><td style="text-align: right">1.90 %</td><td><div style="width: 1.90em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bars</td><td>Bars</td><td>(Same)</td><td style="text-align: right">1</td><td style="text-align: right">3</td><td style="text-align: right">768</td><td style="text-align: right">1.90 %</td><td><div style="width: 1.90em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bars</td><td>Bars</td><td>(Different)</td><td style="text-align: right">0</td><td style="text-align: right">4</td><td style="text-align: right">384</td><td style="text-align: right">0.95 %</td><td><div style="width: 0.95em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bars</td><td>Bars</td><td>(Different)</td><td style="text-align: right">1</td><td style="text-align: right">3</td><td style="text-align: right">384</td><td style="text-align: right">0.95 %</td><td><div style="width: 0.95em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bars</td><td>Bars</td><td>(Exclusive)</td><td style="text-align: right">0</td><td style="text-align: right">4</td><td style="text-align: right">1,536</td><td style="text-align: right">3.81 %</td><td><div style="width: 3.81em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bars</td><td>Bars</td><td>(Exclusive)</td><td style="text-align: right">1</td><td style="text-align: right">5</td><td style="text-align: right">1,536</td><td style="text-align: right">3.81 %</td><td><div style="width: 3.81em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bars</td><td>OneBar</td><td></td><td style="text-align: right">0</td><td style="text-align: right">4</td><td style="text-align: right">3,072</td><td style="text-align: right">7.62 %</td><td><div style="width: 7.62em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bars</td><td>OneBar</td><td></td><td style="text-align: right">1</td><td style="text-align: right">3</td><td style="text-align: right">3,072</td><td style="text-align: right">7.62 %</td><td><div style="width: 7.62em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bar/Slash</td><td>One Face</td><td></td><td style="text-align: right">0</td><td style="text-align: right">4</td><td style="text-align: right">1,536</td><td style="text-align: right">3.81 %</td><td><div style="width: 3.81em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bar/Slash</td><td>One Face</td><td></td><td style="text-align: right">1</td><td style="text-align: right">3</td><td style="text-align: right">1,536</td><td style="text-align: right">3.81 %</td><td><div style="width: 3.81em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bar/Slash</td><td>Bars</td><td></td><td style="text-align: right">0</td><td style="text-align: right">2</td><td style="text-align: right">3,072</td><td style="text-align: right">7.62 %</td><td><div style="width: 7.62em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bar/Slash</td><td>Bars</td><td></td><td style="text-align: right">1</td><td style="text-align: right">5</td><td style="text-align: right">3,072</td><td style="text-align: right">7.62 %</td><td><div style="width: 7.62em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bar/Slash</td><td>OneBar</td><td>(Parallel)</td><td style="text-align: right">0</td><td style="text-align: right">4</td><td style="text-align: right">3,072</td><td style="text-align: right">7.62 %</td><td><div style="width: 7.62em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bar/Slash</td><td>OneBar</td><td>(Parallel)</td><td style="text-align: right">1</td><td style="text-align: right">3</td><td style="text-align: right">3,072</td><td style="text-align: right">7.62 %</td><td><div style="width: 7.62em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bar/Slash</td><td>OneBar</td><td>(Perpendicular)</td><td style="text-align: right">0</td><td style="text-align: right">4</td><td style="text-align: right">1,536</td><td style="text-align: right">3.81 %</td><td><div style="width: 3.81em; height: 1em; background: #22aa44;"></div></td></tr>
+            <tr><td>Bar/Slash</td><td>OneBar</td><td>(Perpendicular)</td><td style="text-align: right">1</td><td style="text-align: right">5</td><td style="text-align: right">1,536</td><td style="text-align: right">3.81 %</td><td><div style="width: 3.81em; height: 1em; background: #22aa44;"></div></td></tr>
+          </tbody>
+        </table>
+
+        <hr>
+        <address>
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>
