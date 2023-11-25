@@ -126,7 +126,7 @@
         <p>
           <span class="algorithm">F</span> か <span class="algorithm">F'</span> でF面にある4個のエッジの向きが合っているかどうかが反転する。
           合っていない4個のエッジをF面に集めて、<span class="algorithm">F</span> か <span class="algorithm">F'</span> でそれらのエッジの向きが合う。
-          <span class="algorithm">F</span> の代わりに <span class="algorithm">B</span> でも良い。
+          F面の代わりにB面でも良い。
         <p>
           向きの合っていないエッジの個数は必ず偶数である。
           向きの合っていないエッジの個数が4の倍数でないときは、3個の向きの合っていないエッジをF面に集めて <span class="algorithm">F</span> によって向きの合っていないエッジを1個にしたり、1個のエッジをF面に置いて3個にしたりする。
@@ -176,7 +176,7 @@
         <p>
           DRトリガーとは、DRが完了した状態にするときに最後に使う手順である。
           <span class="algorithm">&lt;U, D, L2, R2, F2, B2&gt;</span> の動きでは、合っていないピースの個数は変化しない。
-          これらの動きで次のDRトリガーが使える位置にピースを持っていって、DRトリガーを使う。
+          これらの動きでDRトリガーが使える位置にピースを持っていって、DRトリガーを使う。
         </p>
         <p>
           DRトリガー。
@@ -453,7 +453,7 @@
           </tbody>
         </table>
         <p>
-          1QTで可能な遷移を線で結ぶと下の図になる。
+          1回の90度回転で可能な遷移を線で結ぶと下の図になる。
           U/D面と似ているが、Solvedの位置が異なることに注意。
         </p>
         <p>
@@ -463,14 +463,14 @@
         <p>
           U/D面とF/B面の状態には存在しない組み合わせもあるし、遷移に制限が掛かる。
           U/D面とF/B面の状態の組み合わせに対し、可能な遷移を図示したのが次の「Hyper-Parity Maze」である。
-          この迷路上で、QTの偶奇が合うようにSolved+Solvedに遷移するときの移動回数が、そのコーナーの状態のQTである。
+          この迷路上で、90度回転の回数の偶奇が合うようにSolved+Solvedに遷移するときの最小移動回数がQTである。
         </p>
         <p>
           <img src="images/hyper_parity_maze.png" width="650" height="550">
         </p>
         <p>
           基本的には、偶奇が異なってもQTが±1のルートがある。
-          ただし、Solve + Solved（偶数: 0、奇数: 3）、Bars + One Face（偶数: 4、奇数: 1）、Bar/Slash + Bars（偶数: 2、奇数: 5）は大きく変わる。
+          ただし、Solve + Solved（偶数: 0、奇数: 3）、Bars + One Face（偶数: 4、奇数: 1）、Bar/Slash + Bars（偶数: 2、奇数: 5）は±3変わる。
         </p>
         <p>
           U/D面とF/B面の状態が同じでも、Hyper-Parity Maze上の状態は異なることがある。
@@ -852,7 +852,7 @@
           参考: <a href="https://docs.google.com/document/d/1ABI-7W5KpoSavKJuPx_5wlOMWdtgYNpNzCp8fDsEgEw/edit">Floppy Reduction - Google ドキュメント</a>
         </p>
         <p>
-          FR（Floppy Reduction）とは、キューブを <span class="algorithm">&lt;L2, R2, F2, B2, E&gt;</span> の動きだけで揃えられる状態にすることである。
+          （U/D軸の）FR（Floppy Reduction）とは、キューブを <span class="algorithm">&lt;L2, R2, F2, B2, E&gt;</span> の動きだけで揃えられる状態にすることである。
           E層以外を <span class="algorithm">&lt;L2, R2, F2, B2&gt;</span> の動きで揃えられる状態と言っても良い。
           HTRと異なり、DRのように軸がある。
           スライスインサート（後述）のために、DRと同じ軸を採用するのが良いと思う。
@@ -889,12 +889,12 @@
           <li>M列とS列に、合っていないエッジが2個あるならば、U面とD面に1個ずつになるようにする。</li>
           <ul>
             <li>合っていないエッジが0個か4個の列はそのままで良い。</li>
-            <li>このとき、色が同じコーナーが対角の位置にこないようにする。</li>            
+            <li>このとき、色が同じコーナーが対角の位置に来ないようにする。</li>            
           </ul>
           <li><span class="algorithm">U2</span>。</li>
           <li>U面かD面に合っていないエッジを集め、同じ色のコーナーを対角の位置に置く。</li>
           <ul>
-            <li><span class="algorithm">R2 U2 R2 U2 ...</span> などでこのようにできる。</li>
+            <li><span class="algorithm">R2 U2 R2 U2 ...</span> などでコーナーを対角の位置にできる。</li>
           </ul>
           <li><span class="algorithm">U2</span>。</li>
         </ol>
@@ -947,6 +947,9 @@
         </p>
         <p>
           <a href="https://kawam1123.github.io/translation/FMC/FMC-Tutorial/v3/chapter2#blockbuilding">第2章 ソルブの進め方 - 最少手数競技入門 by Sebastiano Tronto 第三版 - スピードキューブ日本語翻訳</a>
+        </p>
+        <p>
+          スケルトン作成より前に手数が同じ複数の動きの選択肢があるとき、なるべくコーナーとエッジが合うものを選んでおくと、スケルトン作成の手数が減る気がする。
         </p>
         <p>
           FRを経ている場合は、容易にE層以外を揃えることができる。
@@ -1279,7 +1282,7 @@ F // 2e2e</pre>
           <li>DRが完了しているかどうかは変化しない。</li>
           <li>HTRでのQTは変化しない。</li>
           <ul>
-            <li>QTはここからキューブを揃えるために必要な90度回転の最小個数で、切り替えるとキューブを揃える逆手順に必要な最小個数となる。これらは一致する。</li>
+            <li>QTはここからキューブを揃えるために必要な90度回転の最小回数で、切り替えるとキューブを揃える逆手順に必要な最小回数となる。これらは一致する。</li>
             <li>Hyper-Parity Mazeの状態は変化するし、より短い手順が得られる可能性はある。</li>
           </ul>
           <li>HTRのとき、F/B面にあるL/Rエッジの個数は変化しない。</li>
@@ -1302,7 +1305,7 @@ F // 2e2e</pre>
           エッジは1個の向きが2通りで12個ある。
           ただし、パリティがあるので <span class="latex">$2^{11}$</span>。
           コーナーは1個の向きが3通りで8個あり、パリティによって <span class="latex">$3^7$</span>。
-          エッジとコーナーの位置はそれぞれ <span class="latex">12!</span> と <span class="latex">8!</span> 通りだが、ここでもパリティがあり、2点交換での交換回数の偶奇が異なるような状態はキューブを分解しないと作れないので、<span class="latex">$\frac{1}{2}$</span>。
+          エッジとコーナーの位置はそれぞれ <span class="latex">$12!$</span> と <span class="latex">$8!$</span> 通りだが、ここでもパリティがあり、2点交換での交換回数の偶奇が異なるような状態はキューブを分解しないと作れないので、<span class="latex">$\frac{1}{2}$</span>。
         </p>
         <p>
           EOではエッジの向きを揃えている。
@@ -1317,10 +1320,10 @@ F // 2e2e</pre>
           DRが完了した1個の状態には、<span class="latex">$3^7 \times \binom{12}{8} = 1,082,565$</span> 個のEOが完了した状態が対応している。
         </p>
         <p>
-          HTRでは、下の○の位置にあるべきコーナーを○のどこかに、×にあるべきコーナーを×のどこかに移動する。
+          HTRでは、下図の○の位置にあるべきコーナーを○のどこかに、×にあるべきコーナーを×のどこかに移動する。
           エッジは、DRで△の位置にあるべきエッジを△の場所に移動しており、これに加えて、○と×のエッジをそれぞれの位置に置くことになる。
           これがF/B面にはF/Bのステッカーだけがあるようにすることに対応している。
-          U/D面の状態がSolvedであることをコーナーの位置で捉えると、○にあるコーナーの2組の2点交換を同時に行うことによって、上下に並んだ○と×を（U/D面以外は）同じ色にできることとなる。
+          U/D面の状態がSolvedであることをコーナーの位置で捉えると、○にあるコーナーの2組の2点交換を同時に行うことによって、上下に並んだ○と×を（U/D面以外は）同じ色にできるということになる。
           2組の2点交換を同時に行うというのは、180度回転ではこの操作しかできないからである。
           3cの状態にできないという点で、偶数回の2点交換とは異なる。
           これは6通りある。
@@ -1330,7 +1333,7 @@ F // 2e2e</pre>
           <img src="images/pattern.png" width="500" height="250">
         </p>
         <p>
-          HTRが完了した状態からキューブを完成させることは、○△×のそれぞれのグループ内での位置を揃えることである。
+          HTRが完了した状態からキューブを完成させるというのは、○△×のそれぞれのグループ内での位置を揃えることである。
           ただし、コーナーについてはHTRで一部を揃えている。
           HTRが完了した状態は <span class="latex">$4!^5\times \frac{1}{6} \times \frac{1}{2} = 663,552$</span> 個ある。
           <span class="latex">$\frac{1}{6}$</span> はHTRでコーナーを揃えている分で、<span class="latex">$\frac{1}{2}$</span> はエッジとコーナーの位置のパリティである。
@@ -1502,7 +1505,7 @@ F // 2e2e</pre>
             <th style="width: 8em">FB</th>
             <th style="width: 12em"></th>
             <th style="width: 6em; text-align: right">Parity</th>
-            <th style="width: 2em; text-align; right">QT</th>
+            <th style="width: 2em; text-align: right">QT</th>
             <th style="width: 6em; text-align: right">num.</th>
             <th style="width: 6em; text-align: right">%</th>
             <th style="width: 12em"></th>
