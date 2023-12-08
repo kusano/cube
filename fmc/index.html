@@ -65,7 +65,7 @@
         </p>
         <hr>
         <p>
-          ルービックキューブのFMC（Fewest Move Challenge、最小手数競技）とは、通常の競技のように揃える時間を競うのではなく、短い手数で揃えることを競う競技である。
+          ルービックキューブのFMC（Fewest Move Challenge、最少手数競技）とは、通常の競技のように揃える時間を競うのではなく、短い手数で揃えることを競う競技である。
           FMCで使う解法をまとめる。
           このページの解法で30手を切ることは目指せる。
         </p>
@@ -279,7 +279,7 @@
           <li>2個のコーナーの2点交換でコーナーを揃えるとき、交換回数が偶数になる。</li>
           <ul>
             <li>180度回転では、コーナーは2組の交換が同時に起こるため。</li>
-            <li><a href="https://www.youtube.com/watch?v=eYiIHLMLPUc">目隠しルービックキューブの分析</a> のようにコーナーの本来あるべき位置を辿っていったとき、サイズが偶数のループの個数が偶数であることと同値であり、これで調べる。</li>
+            <li><a href="https://www.youtube.com/watch?v=eYiIHLMLPUc">目隠しルービックキューブの分析</a> のようにコーナーの本来あるべき位置を辿っていった（この辿り方を「BLDトレース」と呼ぶことにする）とき、サイズが偶数のループの個数が偶数であることと同値であり、これで調べる。</li>
           </ul>
         </ul>
         <p>
@@ -288,10 +288,10 @@
         </p>
         <h3>QT</h3>
         <p>
-          QT（Quarter Turns）とは、HTR完了までに必要な90度回転の最小回数である。
+          QT（Quarter Turns）とは、HTR完了までに必要な90度回転の最少回数である。
           （U/D軸の）DRが完了した時点で側面の90度回転は使わないので、90度回転は <span class="algorithm">&lt;U, D&gt;</span> である。
           HTRが完了したら180度回転だけでキューブを揃えられるため、キューブを揃えるまでに必要な90度回転と言い換えても良い。
-          QTの偶奇と、2個の交換でコーナーを揃えるときの交換回数の偶奇は一致する。
+          QTの偶奇と、2点交換でコーナーを揃えるときの交換回数の偶奇は一致する。
         </p>
         <p>
           QTは、HTRでコーナーを揃えるときの指針になるとともに、HTRに掛かる手数の目安になる。
@@ -463,7 +463,7 @@
         <p>
           U/D面とF/B面の状態には存在しない組み合わせもあるし、遷移に制限が掛かる。
           U/D面とF/B面の状態の組み合わせに対し、可能な遷移を図示したのが次の「Hyper-Parity Maze」である。
-          この迷路上で、90度回転の回数の偶奇が合うようにSolved + Solvedに遷移するときの最小移動回数がQTである。
+          この迷路上で、90度回転の回数の偶奇が合うようにSolved + Solvedに遷移するときの最少移動回数がQTである。
         </p>
         <p>
           <img src="images/hyper_parity_maze.png" width="650" height="550">
@@ -783,7 +783,7 @@
                 <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=tttttttttbtbttttbtrtrttttrttttttttttbbbttttttrrrtttttt -->
               </td>
               <td><span class="algorithm">F2 R2 F2 R2 F2 R2 U</span></td>
-              <td>インサートの2e2eの手順（6手のほう）。</td>
+              <td>2e2eのエッジ交換の手順（6手のほう）。</td>
             </tr>
             <tr>
               <td>DF, UR, DR, UB</td>
@@ -792,7 +792,7 @@
                 <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=tttttttttbbbttttbtrtrttttrttttttttttbtbttttttrrrtttttt -->
               </td>
               <td><span class="algorithm">R2 F2 R2 U2 F2 R2 F2 U</span></td>
-              <td>インサートの2e2eの手順（8手のほう）。最後の <span class="algorithm">U2</span> はキャンセルで消える。</td>
+              <td>2e2eのエッジ交換の手順（8手のほう）。最後の <span class="algorithm">U2</span> はキャンセルで消える。</td>
             </tr>
           </tbody>
         </table>
@@ -862,11 +862,15 @@
         </p>
         <ul>
           <li>URFとDFRやUFとDFなど、U面とD面の同じ位置にあるキューブの色が（U面とD面以外は）同じである。</li>
+          <ul>
+            <li>コーナーは、全てのコーナーがこの条件を満たしているか、全てのコーナーが満たしていないかのどちらかなので、どれか1個のコーナーを見れば良い。</li>
+            <li>エッジは、ある面のエッジがこの条件を満たしているならば、対面のエッジも条件を満たしているので、隣接している2組のエッジを見れば良い。</li>
+          </ul>
           <li>正四面体の頂点であるULB, DFL, URF, DBR（下図参照）の位置のコーナーを2点交換で揃えるときの交換回数の偶奇と、E層を2点交換で揃えるときの偶奇が等しい（パリティが合っている）。</li>
           <ul>
             <li><span class="algorithm">&lt;L2, R2, F2, B2&gt;</span> の動きでは、この位置のコーナーとE層のエッジが同時に2点交換されるため。</li>
-            <li>QTの分析と同様に、キューブのあるべき位置を辿っていったときのループのサイズの偶奇で調べる。</li>
-            <li>これらの偶奇が一致していればFRを完了させるのに必要な <span class="algorithm">U2</span> の回数は偶数、一致していなければ奇数。</li>
+            <li>QTの分析と同様に、BLDトレースしたときのサイズが偶数のループの個数の偶奇で調べる。</li>
+            <li>FRの完了前にこれらの偶奇が一致していればFRを完了させるのに必要な <span class="algorithm">U2</span> の回数は偶数、一致していなければ奇数。</li>
           </ul>
         </ul>
         <p>
@@ -874,30 +878,68 @@
           <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=dtttttttdrtttttttrttbtttbttutttttttultttttttlttftttftt -->
         </p>
         <h3>解法</h3>
-        <ol>
-          <li>FRが完了した状態になっているなら終わり。</li>
-          <li>次の条件を全て満たしているなら、1回の <span class="algorithm">U2</span>（もしくは <span class="algorithm">D2</span>、以下同様）で揃えられるので、揃える。方法は6と同じ。</li>
+        <p>
+          Floppy ReductionのGoogleドキュメントに全てのパターンについての最短手順が載っている。
+          覚えきれないので、私は次のように揃えている。
+        </p>
+        <p>
+          FRを完了させるのに必要な <span class="algorithm">U2</span> もしくは <span class="algorithm">D2</span> の回数をU2とする。
+          U2ごとにその回数でFRを完了させられる条件と、解法を書く。
+          これを順番に確認していく。
+          U2と2点交換の回数の偶奇は一致している。
+          HTRの最後は <span class="algorithm">U</span> などの動きなので、それを逆にすれば、手数を増やすことなくU2の偶奇を変えることができる。
+          例えば、2点交換の回数が奇数であれば、HTRの最後の動きを逆にして0 U2を確認し、最後の動きをそのままにして1 U2を確認して……と見ていけば良い。
+          （HTRの最後の動きを逆にすることも行えば）2 U2以内でFRを完了させることができる。
+        </p>
+        <h4>0 U2</h4>
+        <p>
+          FRが完了した状態の条件を満たしていれば終わり。
+          満たしていなければ0 U2で完了させることは不可能（当たり前）。
+        </p>
+        <h4>1 U2</h4>
+        <p>
+          次の条件を満たしていれば、1回の <span class="algorithm">U2</span> などで完了させることができる。
+        </p>
+        <ul>
+          <li>M列もS列も合っていないエッジが2個である。</li>
+          <li>上下のコーナーの色が異なる。</li>
+        </ul>
+        <p>
+          次の条件を満たすようにし、<span class="algorithm">U2</span> などで揃う。
+        </p>
+        <ul>
+          <li>合っていないエッジが全てU面か、全てD面にある。</li>
+          <li>同じ色のコーナーが対角の位置にある。</li>
           <ul>
-            <li>パリティが合っていない。</li>
-            <li>M列もS列も合っていないエッジが2個。</li>
-            <li>上下のコーナーの色が異なる。</li>
+            <li>どれか1組のコーナーを見れば良い。</li>
           </ul>
-          <li>そうではないとき、パリティが合っていないなら <span class="algorithm">U2</span>。</li>
+        </ul>
+        <p>
+          コーナーの状態と、対面の合っていないエッジが（U面とD面のうちの）同じ面にあるかどうかという状態は、<span class="algorithm">R2</span> と <span class="algorithm">L2</span> のどちらでも同じように変化する。
+          <span class="algorithm">F2</span> と <span class="algorithm">B2</span> も同様。
+          つまり、これらの状態だけを見るならば、<span class="algorithm">R2 F2 R2 F2 ...</span> と <span class="algorithm">F2 R2 F2 R2 ...</span> の2通りの手順しかない。
+          短いほうの手順を選択し、<span class="algorithm">R2</span> を <span class="algorithm">L2</span> に置き換えるなどして、全ての合っていないエッジが同じ面に来るようにする。
+        </p>
+        <h4>2 U2</h4>
+        <p>
+          1回以下の <span class="algorithm">U2</span> などで完了させることができなければ、2回の <span class="algorithm">U2</span> などで完了させることができる。
+        </p>
+        <p>
+          次の条件を満たすようにし、<span class="algorithm">U2</span> などで1 UTになる。
+        </p>
+        <ul>
+          <li>M列とS列について、合っていないエッジが2個ならば、U面とD面に1個ずつである。</li>
           <ul>
-            <li>HTRの最後の手順は <span class="algorithm">U</span> などの動きなので、それを逆にすれば良い。</li>
+            <li>合っていないエッジが0個か4個ならば、そのままで良い。</li>
+            <ul>
+              <li>次の条件を満たすために回しても良い。</li>
+            </ul>
           </ul>
-          <li>M列とS列に、合っていないエッジが2個あるならば、U面とD面に1個ずつになるようにする。</li>
+          <li>同じ色のコーナーが対角の位置にない。</li>
           <ul>
-            <li>合っていないエッジが0個か4個の列はそのままで良い。</li>
-            <li>このとき、色が同じコーナーが対角の位置に来ないようにする。</li>            
+            <li>どれか1組のコーナーを見れば良い。</li>
           </ul>
-          <li><span class="algorithm">U2</span>。</li>
-          <li>U面かD面に合っていないエッジを集め、同じ色のコーナーを対角の位置に置く。</li>
-          <ul>
-            <li><span class="algorithm">R2 U2 R2 U2 ...</span> などでコーナーを対角の位置にできる。</li>
-          </ul>
-          <li><span class="algorithm">U2</span>。</li>
-        </ol>
+        </ul>
         <h3>FRは必要なのか？</h3>
         <p>
           HTRから直接スケルトンを作るときに、充分に短い手数の解を見つけられる実力があるならば不要である。
@@ -937,7 +979,7 @@
           揃っていないエッジを「2e2e」などのように表す。
           この表記は2点交換が2個という意味で、4個のエッジをローテートさせると揃う「4e」とは異なる。
           2e2eか3eができると良い。2e2e2e2eや4e、2e2e3eなどでもだめなわけではないが、インサートの手数がどうしても長くなってしまう。
-          E層のみが揃っていない状態にできるとなお良い。
+          E層のみが揃っていない状態（leave slice）にできるとなお良い。
           E層なのかどうかを区別するため、合っていないエッジがE層にあるときは「3E」のように大文字で書くこともある。
           もちろん、（短い手数で）キューブが完全に揃うのがベストである。
         </p>
@@ -1261,8 +1303,19 @@ F // 2e2e</pre>
         <h3>いつ使うのか？</h3>
         <p>
           一区切りっぽいところなら、基本的にどこでも使えるはず。
-          NISSで方向を切り替えると、今の状態を得られる手順の逆手順を回した状態になる。
-          ピースのあるべき位置を順に辿っていったときのループが逆向きになった状態になる。
+        </p>
+        <p>
+          NISSで方向を切り替えると、今の状態を得られる手順の逆の手順を回した状態になる。
+          これはBLDトレースのループが逆向きになった状態である。
+          例えば、順方向でUFの位置にRUのエッジがある（左図）ならば、逆方向ではRUの位置にUFのエッジがある（右図）。
+        </p>
+        <p>
+          <img src="images/niss3.svg" width="128" height="128">
+          <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ttttdttrtttttrtttttdttbttttttttttttttttttttttttttttttt -->
+          <img src="images/niss4.svg" width="128" height="128">
+          <!-- http://cube.rider.biz/visualcube.php?fmt=svg&r=y30x-30&view=trans&fd=ttttdbttttdttrttttttttbttttttttttttttttttttttttttttttt -->
+        </p>
+        <p>
           次のようなことが成り立つ。
         </p>
         <ul>
@@ -1270,10 +1323,14 @@ F // 2e2e</pre>
           <ul>
             <li>スクランブルの逆手順を回したときに、途中で間違えてないかの確認に使える。</li>
           </ul>
-          <li>EOが合っているエッジの個数は変化しない。</li>
+          <li>EOが合っていないエッジの個数は変化しない。</li>
           <ul>
             <li>位置は変化しうる。</li>
-            <li>F面に4個の合っていないエッジがあるとき、<span class="algorithm">F</span> でその4個のエッジの向きを合わせ、その後に方向を切り替えることで短いEO手順が得られる可能性がある。</li>
+            <li>方向を切り替えたときのEOが合っていないエッジの位置は、逆手順を実際に回さなくても読める。</li>
+            <ul>
+              <li>例えば、EOの合っていないエッジがRUであれば、逆手順を回すとRUの位置にEOの合っていないエッジがある。</li>
+            </ul>
+            <li>EOを完了させるまでの間に方向を切り替えることで、全てを順方向や逆方向だけで行うよりも、少ない手数でEOを完了できる可能性がある。</li>
           </ul>
           <li>EOが完了しているかどうかは変化しない。</li>
           <li>DRの「?e?c」の値は変化しない。</li>
@@ -1283,7 +1340,7 @@ F // 2e2e</pre>
           <li>DRが完了しているかどうかは変化しない。</li>
           <li>HTRでのQTは変化しない。</li>
           <ul>
-            <li>QTはここからキューブを揃えるために必要な90度回転の最小回数で、切り替えるとキューブを揃える逆手順に必要な最小回数となる。これらは一致する。</li>
+            <li>QTはここからキューブを揃えるために必要な90度回転の最少回数で、切り替えるとキューブを揃える逆手順に必要な最少回数となる。これらは一致する。</li>
             <li>Hyper-Parity Mazeの状態は変化するし、より短い手順が得られる可能性はある。</li>
           </ul>
           <li>HTRのとき、F/B面にあるL/Rエッジの個数は変化しない。</li>
@@ -1306,7 +1363,7 @@ F // 2e2e</pre>
           エッジは1個の向きが2通りで12個ある。
           ただし、パリティがあるので <span class="latex">$2^{11}$</span>。
           コーナーは1個の向きが3通りで8個あり、パリティによって <span class="latex">$3^7$</span>。
-          エッジとコーナーの位置はそれぞれ <span class="latex">$12!$</span> と <span class="latex">$8!$</span> 通りだが、ここでもパリティがあり、2点交換での交換回数の偶奇が異なるような状態はキューブを分解しないと作れないので、<span class="latex">$\frac{1}{2}$</span>。
+          エッジとコーナーの位置はそれぞれ <span class="latex">$12!$</span> と <span class="latex">$8!$</span> 通りだが、ここでもパリティがあり、エッジとコーナーで2点交換での交換回数の偶奇が異なるような状態はキューブを分解しないと作れないので、<span class="latex">$\frac{1}{2}$</span>。
         </p>
         <p>
           EOではエッジの向きを揃えている。
@@ -1346,16 +1403,16 @@ F // 2e2e</pre>
           $$2,048\times 1,082,565\times 29,400\times 663,552=43,252,003,274,489,856,000$$
         </p>
         <h2>統計</h2>
-        <h3>各ステップの最小手数</h3>
+        <h3>各ステップの最少手数</h3>
         <p>
-          EO, DR, HTR, finishの各ステップで、軸を固定し、前後のステップとの繋がりを一切考慮しない場合に、最小手数の分布がどのようになるのかを調べた。
+          EO, DR, HTR, FR, finishの各ステップで、軸を固定し、前後のステップとの繋がりを一切考慮しない場合に、最少手数の分布がどのようになるのかを調べた。
         </p>
         <p>
           <a href="https://github.com/kusano/fmc_analysis">kusano/fmc_analysis</a>
         </p>
         <p>
           例えば、4手のDRの手順を見つけたら、それは1 %未満の幸運でありDRで粘っても手順を縮められる可能性は低い、9手のDRの手順を見つけたらまだ縮められる可能性がある……というような使い方ができる。
-          もっとも、人力で最小手数が常に見つけられるわけではないし、逆にEOの段階でDRの手数が短くなるような最後の動きを選択したりもするので、そんなに当てになるものではない。
+          もっとも、人力で最少手数が常に見つけられるわけではないし、逆にEOの段階でDRの手数が短くなるような最後の動きを選択したりもするので、そんなに当てになるものではない。
           何度もFMCを解いて、「自分ならDRはこのくらいの手数で解ける」という感覚を身に付けることのほうが重要だろう。
         </p>
         <h4>EO</h4>
@@ -1465,6 +1522,93 @@ F // 2e2e</pre>
             <tr><td>13</td><td>16,176</td><td>2.44 %</td><td>661,920</td><td>99.75 %</td></tr>
             <tr><td>14</td><td>1,488</td><td>0.22 %</td><td>663,408</td><td>99.98 %</td></tr>
             <tr><td>15</td><td>144</td><td>0.02 %</td><td>663,552</td><td>100.00 %</td></tr>
+          </tbody>
+        </table>
+        <h4>FR</h4>
+        <p>平均: 5.94手</p>
+        <table style="text-align: right; width: 40em">
+          <thead>
+            <tr>
+              <th style="width: 6em">moves</th>
+              <th style="width: 8em">num.</th>
+              <th style="width: 8em">%</th>
+              <th style="width: 8em">cum.</th>
+              <th style="width: 8em">%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0</td><td>1</td><td>0.35 %</td><td>1</td><td>0.35 %</td></tr>
+            <tr><td>1</td><td>2</td><td>0.69 %</td><td>3</td><td>1.04 %</td></tr>
+            <tr><td>2</td><td>9</td><td>3.13 %</td><td>12</td><td>4.17 %</td></tr>
+            <tr><td>3</td><td>18</td><td>6.25 %</td><td>30</td><td>10.42 %</td></tr>
+            <tr><td>4</td><td>26</td><td>9.03 %</td><td>56</td><td>19.44 %</td></tr>
+            <tr><td>5</td><td>48</td><td>16.67 %</td><td>104</td><td>36.11 %</td></tr>
+            <tr><td>6</td><td>68</td><td>23.61 %</td><td>172</td><td>59.72 %</td></tr>
+            <tr><td>7</td><td>52</td><td>18.06 %</td><td>224</td><td>77.78 %</td></tr>
+            <tr><td>8</td><td>56</td><td>19.44 %</td><td>280</td><td>97.22 %</td></tr>
+            <tr><td>9</td><td>8</td><td>2.78 %</td><td>288</td><td>100.00 %</td></tr>
+          </tbody>
+        </table>
+        <h4>FRからのfinish (leave slice)</h4>
+        <p>
+          FR後に可能な動きである <span class="algorithm">&lt;L2, R2, F2, B2&gt;</span> ではE層は揃えられないので、E層残し（leave slice）。
+        </p>
+        <p>平均: 4.43手</p>
+        <table style="text-align: right; width: 40em">
+          <thead>
+            <tr>
+              <th style="width: 6em">moves</th>
+              <th style="width: 8em">num.</th>
+              <th style="width: 8em">%</th>
+              <th style="width: 8em">cum.</th>
+              <th style="width: 8em">%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0</td><td>1</td><td>0.52 %</td><td>1</td><td>0.52 %</td></tr>
+            <tr><td>1</td><td>4</td><td>2.08 %</td><td>5</td><td>2.60 %</td></tr>
+            <tr><td>2</td><td>10</td><td>5.21 %</td><td>15</td><td>7.81 %</td></tr>
+            <tr><td>3</td><td>24</td><td>12.50 %</td><td>39</td><td>20.31 %</td></tr>
+            <tr><td>4</td><td>53</td><td>27.60 %</td><td>92</td><td>47.92 %</td></tr>
+            <tr><td>5</td><td>64</td><td>33.33 %</td><td>156</td><td>81.25 %</td></tr>
+            <tr><td>6</td><td>31</td><td>16.15 %</td><td>187</td><td>97.40 %</td></tr>
+            <tr><td>7</td><td>4</td><td>2.08 %</td><td>191</td><td>99.48 %</td></tr>
+            <tr><td>8</td><td>1</td><td>0.52 %</td><td>192</td><td>100.00 %</td></tr>
+          </tbody>
+        </table>
+        <h4>HTRからのfinish (leave slice)</h4>
+        <p>
+          HTR後にFRをするとどのくらい手数が増えるのかが気になる。
+          E層も含めたfinishでは比較ができないので、HTRからE層は揃えなくても良いとした場合の手数を調べた。
+          平均8.64手。
+          FRを行った場合は、leave sliceまでに平均で 5.94 + 4.43 = 10.36 手。
+          FRによって平均1.72手増える。
+        </p>
+        <p>平均: 8.64手</p>
+        <table style="text-align: right; width: 40em">
+          <thead>
+            <tr>
+              <th style="width: 6em">moves</th>
+              <th style="width: 8em">num.</th>
+              <th style="width: 8em">%</th>
+              <th style="width: 8em">cum.</th>
+              <th style="width: 8em">%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0</td><td>1</td><td>0.00 %</td><td>1</td><td>0.00 %</td></tr>
+            <tr><td>1</td><td>6</td><td>0.01 %</td><td>2</td><td>0.00 %</td></tr>
+            <tr><td>2</td><td>27</td><td>0.05 %</td><td>8</td><td>0.01 %</td></tr>
+            <tr><td>3</td><td>108</td><td>0.20 %</td><td>35</td><td>0.06 %</td></tr>
+            <tr><td>4</td><td>387</td><td>0.71 %</td><td>143</td><td>0.26 %</td></tr>
+            <tr><td>5</td><td>1,200</td><td>2.20 %</td><td>530</td><td>0.97 %</td></tr>
+            <tr><td>6</td><td>3,218</td><td>5.89 %</td><td>1,730</td><td>3.17 %</td></tr>
+            <tr><td>7</td><td>7,020</td><td>12.85 %</td><td>4,948</td><td>9.06 %</td></tr>
+            <tr><td>8</td><td>11,901</td><td>21.79 %</td><td>11,968</td><td>21.91 %</td></tr>
+            <tr><td>9</td><td>14,338</td><td>26.25 %</td><td>23,869</td><td>43.70 %</td></tr>
+            <tr><td>10</td><td>11,442</td><td>20.95 %</td><td>38,207</td><td>69.94 %</td></tr>
+            <tr><td>11</td><td>4,976</td><td>9.11 %</td><td>49,649</td><td>90.89 %</td></tr>
+            <tr><td>12</td><td>672</td><td>1.23 %</td><td>54,625</td><td>100.00 %</td></tr>
           </tbody>
         </table>
         <h3>QTの分布</h3>
