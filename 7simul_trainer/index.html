@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>7 Simul Trainer</title>
+    <link rel="stylesheet" href="../bulma.min.css">
+    <style>
+      @font-face {
+        font-family: "7seg";
+        src:
+          url("DSEG7Classic-Bold.woff2") format("woff2"),
+          url("DSEG7Classic-Bold.woff") format("woff");
+      }
+      #memo {
+        font-size: 42pt;
+      }
+      #timer {
+        font-family: "7seg";
+        font-size: 42pt;
+      }
+      #timer_subsec {
+        font-size: 28pt;
+      }
+      .timer_green {
+        color: #484;
+      }
+      .timer_red {
+        color: #c22;
+      }
+      address {
+        text-align: right;
+      }
+    </style>
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>7 Simul Trainer</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; 7 Simul Trainer
+        </p>
+        <p>
+          7 simul is a method for solving Rubik's Clock.
+          This tool helps you to train for the memorization phase of 7 simul.
+          The method and the letters to memorize are customizable.
+        </p>
+        <hr>
+        <div style="max-width: 640px; margin: auto;">
+          <div id="adjuster" class="has-text-centered">
+            <canvas id="canvas"></canvas>
+          </div>
+          <div id="scramble" class="is-family-code has-text-centered is-size-7 has-text-weight-bold has-text-grey"></div>
+          <div id="memo" class="has-text-centered has-text-weight-bold"></div>
+          <div id="timer" class="has-text-centered">
+            <span id="timer_sec">0</span>&thinsp;.&thinsp;<span id="timer_subsec">00</span>
+          </div>
+          <div style="max-width: 320px; margin: auto;">
+            <button id="button" class="button is-primary is-large is-rounded is-fullwidth">Start</button>
+          </div>
+          <h2>Settings</h2>
+          <h3>Method</h3>
+          <div class="field">
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="method" value="tommy">
+                Tommy
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="method" value="bpaul">
+                bpaul
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="method" value="bpaul2">
+                bpaul (x2 flip, swap M4&lt;-&gt;M5)
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="method" value="custom">
+                Custom
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Flip</label>
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="flip" value="x2">
+                x2
+              </label>
+              <label class="radio">
+                <input type="radio" name="flip" value="y2">
+                y2
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Method</label>
+            <div class="control">
+              <textarea id="method" class="textarea" rows="6"></textarea>
+            </div>
+            <p class="help">
+              Newline separated.
+              Each line must match <code>^((\+|-)(UL|U|UR|L|C|R|DL|D|DR|ul|u|ur|l|c|r|dl|d|dr))+$</code>.
+              Note that <code>(x to y)</code> is <code>-x+y</code>.
+            </p>
+          </div>
+          <h3>Letters</h3>
+          <div class="field">
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="letters" value="signed">
+                Signed numbers
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="letters" value="unsigned">
+                Unsigned numbers
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="letters" value="alphabet">
+                Alphabet
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="letters" value="hexadecimal">
+                Signed hexadecimal
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="letters" value="custom">
+                Custom
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Letters</label>
+            <div class="control">
+              <input id="letters" class="input" type="text">
+            </div>
+            <p class="help">
+              Space separated.
+            </p>
+          </div>
+        </div>
+        <hr>
+        <address>
+          <a href="https://twitter.com/kusano_k">@kusano_k</a><br>
+          Font: <a href="DSEG-LICENSE.txt">DSEG</a>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>
