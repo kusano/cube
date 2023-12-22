@@ -48,15 +48,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const lettersHexadecimal = "0 1 2 3 4 5 6 B C D E F";
 
     const render = (clocks, flip) => {
-        const width = elmAdjuster.clientWidth;
-        const height = width/2|0;
-        if (elmCanvas.width != ""+width) {
-            elmCanvas.width = ""+width;
-        }
-        if (elmCanvas.height != ""+height) {
-            elmCanvas.height = ""+height;
-        }
         const ctx = elmCanvas.getContext("2d");
+
+        const width = elmAdjuster.clientWidth;
+        const height = width/2;
+
+        const dpr = window.devicePixelRatio;
+        if (elmCanvas.width!=""+width*dpr) {
+            canvas.width = ""+width*dpr;
+        }
+        if (elmCanvas.height!=""+height*dpr) {
+            canvas.height = ""+height*dpr;
+        }
+        ctx.save();
+        ctx.scale(dpr, dpr);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
 
         ctx.clearRect(0, 0, width, height);
 
@@ -180,6 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             ctx.restore();
         }
+        ctx.restore();
     };
 
     const makeClocks = scramble => {
@@ -355,6 +363,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         if (l=="alphabet") {
             letters = lettersAlphabet;
+        }
+        if (l=="hexadecimal") {
+            letters = lettersHexadecimal;
         }
         if (l=="custom") {
             letters = customLetters;
