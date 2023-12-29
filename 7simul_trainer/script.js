@@ -42,6 +42,15 @@ document.addEventListener("DOMContentLoaded", () => {
         "-l+ul-R+D",
     ].join("\n");
 
+    // https://note.com/squid_sushi/n/nc1c62514b0f1
+    // flip: x2
+    const method7sfndmw4lm = [
+        "-u+c",
+        "-l+ul-R+D",
+        "-l+u",
+        "-r+d-L+UL",
+    ].join("\n");
+
     const lettersSigned = "0 1 2 3 4 5 6 -5 -4 -3 -2 -1";
     const lettersUnsigned = "0 1 2 3 4 5 6 7 8 9 10 11";
     const lettersAlphabet = "0 1 2 3 4 5 6 E D C B A";
@@ -318,7 +327,6 @@ document.addEventListener("DOMContentLoaded", () => {
     for (let i=0; i<14; i++) {
         scramble[i] = Math.random()*12|0;
     }
-    scramble = [5, 3, 3, 2, -5, 1, 5, 1, -1, -3, 2, 3, -4, 1];
     let clocks = makeClocks(scramble);
 
     let flip;
@@ -349,6 +357,10 @@ document.addEventListener("DOMContentLoaded", () => {
             flip = "x2";
             method = methodBpaul2;
         }
+        if (m=="7sfndmw4lm") {
+            flip = "x2";
+            method = method7sfndmw4lm;
+        }
         if (m=="custom") {
             flip = customFlip;
             method = customMethod;
@@ -371,7 +383,7 @@ document.addEventListener("DOMContentLoaded", () => {
             letters = customLetters;
         }
 
-        document.querySelector(`input[type=radio][name=method][value=${m}]`).checked = true;
+        document.querySelector(`input[type=radio][name=method][value="${m}"]`).checked = true;
         document.querySelector(`input[type=radio][name=flip][value=${flip}]`).checked = true;
         elmMethod.value = method;
         if (m!="custom") {
@@ -529,6 +541,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if (m=="bpaul2") {
                 flip = "x2";
                 method = methodBpaul2;
+            }
+            if (m=="7sfndmw4lm") {
+                flip = "x2";
+                method = method7sfndmw4lm;
             }
             if (m=="custom") {
                 flip = customFlip;
