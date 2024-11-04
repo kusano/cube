@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>FMC Slice Insertion Solver</title>
+    <link rel="stylesheet" href="../bulma.min.css">
+    <style>
+      address {
+        text-align: right;
+      }
+    </style>
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>FMC Slice Insertion Solver</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; FMC Slice Insert Solver
+        </p>
+        <p>
+          This tool solves slice insertion steps in FMC (Fewest Moves Challenge) and shows the optimal solution.
+        </p>
+        <hr>
+        <p>
+          Paste your scramble and solution before slice insertion.
+          NISS notations are available.
+        </p>
+        <p>
+          <textarea id="input" class="textarea" placeholder="R' U' F D U2 L2 F2 D' F2 U' F2 L2 R' B L' F L U2 B2 F' R U L D' R' U' F
+
+R' L2 F // EO (3/3)
+L' D // DR-2e3c (2/5)
+(D2 L' D' R D') // DR (5/10)
+(R) B2 R D2 F2 U2 F2 R' // HTR (8/18)
+D2 R2 D2 F2 L2 // FR (5/23)
+F2 B2 // leave slice (2/25)" rows="8"></textarea>
+        </p>
+        <p id="parse" style="display: none">
+          Scramble: <span id="scramble" class="has-text-weight-bold"></span><br>
+          Normal: <span id="normal" class="has-text-weight-bold"></span><br>
+          Inverse: <span id="inverse" class="has-text-weight-bold"></span>
+        </p>
+        <p id="visualize" style="display: none">
+          <canvas id="canvas" width="605" height="256"></canvas>
+        </p>
+        <p id="slices" style="display: none">
+          S: <span id="slice_s"></span><br>
+          M: <span id="slice_m"></span><br>
+          E: <span id="slice_e"></span>
+        </p>
+        <p id="slice_error" class="has-text-danger" style="display: none"></p>
+        <div id="skeleton" style="display: none">
+          <p>Skeleton:</p>
+          <p id="skeleton_moves" class="has-text-weight-bold"></p>
+          <p>
+            Slices can be inserted within <span class="has-text-weight-bold">[...]</span>.
+          </p>
+        </div>
+        <hr>
+        <address>
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>
