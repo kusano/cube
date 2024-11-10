@@ -3,6 +3,8 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
+    <meta property="og:title" content="FMC Slice Insertion Solver">
+    <meta property="og:description" content="This tool solves slice insertion steps in FMC (Fewest Moves Challenge) and shows the optimal solution.">    
     <title>FMC Slice Insertion Solver</title>
     <link rel="stylesheet" href="../bulma.min.css">
     <style>
@@ -28,6 +30,11 @@
           NISS notations are available.
         </p>
         <p>
+          <button id="sample1" class="button is-small is-primary">Sample 1</button>
+          <button id="sample2" class="button is-small is-primary">Sample 2</button>
+          <button id="sample3" class="button is-small is-primary">Sample 3</button>
+        </p>
+        <p>
           <textarea id="input" class="textarea" placeholder="R' U' F D U2 L2 F2 D' F2 U' F2 L2 R' B L' F L U2 B2 F' R U L D' R' U' F
 
 R' L2 F // EO (3/3)
@@ -45,17 +52,28 @@ F2 B2 // leave slice (2/25)" rows="8"></textarea>
         <p id="visualize" style="display: none">
           <canvas id="canvas" width="605" height="256"></canvas>
         </p>
-        <p id="slices" style="display: none">
-          S: <span id="slice_s"></span><br>
-          M: <span id="slice_m"></span><br>
-          E: <span id="slice_e"></span>
-        </p>
+        <p id="slice" style="display: none"></p>
         <p id="slice_error" class="has-text-danger" style="display: none"></p>
-        <div id="skeleton" style="display: none">
+        <div id="skeleton" class="mb-4" style="display: none">
           <p>Skeleton:</p>
           <p id="skeleton_moves" class="has-text-weight-bold"></p>
           <p>
             Slices can be inserted within <span class="has-text-weight-bold">[...]</span>.
+          </p>
+        </div>
+        <div id="skeleton2" class="mb-4" style="display: none">
+          <p>Concat scramble and skeleton, move insertable range to the end and replace moves before insertable range with equivalent moves.</p>
+          <p id="skeleton2_moves" class="has-text-weight-bold"></p>
+        </div>
+        <div id="insertion" class="mb-4" style="display: none">
+          <p>Slice insertion:</p>
+          <p id="insertion_moves" class="has-text-weight-bold"></p>
+        </div>
+        <p id="insertion_error" class="has-text-danger" style="display: none"></p>
+        <div id="result" class="mb-4" style="display: none">
+          <p>Result:</p>
+          <p>
+            <span id="result_moves" class="has-text-weight-bold"></span> <span id="result_count"></span>
           </p>
         </div>
         <hr>
