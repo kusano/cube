@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Kacha Kacha Cube</title>
+    <script src="script.js" type="module"></script>
+    <style>
+      /* https://ics.media/entry/200317/ */
+      body {
+        font-family: "Helvetica Neue",
+          Arial,
+          "Hiragino Kaku Gothic ProN",
+          "Hiragino Sans",
+          Meiryo,
+          sans-serif;
+        overflow: hidden;
+        margin: 0;
+      }
+      .move {
+        font-size: 20px;
+        font-weight: bold;
+        color: #678;
+        position: absolute;
+        border-bottom: #89a solid 2px;
+        width: 80px;
+        text-align: center;
+        top: 80px;
+      }
+      #cursor {
+        background: #e86;
+        width: 2px;
+        position: absolute;
+      }
+      #menu {
+        position: absolute;
+        text-align: right;
+        padding: 0.5em;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      #menu a {
+        font-weight: bold;
+        color: #678;
+        text-decoration: none;
+      }
+      #speedSelector {
+        box-sizing: border-box;
+        position: absolute;
+        text-align: right;
+        background-color: rgba(0, 0, 0, 0.1);
+        line-height: 150%;
+        padding: 0.5em;
+      }
+      #speedSelector a {
+        font-weight: bold;
+        color: #678;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container" style="position: absolute"></div>
+    <div id="cursor"></div>
+    <div id="moves"></div>
+    <div id="menu">
+      <div style="margin-bottom: 0.5em">
+        <a id="speed" href="#">2 moves/sec</a>
+      </div>
+      <div>
+        <a id="sound" href="#">Sound: OFF</a>
+      </div>
+    </div>
+    <div id="speedSelector" style="visibility: hidden"></div>
+    <audio id="audio" src="sound.mp4"></audio>
+  </body>
+</html>
