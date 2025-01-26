@@ -1,0 +1,45 @@
+EO table constructed: 2048
+DR table constructed: 9409
+Finish table constructed: 1 11
+Finish table constructed: 2 78
+Finish table constructed: 3 534
+Finish table constructed: 4 3613
+Finish table constructed: 5 23561
+Finish table constructed: 6 146635
+Finish table constructed: 7 883485
+Finish table constructed: 8 5068603
+
+
+EO table constructed: 2048
+DR table constructed: 9409
+Finish table constructed: 146635
+1 10
+2 67
+3 330
+4 752
+5 1400
+6 2752
+7 4384
+8 6208
+9 7136
+10 8064
+11 6528
+12 2432
+13 256
+Finish corner table constructed: 40320
+
+U/D+E
+
+1 10
+2 67
+3 456
+4 3063
+5 18202
+6 86691
+7 290812
+8 434814
+9 120488
+10 11818
+11 1114
+12 144
+Finish edge table constructed: 967680
