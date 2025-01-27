@@ -43,3 +43,24 @@ U/D+E
 11 1114
 12 144
 Finish edge table constructed: 967680
+
+Corner+E parity
+EO table constructed: 2048
+DR table constructed: 9409
+Finish table constructed: 23561
+1 10
+2 67
+3 338
+4 856
+5 1852
+6 3876
+7 6852
+8 10724
+9 13984
+10 14368
+11 15296
+12 8864
+13 3360
+14 192
+15 0
+Finish corner table constructed: 80640
