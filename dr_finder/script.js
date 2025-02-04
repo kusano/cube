@@ -293,164 +293,6 @@ ${C[15]}${C[16]}${C[17]}${C[24]}${C[25]}${C[26]}${C[33]}${C[34]}${C[35]}${C[42]}
         }
     }
 
-    // finishでの状態が同一ならば等しくなる文字列を返す。
-    // finishはDRムーブのみで行うので、DR軸も受け取る。
-    extractFinish(axis) {
-        this.move({"U/D": " ", "F/B": "x", "R/L": "z"}[axis]);
-
-        const T = {
-            [this.C[ 4]]: "U",
-            [this.C[13]]: "L",
-            [this.C[22]]: "F",
-            [this.C[31]]: "R",
-            [this.C[40]]: "B",
-            [this.C[49]]: "D",
-        };
-
-        let s = "";
-        for (let c of this.C) {
-            s += T[c];
-        }
-
-        this.undo();
-
-        return s;
-    }
-
-    // extractFinish の返り値が dr になるような状態にする。
-    unextractFinish(finish) {
-        for (let i=0; i<54; i++) {
-            this.C[i] = finish[i];
-        }
-    }
-
-    extractFinishCorner(axis) {
-        this.move({"U/D": " ", "F/B": "x", "R/L": "z"}[axis]);
-
-        const T = {
-            [this.C[ 4]]: "U",
-            [this.C[13]]: "L",
-            [this.C[22]]: "F",
-            [this.C[31]]: "R",
-            [this.C[40]]: "B",
-            [this.C[49]]: "D",
-        };
-
-        const P = [
-            [11, 18], [20, 27], [29, 36], [38,  9],
-            [24, 17], [33, 26], [42, 35], [15, 44],
-        ];
-        const F = {
-            "LF": "0", "FR": "1", "RB": "2", "BL": "3",
-            "FL": "4", "RF": "5", "BR": "6", "LB": "7",
-        };
-
-        let s = "";
-        for (let p of P) {
-            s += F[T[this.C[p[0]]]+T[this.C[p[1]]]];
-        }
-
-        this.undo();
-
-        return s;
-    }
-
-    unextractFinishCorner(corner) {
-        this.setCenter();
-
-        const P = [
-            [11, 18], [20, 27], [29, 36], [38,  9],
-            [24, 17], [33, 26], [42, 35], [15, 44],
-        ];
-        const F = [
-            "LF", "FR", "RB", "BL",
-            "FL", "RF", "BR", "LB",
-        ];
-
-        for (let i=0; i<8; i++) {
-            this.C[P[i][0]] = F[+corner[i]][0];
-            this.C[P[i][1]] = F[+corner[i]][1];
-        }
-    }
-
-    extractFinishEdge(axis) {
-        this.move({"U/D": " ", "F/B": "x", "R/L": "z"}[axis]);
-
-        const T = {
-            [this.C[ 4]]: "U",
-            [this.C[13]]: "L",
-            [this.C[22]]: "F",
-            [this.C[31]]: "R",
-            [this.C[40]]: "B",
-            [this.C[49]]: "D",
-        };
-
-        let s = "";
-        {
-            const P = [
-                [ 1, 37], [ 5, 28], [ 7, 19], [ 3, 10],
-                [46, 25], [50, 34], [52, 43], [48, 16],
-            ];
-            const F = {
-                "UB": "0", "UR": "1", "UF": "2", "UL": "3",
-                "DF": "4", "DR": "5", "DB": "6", "DL": "7",
-            };
-
-            for (let p of P) {
-                s += F[T[this.C[p[0]]]+T[this.C[p[1]]]];
-            }
-        }
-        if (false) {
-            const P = [
-                [21, 14], [23, 30], [39, 32], [41, 12],
-            ];
-            const F = {
-                "FL": "0", "FR": "1", "BR": "2", "BL": "3",
-            };
-
-            for (let p of P) {
-                s += F[T[this.C[p[0]]]+T[this.C[p[1]]]];
-            }
-        }
-
-        this.undo();
-
-        return s;
-    }
-
-    unextractFinishEdge(edge) {
-        this.setCenter();
-
-        {
-            const P = [
-                [ 1, 37], [ 5, 28], [ 7, 19], [ 3, 10],
-                [46, 25], [50, 34], [52, 43], [48, 16],
-            ];
-            const F = [
-                "UB", "UR", "UF", "UL",
-                "DF", "DR", "DB", "DL",
-            ];
-
-            for (let i=0; i<8; i++) {
-                this.C[P[i][0]] = F[+edge[i]][0];
-                this.C[P[i][1]] = F[+edge[i]][1];
-            }
-        }
-        if (false) {
-            const P = [
-                [21, 14], [23, 30], [39, 32], [41, 12],
-            ];
-            const F = [
-                "FL", "FR", "BR", "BL",
-            ];
-
-            for (let i=0; i<4; i++) {
-                this.C[P[i][0]] = F[+edge[8+i]][0];
-                this.C[P[i][1]] = F[+edge[8+i]][1];
-            }
-        }
-    }
-
     setCenter() {
         this.C[ 4] = "U";
         this.C[13] = "L";
@@ -566,7 +408,7 @@ class Cube2 {
             return S;
         }
 
-        for (let m of ["F", "B", "R", "L", "U", "D", "M", "E", "S"]) {
+        for (let m of ["F", "B", "R", "L", "U", "D"]) {
             T[m+"2"] = composite([T[m], T[m]]);
             T[m+"'"] = composite([T[m], T[m+"2"]]);
         }
@@ -633,7 +475,7 @@ class Cube2 {
         }
 
         this.invTable[" "] = " ";
-        for (let m of ["F", "B", "R", "L", "U", "D", "M", "E", "S", "x", "y", "z"]) {
+        for (let m of ["F", "B", "R", "L", "U", "D"]) {
             this.invTable[m] = m+"'";
             this.invTable[m+"2"] = m+"2";
             this.invTable[m+"'"] = m;
@@ -641,14 +483,6 @@ class Cube2 {
     }
 
     constructor(cube) {
-        /*
-        this.C = Array(20);
-        for (let i=0; i<20; i++) {
-            this.C[i] = i;
-        }
-
-        this.tmp = Array(20);
-        */
         if (cube) {
             // cube のU/D軸DRが完了していることが前提。
             const CI = [
@@ -703,14 +537,6 @@ class Cube2 {
     }
 
     move(m) {
-        /*
-        for (let i=0; i<20; i++) {
-            this.tmp[i] = this.C[i];
-        }
-        for (let i=0; i<20; i++) {
-            this.C[i] = this.tmp[Cube2.moveTable[m][i]];
-        }
-        */
         this.C = Cube2.cornerTable[m][this.C];
         this.E1 = Cube2.edge1Table[m][this.E1];
         this.E2 = Cube2.edge2Table[m][this.E2];
@@ -721,89 +547,27 @@ class Cube2 {
     undo() {
         const m = Cube2.invTable[this.history.pop()];
 
-        /*
-        for (let i=0; i<20; i++) {
-            this.tmp[i] = this.C[i];
-        }
-        for (let i=0; i<20; i++) {
-            this.C[i] = this.tmp[Cube2.moveTable[m][i]];
-        }
-        */
         this.C = Cube2.cornerTable[m][this.C];
         this.E1 = Cube2.edge1Table[m][this.E1];
         this.E2 = Cube2.edge2Table[m][this.E2];
     }
 
     isSolved() {
-        /*
-        for (let i=0; i<20; i++) {
-            if (this.C[i]!=i) {
-                return false;
-            }
-        }
-        return true;
-        */
         return this.C==0 && this.E1==0 && this.E2==0;
     }
 
     // finishでの状態が同一ならば等しくなる文字列を返す。
     // finishはDRムーブのみで行うので、DR軸も受け取る。
     extractFinish(axis) {
-        /*
-        this.move({"U/D": " ", "F/B": "x", "R/L": "z"}[axis]);
-
-        const T = {
-            "U/D": [ 0,  1,  2,  3,   4,  5,  6,  7,   8,  9, 10, 11,  12, 13, 14, 15,  16, 17, 18, 19],
-            // x'
-            "F/B": [ 6,  7,  0,  1,   2,  3,  4,  5,  15, 16, 19,  8,  11, 17, 18, 12,  13,  9, 10, 14],
-            // z'
-            "R/L": [ 1,  7,  3,  5,   2,  4,  0,  6,  19, 10, 14, 18,  17, 9,  13, 16,   8, 11, 12, 15],
-        }[axis];
-
-        let s = "";
-        for (let i=0; i<8; i++) {
-            s += "01234567"[T[this.C[i]]];
-        }
-        // エッジとコーナーは入れ替わらない。
-        for (let i=8; i<16; i++) {
-            s += "01234567"[T[this.C[i]]-8];
-        }
-        // DRムーブでは、中層のエッジとU/D面のエッジは入れ替わらない。
-        for (let i=16; i<20; i++) {
-            s += "0123"[T[this.C[i]]-16];
-        }
-
-        this.undo();
-
-        return s;
-        */
-
         const s = `${this.C}_${this.E1}_${this.E2}`;
         return s;
     }
 
     // extractFinish の返り値が finish になるような状態にする。
     unextractFinish(finish) {
-        /*
-        for (let i=0; i<8; i++) {
-            this.C[i] = +finish[i];
-        }
-        for (let i=8; i<16; i++) {
-            this.C[i] = +finish[i]+8;
-        }
-        for (let i=16; i<20; i++) {
-            this.C[i] = +finish[i]+16;
-        }
-        */
         [this.C, this.E1, this.E2] = finish.split("_").map(x => +x);
     }
 
-    static eParity_ = {
-        "0123": "0", "0132": "1", "0213": "1", "0231": "0", "0312": "0", "0321": "1",
-        "1023": "1", "1032": "0", "1203": "0", "1230": "1", "1302": "1", "1320": "0",
-        "2013": "0", "2031": "1", "2103": "1", "2130": "0", "2301": "0", "2310": "1",
-        "3012": "1", "3021": "0", "3102": "0", "3120": "1", "3201": "1", "3210": "0",
-    };
     static eParity = [
         0, 1, 1, 0, 0, 1,
         1, 0, 0, 1, 1, 0,
@@ -812,59 +576,10 @@ class Cube2 {
     ];
 
     extractFinishCorner(axis) {
-        /*
-        this.move({"U/D": " ", "F/B": "x", "R/L": "z"}[axis]);
-
-        const T = {
-            "U/D": [ 0,  1,  2,  3,   4,  5,  6,  7,   8,  9, 10, 11,  12, 13, 14, 15,  16, 17, 18, 19],
-            "F/B": [ 6,  7,  0,  1,   2,  3,  4,  5,  15, 16, 19,  8,  11, 17, 18, 12,  13,  9, 10, 14],
-            "R/L": [ 1,  7,  3,  5,   2,  4,  0,  6,  19, 10, 14, 18,  17, 9,  13, 16,   8, 11, 12, 15],
-        }[axis];
-
-        let s = "";
-        for (let i=0; i<8; i++) {
-            s += "01234567"[T[this.C[i]]];
-        }
-
-        // E層のパリティを追加。
-        // let e = "";
-        // for (let i=16; i<20; i++) {
-        //     e += "0123"[T[this.C[i]]-16];
-        // }
-        // s += Cube2.eParity[e];
-
-        // E層を追加
-        for (let i=16; i<20; i++) {
-            s += "0123"[T[this.C[i]]-16];
-        }
-
-        this.undo();
-
-        return s;
-        */
         return ""+this.C+"_"+Cube2.eParity[this.E2];
     }
 
     unextractFinishCorner(corner) {
-        /*
-        for (let i=0; i<8; i++) {
-            this.C[i] = +corner[i];
-        }
-
-        // this.C[16] = 16;
-        // this.C[17] = 17;
-        // if (corner[8]=="0") {
-        //     this.C[18] = 18;
-        //     this.C[19] = 19;
-        // } else {
-        //     this.C[18] = 19;
-        //     this.C[19] = 18;
-        // }
-
-        for (let i=16; i<20; i++) {
-            this.C[i] = +corner[i-8]+16;
-        }
-        */
         this.C = +corner.split("_")[0];
         this.E2 = +corner.split("_")[1];
     }
@@ -1266,45 +981,6 @@ const finishCornerTable = {};
     console.log("Finish corner table constructed:", Object.keys(finishCornerTable).length);
 }
 
-const finishEdgeTable = {};
-if (false) {
-    const cube = new Cube2();
-
-    finishEdgeTable[cube.extractFinishEdge("U/D")] = 0;
-    let P = [cube.extractFinishEdge("U/D")];
-
-    for (let d=1; d<=12; d++) {
-        const P2 = [];
-
-        for (let edge of P) {
-            cube.unextractFinishEdge(edge);
-
-            for (let m of [
-                "F2",
-                "B2",
-                "R2",
-                "L2",
-                "U", "U2", "U'",
-                "D", "D2", "D'",
-            ]) {
-                cube.move(m);
-
-                const edge2 = cube.extractFinishEdge("U/D");
-                if (finishEdgeTable[edge2]===undefined) {
-                    finishEdgeTable[edge2] = d;
-                    P2.push(edge2);
-                }
-
-                cube.undo();
-            }
-        }
-
-        P = P2;
-    }
-
-    console.log("Finish edge table constructed:", Object.keys(finishEdgeTable).length);
-}
-
 function searchFinish(scramble, eo, dr) {
     // 動きを axis 軸をU/Dに向けるように変更。
     function fixAxis(axis, m) {
@@ -1354,12 +1030,8 @@ function searchFinish(scramble, eo, dr) {
 
         const finish = cube.extractFinish();
         const corner = cube.extractFinishCorner();
-        //const corner = finish.substring(0, 8)+Cube2.eParity[finish.substring(16, 20)];
-        //const edge = cube.extractFinishEdge(dr.axis);
-        //const edge = finish.substring(8, 20);
         const h1 = finishTable[finish]===undefined ? finishTableMax+1 : finishTable[finish];
         const h2 = finishCornerTable[corner];
-        //const h3 = finishEdgeTable[edge];
         if (depth+Math.max(h1, h2)>maxDepth) {
             return false;
         }
