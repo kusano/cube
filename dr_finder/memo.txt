@@ -64,3 +64,20 @@ Finish table constructed: 23561
 14 192
 15 0
 Finish corner table constructed: 80640
+
+Coner+E
+1 10
+2 67
+3 404
+4 2023
+5 8504
+6 28545
+7 69734
+8 127540
+9 179700
+10 189120
+11 199200
+12 116112
+13 44416
+14 2304
+Finish corner table constructed: 967680

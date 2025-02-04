@@ -461,35 +461,95 @@ ${C[15]}${C[16]}${C[17]}${C[24]}${C[25]}${C[26]}${C[33]}${C[34]}${C[35]}${C[42]}
     }
 };
 
-/*
-              0  8  1
-              9  U 10
-              2 11  3
-     0  9  2| 2 11  3| 3 10  1| 1  8  0
-    16  L 17|17  F 18|18  R 19|19  B 16
-     6 13  4| 4 12  5| 5 14  7| 7 15  6
-              4 12  5
-             13  D 14
-              6 15  7
-*/
+function perm2index8(P) {
+    let index = 0;
+    for (let i=0; i<8; i++) {
+        let x = P[i];
+        for (let j=0; j<i; j++) {
+            if (P[j]<P[i]) {
+                x--;
+            }
+        }
+        index = index*(8-i)+x;
+    }
+    return index;
+}
+
+function index2perm8(index) {
+    const P = Array(8);
+    for (let i=7; i>=0; i--) {
+        P[i] = index%(8-i);
+        index = index/(8-i)|0;
+        for (let j=i+1; j<8; j++) {
+            if (P[j]>=P[i]) {
+                P[j]++;
+            }
+        }
+    }
+    return P;
+}
+
+function perm2index4(P) {
+    let index = 0;
+    for (let i=0; i<4; i++) {
+        let x = P[i];
+        for (let j=0; j<i; j++) {
+            if (P[j]<P[i]) {
+                x--;
+            }
+        }
+        index = index*(4-i)+x;
+    }
+    return index;
+}
+
+function index2perm4(index) {
+    const P = Array(4);
+    for (let i=3; i>=0; i--) {
+        P[i] = index%(4-i);
+        index = index/(4-i)|0;
+        for (let j=i+1; j<4; j++) {
+            if (P[j]>=P[i]) {
+                P[j]++;
+            }
+        }
+    }
+    return P;
+}
+
 // ピースの位置のみを持つ軽量版。
 class Cube2 {
-    static moveTable = {
-        " ": [ 0,  1,  2,  3,   4,  5,  6,  7,   8,  9, 10, 11,  12, 13, 14, 15,  16, 17, 18, 19],
-        "F": [ 0,  1,  4,  2,   5,  3,  6,  7,   8,  9, 10, 17,  18, 13, 14, 15,  16, 12, 11, 19],
-        "B": [ 1,  7,  2,  3,   4,  5,  0,  6,  19,  9, 10, 11,  12, 13, 14, 16,   8, 17, 18, 15],
-        "R": [ 0,  3,  2,  5,   4,  7,  6,  1,   8,  9, 18, 11,  12, 13, 19, 15,  16, 17, 14, 10],
-        "L": [ 6,  1,  0,  3,   2,  5,  4,  7,   8, 16, 10, 11,  12, 17, 14, 15,  13,  9, 18, 19],
-        "U": [ 2,  0,  3,  1,   4,  5,  6,  7,   9, 11,  8, 10,  12, 13, 14, 15,  16, 17, 18, 19],
-        "D": [ 0,  1,  2,  3,   6,  4,  7,  5,   8,  9, 10, 11,  13, 15, 12, 14,  16, 17, 18, 19],
-        "M": [ 0,  1,  2,  3,   4,  5,  6,  7,  15,  9, 10,  8,  11, 13, 14, 12,  16, 17, 18, 19],
-        "E": [ 0,  1,  2,  3,   4,  5,  6,  7,   8,  9, 10, 11,  12, 13, 14, 15,  19, 16, 17, 18],
-        "S": [ 0,  1,  2,  3,   4,  5,  6,  7,   8, 13,  9, 11,  12, 14, 10, 15,  16, 17, 18, 19],
-    };
+    static cornerTable = {};
+    static edge1Table = {};
+    static edge2Table = {};
 
     static invTable = {}
 
     static {
+        /*
+                  0  8  1
+                  9  U 10
+                  2 11  3
+         0  9  2| 2 11  3| 3 10  1| 1  8  0
+        16  L 17|17  F 18|18  R 19|19  B 16
+         6 13  4| 4 12  5| 5 14  7| 7 15  6
+                  4 12  5
+                 13  D 14
+                  6 15  7
+        */
+        const T = {
+            " ": [ 0,  1,  2,  3,   4,  5,  6,  7,   8,  9, 10, 11,  12, 13, 14, 15,  16, 17, 18, 19],
+            "F": [ 0,  1,  4,  2,   5,  3,  6,  7,   8,  9, 10, 17,  18, 13, 14, 15,  16, 12, 11, 19],
+            "B": [ 1,  7,  2,  3,   4,  5,  0,  6,  19,  9, 10, 11,  12, 13, 14, 16,   8, 17, 18, 15],
+            "R": [ 0,  3,  2,  5,   4,  7,  6,  1,   8,  9, 18, 11,  12, 13, 19, 15,  16, 17, 14, 10],
+            "L": [ 6,  1,  0,  3,   2,  5,  4,  7,   8, 16, 10, 11,  12, 17, 14, 15,  13,  9, 18, 19],
+            "U": [ 2,  0,  3,  1,   4,  5,  6,  7,   9, 11,  8, 10,  12, 13, 14, 15,  16, 17, 18, 19],
+            "D": [ 0,  1,  2,  3,   6,  4,  7,  5,   8,  9, 10, 11,  13, 15, 12, 14,  16, 17, 18, 19],
+            "M": [ 0,  1,  2,  3,   4,  5,  6,  7,  15,  9, 10,  8,  11, 13, 14, 12,  16, 17, 18, 19],
+            "E": [ 0,  1,  2,  3,   4,  5,  6,  7,   8,  9, 10, 11,  12, 13, 14, 15,  19, 16, 17, 18],
+            "S": [ 0,  1,  2,  3,   4,  5,  6,  7,   8, 13,  9, 11,  12, 14, 10, 15,  16, 17, 18, 19],
+        };
+
         function composite(T) {
             const S = Array(20);
             for (let i=0; i<20; i++) {
@@ -506,19 +566,70 @@ class Cube2 {
             return S;
         }
 
-        const T = this.moveTable;
         for (let m of ["F", "B", "R", "L", "U", "D", "M", "E", "S"]) {
             T[m+"2"] = composite([T[m], T[m]]);
             T[m+"'"] = composite([T[m], T[m+"2"]]);
         }
 
-        T["x"] = composite([T["R"], T["M'"], T["L'"]]);
-        T["y"] = composite([T["U"], T["E'"], T["D'"]]);
-        T["z"] = composite([T["F"], T["S"], T["B'"]]);
+        for (let m1 of "FBRLUD") {
+            for (let m2 of ["", "2", "'"]) {
+                if (m1!="U" && m1!="D" && m2!="2") {
+                    continue;
+                }
 
-        for (let m of ["x", "y", "z"]) {
-            T[m+"2"] = composite([T[m], T[m]]);
-            T[m+"'"] = composite([T[m], T[m+"2"]]);
+                const m = m1+m2;
+
+                Cube2.cornerTable[m] = Array(40320);
+                Cube2.edge1Table[m] = Array(40320);
+
+                for (let p=0; p<40320; p++) {
+                    const CT = index2perm8(p);
+                    const E1T = index2perm8(p);
+                    const C1 = Array(16);
+                    for (let i=0; i<8; i++) {
+                        C1[i] = CT[i];
+                    }
+                    for (let i=0; i<8; i++) {
+                        C1[i+8] = E1T[i]+8;
+                    }
+
+                    const C2 = Array(16);
+                    for (let i=0; i<16; i++) {
+                        C2[i] = C1[T[m][i]];
+                    }
+
+                    for (let i=0; i<8; i++) {
+                        CT[i] = C2[i];
+                    }
+                    for (let i=0; i<8; i++) {
+                        E1T[i] = C2[i+8]-8;
+                    }
+
+                    Cube2.cornerTable[m][p] = perm2index8(CT);
+                    Cube2.edge1Table[m][p] = perm2index8(E1T);
+                }
+
+                Cube2.edge2Table[m] = Array(24);
+
+                for (let p=0; p<24; p++) {
+                    const E2T = index2perm4(p);
+                    const C1 = Array(20);
+                    for (let i=0; i<4; i++) {
+                        C1[i+16] = E2T[i]+16;
+                    }
+
+                    const C2 = Array(20);
+                    for (let i=16; i<20; i++) {
+                        C2[i] = C1[T[m][i]];
+                    }
+
+                    for (let i=0; i<4; i++) {
+                        E2T[i] = C2[i+16]-16;
+                    }
+
+                    Cube2.edge2Table[m][p] = perm2index4(E2T);
+                }
+            }
         }
 
         this.invTable[" "] = " ";
@@ -529,23 +640,80 @@ class Cube2 {
         }
     }
 
-    constructor() {
+    constructor(cube) {
+        /*
         this.C = Array(20);
         for (let i=0; i<20; i++) {
             this.C[i] = i;
         }
 
         this.tmp = Array(20);
+        */
+        if (cube) {
+            // cube のU/D軸DRが完了していることが前提。
+            const CI = [
+                [ 0,  9, 38], [ 2, 36, 29], [ 6, 18, 11], [ 8, 27, 20],
+                [45, 17, 24], [47, 26, 33], [51, 44, 15], [53, 35, 42],
+            ];
+            const CF = {
+                "ULB": 0, "UBR": 1, "UFL": 2, "URF": 3,
+                "DLF": 4, "DFR": 5, "DBL": 6, "DRB": 7,
+            };
+            const C = Array(8);
+            for (let i=0; i<8; i++) {
+                const f = cube.C[CI[i][0]]+cube.C[CI[i][1]]+cube.C[CI[i][2]];
+                C[i] = CF[f];
+            }
+            this.C = perm2index8(C);
+
+            const E1I = [
+                [ 1, 37], [ 3, 10], [ 5, 28], [ 7, 19],
+                [46, 25], [48, 16], [50, 34], [52, 43],
+            ];
+            const E1F = {
+                "UB": 0, "UL": 1, "UR": 2, "UF": 3,
+                "DF": 4, "DL": 5, "DR": 6, "DB": 7,
+            };
+            const E1 = Array(8);
+            for (let i=0; i<8; i++) {
+                const f = cube.C[E1I[i][0]]+cube.C[E1I[i][1]];
+                E1[i] = E1F[f];
+            }
+            this.E1 = perm2index8(E1);
+
+            const E2I = [
+                [41, 12], [21, 14], [23, 30], [39, 32],
+            ];
+            const E2F = {
+                "BL": 0, "FL": 1, "FR": 2, "BR": 3,
+            };
+            const E2 = Array(4);
+            for (let i=0; i<4; i++) {
+                const f = cube.C[E2I[i][0]]+cube.C[E2I[i][1]];
+                E2[i] = E2F[f];
+            }
+            this.E2 = perm2index4(E2);
+        } else {
+            this.C = 0;
+            this.E1 = 0;
+            this.E2 = 0;
+        }
+
         this.history = [];
     }
 
     move(m) {
+        /*
         for (let i=0; i<20; i++) {
             this.tmp[i] = this.C[i];
         }
         for (let i=0; i<20; i++) {
             this.C[i] = this.tmp[Cube2.moveTable[m][i]];
         }
+        */
+        this.C = Cube2.cornerTable[m][this.C];
+        this.E1 = Cube2.edge1Table[m][this.E1];
+        this.E2 = Cube2.edge2Table[m][this.E2];
 
         this.history.push(m);
     }
@@ -553,30 +721,35 @@ class Cube2 {
     undo() {
         const m = Cube2.invTable[this.history.pop()];
 
+        /*
         for (let i=0; i<20; i++) {
             this.tmp[i] = this.C[i];
         }
         for (let i=0; i<20; i++) {
             this.C[i] = this.tmp[Cube2.moveTable[m][i]];
         }
-    }
-
-    toString() {
-        return this.C.join(" ");
+        */
+        this.C = Cube2.cornerTable[m][this.C];
+        this.E1 = Cube2.edge1Table[m][this.E1];
+        this.E2 = Cube2.edge2Table[m][this.E2];
     }
 
     isSolved() {
+        /*
         for (let i=0; i<20; i++) {
             if (this.C[i]!=i) {
                 return false;
             }
         }
         return true;
+        */
+        return this.C==0 && this.E1==0 && this.E2==0;
     }
 
     // finishでの状態が同一ならば等しくなる文字列を返す。
     // finishはDRムーブのみで行うので、DR軸も受け取る。
     extractFinish(axis) {
+        /*
         this.move({"U/D": " ", "F/B": "x", "R/L": "z"}[axis]);
 
         const T = {
@@ -603,10 +776,15 @@ class Cube2 {
         this.undo();
 
         return s;
+        */
+
+        const s = `${this.C}_${this.E1}_${this.E2}`;
+        return s;
     }
 
     // extractFinish の返り値が finish になるような状態にする。
     unextractFinish(finish) {
+        /*
         for (let i=0; i<8; i++) {
             this.C[i] = +finish[i];
         }
@@ -616,16 +794,25 @@ class Cube2 {
         for (let i=16; i<20; i++) {
             this.C[i] = +finish[i]+16;
         }
+        */
+        [this.C, this.E1, this.E2] = finish.split("_").map(x => +x);
     }
 
-    static eParity = {
+    static eParity_ = {
         "0123": "0", "0132": "1", "0213": "1", "0231": "0", "0312": "0", "0321": "1",
         "1023": "1", "1032": "0", "1203": "0", "1230": "1", "1302": "1", "1320": "0",
         "2013": "0", "2031": "1", "2103": "1", "2130": "0", "2301": "0", "2310": "1",
         "3012": "1", "3021": "0", "3102": "0", "3120": "1", "3201": "1", "3210": "0",
     };
+    static eParity = [
+        0, 1, 1, 0, 0, 1,
+        1, 0, 0, 1, 1, 0,
+        0, 1, 1, 0, 0, 1,
+        1, 0, 0, 1, 1, 0,
+    ];
 
     extractFinishCorner(axis) {
+        /*
         this.move({"U/D": " ", "F/B": "x", "R/L": "z"}[axis]);
 
         const T = {
@@ -654,9 +841,12 @@ class Cube2 {
         this.undo();
 
         return s;
+        */
+        return ""+this.C+"_"+Cube2.eParity[this.E2];
     }
 
     unextractFinishCorner(corner) {
+        /*
         for (let i=0; i<8; i++) {
             this.C[i] = +corner[i];
         }
@@ -674,37 +864,9 @@ class Cube2 {
         for (let i=16; i<20; i++) {
             this.C[i] = +corner[i-8]+16;
         }
-    }
-
-    extractFinishEdge(axis) {
-        this.move({"U/D": " ", "F/B": "x", "R/L": "z"}[axis]);
-
-        const T = {
-            "U/D": [ 0,  1,  2,  3,   4,  5,  6,  7,   8,  9, 10, 11,  12, 13, 14, 15,  16, 17, 18, 19],
-            "F/B": [ 6,  7,  0,  1,   2,  3,  4,  5,  15, 16, 19,  8,  11, 17, 18, 12,  13,  9, 10, 14],
-            "R/L": [ 1,  7,  3,  5,   2,  4,  0,  6,  19, 10, 14, 18,  17, 9,  13, 16,   8, 11, 12, 15],
-        }[axis];
-
-        let s = "";
-        for (let i=8; i<16; i++) {
-            s += "01234567"[T[this.C[i]]-8];
-        }
-        for (let i=16; i<20; i++) {
-            s += "0123"[T[this.C[i]]-16];
-        }
-
-        this.undo();
-
-        return s;
-    }
-
-    unextractFinishEdge(edge) {
-        for (let i=8; i<16; i++) {
-            this.C[i] = +edge[i-8]+8;
-        }
-        for (let i=16; i<20; i++) {
-            this.C[i] = +edge[i-8]+16;
-        }
+        */
+        this.C = +corner.split("_")[0];
+        this.E2 = +corner.split("_")[1];
     }
 };
 
@@ -1024,7 +1186,7 @@ function searchDR(scramble, eos, maxDepth) {
     }
 }
 
-const finishTableMax = 5;
+const finishTableMax = 6;
 const finishTable = {};
 {
     const cube = new Cube2();
@@ -1098,7 +1260,7 @@ const finishCornerTable = {};
         }
 
         P = P2;
-        console.log(d, P2.length);
+        //console.log(d, P2.length);
     }
 
     console.log("Finish corner table constructed:", Object.keys(finishCornerTable).length);
@@ -1144,58 +1306,55 @@ if (false) {
 }
 
 function searchFinish(scramble, eo, dr) {
-    const cube = new Cube2();
-    for (let m of scramble) {
-        cube.move(m);
+    // 動きを axis 軸をU/Dに向けるように変更。
+    function fixAxis(axis, m) {
+        const T = {
+            "U/D": {"F": "F", "B": "B", "R": "R", "L": "L", "U": "U", "D": "D"},
+            "F/B": {"F": "U", "B": "D", "R": "R", "L": "L", "U": "B", "D": "F"},
+            "R/L": {"F": "F", "B": "B", "R": "U", "L": "D", "U": "L", "D": "R"},
+        }
+        return T[axis][m[0]]+m.substr(1);
     }
+
+    function unfixAxis(axis, m) {
+        const T = {
+            "U/D": {"F": "F", "B": "B", "R": "R", "L": "L", "U": "U", "D": "D"},
+            "F/B": {"F": "D", "B": "U", "R": "R", "L": "L", "U": "F", "D": "B"},
+            "R/L": {"F": "F", "B": "B", "R": "D", "L": "U", "U": "R", "D": "L"},
+        }
+        return T[axis][m[0]]+m.substr(1);
+    }
+
+    const cubeTemp = new Cube();
+    for (let m of scramble) {
+        cubeTemp.move(fixAxis(dr.axis, m));
+    }
+    let last = "";
     for (let m of eo.moves) {
-        cube.move(m);
+        m = fixAxis(dr.axis, m);
+        cubeTemp.move(m);
+        last = m;
     }
     for (let m of dr.moves) {
-        cube.move(m);
+        m = fixAxis(dr.axis, m);
+        cubeTemp.move(m);
+        last = m;
     }
+    const cube = new Cube2(cubeTemp);
 
     const moves = [];
-
-    const moveCands = {
-        "U/D": [
-            "F2",
-            "B2",
-            "R2",
-            "L2",
-            "U", "U2", "U'",
-            "D", "D2", "D'",
-        ],
-        "F/B": [
-            "F", "F2", "F'",
-            "B", "B2", "B'",
-            "R2",
-            "L2",
-            "U2",
-            "D2",
-        ],
-        "R/L": [
-            "F2",
-            "B2",
-            "R", "R2", "R'",
-            "L", "L2", "L'",
-            "U2",
-            "D2",
-        ],
-    };
 
     function f(depth, maxDepth) {
         if (depth==maxDepth) {
             if (cube.isSolved()) {
-                return [...moves];
+                return moves.map(m => unfixAxis(dr.axis, m));
             }
             return false;
         }
 
-        const finish = cube.extractFinish(dr.axis);
-        //const corner = cube.extractFinishCorner(dr.axis);
+        const finish = cube.extractFinish();
+        const corner = cube.extractFinishCorner();
         //const corner = finish.substring(0, 8)+Cube2.eParity[finish.substring(16, 20)];
-        const corner = finish.substring(0, 8)+finish.substring(16, 20);
         //const edge = cube.extractFinishEdge(dr.axis);
         //const edge = finish.substring(8, 20);
         const h1 = finishTable[finish]===undefined ? finishTableMax+1 : finishTable[finish];
@@ -1205,7 +1364,14 @@ function searchFinish(scramble, eo, dr) {
             return false;
         }
 
-        for (let m of moveCands[dr.axis]) {
+        for (let m of [
+            "F2",
+            "B2",
+            "R2",
+            "L2",
+            "U", "U2", "U'",
+            "D", "D2", "D'",
+        ]) {
             if (moves.length>0) {
                 const last = moves[moves.length-1];
                 if (m[0]==last[0] ||
@@ -1216,12 +1382,6 @@ function searchFinish(scramble, eo, dr) {
                 }
             } else {
                 // 前のステップについては、同じ面の動きだけはしない。
-                let last = "";
-                if (dr.moves.length>0) {
-                    last = dr.moves[dr.moves.length-1];
-                } else if (eo.moves.length>0) {
-                    last = eo.moves[eo.moves.length-1];
-                }
                 if (last!="" && m[0]==last[0]) {
                     continue;
                 }
@@ -1249,12 +1409,6 @@ function searchFinish(scramble, eo, dr) {
         }
 
         // EO、DRの最終手を逆回転。
-        let last = "";
-        if (dr.moves.length>0) {
-            last = dr.moves[dr.moves.length-1];
-        } else if (eo.move.length>0) {
-            last = eo.moves[eo.moves.length-1];
-        }
         if (last!="") {
             const t = last[0]+"2";
             cube.move(t);
@@ -1271,13 +1425,10 @@ function searchFinish(scramble, eo, dr) {
     }
 }
 
-const cube = new Cube();
-scramble = "L D L F2 R' D2 B2 R2 D2 U2 F2 L2 R' F' R' B' U2 B2 D R' U".split(" ");
+//scramble = "L D L F2 R' D2 B2 R2 D2 U2 F2 L2 R' F' R' B' U2 B2 D R' U".split(" ");
+scramble = "R' U' F L2 F' D2 F' D2 L2 B F2 D' R' F2 D U L' U R D2 L' B' R' U' F".split(" ")
 //for (let m of "R2 B D F B U2 R' B' U L' F2 R2 F2 D2 L F2 R' F2 B2".split(" ")) {
 //for (let m of "R U D R L2 F R' B' U R L' U2 L2 F2 U2 R F2 B2 D2".split(" ")) {
-for (let m of scramble) {
-    cube.move(m);
-}
 
-const eos = searchEO(scramble, 4);
-searchDR(scramble, eos, 11);
+const eos = searchEO(scramble, 5);
+searchDR(scramble, eos, 12);
