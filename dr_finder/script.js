@@ -199,6 +199,347 @@ ${C[15]}${C[16]}${C[17]}${C[24]}${C[25]}${C[26]}${C[33]}${C[34]}${C[35]}${C[42]}
         return n;
     }
 
+    htrBadCorner(axis) {
+        this.move({"U/D": " ", "F/B": "x", "R/L": "z"}[axis]);
+
+        let n = 0;
+        for (let c of [18, 20, 24, 26, 36, 38, 42, 44]) {
+            if (this.C[c]!=this.C[22] && this.C[c]!=this.C[40]) {
+                n++;
+            }
+        }
+
+        this.undo();
+
+        return n;
+    }
+
+    htrBadEdge(axis) {
+        this.move({"U/D": " ", "F/B": "x", "R/L": "z"}[axis]);
+
+        let n = 0;
+        for (let e of [19, 25, 37, 43]) {
+            if (this.C[e]!=this.C[22] && this.C[e]!=this.C[40]) {
+                n++;
+            }
+        }
+        for (let e of [10, 16, 28, 34]) {
+            if (this.C[e]==this.C[13] || this.C[e]==this.C[31]) {
+                n++;
+            }
+        }
+
+        this.undo();
+
+        return n;
+    }
+
+    // [hyperParity, htrSubset]
+    hyperParity(axis) {
+        this.move({"U/D": " ", "F/B": "x", "R/L": "z"}[axis]);
+
+        function extractUD(C) {
+            let ud = "";
+            for (let c of [ 0,  2,  8,  6, 51, 53, 47, 45]) {
+                if (C[c]==C[4]) {
+                    ud += "o";
+                } else {
+                    ud += "x";
+                }
+            }
+            return ud;
+        }
+
+        function extractFB(C) {
+            let fb = "";
+            for (let c of [38, 36, 20, 18, 44, 42, 26, 24]) {
+                if (C[c]==C[22] || C[c]==C[40]) {
+                    fb += "o";
+                } else {
+                    fb += "x";
+                }
+            }
+            return fb;
+        }
+
+        const ud = extractUD(this.C);
+        let n = 0;
+        for (let i=0; i<4; i++) {
+            if (ud[i]=="o") {
+                n++;
+            }
+        }
+        let udPattern = "";
+        if (n==0 || n==4) {
+            udPattern = "Solved";
+        } else if (n==1 || n==3) {
+            // Bars or Bar/Slash
+            let u = -1;
+            for (let i=0; i<4; i++) {
+                if (ud[i]!=ud[(i+3)%4] && ud[i]!=ud[(i+1)%4]) {
+                    u = i;
+                }
+            }
+
+            let d = -1;
+            for (let i=0; i<4; i++) {
+                if (ud[i+4]!=ud[(i+3)%4+4] && ud[i+4]!=ud[(i+1)%4+4]) {
+                    d = i;
+                }
+            }
+
+            if ((u-d+4)%4==1 || (u-d+4)%4==3) {
+                udPattern = "Bars";
+            } else {
+                udPattern = "Bar/Slash";
+            }
+        } else {
+            // Slashes or Solved or Bars or Bar/Slash
+            function f(F) {
+                if (F[0]==F[1]) {return "bar1";}
+                if (F[0]==F[3]) {return "bar2";}
+                if (F[0]==F[2]) {return "slash";}
+            }
+
+            const u = f(ud.substring(0, 4));
+            const d = f(ud.substring(4, 8));
+            if (u=="slash" && d=="slash") {
+                if (ud[0]==ud[4]) {
+                    udPattern = "Solved";
+                } else {
+                    udPattern = "Slashes";
+                }
+            }
+            if (u=="bar1" && d=="bar1" || u=="bar2" && d=="bar2") {
+                udPattern = "Solved";
+            }
+            if (u=="bar1" && d=="bar2" || u=="bar2" && d=="bar1") {
+                udPattern = "Bars";
+            }
+            if (u.substring(0, 3)=="bar" && d=="slash" || u=="slash" && d.substring(0, 3)=="bar") {
+                udPattern = "Bar/Slash";
+            }
+        }
+
+        const fb = extractFB(this.C);
+        n = 0;
+        for (let x of fb) {
+            if (x=="o") {
+                n++;
+            }
+        }
+        let fbPattern;
+        if (n==0 || n==8) {
+            fbPattern = "Solved";
+        }
+        if (n==2 || n==6) {
+            fbPattern = "One Bar";
+        }
+        if (n==4) {
+            let n2 = 0;
+            for (let i=0; i<4; i++) {
+                if (fb[i]=="o") {
+                    n2++;
+                }
+            }
+            if (n2==0 || n2==4) {
+                fbPattern = "One Face";
+            }
+            if (n2==1 || n2==3) {
+                fbPattern = "Bars";
+            }
+            if (n2==2) {
+                if ((fb[0]==fb[1])==(fb[4]==fb[5])) {
+                    fbPattern = "One Face";
+                } else {
+                    fbPattern = "Bars";
+                }
+            }
+        }
+
+        let add = "";
+        if (udPattern=="Solved" && fbPattern=="One Face") {
+            let n = 0;
+            for (let i=0; i<8; i++) {
+                if (ud[i]=="o" && fb[i]=="o") {
+                    n++;
+                }
+            }
+            if (n==0 || n==4) {
+                add = " (ST1)";
+            } else if (n==2) {
+                add = " (ST2)";
+            } else {
+                throw "error";
+            }
+        }
+        if (udPattern=="Bars" && fbPattern=="Bars") {
+            let n = 0;
+            for (let i=0; i<8; i++) {
+                if (ud[i]=="o" && fb[i]=="o") {
+                    n++;
+                }
+            }
+            if (n==0 || n==4) {
+                add = " (BB2)";
+            } else if (n==2) {
+                for (let m of [" ", "F2", "R2"]) {
+                    this.move(m);
+
+                    const ud2 = extractUD(this.C);
+                    const fb2 = extractFB(this.C);
+                    let nud = 0;
+                    let nfb = 0;
+                    for (let i=0; i<4; i++) {
+                        if (ud2[i]=="o") {
+                            nud++;
+                        }
+                        if (fb2[i]=="o") {
+                            nfb++;
+                        }
+                    }
+                    if (nud==2) {
+                        if (nfb==2) {
+                            add = " (BB1)";
+                        } else {
+                            add = " (BB3)";
+                        }
+                        break;
+                    }
+
+                    this.undo();
+                }
+                if (add=="") {
+                    throw "error";
+                }
+            } else {
+                throw "error";
+            }
+        }
+        if (udPattern=="Bar/Slash" && fbPattern=="One Bar") {
+            // ランダムに回せば良いだろう。
+            function rand(n) {
+                const r = Math.random()*n|0;
+                if (r<0 || n<=r) {
+                    r = 0;
+                }
+                return r;
+            }
+            let mn = 0;
+            for (let i=0; i<9999; i++) {
+                this.move(["U2", "F2", "B2", "L2", "R2"][rand(5)])
+                mn++;
+
+                const ud2 = extractUD(this.C);
+                let n = 0;
+                for (let i=0; i<4; i++) {
+                    if (ud2[i]=="o") {
+                        n++;
+                    }
+                }
+                const fb2 = extractFB(this.C);
+                if (fb2[0]==fb2[1] && fb2[2]==fb2[3] && fb2[0]!=fb2[3] && n==2) {
+                    if (ud2[0]==ud2[1] || ud2[4]==ud2[5]) {
+                        add = " (BS1)";
+                    } else {
+                        add = " (BS2)";
+                    }
+                    break;
+                }
+            }
+            if (add=="") {
+                throw "error";
+            }
+            for (let i=0; i<mn; i++) {
+                this.undo();
+            }
+        }
+
+        const hyper = `${udPattern}+${fbPattern}${add}`;
+
+        const CI = [
+            [ 0,  9, 38], [ 2, 36, 29], [ 6, 18, 11], [ 8, 27, 20],
+            [45, 17, 24], [47, 26, 33], [51, 44, 15], [53, 35, 42],
+        ];
+
+        const init = new Cube();
+        init.move({"U/D": " ", "F/B": "x", "R/L": "z"}[axis]);
+        const P = new Array(8);
+        for (let i=0; i<8; i++) {
+            for (let j=0; j<8; j++) {
+                let ok = true;
+                for (let k=0; k<3; k++) {
+                    if (this.C[CI[i][k]]!=init.C[CI[j][k]]) {
+                        ok = false;
+                    }
+                }
+                if (ok) {
+                    P[i] = j;
+                    break;
+                }
+            }
+        }
+
+        let parity = 0;
+        for (let i=0; i<8; i++) {
+            for (let j=0; j<i; j++) {
+                if (P[j]>P[i]) {
+                    parity ^= 1;
+                }
+            }
+        }
+
+        let qt = -1;
+        if (hyper=="Slashes+One Face"        && parity==0) {qt = 2;}
+        if (hyper=="Slashes+One Face"        && parity==1) {qt = 1;}
+        if (hyper=="Slashes+Bars"            && parity==0) {qt = 4;}
+        if (hyper=="Slashes+Bars"            && parity==1) {qt = 3;}
+        if (hyper=="Solved+Solved"           && parity==0) {qt = 0;}
+        if (hyper=="Solved+Solved"           && parity==1) {qt = 3;}
+        if (hyper=="Solved+One Face (ST1)"   && parity==0) {qt = 2;}
+        if (hyper=="Solved+One Face (ST1)"   && parity==1) {qt = 1;}
+        if (hyper=="Solved+One Face (ST2)"   && parity==0) {qt = 2;}
+        if (hyper=="Solved+One Face (ST2)"   && parity==1) {qt = 3;}
+        if (hyper=="Solved+Bars"             && parity==0) {qt = 2;}
+        if (hyper=="Solved+Bars"             && parity==1) {qt = 3;}
+        if (hyper=="Solved+One Bar"          && parity==0) {qt = 4;}
+        if (hyper=="Solved+One Bar"          && parity==1) {qt = 5;}
+        if (hyper=="Bars+Solved"             && parity==0) {qt = 4;}
+        if (hyper=="Bars+Solved"             && parity==1) {qt = 3;}
+        if (hyper=="Bars+One Face"           && parity==0) {qt = 4;}
+        if (hyper=="Bars+One Face"           && parity==1) {qt = 1;}
+        if (hyper=="Bars+Bars (BB1)"         && parity==0) {qt = 2;}
+        if (hyper=="Bars+Bars (BB1)"         && parity==1) {qt = 3;}
+        if (hyper=="Bars+Bars (BB2)"         && parity==0) {qt = 4;}
+        if (hyper=="Bars+Bars (BB2)"         && parity==1) {qt = 3;}
+        if (hyper=="Bars+Bars (BB3)"         && parity==0) {qt = 4;}
+        if (hyper=="Bars+Bars (BB3)"         && parity==1) {qt = 5;}
+        if (hyper=="Bars+One Bar"            && parity==0) {qt = 4;}
+        if (hyper=="Bars+One Bar"            && parity==1) {qt = 3;}
+        if (hyper=="Bar/Slash+One Face"      && parity==0) {qt = 4;}
+        if (hyper=="Bar/Slash+One Face"      && parity==1) {qt = 3;}
+        if (hyper=="Bar/Slash+Bars"          && parity==0) {qt = 2;}
+        if (hyper=="Bar/Slash+Bars"          && parity==1) {qt = 5;}
+        if (hyper=="Bar/Slash+One Bar (BS1)" && parity==0) {qt = 4;}
+        if (hyper=="Bar/Slash+One Bar (BS1)" && parity==1) {qt = 3;}
+        if (hyper=="Bar/Slash+One Bar (BS2)" && parity==0) {qt = 4;}
+        if (hyper=="Bar/Slash+One Bar (BS2)" && parity==1) {qt = 5;}
+        if (qt==-1) {
+            throw "error";
+        }
+
+        const subset = {
+            "Solved":   "0c",
+            "One Face": "4a",
+            "Bars":     "4b",
+            "One Bar":  "2c",
+        }[fbPattern]+qt;
+
+        this.undo();
+
+        return [hyper, subset];
+    }
+
     isSolved() {
         for (let i=0; i<54; i++) {
             if (this.C[i]!="ULFRBD"[i/9|0]) {
@@ -609,10 +950,36 @@ class Cube2 {
 };
 
 class EO {
-    constructor(axis, normal, inverse) {
+    static id;
+
+    static() {
+        EO.id = 0;
+    }
+
+    constructor(scramble, axis, normal, inverse) {
+        this.id = ""+EO.id;
+        EO.id++;
+
         this.axis = axis;
         this.normal = [...normal];
         this.inverse = [...inverse];
+
+        this.moves = normal.length+inverse.length;
+
+        const cube = new Cube();
+        for (let m of reverse(inverse)) {
+            cube.move(m);
+        }
+        for (let m of scramble) {
+            cube.move(m);
+        }
+        for (let m of normal) {
+            cube.move(m);
+        }
+
+        this.DRmUD = axis=="F/B" || axis=="R/L" ? `${cube.drBadEdge("U/D")}e${cube.drBadCorner("U/D")}c` : "";
+        this.DRmFB = axis=="R/L" || axis=="U/D" ? `${cube.drBadEdge("F/B")}e${cube.drBadCorner("F/B")}c` : "";
+        this.DRmRL = axis=="U/D" || axis=="F/B" ? `${cube.drBadEdge("R/L")}e${cube.drBadCorner("R/L")}c` : "";
     }
 
     toString() {
@@ -626,7 +993,17 @@ class EO {
             }
             s += `${this.normal.join(" ")}`;
         }
-        s += ` // EO (${this.axis})`;
+        s += ` // EO (${this.axis}`;
+        if (this.DRmUD!="") {
+            s += `, DR-${this.DRmUD} (U/D)`;
+        }
+        if (this.DRmFB!="") {
+            s += `, DR-${this.DRmFB} (F/B)`;
+        }
+        if (this.DRmRL!="") {
+            s += `, DR-${this.DRmRL} (R/L)`;
+        }
+        s += `) (${this.moves}/${this.moves})`;
         return s;
     }
 };
@@ -670,7 +1047,7 @@ const eoTable = new Map();
     console.log("EO table constructed:", eoTable.size);
 }
 
-function searchEO(scramble, maxDepth, niss) {
+function searchEO(scramble, maxDepth, niss, maxNum) {
     const scrambleTable = Cube.makeTable(scramble);
     const inverseTable = Cube.makeTable(reverse(scramble));
 
@@ -690,6 +1067,10 @@ function searchEO(scramble, maxDepth, niss) {
     const inverse = [];
 
     function f2(depth, maxDepthN, rev) {
+        if (eos.length>=maxNum) {
+            return;
+        }
+
         if (depth==maxDepthN) {
             const first = inverse.length==0 ? "" : inverse[0];
             const last = normal.length==0 ? "" : normal[normal.length-1];
@@ -700,7 +1081,9 @@ function searchEO(scramble, maxDepth, niss) {
                 if ((first=="" || first==axis[0]+"'" || first==axis[2]+"'") &&
                     (last=="" || last==axis[0] || last==axis[2]) &&
                     cube.eoBadEdge(axis)==0) {
-                    const eo = !rev ? new EO(axis, normal, reverse(inverse)) : new EO(axis, reverse(inverse), normal);
+                    const eo = !rev ?
+                        new EO(scramble, axis, normal, reverse(inverse)) :
+                        new EO(scramble, axis, reverse(inverse), normal);
                     console.log(eo.toString());
                     eos.push(eo);
                 }
@@ -739,6 +1122,10 @@ function searchEO(scramble, maxDepth, niss) {
     }
 
     function f1(depth, maxDepthN, maxDepthI, rev) {
+        if (eos.length>=maxNum) {
+            return;
+        }
+
         if (depth==maxDepthI) {
             if (!rev) {
                 cube.moveTable(scrambleTable);
@@ -798,10 +1185,50 @@ function searchEO(scramble, maxDepth, niss) {
 }
 
 class DR {
-    constructor(axis, normal, inverse) {
+    static id;
+
+    static() {
+        DR.id = 0;
+    }
+
+    constructor(scramble, eo, axis, normal, inverse) {
+        this.id = ""+DR.id;
+        DR.id++;
+
+        this.eo = eo;
         this.axis = axis;
         this.normal = [...normal];
         this.inverse = [...inverse];
+
+        this.moves = normal.length+inverse.length;
+        if (normal.length>0 && eo.normal.length>0 &&
+            normal[0][0]==eo.normal[eo.normal.length-1][0]) {
+            this.moves--;
+        }
+        if (inverse.length>0 && eo.inverse.length>0 &&
+            inverse[0][0]==eo.inverse[eo.inverse.length-1][0]) {
+            this.moves--;
+        }
+
+        const cube = new Cube();
+        for (let m of reverse(inverse)) {
+            cube.move(m);
+        }
+        for (let m of reverse(eo.inverse)) {
+            cube.move(m);
+        }
+        for (let m of scramble) {
+            cube.move(m);
+        }
+        for (let m of eo.normal) {
+            cube.move(m);
+        }
+        for (let m of normal) {
+            cube.move(m);
+        }
+
+        this.HTRm = `${cube.htrBadEdge(axis)}e${cube.htrBadCorner(axis)}c`;
+        [this.hyperParity, this.htrSubset] = cube.hyperParity(axis);
     }
 
     toString() {
@@ -815,7 +1242,9 @@ class DR {
             }
             s += `${this.normal.join(" ")}`;
         }
-        s += ` // DR (${this.axis})`;
+        s += ` // DR (${this.axis}, HTR-${this.HTRm}, ${this.hyperParity}, ${this.htrSubset})`;
+        const n = this.normal.length+this.inverse.length;
+        s += ` (${n}${this.moves-n!=0?this.moves-n:""}/${this.moves+this.eo.moves})`;
         return s;
     }
 };
@@ -860,7 +1289,7 @@ const drTable = new Map();
     console.log("DR table constructed:", drTable.size);
 }
 
-function searchDR(scramble, eos, maxDepth, niss) {
+function searchDR(scramble, eos, maxDepth, niss, maxNum, maxFinishDepth) {
     const scrambleTable = Cube.makeTable(scramble);
     const inverseTable = Cube.makeTable(reverse(scramble));
 
@@ -906,10 +1335,15 @@ function searchDR(scramble, eos, maxDepth, niss) {
 
     const cube = new Cube();
 
+    let num = 0;
     const normal = [];
     const inverse = [];
 
     function f2(depth, maxDepthN, rev, eo) {
+        if (num>=maxNum) {
+            return;
+        }
+
         if (depth==maxDepthN) {
             for (let axis of axisCands[eo.axis]) {
                 const first = inverse.length==0 ||
@@ -934,10 +1368,17 @@ function searchDR(scramble, eos, maxDepth, niss) {
                     (last=="" || last==cand[0] || last==cand[2]) &&
                     cube.drBadEdge(axis)==0 && cube.drBadCorner(axis)==0) {
                         console.log(eo.toString());
-                        const dr = !rev ? new DR(axis, normal, reverse(inverse)) : new DR(axis, reverse(inverse), normal);
+                        const dr = !rev ?
+                            new DR(scramble, eo, axis, normal, reverse(inverse)) :
+                            new DR(scramble, eo, axis, reverse(inverse), normal);
                         console.log(dr.toString());
-                        const finish = searchFinish(scramble, eo, dr);
-                        console.log(finish.toString());
+                        num++;
+                        const finish = searchFinish(scramble, eo, dr, maxFinishDepth);
+                        if (finish) {
+                            console.log(finish.toString());
+                        } else {
+                            console.log(`> ${maxFinishDepth}`)
+                        }
                         console.log();
                 }
             }
@@ -981,6 +1422,10 @@ function searchDR(scramble, eos, maxDepth, niss) {
     }
 
     function f1(depth, maxDepthN, maxDepthI, rev, eo) {
+        if (num>=maxNum) {
+            return;
+        }
+
         if (depth==maxDepthI) {
             // 最後の1手がEOの最後の1手と同じ面のものは弾く。
             // TODO: F -> B などと順番を固定していることと合わせて、漏れがあるはず。
@@ -1120,12 +1565,49 @@ function searchDR(scramble, eos, maxDepth, niss) {
 }
 
 class Finish {
-    constructor(moves) {
-        this.moves = [...moves];
+    static id;
+
+    static() {
+        Finish.id = 0;
+    }
+
+    constructor(dr, normal) {
+        this.id = ""+Finish.id;
+        Finish.id++;
+
+        this.dr = dr;
+        this.normal = [...normal];
+
+        this.moves = normal.length;
+        if (normal.length>0) {
+            if (dr.normal.length>0) {
+                if (normal[0][0]==dr.normal[dr.normal.length-1][0]) {
+                    this.moves--;
+                }
+            } else if (dr.eo.normal.length>0) {
+                if (normal[0][0]==dr.eo.normal[dr.eo.normal.length-1][0]) {
+                    this.moves--;
+                }
+            }
+
+            if (dr.inverse.length>0) {
+                if (normal[normal.length-1][0]==dr.inverse[0][0]) {
+                    this.moves--;
+                }
+            } else if (dr.eo.inverse.length>0) {
+                if (normal[normal.length-1][0]==dr.eo.inverse[0][0]) {
+                    this.moves--;
+                }
+            }
+        }
     }
 
     toString() {
-        return `${this.moves.join(" ")} // finish`;
+        const n = this.normal.length;
+        let s = this.normal.join(" ");
+        s += " // finish (DR move optimal)";
+        s += ` (${n}${this.moves-n!=0?this.moves-n:""}/${this.moves+this.dr.moves+this.dr.eo.moves})`;
+        return s;
     }
 }
 
@@ -1209,7 +1691,7 @@ const finishCornerTable = new Map();
     console.log("Finish corner table constructed:", finishCornerTable.size);
 }
 
-function searchFinish(scramble, eo, dr) {
+function searchFinish(scramble, eo, dr, maxDepth) {
     // 動きを axis 軸をU/Dに向けるように変更。
     function fixAxis(axis, m) {
         const T = {
@@ -1236,46 +1718,26 @@ function searchFinish(scramble, eo, dr) {
     for (let m of dr.normal) {
         normal.push(fixAxis(dr.axis, m));
     }
-    // 逆転済み。
+
     const inverse = [];
-    for (let m of reverse(dr.inverse)) {
+    for (let m of eo.inverse) {
         inverse.push(fixAxis(dr.axis, m));
     }
-    for (let m of reverse(eo.inverse)) {
+    for (let m of dr.inverse) {
         inverse.push(fixAxis(dr.axis, m));
     }
 
-    const cubeTemp = new Cube();
-    for (let m of inverse) {
-        cubeTemp.move(m);
-    }
-    for (let m of scramble) {
-        cubeTemp.move(fixAxis(dr.axis, m));
-    }
-    for (let m of normal) {
-        cubeTemp.move(m);
-    }
-
-    const cube = new Cube2(cubeTemp);
+    let cube;
     const moves = [];
 
-    function f(depth, maxDepth) {
+    function f(depth, maxDepth, last) {
         if (depth==maxDepth) {
             if (cube.isSolved()) {
-                return new Finish(moves.map(m => unfixAxis(dr.axis, m)));
-            }
-
-            if (inverse.length>0) {
-                const m = inverse[0][0]+"2";
-                cube.move(m);
-                moves.push(m);
-
-                if (cube.isSolved()) {
-                    return new Finish(moves.map(m => unfixAxis(dr.axis, m)));
+                const normal = [...moves];
+                if (last!="") {
+                    normal.push(last);
                 }
-
-                cube.undo();
-                moves.pop();
+                return new Finish(dr, normal.map(m => unfixAxis(dr.axis, m)));
             }
             return false;
         }
@@ -1284,8 +1746,7 @@ function searchFinish(scramble, eo, dr) {
         const corner = cube.extractFinishCorner();
         const h1 = finishTable.has(finish) ? finishTable.get(finish) : finishTableMax+1;
         const h2 = finishCornerTable.get(corner);
-        // -1 は最後の逆回転分。
-        if (depth+Math.max(h1, h2)-1>maxDepth) {
+        if (depth+Math.max(h1, h2)>maxDepth) {
             return false;
         }
 
@@ -1315,48 +1776,73 @@ function searchFinish(scramble, eo, dr) {
             cube.move(m);
             moves.push(m);
 
-            const res = f(depth+1, maxDepth);
+            const res = f(depth+1, maxDepth, last);
 
             cube.undo();
             moves.pop();
 
-            if (res!==false) {
+            if (res) {
                 return res;
             }
         }
         return false;
     }
 
-    for (let depth=0; ; depth++) {
-        const res = f(0, depth);
-        if (res!==false) {
-            return res;
-        }
-
-        // EO、DRの最終手を逆回転。
-        if (normal.length>0) {
-            const t = normal[normal.length-1][0]+"2";
-            cube.move(t);
-            moves.push(t);
-
-            const res = f(0, depth);
-            if (res!==false) {
-                return res;
+    for (let depth=0; depth<=maxDepth; depth++) {
+        for (let revN=0; revN<2; revN++) {
+            if (revN==1 && normal.length==0) {
+                continue;
             }
 
-            cube.undo();
-            moves.pop();
+            for (let revI=0; revI<2; revI++) {
+                if (revI==1 && inverse.length==0) {
+                    continue;
+                }
+
+                let last = "";
+                if (revI==1) {
+                    last = inverse[inverse.length-1][0]+"2";
+                }
+
+                const cubeTemp = new Cube();
+                if (last!="") {
+                    cubeTemp.move(reverse(last));
+                }
+                for (let m of reverse(inverse)) {
+                    cubeTemp.move(m);
+                }
+                for (let m of scramble) {
+                    cubeTemp.move(fixAxis(dr.axis, m));
+                }
+                for (let m of normal) {
+                    cubeTemp.move(m);
+                }
+
+                cube = new Cube2(cubeTemp);
+
+                if (revN==1) {
+                    const t = normal[normal.length-1][0]+"2";
+                    cube.move(t);
+                    moves.push(t);
+                }
+
+                const res = f(0, depth, last);
+                if (res) {
+                    return res;
+                }
+
+                if (revN==1) {
+                    moves.pop();
+                }
+            }
         }
     }
 }
 
-scramble = "L D L F2 R' D2 B2 R2 D2 U2 F2 L2 R' F' R' B' U2 B2 D R' U";
-//scramble = "R' U' F L2 F' D2 F' D2 L2 B F2 D' R' F2 D U L' U R D2 L' B' R' U' F"
-//for (let m of "R2 B D F B U2 R' B' U L' F2 R2 F2 D2 L F2 R' F2 B2".split(" ")) {
-//for (let m of "R U D R L2 F R' B' U R L' U2 L2 F2 U2 R F2 B2 D2".split(" ")) {
+scramble = "R' U' F U B2 U B2 F2 D' U' F2 R2 U2 F L2 B' U' F R' D U2 R B U R' U' F";
 
 console.log(scramble);
 
 scramble = scramble.split(" ")
-const eos = searchEO(scramble, 5, "always");
-searchDR(scramble, eos, 10, "always");
+const eos = searchEO(scramble, 5, "always", 16);
+searchDR(scramble, eos, 14, "always", 64, 20);
