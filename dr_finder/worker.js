@@ -1072,6 +1072,9 @@ function searchEO(scramble, maxDepth, niss, maxNum) {
             const last = normal.length==0 ? "" : normal[normal.length-1];
 
             for (let axis of ["F/B", "R/L", "U/D"]) {
+                if (eos.length>=maxNum) {
+                    return;
+                }
                 // Nissyは最後の2手がF' Bのようなものは除いている。
                 // DR/finishで2手前のキャンセルするようにして、除くべき？
                 if ((first=="" || first==axis[0]+"'" || first==axis[2]+"'") &&
@@ -1349,6 +1352,10 @@ function searchDR(scramble, eos, maxDepth, niss, maxNum, maxFinishDepth) {
 
         if (depth==maxDepthN) {
             for (let axis of axisCands[eo.axis]) {
+                if (num>=maxNum) {
+                    return;
+                }
+
                 const first = inverse.length==0 ||
                     inverse.length==1 && eo.inverse.length>0 && inverse[0][0]==eo.inverse[eo.inverse.length-1][0] ?
                     "" : inverse[0];
