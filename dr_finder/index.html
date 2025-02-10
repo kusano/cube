@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="FMC DR Finder">
+    <meta property="og:description" content="This tool finds DRs (Domino Reductions) and their optimal (using DR moves) solution.">
+    <title>FMC DR Finder</title>
+    <link rel="stylesheet" href="../bulma.min.css">
+    <style>
+      address {
+        text-align: right;
+      }
+      .finish {
+        border-bottom: solid 1px rgb(74, 74, 74);
+
+      }
+    </style>
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>FMC DR Finder</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; FMC DR Finder
+        </p>
+        <p>
+          This tool finds DRs (Domino Reductions) and their optimal (using DR moves) solution.
+        </p>
+        <hr>
+        <p>
+          <details>
+            <summary>Settings</summary>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">EO max depth</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select id="eo_max_depth">
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">EO max number</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select id="eo_max_number">
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">EO NISS</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select id="eo_niss">
+                        <option value="never">never</option>
+                        <option value="before">before only</option>
+                        <option value="always" selected>always</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">EO+DR max depth</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select id="dr_max_depth">
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">DR max number</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select id="dr_max_number">
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">DR NISS</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select id="dr_niss">
+                        <option value="never">never</option>
+                        <option value="before">before only</option>
+                        <option value="always" selected>always</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">Finish max depth</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select id="finish_max_depth">
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label"></label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <button id="reset" class="button is-primary">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+        </p>
+        <div class="mb-2" style="display: flex; justify-content: space-between">
+          <div class="cell">Scramble (+ part of your solution):</div>
+          <div class="cell has-text-right"><button id="random" class="button is-small is-primary">Random</button></div>
+        </div>
+        <p>
+          <textarea id="input" class="textarea" placeholder="R' U' F R' D F2 D F2 L2 U R2 U' F2 R2 U' R2 F' D2 L2 U L2 R U2 B2 R' U' F
+
+(L U' F) // EO (F/B) (3/3)" rows="3"></textarea>
+        </p>
+        <p>
+          <button id="stop" class="button is-danger" style="display: none">Stop</button>
+          <button id="restart" class="button is-primary" style="display: none">Restart</button>
+        </p>
+        <p id="parse" style="display: none">
+          Parsed scramble: <span id="scramble" class="has-text-weight-bold"></span><br>
+        </p>
+        <p id="visualize" style="display: none">
+          <canvas id="canvas" width="350" height="150"></canvas>
+        </p>
+        <p id="progress" style="display: none">
+          <progress class="progress is-primary is-small" max="100"></progress>
+        </p>
+        <p>
+          <div id="eo_depth" style="display: none">
+            EO depth: <span id="eo_depth_num"></span>
+          </div>
+          <div id="eo_number" style="display: none">
+            EO number: <span id="eo_number_num"></span>
+          </div>
+          <div id="dr_depth" style="display: none">
+            EO+DR depth: <span id="dr_depth_num"></span>
+          </div>
+          <div id="dr_number" style="display: none">
+            DR number: <span id="dr_number_num"></span>
+          </div>
+        </p>
+        <p id="solution" style="display: none">
+          Best solution: <span id="solution_moves" class="has-text-weight-bold"></span> (<span id="solution_moves_num" class="has-text-weight-bold"></span>)
+        </p>
+        <pre id="solution_pre" style="display: none"></pre>
+        <p id="drs_title" style="display: none">DRs:</p>
+        <ul id="drs" style="display: none">
+        </ul>
+        <hr>
+        <address>
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>

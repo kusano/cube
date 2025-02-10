@@ -950,11 +950,7 @@ class Cube2 {
 };
 
 class EO {
-    static id;
-
-    static() {
-        EO.id = 0;
-    }
+    static id = 0;
 
     constructor(scramble, axis, normal, inverse) {
         this.id = ""+EO.id;
@@ -1084,7 +1080,11 @@ function searchEO(scramble, maxDepth, niss, maxNum) {
                     const eo = !rev ?
                         new EO(scramble, axis, normal, reverse(inverse)) :
                         new EO(scramble, axis, reverse(inverse), normal);
-                    console.log(eo.toString());
+                    // console.log(eo.toString());
+                    postMessage({
+                        type: "eo",
+                        eo: eo,
+                    });
                     eos.push(eo);
                 }
             }
@@ -1165,6 +1165,13 @@ function searchEO(scramble, maxDepth, niss, maxNum) {
     }
 
     for (let depth=0; depth<=maxDepth; depth++) {
+        if (eos.length>=maxNum) {
+            break;
+        }
+        postMessage({
+            type: "eo_depth",
+            depth: depth,
+        });
         for (let depthI=0; depthI<=depth; depthI++) {
             const depthN = depth-depthI;
             if (niss=="never" && depthI>0 ||
@@ -1185,11 +1192,7 @@ function searchEO(scramble, maxDepth, niss, maxNum) {
 }
 
 class DR {
-    static id;
-
-    static() {
-        DR.id = 0;
-    }
+    static id = 0;
 
     constructor(scramble, eo, axis, normal, inverse) {
         this.id = ""+DR.id;
@@ -1367,19 +1370,27 @@ function searchDR(scramble, eos, maxDepth, niss, maxNum, maxFinishDepth) {
                 if ((first=="" || first==cand[0]+"'" || first==cand[2]+"'") &&
                     (last=="" || last==cand[0] || last==cand[2]) &&
                     cube.drBadEdge(axis)==0 && cube.drBadCorner(axis)==0) {
-                        console.log(eo.toString());
+                        //console.log(eo.toString());
                         const dr = !rev ?
                             new DR(scramble, eo, axis, normal, reverse(inverse)) :
                             new DR(scramble, eo, axis, reverse(inverse), normal);
-                        console.log(dr.toString());
+                        //console.log(dr.toString());
+                        postMessage({
+                            type: "dr",
+                            dr: dr,
+                        });
                         num++;
                         const finish = searchFinish(scramble, eo, dr, maxFinishDepth);
                         if (finish) {
-                            console.log(finish.toString());
+                            //console.log(finish.toString());
+                            postMessage({
+                                type: "finish",
+                                finish: finish,
+                            });
                         } else {
-                            console.log(`> ${maxFinishDepth}`)
+                            //console.log(`> ${maxFinishDepth}`)
                         }
-                        console.log();
+                        //console.log();
                 }
             }
             return;
@@ -1543,6 +1554,13 @@ function searchDR(scramble, eos, maxDepth, niss, maxNum, maxFinishDepth) {
     }
 
     for (let depth=0; depth<=maxDepth; depth++) {
+        if (num>=maxNum) {
+            break;
+        }
+        postMessage({
+            type: "dr_depth",
+            depth: depth,
+        });
         for (let d=0; d<=depth; d++) {
             for (let eo of eoDepth[d]) {
                 const eoDepth = eo.normal.length+eo.inverse.length;
@@ -1565,11 +1583,7 @@ function searchDR(scramble, eos, maxDepth, niss, maxNum, maxFinishDepth) {
 }
 
 class Finish {
-    static id;
-
-    static() {
-        Finish.id = 0;
-    }
+    static id = 0;
 
     constructor(dr, normal) {
         this.id = ""+Finish.id;
@@ -1839,10 +1853,19 @@ function searchFinish(scramble, eo, dr, maxDepth) {
     }
 }
 
-scramble = "R' U' F U B2 U B2 F2 D' U' F2 R2 U2 F L2 B' U' F R' D U2 R B U R' U' F";
+// scramble = "R' U' F R2 D F2 D U2 B2 D2 F' U B2 R F L2 B2 R U' B D F2 R' U' F";
+// console.log(scramble);
+// scramble = scramble.split(" ")
+// const eos = searchEO(scramble, 5, "always", 16);
+// searchDR(scramble, eos, 14, "always", 64, 20);
 
-console.log(scramble);
+onmessage = e => {
+    const data = e.data;
 
-scramble = scramble.split(" ")
-const eos = searchEO(scramble, 5, "always", 16);
-searchDR(scramble, eos, 14, "always", 64, 20);
+    const eos = searchEO(data.scramble, data.EOMaxDepth, data.EONiss, data.EOMaxNumber);
+    searchDR(data.scramble, eos, data.DRMaxDepth, data.DRNiss, data.DRMaxNumber, data.finishMaxDepth);
+
+    postMessage({
+        type: "end",
+    });
+}
