@@ -23,6 +23,7 @@ const elDRDepth = document.getElementById("dr_depth");
 const elDRDepthNum = document.getElementById("dr_depth_num");
 const elDRNumber = document.getElementById("dr_number");
 const elDRNumberNum = document.getElementById("dr_number_num");
+const elDRNumberSubsets = document.getElementById("dr_number_subsets");
 const elSolution = document.getElementById("solution");
 const elSolutionMoves = document.getElementById("solution_moves");
 const elSolutionMovesNum = document.getElementById("solution_moves_num");
@@ -315,6 +316,15 @@ function search() {
         const ctx = elCanvas.getContext("2d");
         ctx.reset();
 
+        const dpr = window.devicePixelRatio;
+        const rect = elCanvas.getBoundingClientRect();
+
+        elCanvas.width = rect.width * dpr;
+        elCanvas.height = rect.height * dpr;
+
+        elCanvas.style.width = `${rect.width}px`;
+        elCanvas.style.height = `${rect.height}px`;
+
         // 25.5/11:1
         ctx.clearRect(0, 0, elCanvas.width, elCanvas.height);
         ctx.scale(elCanvas.height, elCanvas.height);
@@ -454,6 +464,7 @@ function search() {
 
     let eoNumber = 0;
     let drNumber = 0;
+    let drNumberSubsets = new Map();
     let best = 9999;
 
     while (elDRs.firstChild) {
@@ -538,11 +549,29 @@ function search() {
             elDRDepthNum.textContent = ""+data.depth;
         }
         if (data.type=="dr") {
+            const dr = data.dr;
+
             drNumber++;
             elDRNumber.style.display = "block";
             elDRNumberNum.textContent = ""+drNumber;
 
-            const dr = data.dr;
+            if (!drNumberSubsets.has(dr.htrSubset)) {
+                drNumberSubsets.set(dr.htrSubset, 0);
+            }
+            drNumberSubsets.set(dr.htrSubset, drNumberSubsets.get(dr.htrSubset)+1);
+
+            const subsets = [];
+            for (let subset of [
+                "0c0", "0c3", "0c4",
+                "4a1", "4a2", "4a3", "4a4",
+                "4b2", "4b3", "4b4", "4b5",
+                "2c3", "2c4", "2c5",
+            ]) {
+                if (drNumberSubsets.has(subset)) {
+                    subsets.push(`${subset}: ${drNumberSubsets.get(subset)}`);
+                }
+            }
+            elDRNumberSubsets.textContent = subsets.join(", ");
 
             let html = `<span class="has-text-weight-bold">${movesString(dr)}</span> // DR`;
             html += ` (${drInfoString(dr)})`;
