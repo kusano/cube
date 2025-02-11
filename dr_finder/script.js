@@ -565,7 +565,7 @@ function search() {
         function rzpInfoString(rzp) {
             infos = [
                 rzp.axis,
-                `RZP-${rzp.DRm}`,
+                `DR-${rzp.DRm}`,
             ];
             return infos.join(", ");
         }
