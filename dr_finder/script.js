@@ -1,6 +1,11 @@
 const elEOMaxDepth = document.getElementById("eo_max_depth");
 const elEOMaxNumber = document.getElementById("eo_max_number");
 const elEONiss = document.getElementById("eo_niss");
+const elRZPUse = document.getElementById("rzp_use");
+const elRZP = document.getElementById("rzp");
+const elRZPMaxDepth = document.getElementById("rzp_max_depth");
+const elRZPMaxNumber = document.getElementById("rzp_max_number");
+const elRZPNiss = document.getElementById("rzp_niss");
 const elDRMaxDepth = document.getElementById("dr_max_depth");
 const elDRMaxNumber = document.getElementById("dr_max_number");
 const elDRNiss = document.getElementById("dr_niss");
@@ -19,6 +24,10 @@ const elEODepth = document.getElementById("eo_depth");
 const elEODepthNum = document.getElementById("eo_depth_num");
 const elEONumber = document.getElementById("eo_number");
 const elEONumberNum = document.getElementById("eo_number_num");
+const elRZPDepth = document.getElementById("rzp_depth");
+const elRZPDepthNum = document.getElementById("rzp_depth_num");
+const elRZPNumber = document.getElementById("rzp_number");
+const elRZPNumberNum = document.getElementById("rzp_number_num");
 const elDRDepth = document.getElementById("dr_depth");
 const elDRDepthNum = document.getElementById("dr_depth_num");
 const elDRNumber = document.getElementById("dr_number");
@@ -31,19 +40,32 @@ const elSolutionPre = document.getElementById("solution_pre");
 const elDRsTitle = document.getElementById("drs_title");
 const elDRs = document.getElementById("drs");
 
-let config = localStorage.getItem("dr_finder");
-if (config) {
-    config = JSON.parse(config);
-} else {
-    config = {
-        eo_max_depth: 5,
-        eo_max_number: 16,
-        eo_niss: "always",
-        dr_max_depth: 14,
-        dr_max_number: 32,
-        dr_niss: "always",
-        finish_max_depth: 16,
-    };
+const configVersion = 1;
+
+let config;
+{
+    const c = localStorage.getItem("dr_finder");
+    if (c) {
+        config = JSON.parse(c);
+        if (!config.version || config.version<configVersion) {
+            config = undefined;
+        }
+    }
+    if (!config) {
+        config = {
+            eo_max_depth: 5,
+            eo_max_number: 16,
+            eo_niss: "always",
+            rzp_use: false,
+            rzp_max_depth: 7,
+            rzp_max_number: 32,
+            rzp_niss: "before",
+            dr_max_depth: 14,
+            dr_max_number: 32,
+            dr_niss: "always",
+            finish_max_depth: 16,
+        };
+    }
 }
 
 for (let i=0; i<=8; i++) {
@@ -63,6 +85,27 @@ for (let i=1; i<=256; i*=2) {
 elEOMaxNumber.value = ""+config.eo_max_number;
 
 elEONiss.value = config.eo_niss;
+
+elRZPUse.checked = config.rzp_use;
+elRZP.style.display = elRZPUse.checked?"block":"none";
+
+for (let i=0; i<=10; i++) {
+    const o = document.createElement("option");
+    o.value = ""+i;
+    o.textContent = ""+i;
+    elRZPMaxDepth.appendChild(o);
+}
+elRZPMaxDepth.value = ""+config.rzp_max_depth;
+
+for (let i=1; i<=1024; i*=2) {
+    const o = document.createElement("option");
+    o.value = ""+i;
+    o.textContent = ""+i;
+    elRZPMaxNumber.appendChild(o);
+}
+elRZPMaxNumber.value = ""+config.rzp_max_number;
+
+elRZPNiss.value = config.rzp_niss;
 
 for (let i=0; i<=16; i++) {
     const o = document.createElement("option");
@@ -236,15 +279,24 @@ function search() {
     eoMaxDepth = +elEOMaxDepth.value,
     eoMaxNumber = +elEOMaxNumber.value,
     eoNiss = elEONiss.value,
+    rzpUse = elRZPUse.checked,
+    rzpMaxDepth = +elRZPMaxDepth.value,
+    rzpMaxNumber = +elRZPMaxNumber.value,
+    rzpNiss = elRZPNiss.value,
     drMaxDepth = +elDRMaxDepth.value,
     drMaxNumber = +elDRMaxNumber.value,
     drNiss = elDRNiss.value,
     finishMaxDepth = +elFinishMaxDepth.value,
 
     localStorage.setItem("dr_finder", JSON.stringify({
+        version: configVersion,
         eo_max_depth: eoMaxDepth,
         eo_max_number: eoMaxNumber,
         eo_niss: eoNiss,
+        rzp_use: rzpUse,
+        rzp_max_depth: rzpMaxDepth,
+        rzp_max_number: rzpMaxNumber,
+        rzp_niss: rzpNiss,
         dr_max_depth: drMaxDepth,
         dr_max_number: drMaxNumber,
         dr_niss: drNiss,
@@ -457,12 +509,15 @@ function search() {
 
     elEODepth.style.display = "none";
     elEONumber.style.display = "none";
+    elRZPDepth.style.display = "none";
+    elRZPNumber.style.display = "none";
     elDRDepth.style.display = "none";
     elDRNumber.style.display = "none";
     elSolution.style.display = "none";
     elSolutionPre.style.display = "none";
 
     let eoNumber = 0;
+    let rzpNumber = 0;
     let drNumber = 0;
     let drNumberSubsets = new Map();
     let best = 9999;
@@ -507,6 +562,14 @@ function search() {
             return infos.join(", ");
         }
 
+        function rzpInfoString(rzp) {
+            infos = [
+                rzp.axis,
+                `RZP-${rzp.DRm}`,
+            ];
+            return infos.join(", ");
+        }
+
         function drInfoString(dr) {
             infos = [
                 dr.axis,
@@ -544,6 +607,36 @@ function search() {
             ul.style.display = "none";
             li.appendChild(ul);
         }
+        if (data.type=="rzp_depth") {
+            elRZPDepth.style.display = "block";
+            elRZPDepthNum.textContent = ""+data.depth;
+        }
+        if (data.type=="rzp") {
+            const rzp = data.rzp;
+
+            rzpNumber++;
+            elRZPNumber.style.display = "block";
+            elRZPNumberNum.textContent = ""+rzpNumber;
+
+            let html = `<span class="has-text-weight-bold">${movesString(rzp)}</span> // RZP`;
+            html += ` (${rzpInfoString(rzp)})`;
+
+            const n = rzp.normal.length+rzp.inverse.length;
+            html += ` (<span class="has-text-weight-bold">${n}${rzp.moves-n!=0?rzp.moves-n:""}</span>`;
+            html += `/<span class="has-text-weight-bold">${rzp.moves+rzp.eo.moves}</span>)`;
+
+            const eo = document.getElementById("eo_"+rzp.eo.id);
+            eo.style.display = "block";
+
+            const li = document.createElement("li");
+            li.innerHTML = html;
+            eo.appendChild(li);
+
+            const ul = document.createElement("ul");
+            ul.id = "rzp_"+rzp.id;
+            ul.style.display = "none";
+            li.append(ul);
+        }
         if (data.type=="dr_depth") {
             elDRDepth.style.display = "block";
             elDRDepthNum.textContent = ""+data.depth;
@@ -578,14 +671,19 @@ function search() {
 
             const n = dr.normal.length+dr.inverse.length;
             html += ` (<span class="has-text-weight-bold">${n}${dr.moves-n!=0?dr.moves-n:""}</span>`;
-            html += `/<span class="has-text-weight-bold">${dr.moves+dr.eo.moves}</span>)`;
+            html += `/<span class="has-text-weight-bold">${dr.moves+dr.rzp.moves+dr.rzp.eo.moves}</span>)`;
 
-            const eo = document.getElementById("eo_"+dr.eo.id);
-            eo.style.display = "block";
+            let parent;
+            if (dr.rzp.skip) {
+                parent = document.getElementById("eo_"+dr.rzp.eo.id);
+            } else {
+                parent = document.getElementById("rzp_"+dr.rzp.id);
+            }
+            parent.style.display = "block";
 
             const li = document.createElement("li");
             li.innerHTML = html;
-            eo.appendChild(li);
+            parent.appendChild(li);
 
             const ul = document.createElement("ul");
             ul.id = "dr_"+dr.id;
@@ -595,9 +693,10 @@ function search() {
         if (data.type=="finish") {
             const finish = data.finish;
             const dr = finish.dr;
-            const eo = dr.eo;
+            const rzp = dr.rzp;
+            const eo = rzp.eo;
 
-            const num = finish.moves+dr.moves+eo.moves;
+            const num = finish.moves+dr.moves+rzp.moves+eo.moves;
             if (num<best) {
                 best = num;
                 elSolution.style.display = "block";
@@ -629,6 +728,9 @@ function search() {
                 for (let m of eo.normal) {
                     add(m);
                 }
+                for (let m of rzp.normal) {
+                    add(m);
+                }
                 for (let m of dr.normal) {
                     add(m);
                 }
@@ -636,6 +738,9 @@ function search() {
                     add(m);
                 }
                 for (let m of reverse(dr.inverse)) {
+                    add(m);
+                }
+                for (let m of reverse(rzp.inverse)) {
                     add(m);
                 }
                 for (let m of reverse(eo.inverse)) {
@@ -648,12 +753,17 @@ function search() {
                 let solution = "";
                 let n = eo.normal.length+eo.inverse.length;
                 solution += `${movesString(eo)} // EO (${eoInfoString(eo)}) (${n}/${eo.moves})\n`;
+                if (!rzp.skip) {
+                    n = rzp.normal.length+rzp.inverse.length;
+                    diff = rzp.moves-n;
+                    solution += `${movesString(rzp)} // RZP (${rzpInfoString(rzp)}) (${n}${diff!=0?""+diff:""}/${eo.moves+rzp.moves})\n`;
+                }
                 n = dr.normal.length+dr.inverse.length;
                 diff = dr.moves-n;
-                solution += `${movesString(dr)} // DR (${drInfoString(dr)}) (${n}${diff!=0?""+diff:""}/${eo.moves+dr.moves})\n`;
+                solution += `${movesString(dr)} // DR (${drInfoString(dr)}) (${n}${diff!=0?""+diff:""}/${eo.moves+rzp.moves+dr.moves})\n`;
                 n = finish.normal.length;
                 diff = finish.moves-n;
-                solution += `${movesString(finish)} // finish (${n}${diff!=0?""+diff:""}/${eo.moves+dr.moves+finish.moves})`;
+                solution += `${movesString(finish)} // finish (${n}${diff!=0?""+diff:""}/${eo.moves+rzp.moves+dr.moves+finish.moves})`;
                 elSolutionPre.style.display = "block";
                 elSolutionPre.textContent = solution;
             }
@@ -671,6 +781,17 @@ function search() {
             li.innerHTML = '<span class="finish">'+html+"</span>";
             elDR.appendChild(li);
         }
+        if (data.type=="finish_fail") {
+            const finish = data.finish;
+            const dr = data.dr;
+
+            const elDR = document.getElementById("dr_"+dr.id);
+            elDR.style.display = "block";
+
+            const li = document.createElement("li");
+            li.textContent = finish;
+            elDR.appendChild(li);
+        }
         if (data.type=="end") {
             worker.terminate();
             worker = undefined;
@@ -684,6 +805,10 @@ function search() {
         EOMaxDepth: eoMaxDepth,
         EOMaxNumber: eoMaxNumber,
         EONiss: eoNiss,
+        RZPUse: rzpUse,
+        RZPMaxDepth: rzpMaxDepth,
+        RZPMaxNumber: rzpMaxNumber,
+        RZPNiss: rzpNiss,
         DRMaxDepth: drMaxDepth,
         DRMaxNumber: drMaxNumber,
         DRNiss: drNiss,
@@ -695,6 +820,10 @@ for (let e of [
     elEOMaxDepth,
     elEOMaxNumber,
     elEONiss,
+    elRZPUse,
+    elRZPMaxDepth,
+    elRZPMaxNumber,
+    elRZPNiss,
     elDRMaxDepth,
     elDRMaxNumber,
     elDRNiss,
@@ -704,10 +833,19 @@ for (let e of [
     e.addEventListener("input", search);
 }
 
+elRZPUse.addEventListener("input", () => {
+    elRZP.style.display = elRZPUse.checked?"block":"none";
+});
+
 elReset.addEventListener("click", () => {
     elEOMaxDepth.value = "5";
     elEOMaxNumber.value = "16";
     elEONiss.value = "always";
+    elRZPUse.checked = false;
+    elRZP.style.display = "none";
+    elRZPMaxDepth.value = "7";
+    elRZPMaxNumber.value = "32";
+    elRZPNiss.value = "before";
     elDRMaxDepth.value = "14";
     elDRMaxNumber.value = "32";
     elDRNiss.value = "always";

@@ -73,7 +73,7 @@
                       <select id="eo_niss">
                         <option value="never">never</option>
                         <option value="before">before only</option>
-                        <option value="always" selected>always</option>
+                        <option value="always">always</option>
                       </select>
                     </div>
                   </div>
@@ -82,7 +82,72 @@
             </div>
             <div class="field is-horizontal">
               <div class="field-label is-normal">
-                <label class="label">EO+DR max depth</label>
+                <label class="label">RZP</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" id="rzp_use">
+                      Use. Human findalbe DRs more likey.
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="rzp" class="mb-3">
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">EO+RZP max depth</label>
+                </div>
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                      <div class="select">
+                        <select id="rzp_max_depth">
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">RZP max number</label>
+                </div>
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                      <div class="select">
+                        <select id="rzp_max_number">
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">RZP NISS</label>
+                </div>
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                      <div class="select">
+                        <select id="rzp_niss">
+                          <option value="never">never</option>
+                          <option value="before">before only</option>
+                          <option value="always">always</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">EO+RZP+DR max depth</label>
               </div>
               <div class="field-body">
                 <div class="field">
@@ -121,7 +186,7 @@
                       <select id="dr_niss">
                         <option value="never">never</option>
                         <option value="before">before only</option>
-                        <option value="always" selected>always</option>
+                        <option value="always">always</option>
                       </select>
                     </div>
                   </div>
@@ -186,8 +251,14 @@
           <div id="eo_number" style="display: none">
             EO number: <span id="eo_number_num"></span>
           </div>
+          <div id="rzp_depth" style="display: none">
+            EO+RZP depth: <span id="rzp_depth_num"></span>
+          </div>
+          <div id="rzp_number" style="display: none">
+            RZP number: <span id="rzp_number_num"></span>
+          </div>
           <div id="dr_depth" style="display: none">
-            EO+DR depth: <span id="dr_depth_num"></span>
+            EO+RZP+DR depth: <span id="dr_depth_num"></span>
           </div>
           <div id="dr_number" style="display: none">
             DR number: <span id="dr_number_num"></span> (<span id="dr_number_subsets"></span>)

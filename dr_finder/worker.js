@@ -1,3 +1,5 @@
+// postMessage = console.log;
+
 // 手、手順を逆にする。
 function reverse(m) {
     if (typeof m=="string") {
@@ -949,6 +951,21 @@ class Cube2 {
     }
 };
 
+// x.inverse と x.normal を文字列化。
+function movesString(x) {
+    let s = "";
+    if (x.inverse.length>0) {
+        s += `(${this.inverse.join(" ")})`;
+    }
+    if (this.normal.length>0) {
+        if (s!="") {
+            s += " ";
+        }
+        s += `${this.normal.join(" ")}`;
+    }
+    return s;
+}
+
 class EO {
     static id = 0;
 
@@ -979,17 +996,7 @@ class EO {
     }
 
     toString() {
-        let s = "";
-        if (this.inverse.length>0) {
-            s += `(${this.inverse.join(" ")})`;
-        }
-        if (this.normal.length>0) {
-            if (s!="") {
-                s += " ";
-            }
-            s += `${this.normal.join(" ")}`;
-        }
-        s += ` // EO (${this.axis}`;
+        let s = `${movesString(this)} // EO (${this.axis} (`;
         if (this.DRmUD!="") {
             s += `, DR-${this.DRmUD} (U/D)`;
         }
@@ -1001,6 +1008,24 @@ class EO {
         }
         s += `) (${this.moves}/${this.moves})`;
         return s;
+    }
+
+    // inverse の最後の動きの取得。
+    firstMove() {
+        if (this.inverse.length>0) {
+            return this.inverse[this.inverse.length-1];
+        } else {
+            return "";
+        }
+    }
+
+    // normal の最後の動きを取得。
+    lastMove() {
+        if (this.normal.length>0) {
+            return this.normal[this.normal.length-1];
+        } else {
+            return "";
+        }
     }
 };
 
@@ -1194,25 +1219,26 @@ function searchEO(scramble, maxDepth, niss, maxNum) {
     return eos;
 }
 
-class DR {
+class RZP {
     static id = 0;
 
-    constructor(scramble, eo, axis, normal, inverse) {
-        this.id = ""+DR.id;
-        DR.id++;
+    constructor(scramble, eo, axis, normal, inverse, skip) {
+        this.id = ""+RZP.id;
+        RZP.id++;
 
         this.eo = eo;
         this.axis = axis;
         this.normal = [...normal];
         this.inverse = [...inverse];
+        this.skip = skip;
 
         this.moves = normal.length+inverse.length;
         if (normal.length>0 && eo.normal.length>0 &&
-            normal[0][0]==eo.normal[eo.normal.length-1][0]) {
+            normal[0][0]==eo.lastMove()[0]) {
             this.moves--;
         }
         if (inverse.length>0 && eo.inverse.length>0 &&
-            inverse[0][0]==eo.inverse[eo.inverse.length-1][0]) {
+            inverse[0][0]==eo.firstMove()[0]) {
             this.moves--;
         }
 
@@ -1233,69 +1259,49 @@ class DR {
             cube.move(m);
         }
 
-        this.HTRm = `${cube.htrBadEdge(axis)}e${cube.htrBadCorner(axis)}c`;
-        [this.hyperParity, this.htrSubset] = cube.hyperParity(axis);
+        this.DRm = `${cube.drBadEdge(axis)}e${cube.drBadCorner(axis)}c`;
     }
 
     toString() {
-        let s = "";
-        if (this.inverse.length>0) {
-            s += `(${this.inverse.join(" ")})`;
-        }
-        if (this.normal.length>0) {
-            if (s!="") {
-                s += " ";
-            }
-            s += `${this.normal.join(" ")}`;
-        }
-        s += ` // DR (${this.axis}, HTR-${this.HTRm}, ${this.hyperParity}, ${this.htrSubset})`;
+        let s = `${movesString(this)} // RZP (${this.axis}, DR-${this.DRm})`;
+
         const n = this.normal.length+this.inverse.length;
         s += ` (${n}${this.moves-n!=0?this.moves-n:""}/${this.moves+this.eo.moves})`;
         return s;
     }
-};
 
-const drTableMax = 5;
-const drTable = new Map();
-{
-    const cube = new Cube();
-
-    drTable.set(cube.extractDR("F/B", "U/D"), 0);
-    let P = [cube.extractDR("F/B", "U/D")];
-
-    for (let d=1; d<=drTableMax; d++) {
-        const P2 = [];
-
-        for (let dr of P) {
-            cube.unextractDR(dr);
-
-            for (let m of [
-                "F2",
-                "B2",
-                "R", "R2", "R'",
-                "L", "L2", "L'",
-                "U", "U2", "U'",
-                "D", "D2", "D'",
-            ]) {
-                cube.move(m);
-
-                const dr2 = cube.extractDR("F/B", "U/D");
-                if (!drTable.has(dr2)) {
-                    drTable.set(dr2, d);
-                    P2.push(dr2);
-                }
-
-                cube.undo();
-            }
+    // EO以前も含め、inverse の最後の動きの取得。
+    firstMove() {
+        if (this.inverse.length>0) {
+            return this.inverse[this.inverse.length-1];
+        } else {
+            return this.eo.firstMove();
         }
-
-        P = P2;
     }
 
-    console.log("DR table constructed:", drTable.size);
-}
+    // EO以前も含め、normal の最後の動きを取得。
+    lastMove() {
+        if (this.normal.length>0) {
+            return this.normal[this.normal.length-1];
+        } else {
+            return this.eo.lastMove();
+        }
+    }
 
-function searchDR(scramble, eos, maxDepth, niss, maxNum, maxFinishDepth) {
+    // EO以前も含め、normalの長さを取得。
+    // キャンセルは考慮しない。
+    normalLength() {
+        return this.normal.length+this.eo.normal.length;
+    }
+
+    // EO以前も含め、inverseの長さを取得。
+    // キャンセルは考慮しない。
+    inverseLength() {
+        return this.inverse.length+this.eo.inverse.length;
+    }
+};
+
+function searchRZP(scramble, eos, maxDepth, niss, maxNum) {
     const scrambleTable = Cube.makeTable(scramble);
     const inverseTable = Cube.makeTable(reverse(scramble));
 
@@ -1341,26 +1347,26 @@ function searchDR(scramble, eos, maxDepth, niss, maxNum, maxFinishDepth) {
 
     const cube = new Cube();
 
-    let num = 0;
+    const rzps = [];
     const normal = [];
     const inverse = [];
 
     function f2(depth, maxDepthN, rev, eo) {
-        if (num>=maxNum) {
+        if (rzps.length>=maxNum) {
             return;
         }
 
         if (depth==maxDepthN) {
             for (let axis of axisCands[eo.axis]) {
-                if (num>=maxNum) {
+                if (rzps.length>=maxNum) {
                     return;
                 }
 
                 const first = inverse.length==0 ||
-                    inverse.length==1 && eo.inverse.length>0 && inverse[0][0]==eo.inverse[eo.inverse.length-1][0] ?
+                    inverse.length==1 && inverse[0][0]==eo.firstMove()[0] ?
                     "" : inverse[0];
                 const last = normal.length==0 ||
-                    normal.length==1 && eo.normal.length>0 && normal[0][0]==eo.normal[eo.normal.length-1][0] ?
+                    normal.length==1 && normal[0][0]==eo.lastMove()[0] ?
                     "" : normal[normal.length-1];
 
                 const cands = {
@@ -1376,41 +1382,20 @@ function searchDR(scramble, eos, maxDepth, niss, maxNum, maxFinishDepth) {
                 }
                 if ((first=="" || first==cand[0]+"'" || first==cand[2]+"'") &&
                     (last=="" || last==cand[0] || last==cand[2]) &&
-                    cube.drBadEdge(axis)==0 && cube.drBadCorner(axis)==0) {
-                        //console.log(eo.toString());
-                        const dr = !rev ?
-                            new DR(scramble, eo, axis, normal, reverse(inverse)) :
-                            new DR(scramble, eo, axis, reverse(inverse), normal);
-                        //console.log(dr.toString());
+                    (cube.drBadEdge(axis)==0 && cube.drBadCorner(axis)==0 ||
+                     cube.drBadEdge(axis)==4 && cube.drBadCorner(axis)==4 ||
+                     cube.drBadEdge(axis)==2 && cube.drBadCorner(axis)==3 ||
+                     cube.drBadEdge(axis)==2 && cube.drBadCorner(axis)==4)) {
+                        const rzp = !rev ?
+                            new RZP(scramble, eo, axis, normal, reverse(inverse), false) :
+                            new RZP(scramble, eo, axis, reverse(inverse), normal, false);
+                        rzps.push(rzp);
                         postMessage({
-                            type: "dr",
-                            dr: dr,
+                            type: "rzp",
+                            rzp: rzp,
                         });
-                        num++;
-                        const finish = searchFinish(scramble, eo, dr, maxFinishDepth);
-                        if (finish) {
-                            //console.log(finish.toString());
-                            postMessage({
-                                type: "finish",
-                                finish: finish,
-                            });
-                        } else {
-                            //console.log(`> ${maxFinishDepth}`)
-                        }
-                        //console.log();
                 }
             }
-            return;
-        }
-
-        let h = drTableMax+1;
-        for (let axis of axisCands[eo.axis]) {
-            const dr = cube.extractDR(eo.axis, axis);
-            if (drTable.has(dr)) {
-                h = Math.min(h, drTable.get(dr));
-            }
-        }
-        if (depth+h>maxDepthN) {
             return;
         }
 
@@ -1424,8 +1409,7 @@ function searchDR(scramble, eos, maxDepth, niss, maxNum, maxFinishDepth) {
                     continue;
                 }
             }
-            if (normal.length==0 && eo.normal.length>0 &&
-                m[0]==eo.normal[eo.normal.length-1][0]) {
+            if (normal.length==0 && m[0]==eo.lastMove()[0]) {
                 continue;
             }
 
@@ -1440,15 +1424,12 @@ function searchDR(scramble, eos, maxDepth, niss, maxNum, maxFinishDepth) {
     }
 
     function f1(depth, maxDepthN, maxDepthI, rev, eo) {
-        if (num>=maxNum) {
+        if (rzps.length>=maxNum) {
             return;
         }
 
         if (depth==maxDepthI) {
-            // 最後の1手がEOの最後の1手と同じ面のものは弾く。
-            // TODO: F -> B などと順番を固定していることと合わせて、漏れがあるはず。
-            if (inverse.length>0 && eo.inverse.length>0 &&
-                inverse[inverse.length-1][0]==eo.inverse[eo.inverse.length-1][0]) {
+            if (inverse.length>0 && inverse[inverse.length-1][0]==eo.firstMove()[0]) {
                 return;
             }
 
@@ -1561,11 +1542,11 @@ function searchDR(scramble, eos, maxDepth, niss, maxNum, maxFinishDepth) {
     }
 
     for (let depth=0; depth<=maxDepth; depth++) {
-        if (num>=maxNum) {
+        if (rzps.length>=maxNum) {
             break;
         }
         postMessage({
-            type: "dr_depth",
+            type: "rzp_depth",
             depth: depth,
         });
         for (let d=0; d<=depth; d++) {
@@ -1587,6 +1568,443 @@ function searchDR(scramble, eos, maxDepth, niss, maxNum, maxFinishDepth) {
             }
         }
     }
+
+    return rzps;
+}
+
+class DR {
+    static id = 0;
+
+    constructor(scramble, rzp, normal, inverse) {
+        this.id = ""+DR.id;
+        DR.id++;
+
+        this.rzp = rzp;
+        this.axis = rzp.axis;
+        this.normal = [...normal];
+        this.inverse = [...inverse];
+
+        this.moves = normal.length+inverse.length;
+        if (normal.length>0 && normal[0][0]==rzp.lastMove()[0]) {
+            this.moves--;
+        }
+        if (inverse.length>0 && inverse[0][0]==rzp.firstMove()[0]) {
+            this.moves--;
+        }
+
+        const cube = new Cube();
+        for (let m of reverse(inverse)) {
+            cube.move(m);
+        }
+        for (let m of reverse(rzp.inverse)) {
+            cube.move(m);
+        }
+        for (let m of reverse(rzp.eo.inverse)) {
+            cube.move(m);
+        }
+        for (let m of scramble) {
+            cube.move(m);
+        }
+        for (let m of rzp.eo.normal) {
+            cube.move(m);
+        }
+        for (let m of rzp.normal) {
+            cube.move(m);
+        }
+        for (let m of normal) {
+            cube.move(m);
+        }
+
+        this.HTRm = `${cube.htrBadEdge(this.axis)}e${cube.htrBadCorner(this.axis)}c`;
+        [this.hyperParity, this.htrSubset] = cube.hyperParity(this.axis);
+    }
+
+    toString() {
+        let s = "";
+        if (this.inverse.length>0) {
+            s += `(${this.inverse.join(" ")})`;
+        }
+        if (this.normal.length>0) {
+            if (s!="") {
+                s += " ";
+            }
+            s += `${this.normal.join(" ")}`;
+        }
+        s += ` // DR (${this.axis}, HTR-${this.HTRm}, ${this.hyperParity}, ${this.htrSubset})`;
+        const n = this.normal.length+this.inverse.length;
+        s += ` (${n}${this.moves-n!=0?this.moves-n:""}/${this.moves+this.eo.moves})`;
+        return s;
+    }
+
+    firstMove() {
+        if (this.inverse.length>0) {
+            return this.inverse[this.inverse.length-1];
+        } else {
+            return this.rzp.firstMove();
+        }
+    }
+
+    lastMove() {
+        if (this.normal.length>0) {
+            return this.normal[this.normal.length-1];
+        } else {
+            return this.rzp.lastMove();
+        }
+    }
+
+    normalLength() {
+        return this.normal.length+this.rzp.normalLength();
+    }
+
+    inverseLength() {
+        return this.inverse.length+this.rzp.inverseLength();
+    }
+};
+
+const drTableMax = 5;
+const drTable = new Map();
+{
+    const cube = new Cube();
+
+    drTable.set(cube.extractDR("F/B", "U/D"), 0);
+    let P = [cube.extractDR("F/B", "U/D")];
+
+    for (let d=1; d<=drTableMax; d++) {
+        const P2 = [];
+
+        for (let dr of P) {
+            cube.unextractDR(dr);
+
+            for (let m of [
+                "F2",
+                "B2",
+                "R", "R2", "R'",
+                "L", "L2", "L'",
+                "U", "U2", "U'",
+                "D", "D2", "D'",
+            ]) {
+                cube.move(m);
+
+                const dr2 = cube.extractDR("F/B", "U/D");
+                if (!drTable.has(dr2)) {
+                    drTable.set(dr2, d);
+                    P2.push(dr2);
+                }
+
+                cube.undo();
+            }
+        }
+
+        P = P2;
+    }
+
+    console.log("DR table constructed:", drTable.size);
+}
+
+function searchDR(scramble, rzps, maxDepth, niss, maxNum, maxFinishDepth) {
+    const scrambleTable = Cube.makeTable(scramble);
+    const inverseTable = Cube.makeTable(reverse(scramble));
+
+    const rzpDepth = [];
+    for (let d=0; d<=maxDepth; d++) {
+        rzpDepth[d] = [];
+    }
+    for (let rzp of rzps) {
+        rzpDepth[rzp.moves+rzp.eo.moves].push(rzp);
+    }
+
+    const moveCands = {
+        "F/B": [
+            "F2",
+            "B2",
+            "R", "R2", "R'",
+            "L", "L2", "L'",
+            "U", "U2", "U'",
+            "D", "D2", "D'",
+        ],
+        "R/L": [
+            "F", "F2", "F'",
+            "B", "B2", "B'",
+            "R2",
+            "L2",
+            "U", "U2", "U'",
+            "D", "D2", "D'",
+        ],
+        "U/D": [
+            "F", "F2", "F'",
+            "B", "B2", "B'",
+            "R", "R2", "R'",
+            "L", "L2", "L'",
+            "U2",
+            "D2",
+        ],
+    };
+
+    const cube = new Cube();
+
+    let num = 0;
+    const normal = [];
+    const inverse = [];
+
+    function f2(depth, maxDepthN, rev, rzp) {
+        if (num>=maxNum) {
+            return;
+        }
+
+        if (depth==maxDepthN) {
+            if (num>=maxNum) {
+                return;
+            }
+
+            const first = inverse.length==0 ||
+                inverse.length==1 && inverse[0][0]==rzp.firstMove()[0] ?
+                "" : inverse[0];
+            const last = normal.length==0 ||
+                normal.length==1 && normal[0][0]==rzp.lastMove()[0] ?
+                "" : normal[normal.length-1];
+
+            const cands = {
+                "U/D": 0,
+                "F/B": 0,
+                "R/L": 0,
+            };
+            delete cands[rzp.eo.axis];
+            delete cands[rzp.axis];
+            let lastAxis;
+            for (let c in cands) {
+                lastAxis = c;
+            }
+            if ((first=="" || first==lastAxis[0]+"'" || first==lastAxis[2]+"'") &&
+                (last=="" || last==lastAxis[0] || last==lastAxis[2]) &&
+                cube.drBadEdge(rzp.axis)==0 && cube.drBadCorner(rzp.axis)==0) {
+                const dr = !rev ?
+                    new DR(scramble, rzp, normal, reverse(inverse)) :
+                    new DR(scramble, rzp, reverse(inverse), normal);
+                postMessage({
+                    type: "dr",
+                    dr: dr,
+                });
+                num++;
+                const finish = searchFinish(scramble, dr, maxFinishDepth);
+                if (finish) {
+                    postMessage({
+                        type: "finish",
+                        finish: finish,
+                    });
+                } else {
+                    postMessage({
+                        type: "finish_fail",
+                        finish: `> ${maxFinishDepth}`,
+                        dr: dr,
+                    });
+                }
+            }
+        }
+
+        let h = drTableMax+1;
+        const dr = cube.extractDR(rzp.eo.axis, rzp.axis);
+        if (drTable.has(dr)) {
+            h = Math.min(h, drTable.get(dr));
+        }
+        if (depth+h>maxDepthN) {
+            return;
+        }
+
+        for (let m of moveCands[rzp.eo.axis]) {
+            if (normal.length>0) {
+                const last = normal[normal.length-1];
+                if (m[0]==last[0] ||
+                    m[0]=="F" && last[0]=="B" ||
+                    m[0]=="R" && last[0]=="L" ||
+                    m[0]=="U" && last[0]=="D") {
+                    continue;
+                }
+            }
+            if (normal.length==0 && m[0]==rzp.lastMove()[0]) {
+                continue;
+            }
+
+            cube.move(m);
+            normal.push(m);
+
+            f2(depth+1, maxDepthN, rev, rzp);
+
+            cube.undo();
+            normal.pop();
+        }
+    }
+
+    function f1(depth, maxDepthN, maxDepthI, rev, rzp) {
+        if (num>=maxNum) {
+            return;
+        }
+
+        if (depth==maxDepthI) {
+            // 最後の1手がRZPまでの最後の1手と同じ面のものは弾く。
+            // TODO: F -> B などと順番を固定していることと合わせて、漏れがあるはず。
+            if (inverse.length>0 && rzp.firstMove()[0]) {
+                return;
+            }
+
+            for (let revI=0; revI<2; revI++) {
+                if (revI==1 && rzp.inverseLength()==0) {
+                    continue;
+                }
+                for (let revN=0; revN<2; revN++) {
+                    if (revN==1 && rzp.normalLength()==0) {
+                        continue;
+                    }
+
+                    if (!rev) {
+                        if (revI==1) {
+                            const m = rzp.firstMove()[0]+"2";
+                            cube.move(m);
+                            inverse.push(m);
+                        }
+                        for (let m of reverse(rzp.inverse)) {
+                            cube.move(m);
+                        }
+                        for (let m of reverse(rzp.eo.inverse)) {
+                            cube.move(m);
+                        }
+                        cube.moveTable(scrambleTable);
+                        for (let m of rzp.eo.normal) {
+                            cube.move(m);
+                        }
+                        for (let m of rzp.normal) {
+                            cube.move(m);
+                        }
+                        if (revN==1) {
+                            const m = rzp.lastMove()[0]+"2";
+                            cube.move(m);
+                            normal.push(m);
+                        }
+                    } else {
+                        if (revN==1) {
+                            const m = rzp.lastMove()[0]+"2";
+                            cube.move(m);
+                            inverse.push(m);
+                        }
+                        for (let m of reverse(rzp.normal)) {
+                            cube.move(m);
+                        }
+                        for (let m of reverse(rzp.eo.normal)) {
+                            cube.move(m);
+                        }
+                        cube.moveTable(inverseTable);
+                        for (let m of rzp.eo.inverse) {
+                            cube.move(m);
+                        }
+                        for (let m of rzp.inverse) {
+                            cube.move(m);
+                        }
+                        if (revI==1) {
+                            const m = rzp.firstMove()[0]+"2";
+                            cube.move(m);
+                            normal.push(m);
+                        }
+                    }
+
+                    f2(0, maxDepthN, rev, rzp);
+
+                    if (!rev) {
+                        if (revN==1) {
+                            cube.undo();
+                            normal.pop();
+                        }
+                        for (let m of rzp.normal) {
+                            cube.undo();
+                        }
+                        for (let m of rzp.eo.normal) {
+                            cube.undo();
+                        }
+                        cube.moveTable(inverseTable);
+                        for (let m of rzp.eo.inverse) {
+                            cube.undo();
+                        }
+                        for (let m of rzp.inverse) {
+                            cube.undo();
+                        }
+                        if (revI==1) {
+                            cube.undo();
+                            inverse.pop();
+                        }
+                    } else {
+                        if (revI==1) {
+                            cube.undo();
+                            normal.pop();
+                        }
+                        for (let m of rzp.inverse) {
+                            cube.undo();
+                        }
+                        for (let m of rzp.eo.inverse) {
+                            cube.undo();
+                        }
+                        cube.moveTable(scrambleTable);
+                        for (let m of reverse(rzp.eo.normal)) {
+                            cube.undo();
+                        }
+                        for (let m of reverse(rzp.normal)) {
+                            cube.undo();
+                        }
+                        if (revN==1) {
+                            cube.undo();
+                            inverse.pop();
+                        }
+                    }
+                }
+            }
+            return;
+        }
+
+        for (let m of moveCands[rzp.axis]) {
+            if (inverse.length>0) {
+                const last = inverse[inverse.length-1];
+                if (m[0]==last[0] ||
+                    m[0]=="F" && last[0]=="B" ||
+                    m[0]=="R" && last[0]=="L" ||
+                    m[0]=="U" && last[0]=="D") {
+                    continue;
+                }
+            }
+
+            cube.move(m);
+            inverse.push(m);
+
+            f1(depth+1, maxDepthN, maxDepthI, rev, rzp);
+
+            cube.undo();
+            inverse.pop();
+        }
+    }
+
+    for (let depth=0; depth<=maxDepth; depth++) {
+        if (num>=maxNum) {
+            break;
+        }
+        postMessage({
+            type: "dr_depth",
+            depth: depth,
+        });
+        for (let d=0; d<=depth; d++) {
+            for (let rzp of rzpDepth[d]) {
+                const rzpDepth = rzp.moves+rzp.eo.moves;
+                for (let depthI=0; depthI<=depth-rzpDepth; depthI++) {
+                    const depthN = depth-rzpDepth-depthI;
+                    if (niss=="never" && depthI>0 ||
+                        niss=="before" && depthN>0 && depthI>0) {
+                        continue;
+                    }
+
+                    if (depthN>=depthI) {
+                        f1(0, depthN, depthI, false, rzp);
+                    } else {
+                        f1(0, depthI, depthN, true, rzp);
+                    }
+                }
+            }
+        }
+    }
 }
 
 class Finish {
@@ -1598,27 +2016,15 @@ class Finish {
 
         this.dr = dr;
         this.normal = [...normal];
+        this.inverse = [];
 
         this.moves = normal.length;
         if (normal.length>0) {
-            if (dr.normal.length>0) {
-                if (normal[0][0]==dr.normal[dr.normal.length-1][0]) {
-                    this.moves--;
-                }
-            } else if (dr.eo.normal.length>0) {
-                if (normal[0][0]==dr.eo.normal[dr.eo.normal.length-1][0]) {
-                    this.moves--;
-                }
+            if (normal[0][0]==dr.lastMove()[0]) {
+                this.moves--;
             }
-
-            if (dr.inverse.length>0) {
-                if (normal[normal.length-1][0]==dr.inverse[0][0]) {
-                    this.moves--;
-                }
-            } else if (dr.eo.inverse.length>0) {
-                if (normal[normal.length-1][0]==dr.eo.inverse[0][0]) {
-                    this.moves--;
-                }
+            if (normal[normal.length-1][0]==dr.firstMove()[0]) {
+                this.moves--;
             }
         }
     }
@@ -1712,7 +2118,7 @@ const finishCornerTable = new Map();
     console.log("Finish corner table constructed:", finishCornerTable.size);
 }
 
-function searchFinish(scramble, eo, dr, maxDepth) {
+function searchFinish(scramble, dr, maxDepth) {
     // 動きを axis 軸をU/Dに向けるように変更。
     function fixAxis(axis, m) {
         const T = {
@@ -1733,7 +2139,10 @@ function searchFinish(scramble, eo, dr, maxDepth) {
     }
 
     const normal = [];
-    for (let m of eo.normal) {
+    for (let m of dr.rzp.eo.normal) {
+        normal.push(fixAxis(dr.axis, m));
+    }
+    for (let m of dr.rzp.normal) {
         normal.push(fixAxis(dr.axis, m));
     }
     for (let m of dr.normal) {
@@ -1741,7 +2150,10 @@ function searchFinish(scramble, eo, dr, maxDepth) {
     }
 
     const inverse = [];
-    for (let m of eo.inverse) {
+    for (let m of dr.rzp.eo.inverse) {
+        inverse.push(fixAxis(dr.axis, m));
+    }
+    for (let m of dr.rzp.inverse) {
         inverse.push(fixAxis(dr.axis, m));
     }
     for (let m of dr.inverse) {
@@ -1863,14 +2275,29 @@ function searchFinish(scramble, eo, dr, maxDepth) {
 // scramble = "R' U' F R2 D F2 D U2 B2 D2 F' U B2 R F L2 B2 R U' B D F2 R' U' F";
 // console.log(scramble);
 // scramble = scramble.split(" ")
-// const eos = searchEO(scramble, 5, "always", 16);
-// searchDR(scramble, eos, 14, "always", 64, 20);
+// const eos = searchEO(scramble, 5, "always", 4);
+// const rzps = searchRZP(scramble, eos, 6, "before", 8);
+// searchDR(scramble, rzps, 14, "always", 16, 16);
 
 onmessage = e => {
     const data = e.data;
 
     const eos = searchEO(data.scramble, data.EOMaxDepth, data.EONiss, data.EOMaxNumber);
-    searchDR(data.scramble, eos, data.DRMaxDepth, data.DRNiss, data.DRMaxNumber, data.finishMaxDepth);
+    let rzps;
+    if (data.RZPUse) {
+        rzps = searchRZP(data.scramble, eos, data.RZPMaxDepth, data.RZPNiss, data.RZPMaxNumber);
+    } else {
+        // searchDR はRZPが完了していることに依存していない。
+        rzps = [];
+        for (let eo of eos) {
+            for (let axis of ["U/D", "F/B", "R/L"]) {
+                if (axis!=eo.axis) {
+                    rzps.push(new RZP(data.scramble, eo, axis, [], [], true));
+                }
+            }
+        }
+    }
+    searchDR(data.scramble, rzps, data.DRMaxDepth, data.DRNiss, data.DRMaxNumber, data.finishMaxDepth);
 
     postMessage({
         type: "end",
