@@ -1,4 +1,6 @@
-// postMessage = console.log;
+if (typeof postMessage=="undefined") {
+    postMessage = console.log;
+}
 
 // 手、手順を逆にする。
 function reverse(m) {
@@ -2163,10 +2165,14 @@ function searchFinish(scramble, dr, maxDepth) {
     let cube;
     const moves = [];
 
-    function f(depth, maxDepth, last) {
+    function f(depth, maxDepth, first, last) {
         if (depth==maxDepth) {
             if (cube.isSolved()) {
-                const normal = [...moves];
+                const normal = [];
+                if (first!="") {
+                    normal.push(first);
+                }
+                normal.push(...moves);
                 if (last!="") {
                     normal.push(last);
                 }
@@ -2209,7 +2215,7 @@ function searchFinish(scramble, dr, maxDepth) {
             cube.move(m);
             moves.push(m);
 
-            const res = f(depth+1, maxDepth, last);
+            const res = f(depth+1, maxDepth, first, last);
 
             cube.undo();
             moves.pop();
@@ -2227,6 +2233,11 @@ function searchFinish(scramble, dr, maxDepth) {
                 continue;
             }
 
+            let first = "";
+            if (revN==1) {
+                first = normal[normal.length-1][0]+"2";
+            }
+
             for (let revI=0; revI<2; revI++) {
                 if (revI==1 && inverse.length==0) {
                     continue;
@@ -2239,7 +2250,7 @@ function searchFinish(scramble, dr, maxDepth) {
 
                 const cubeTemp = new Cube();
                 if (last!="") {
-                    cubeTemp.move(reverse(last));
+                    cubeTemp.move(last);
                 }
                 for (let m of reverse(inverse)) {
                     cubeTemp.move(m);
@@ -2250,16 +2261,13 @@ function searchFinish(scramble, dr, maxDepth) {
                 for (let m of normal) {
                     cubeTemp.move(m);
                 }
+                if (first!="") {
+                    cubeTemp.move(first);
+                }
 
                 cube = new Cube2(cubeTemp);
 
-                if (revN==1) {
-                    const t = normal[normal.length-1][0]+"2";
-                    cube.move(t);
-                    moves.push(t);
-                }
-
-                const res = f(0, depth, last);
+                const res = f(0, depth, first, last);
                 if (res) {
                     return res;
                 }
@@ -2272,12 +2280,25 @@ function searchFinish(scramble, dr, maxDepth) {
     }
 }
 
-// scramble = "R' U' F R2 D F2 D U2 B2 D2 F' U B2 R F L2 B2 R U' B D F2 R' U' F";
-// console.log(scramble);
-// scramble = scramble.split(" ")
-// const eos = searchEO(scramble, 5, "always", 4);
-// const rzps = searchRZP(scramble, eos, 6, "before", 8);
-// searchDR(scramble, rzps, 14, "always", 16, 16);
+if (false) {
+    // scramble = "R' U' F R2 D F2 D U2 B2 D2 F' U B2 R F L2 B2 R U' B D F2 R' U' F";
+    // console.log(scramble);
+    // scramble = scramble.split(" ")
+    // const eos = searchEO(scramble, 5, "always", 4);
+    // const rzps = searchRZP(scramble, eos, 6, "before", 8);
+    // searchDR(scramble, rzps, 14, "always", 16, 16);
+
+    scramble = "R' U' F L2 B2 D2 L F2 U2 R D2 R B2 R B' D2 L' D' F2 L2 F' D F D' R' U' F".split(" ");
+    eo = new EO(scramble, "U/D", ["U2", "L2", "U"], ["U"]);
+    rzp = new RZP(scramble, eo, "F/B", ["L"], []);
+    dr = new DR(scramble, rzp, [], ["R2", "D2", "R2", "B", "U2", "F2", "L"]);
+    finish = searchFinish(
+        scramble,
+        dr,
+        12,
+    )
+    console.log(finish);
+}
 
 onmessage = e => {
     const data = e.data;
