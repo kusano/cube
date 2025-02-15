@@ -531,7 +531,7 @@ function search() {
     if (worker) {
         worker.terminate();
     }
-    worker = new Worker("worker.js");
+    worker = new Worker("worker.js?v=20250216");
 
     worker.onmessage = e => {
         function movesString(x) {
