@@ -3,9 +3,24 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
-    <title>3BLD (M2/OP)</title>
+    <title>3x3x3目隠し（M2/OP）</title>
     <link rel="stylesheet" href="../bulma.min.css">
     <style>
+      .algorithm {
+        font-weight: bold;
+      }
+      th.sticker {
+        width: 3em;
+      }
+      th.image_ {
+        width: 100px;
+      }
+      th.algorithm {
+        width: 18em;
+      }
+      th.memo {
+        min-width: 18em;
+      }
       address {
         text-align: right;
       }
@@ -14,20 +29,203 @@
   <body>
     <section class="section">
       <div class="container content">
-        <h1>3BLD (M2/OP)</h1>
+        <h1>3x3x3目隠し（M2/OP）</h1>
         <p>
-          <a href="../">ルービックキューブ関連</a> &gt; 3BLD (M2/OP)
+          <a href="../">ルービックキューブ関連</a> &gt; 3x3x3目隠し（M2/OP）
         </p>
         <hr>
         <p>
-          ...
+          3x3x3目隠し（3BLD）とは、キューブを回さずに状態を記憶し、その後目隠しをして、キューブを揃える競技種目である。
+          私が使っている解法をまとめる。
+          M2/OP法。
         </p>
+        <h2>
+          参考
+        </h2>
+        <ul>
+          <li><a href="https://www.youtube.com/watch?v=eYiIHLMLPUc">【初級解法】目隠しルービックキューブ解説 - YouTube</a></li>
+          <li><a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:17741fa5-1d4c-4079-906e-fede0d6f6cb5">BLD教本2020-1-30</a></li>
+          <li><a href="https://saxcy.info/hinemos/top.html">BLDerによるBLDerのためのツールhinemos</a></li>
+          <ul>
+            <li>ユーザー登録すると解説が見られる。</li>
+          </ul>
+        </ul>
+        <h2>ステッカーの記法</h2>
+        <p>
+          ステッカーの位置を表す記法を導入する。
+        </p>
+          3BLDでは、一般的に、コーナーやエッジのキューブではなく、そのキューブを構成するステッカーに注目する。
+          今どきステッカーの貼られたキューブも見なくなったけれど、それでもステッカーと言うらしい。
+          普通にルービックキューブを揃えるときのLL（ラストレイヤー）では、コーナーやエッジのキューブについて、OLLで向きを揃え、PLLで位置を揃える。
+          キューブではなくステッカーの位置を揃えると考えると、キューブの位置と向きを合わせて揃えることになる。
+        </p>
+        <p>
+          回転記号と同じ記号で各面を表す。
+          コーナーキューブとエッジキューブをそのキューブにある面の記号で表す。
+          例えば、下の図で丸で印を付けたコーナーキューブはURFであり、印を付けたエッジキューブはFRである。
+          そして、コーナーキューブやエッジキューブの各ステッカーは、そのステッカーの面の記号を先頭に持ってくることで表す。
+          例えば、コーナーキューブUFRの白色のステッカーはUFRであり、緑色のステッカーはFRUである。
+          エッジキューブFRの赤色のステッカーはRFである。
+        </p>
+        <p>
+          <!-- http://cube.rider.biz/visualcube.php?fmt=svg&size=256&r=y30x-30&alg=x2 -->
+          <!-- convert -density 1200 -resize 256x256 notation.svg notation.png -->
+          <img src="notation.png" width="256" height="256">
+        </p>
+        <h2>揃え方の原理</h2>
+        <p>
+          コーナーもエッジも、バッファと呼ばれる固定の位置にあるステッカーと、他のステッカーを交換する手順を繰り返して揃えていく。
+        </p>
+        <p>
+          例: <span class="algorithm">D2 R L2 U2 F B' D' R' D2 B R2 L2 B U2 B R2 U2 R2 D2 B Fw Uw</span>
+        </p>
+        <p>
+          <!-- http://cube.rider.biz/visualcube.php?fmt=svg&size=256&r=y30x-30&alg=x2D2RL2U2FB%27D%27R%27D2BR2L2BU2BR2U2R2D2BFwUwxy%27
+ -->
+          <img src="swap.png" width="256" height="256">
+        </p>
+        <p>
+          エッジのバッファはDFである。
+          隠れて見えないが、白いステッカーで、①のURにあるべきステッカーである。
+          そこで、まずは、DFとURを交換する。
+          そうすると①にあったステッカーがDFの位置に来る。
+          このステッカーは②のRBにあるべきなので、次は、DFとRBを交換する。
+          今②のRBにあるステッカーは③のUBにあるべきなので、DFとUBを交換する。
+          同様に、DFとULを交換して……と続けていく。
+        </p>
+        <p>
+          キューブの性質上、コーナーやエッジが1個だけ向きが変わることはないので、バッファのステッカーを同じキューブの別のステッカーを交換する手順は不要である。
+          結局、コーナーは7×3=21個、エッジは11×2=22個の、合計43個の手順でキューブを揃えることができる。
+          なお、大半の手順は理屈で考えられ、覚える必要のある手順はもっと少ない。
+        </p>
+        <p>
+          全ての揃っていないステッカーを辿って、バッファのステッカーになったら終了である。
+          もし、まだ揃っていないのにバッファのステッカーに当たったら、揃っていない別のステッカーを1個選んで続ける。
+          このとき、選んだキューブのステッカーは最後にもう一度バッファと交換する。
+          バッファに（向きが合っていてもいなくても）バッファにあるべきキューブがあれば、上記の場合と同様に揃っていない別のステッカーを選ぶ。
+          位置は合っているのに向きが違う（コーナーならばCO、エッジならばEOと言う）キューブについては、例えばUFRとFRUのように、同じキューブの2個のステッカーを交換する。
+        </p>
+        <p>
+          途中でバッファに当たって、揃っていないステッカーを選ぶとき、どのステッカーを選ぶのかを事前にある程度決めておくと楽。
+          私は、エッジは、UFとDB、UBにあるべきステッカーの今ある位置を優先している。
+          揃っていない各キューブについては、少なくともどれか1個のステッカーの手順を回すことになるが、これらの位置はもう一方のステッカーの手順が面倒だからである。
+          UFではなく、UFにあるべきステッカーの今ある位置なのは、最初に選択してしまうと最後にもう一度選択することになり、このときにもう一方の面倒な手順になる可能性があるからである。
+          コーナーは手順の短い位置を優先している。
+        </p>
+        <h2>全体の流れ</h2>
+        <p>
+          次の順番で進める。
+        </p>
+        <ol>
+          <li>コーナーの記憶</li>
+          <li>エッジの記憶</li>
+          <li>エッジを揃える</li>
+          <li>（必要ならば）パリティ手順</li>
+          <li>コーナーを揃える</li>
+        </ol>
+        <h2>文字の割り当て</h2>
+        <p>
+          UFRやUFなどでは記憶がしづらいので、各ステッカーの位置に平仮名を次のように割り当てる。
+          コーナーとエッジは分けて記憶するので、同じ文字で良い。
+        </p>
+        <p>
+          <img src="letters.png" width="320" height="240">
+        </p>
+        <p>
+          交換するとき、一方は必ずバッファなので、交換の相手のステッカーに対応する文字を覚えれば良い。
+        </p>
+        <h2>コーナーの記憶</h2>
+        <p>
+          コーナーは、ループが途切れたり、最初から揃っているステッカーが無ければ、7文字になる。
+          ループが途切れるごとに+1、最初から揃っているステッカーがあるごとに-1される。
+          これを、2文字ずつに区切り、2文字ごとにイメージを割り当てる（レターペア）。
+          「た」と「ぬ」だったら「たぬき」など。
+          私が使っているレターペアの一覧はこのページの末尾に載せた。
+        </p>
+        <p>
+          1個のキューブで2文字を使うCOが多いと、記憶しなければいけないイメージが増えて大変。
+          そこで、COは最後にまとめ、もしCOが多いならば、U面かD面にあるべきステッカーの位置だけを覚える。
+          もう一方は同じキューブのU面かD面なので、覚える必要が無い。
+          最後の何文字がCOかということだけを覚えておく。
+        </p>
+        <h2>
+          エッジの記憶
+        </h2>
+        <p>
+          エッジの文字数は、基本が11文字で、コーナーと同様に増減する。
+        </p>
+        <p>
+          まず、最初の2文字を飛ばして、残りを頭の中で唱えて覚える（音記憶）。
+          後述するように、奇数文字目か偶数文字目かで使う手順が変わる場合があるので、2文字ずつの区切りを意識する。
+          言いやすい文字列だと覚えやすいので、「な」行を「ま」行に置き換えたり、濁点や半濁点を付けたりする。
+          EOもCOと同様に最後にまとめる。
+          コーナーと異なり、エッジは1個のキューブにステッカーが2個なので、もう一方のステッカーは一意に定まるので、どちらかのステッカーを1文字覚えておくだけでも良い。
+          個数が多ければ、1文字ずつと、最後の何文字がEOかを覚える。
+        </p>
+        <p>
+          最初の2文字は、キューブを見ながら「こことここ」のように覚える（ビジュアル記憶）。
+          覚えるのは、最初の1文字と、そこにあるステッカーの色でも良い。
+        </p>
+        <p>
+          エッジのビジュアル記憶 → エッジの音記憶 → コーナーのレターペアによる記憶　という順番なのは、この順に記憶から消えやすいからである。
+        </p>
+        <h2>エッジを揃える</h2>
+        <p>
+          エッジは、 <span class="algorithm">M2'</span> で交換を行う。
+          DFをバッファとし、UBに交換対象のステッカーを移動して <span class="algorithm">M2'</span> で交換する。
+          M列の他のキューブも移動してしまうので、ステッカーをUBに移動する際には、M列を崩さないようにする必要がある。
+          また、1回ごとにM列が180度回転することから、UFとDB、FU、BDは、偶数回目のときには180度回転したステッカーの手順に代える。
+        </p>
+        <p>
+          手順。
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th class="sticker">Sticker</th>
+              <th class="image_">Image</th>
+              <th class="algorithm">Algorithm</th>
+              <th class="memo">Memo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="sticker">LU</td>
+              <!-- https://cube.rider.biz/visualcube.php?fmt=svg&size=256&r=y30x-30&view=trans&fd=tttbtttttttttttttttttttttdttlttttttttutttttttttttttttt -->
+              <td class="image_"><img src="e_lu.svg" width="64" height="64"></td>
+              <td class="algorithm">B L' B' M2' B L B'</td>
+              <td class="memo">LB経由。</td>
+            </tr>
+            <tr>
+              <td class="sticker">LF</td>
+              <!-- https://cube.rider.biz/visualcube.php?fmt=svg&size=256&r=y30x-30&view=trans&fd=tttttttttttttttttttttbtttbttlttttttttttttutttttttttttt -->
+              <td class="image_"><img src="e_lf.svg" width="64" height="64"></td>
+              <td class="algorithm">B L2 B' M2' B L2 B'</td>
+              <td class="memo">LB経由。</td>
+            </tr>
+            <tr>
+              <td class="sticker">LD</td>
+              <!-- https://cube.rider.biz/visualcube.php?fmt=svg&size=256&r=y30x-30&view=trans&fd=tttttttttttttttttttttttttuttltbttttttttttttutttttttttt -->
+              <td class="image_"><img src="e_ld.svg" width="64" height="64"></td>
+              <td class="algorithm">B L B' M2' B L' B'</td>
+              <td class="memo">LB経由。</td>
+            </tr>
+            <tr>
+              <td class="sticker">LB</td>
+              <!-- https://cube.rider.biz/visualcube.php?fmt=svg&size=256&r=y30x-30&view=trans&fd=tttttttttttttttttttttttttfttlttttttttttuttttttttttbttt -->
+              <td class="image_"><img src="e_lb.svg" width="64" height="64"></td>
+              <td class="algorithm">L' B L B' M2' B L' B' L</td>
+              <td class="memo"><span class="algorithm">B</span> の前に <span class="algorithm">L'</span> でLBのステッカーを退避しておく。</td>
+            </tr>
+          </tbody>
+        </table>
+
         <h2>レターペア</h2>
         <ul>
           <li>「ま」行は「な」行とする（例: ミカン → にか）。</li>
           <li>濁点と半濁点は清音とする（例: ピエロ → ひえ）。</li>
           <li>「や」行や「ら」行、「わ」行、長音、拗音と促音の小さい文字は無視する（例: クラリネット → くね、切手 → きて）。</li>
-          <li>コーナーOP法で使用しない「あ」と「ち」、「な」は省いている。</li>
+          <li>コーナーで使用しない「あ」と「ち」、「な」は省いている。</li>
         </ul>
       </div>
       <div class="table-container">
