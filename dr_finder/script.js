@@ -13,8 +13,8 @@ const elFinishMaxDepth = document.getElementById("finish_max_depth");
 const elReset = document.getElementById("reset");
 const elRandom = document.getElementById("random");
 const elInput = document.getElementById("input");
+const elStart = document.getElementById("start");
 const elStop = document.getElementById("stop");
-const elRestart = document.getElementById("restart");
 const elParse = document.getElementById("parse");
 const elScramble = document.getElementById("scramble");
 const elVisualize = document.getElementById("visualize");
@@ -274,7 +274,14 @@ function reverse(moves) {
 let worker;
 
 function search() {
-    input = elInput.value;
+    let input = elInput.value;
+    if (input=="") {
+        return;
+    }
+
+    input = input.replace("‘", "'");
+    input = input.replace("’", "'");
+    input = input.toUpperCase();
 
     eoMaxDepth = +elEOMaxDepth.value,
     eoMaxNumber = +elEOMaxNumber.value,
@@ -504,6 +511,7 @@ function search() {
         }
     }
 
+    elStart.style.display = "none";
     elStop.style.display = "block";
     elProgress.style.display = "block";
 
@@ -531,7 +539,7 @@ function search() {
     if (worker) {
         worker.terminate();
     }
-    worker = new Worker("worker.js?v=20250216");
+    worker = new Worker("worker.js?v=20250225");
 
     worker.onmessage = e => {
         function movesString(x) {
@@ -804,6 +812,7 @@ function search() {
         if (data.type=="end") {
             worker.terminate();
             worker = undefined;
+            elStart.style.display = "block";
             elStop.style.display = "none";
             elProgress.style.display = "none";
         }
@@ -897,18 +906,45 @@ elRandom.addEventListener("click", () => {
     search();
 });
 
+for (let b of document.getElementsByClassName("key")) {
+    let v = b.textContent;
+    if (v=="←") {
+        v = "\n";
+    }
+    b.addEventListener("click", () => {
+        const t = elInput.value;
+        const p = elInput.selectionStart || 0;
+        let t2 = t.substring(0, p);
+        let add = 0;
+        if (0<p && t[p-1]!=" ") {
+            t2 += " ";
+            add++;
+        }
+        t2 += v;
+        if (p<t.length && t[p]!=" ") {
+            t2 += " ";
+            add++;
+        }
+        add += v.length;
+        t2 += t.substring(p);
+        elInput.value = t2;
+        setTimeout(() => {
+            elInput.setSelectionRange(p+add, p+add);
+        }, 0);
+    });
+}
+
 elStop.addEventListener("click", () => {
     if (worker) {
         worker.terminate();
         worker = undefined;
     }
 
+    elStart.style.display = "block";
     elStop.style.display = "none";
-    elRestart.style.display = "block";
     elProgress.style.display = "none";
 });
 
-elRestart.addEventListener("click", () => {
-    elRestart.style.display = "none";
+elStart.addEventListener("click", () => {
     search();
 });

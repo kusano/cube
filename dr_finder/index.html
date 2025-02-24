@@ -13,10 +13,13 @@
       }
       .finish {
         border-bottom: solid 1px rgb(74, 74, 74);
-
+      }
+      .key {
+        width: 3em;
+        font-weight: bold;
       }
     </style>
-    <script defer src="script.js?ver=20250216"></script>
+    <script defer src="script.js?v=20250225"></script>
   </head>
   <body>
     <section class="section">
@@ -232,8 +235,45 @@
 (L U' F) // EO (F/B) (3/3)" rows="3"></textarea>
         </p>
         <p>
+          <details>
+            <summary>Keyboard</summary>
+            <div class="mt-4" style="box-sizing: border-box">
+              <div class="mb-2">
+                <button class="key button is-small is-primary">F</button>
+                <button class="key button is-small is-primary">B</button>
+                <button class="key button is-small is-primary">R</button>
+                <button class="key button is-small is-primary">L</button>
+                <button class="key button is-small is-primary">U</button>
+                <button class="key button is-small is-primary">D</button>
+              </div>
+              <div class="mb-2">
+                <button class="key button is-small is-primary">F2</button>
+                <button class="key button is-small is-primary">B2</button>
+                <button class="key button is-small is-primary">R2</button>
+                <button class="key button is-small is-primary">L2</button>
+                <button class="key button is-small is-primary">U2</button>
+                <button class="key button is-small is-primary">D2</button>
+              </div>
+              <div class="mb-2">
+                <button class="key button is-small is-primary">F'</button>
+                <button class="key button is-small is-primary">B'</button>
+                <button class="key button is-small is-primary">R'</button>
+                <button class="key button is-small is-primary">L'</button>
+                <button class="key button is-small is-primary">U'</button>
+                <button class="key button is-small is-primary">D'</button>
+              </div>
+              <div class="mb-2">
+                <button class="key button is-small is-primary">(</button>
+                <button class="key button is-small is-primary">)</button>
+                <button class="key button is-small is-primary">//</button>
+                <button class="key button is-small is-primary">←</button>
+              </div>
+            </div>
+          </details>
+        </p>
+        <p>
+          <button id="start" class="button is-primary">Start</button>
           <button id="stop" class="button is-danger" style="display: none">Stop</button>
-          <button id="restart" class="button is-primary" style="display: none">Restart</button>
         </p>
         <p id="parse" style="display: none">
           Parsed scramble: <span id="scramble" class="has-text-weight-bold"></span><br>
