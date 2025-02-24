@@ -1,5 +1,44 @@
+/*
+重複排除について。
+抜けを無くし、重複をできるだけ排除するため、次のルールを設ける。
+
+1. 直前の手と同じ面は回さない。
+  これによって、 F F2 などの無意味な手順を排除する。
+
+2. B面の後にF面、L面の後にR面、D面の後にU面は回さない。
+  これによって、 F B と B F の両方を探索することを避ける。
+
+3. （F/B軸の）EOの最終手は  F か B 、（U/D軸の）RZPの最終手は R か L 、（U/D軸の）DRの最終手は U か D に限る。
+  これによって、
+    EO: ... F, RZP: U2 ...
+    EO: ... F U2, RZP: ...
+  のような重複を避ける。
+
+  また、 ... F と ... F' のような実質的に同じEOなどを出力しないようにする。
+  逆回転については、次のステップの最初に手数としてカウントしない180度回転も探索するようにする。
+  対面を連続して回してステップを完了させる場合は、最終手のみこの扱いをする。
+  2のルールと合わせ、次のように列挙する。
+    EO: ... F B, RZP: ...
+    EO: ... F B, RZP: B2 ...
+    EO: ... F' B, RZP: ...
+    EO: ... F' B, RZP: B2
+  最終手の1手前も F のみにして、次のステップで180度回転のほうが良いとは思うが、面倒。
+
+  キャンセルの180度回転は、2. のルールの対象外。
+    EO: ... B, RZP: B2 F2 ...
+  のような手順を逃さないため。
+    EO: ... B, RZP: B2 F2 B2 ...
+  のような手順を生成しないため、最後の F2 の後に B2 を回さないようにする必要がある（未実装）。
+
+  0手でステップを完了することも認める。
+  ただし、前のステップの最終手を逆回しする手がある場合は不可。
+  この逆回しの手は次のステップでも回せるはず。
+*/
+
+let standalone = false;
 if (typeof postMessage=="undefined") {
     postMessage = console.log;
+    standalone = true;
 }
 
 // 手、手順を逆にする。
@@ -998,7 +1037,8 @@ class EO {
     }
 
     toString() {
-        let s = `${movesString(this)} // EO (${this.axis} (`;
+        let s = movesString(this);
+        s += `${s==""?"":" "}// EO (${this.axis} (`;
         if (this.DRmUD!="") {
             s += `, DR-${this.DRmUD} (U/D)`;
         }
@@ -1102,15 +1142,12 @@ function searchEO(scramble, maxDepth, niss, maxNum) {
                 if (eos.length>=maxNum) {
                     return;
                 }
-                // Nissyは最後の2手がF' Bのようなものは除いている。
-                // DR/finishで2手前のキャンセルするようにして、除くべき？
                 if ((first=="" || first==axis[0]+"'" || first==axis[2]+"'") &&
                     (last=="" || last==axis[0] || last==axis[2]) &&
                     cube.eoBadEdge(axis)==0) {
                     const eo = !rev ?
                         new EO(scramble, axis, normal, reverse(inverse)) :
                         new EO(scramble, axis, reverse(inverse), normal);
-                    // console.log(eo.toString());
                     postMessage({
                         type: "eo",
                         eo: eo,
@@ -1265,7 +1302,8 @@ class RZP {
     }
 
     toString() {
-        let s = `${movesString(this)} // RZP (${this.axis}, DR-${this.DRm})`;
+        let s = movesString(this);
+        s += `${s==""?"":" "}// RZP (${this.axis}, DR-${this.DRm})`;
 
         const n = this.normal.length+this.inverse.length;
         s += ` (${n}${this.moves-n!=0?this.moves-n:""}/${this.moves+this.eo.moves})`;
@@ -1364,12 +1402,8 @@ function searchRZP(scramble, eos, maxDepth, niss, maxNum) {
                     return;
                 }
 
-                const first = inverse.length==0 ||
-                    inverse.length==1 && inverse[0][0]==eo.firstMove()[0] ?
-                    "" : inverse[0];
-                const last = normal.length==0 ||
-                    normal.length==1 && normal[0][0]==eo.lastMove()[0] ?
-                    "" : normal[normal.length-1];
+                const first = inverse.length==0?"":inverse[0];
+                const last = normal.length==0?"":normal[normal.length-1];
 
                 const cands = {
                     "U/D": 0,
@@ -1622,17 +1656,8 @@ class DR {
     }
 
     toString() {
-        let s = "";
-        if (this.inverse.length>0) {
-            s += `(${this.inverse.join(" ")})`;
-        }
-        if (this.normal.length>0) {
-            if (s!="") {
-                s += " ";
-            }
-            s += `${this.normal.join(" ")}`;
-        }
-        s += ` // DR (${this.axis}, HTR-${this.HTRm}, ${this.hyperParity}, ${this.htrSubset})`;
+        let s = moveString(this);
+        s += `${s==""?"":" "}// DR (${this.axis}, HTR-${this.HTRm}, ${this.hyperParity}, ${this.htrSubset})`;
         const n = this.normal.length+this.inverse.length;
         s += ` (${n}${this.moves-n!=0?this.moves-n:""}/${this.moves+this.eo.moves})`;
         return s;
@@ -2032,9 +2057,8 @@ class Finish {
     }
 
     toString() {
-        const n = this.normal.length;
-        let s = this.normal.join(" ");
-        s += " // finish (DR move optimal)";
+        let s = movesString(this);
+        s += `${s==""?"":" "}// finish (DR move optimal)`;
         s += ` (${n}${this.moves-n!=0?this.moves-n:""}/${this.moves+this.dr.moves+this.dr.eo.moves})`;
         return s;
     }
@@ -2280,7 +2304,18 @@ function searchFinish(scramble, dr, maxDepth) {
     }
 }
 
-if (false) {
+if (standalone) {
+    // scramble = "R' U' F L2 B2 D2 L F2 U2 R D2 R B2 R B' D2 L' D' F2 L2 F' D F D' R' U' F"
+    // https://x.com/albleuk/status/1890775236661973422
+    // EO: (U) U2 L2 U
+    // RZP: L
+    // DR: (R2 D2 R2 B U2 F2 L)
+    // finish: L2 R2 F2 D2 L2 F2 D2 R2 F L2 F R2 U2 L2
+
+    // scramble = "R' U' F R2 D F2 D2 B2 D2 L2 U2 F U' L' B' U2 B D' B D F2 D' R' U' F"
+    // https://x.com/albleuk/status/1892598079829795164
+    // EOの最終手を逆回しにしたRZPは出ないべき。
+
     // scramble = "R' U' F R2 D F2 D U2 B2 D2 F' U B2 R F L2 B2 R U' B D F2 R' U' F";
     // console.log(scramble);
     // scramble = scramble.split(" ")

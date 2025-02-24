@@ -751,19 +751,26 @@ function search() {
                 elSolutionMovesNum.textContent = ""+num;
 
                 let solution = "";
+                let movesStr = movesString(eo);
                 let n = eo.normal.length+eo.inverse.length;
-                solution += `${movesString(eo)} // EO (${eoInfoString(eo)}) (${n}/${eo.moves})\n`;
+                solution += `${movesStr}${movesStr==""?"":" "}// EO (${eoInfoString(eo)}) (${n}/${eo.moves})\n`;
+
                 if (!rzp.skip) {
+                    movesStr = movesString(rzp);
                     n = rzp.normal.length+rzp.inverse.length;
                     diff = rzp.moves-n;
-                    solution += `${movesString(rzp)} // RZP (${rzpInfoString(rzp)}) (${n}${diff!=0?""+diff:""}/${eo.moves+rzp.moves})\n`;
+                    solution += `${movesStr}${movesStr==""?"":" "}// RZP (${rzpInfoString(rzp)}) (${n}${diff!=0?""+diff:""}/${eo.moves+rzp.moves})\n`;
                 }
+
+                movesStr = movesString(dr);
                 n = dr.normal.length+dr.inverse.length;
                 diff = dr.moves-n;
-                solution += `${movesString(dr)} // DR (${drInfoString(dr)}) (${n}${diff!=0?""+diff:""}/${eo.moves+rzp.moves+dr.moves})\n`;
+                solution += `${movesStr}${movesStr==""?"":" "}// DR (${drInfoString(dr)}) (${n}${diff!=0?""+diff:""}/${eo.moves+rzp.moves+dr.moves})\n`;
+
+                movesStr = movesString(finish);
                 n = finish.normal.length;
                 diff = finish.moves-n;
-                solution += `${movesString(finish)} // finish (${n}${diff!=0?""+diff:""}/${eo.moves+rzp.moves+dr.moves+finish.moves})`;
+                solution += `${movesStr}${movesStr==""?"":" "}// finish (${n}${diff!=0?""+diff:""}/${eo.moves+rzp.moves+dr.moves+finish.moves})`;
                 elSolutionPre.style.display = "block";
                 elSolutionPre.textContent = solution;
             }
