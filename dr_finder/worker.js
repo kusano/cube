@@ -242,6 +242,57 @@ ${C[15]}${C[16]}${C[17]}${C[24]}${C[25]}${C[26]}${C[33]}${C[34]}${C[35]}${C[42]}
         return n;
     }
 
+    // https://shota-cube.hatenablog.com/entry/2024/06/18/170250
+    arBadCorner(eoAxis, drAxis) {
+        const moves = {
+            "F/BU/D": [" ", " "],
+            "F/BR/L": ["z", " "],
+            "R/LF/B": ["y", "z"],
+            "R/LU/D": ["y", " "],
+            "U/DR/L": ["x", "z"],
+            "U/DF/B": ["x", " "],
+        }[eoAxis+drAxis];
+        this.move(moves[0]);
+        this.move(moves[1]);
+
+        let n = 0;
+        for (let c of [ 9, 11, 15, 17, 27, 29, 33, 35]) {
+            if (this.C[c]==this.C[4] || this.C[c]==this.C[49]) {
+                n++;
+            }
+        }
+
+        this.undo();
+        this.undo();
+
+        return n;
+    }
+
+    arBadEdge(eoAxis, drAxis) {
+        const moves = {
+            "F/BU/D": [" ", " "],
+            "F/BR/L": ["z", " "],
+            "R/LF/B": ["y", "z"],
+            "R/LU/D": ["y", " "],
+            "U/DR/L": ["x", "z"],
+            "U/DF/B": ["x", " "],
+        }[eoAxis+drAxis];
+        this.move(moves[0]);
+        this.move(moves[1]);
+
+        let n = 0;
+        for (let e of [ 1,  7, 46, 52]) {
+            if (this.C[e]!=this.C[4] && this.C[e]!=this.C[49]) {
+                n++;
+            }
+        }
+
+        this.undo();
+        this.undo();
+
+        return n;
+    }
+
     htrBadCorner(axis) {
         this.move({"U/D": " ", "F/B": "x", "R/L": "z"}[axis]);
 
@@ -1299,11 +1350,23 @@ class RZP {
         }
 
         this.DRm = `${cube.drBadEdge(axis)}e${cube.drBadCorner(axis)}c`;
+        this.ARmNormal = `${cube.arBadEdge(eo.axis, axis)}e${cube.arBadCorner(eo.axis, axis)}c`;
+        for (let a of ["U/D", "F/B", "R/L"]) {
+            if (a!=eo.axis && a!=axis) {
+                this.ARmInverse = `${cube.arBadEdge(eo.axis, a)}e${cube.arBadCorner(eo.axis, a)}c`;
+            }
+        }
     }
 
     toString() {
         let s = movesString(this);
-        s += `${s==""?"":" "}// RZP (${this.axis}, DR-${this.DRm})`;
+        const infos = [
+            this.axis,
+            `DR-${this.DRm}`,
+            `AR-${this.ARmNormal} (normal)`,
+            `AR-${this.ARmInverse} (inverse)`,
+        ];
+        s += `${s==""?"":" "}// RZP (${infos.join(", ")})`;
 
         const n = this.normal.length+this.inverse.length;
         s += ` (${n}${this.moves-n!=0?this.moves-n:""}/${this.moves+this.eo.moves})`;

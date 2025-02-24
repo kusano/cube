@@ -56,7 +56,7 @@ let config;
             eo_max_depth: 5,
             eo_max_number: 16,
             eo_niss: "always",
-            rzp_use: false,
+            rzp_use: true,
             rzp_max_depth: 7,
             rzp_max_number: 32,
             rzp_niss: "before",
@@ -566,6 +566,8 @@ function search() {
             infos = [
                 rzp.axis,
                 `DR-${rzp.DRm}`,
+                `AR-${rzp.ARmNormal} (normal)`,
+                `AR-${rzp.ARmInverse} (inverse)`,
             ];
             return infos.join(", ");
         }
@@ -848,8 +850,8 @@ elReset.addEventListener("click", () => {
     elEOMaxDepth.value = "5";
     elEOMaxNumber.value = "16";
     elEONiss.value = "always";
-    elRZPUse.checked = false;
-    elRZP.style.display = "none";
+    elRZPUse.checked = true;
+    elRZP.style.display = "block";
     elRZPMaxDepth.value = "7";
     elRZPMaxNumber.value = "32";
     elRZPNiss.value = "before";
