@@ -279,8 +279,8 @@ function search() {
         return;
     }
 
-    input = input.replace("‘", "'");
-    input = input.replace("’", "'");
+    input = input.replaceAll("‘", "'");
+    input = input.replaceAll("’", "'");
     input = input.toUpperCase();
 
     eoMaxDepth = +elEOMaxDepth.value,
