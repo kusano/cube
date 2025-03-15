@@ -95,4 +95,7 @@ for shape in [
                         ok = "o"
                     else:
                         ok = "x"
+                    # D面にコーナー2個とエッジ2個、U面にコーナー3個でもOK。
+                    if "222" in U3*2 and ("2211" in D3*2 or "2112" in D3*2 or "1122" in D3*2):
+                        ok = "o"
                     print(ok, f"{U2}_{D2}")
