@@ -1,0 +1,231 @@
+4-4
+5-3
+6-2
+7-1
+8
+
+2-2-2
+3-3
+3-2-1*
+4-2*
+4-1-1
+5-1*
+6
+
+Square
+Kite
+Barrel
+Shield
+Fist*
+Pawn*
+Mushroom
+Scallop
+
+Paired edges
+Perpendicular edges
+Parallel edges
+
+Star
+
+5, 21, 36+3
+
+
+
+Tree diagram:
+
+Square/Square
+Kite/Kite
+Barrel/Barrel
+Scallop/Scallop
+4-2/Paired edges
+6/Paired edges
+2-2-2/Paired edges
+Fist (R)/Fist (L)
+Kite/Scallop
+5-1/Paired edges
+Fist/Scallop
+4-1-1/Paired edges
+3-2-1/Paired edges
+3-3/Paired edges
+
+
+6-2/Star
+8/Star
+2-2-2/Perpendicular edges
+3-3/Perpendicular edges
+3-2-1/Perpendicular edges
+4-2/Perpendicular edges
+5-1/Perpendicular edges
+6/Perpendicular edges
+2-2-2/Parallel edges
+3-3/Parallel edges
+3-2-1/Parallel edges
+4-2/Parallel edges
+5-1/Parallel edges
+6/Parallel edges
+Shield/Kite
+Pawn/Kite
+Shield/Barrel
+Pawn/Barrel
+Scallop/Barrel
+Shield/Shield
+Fist/Shield
+Pawn/Shield
+Mushroom/Shield
+Scallop/Shield
+Pawn (L)/Fist (L)
+Pawn (L)/Fist (R)
+Pawn (L)/Pawn (L)
+Pawn (L)/Pawn (R)
+Mushroom/Pawn
+Scallop/Pawn
+Scallop/Mushroom
+
+
+
+4-4/Star
+5-3/Star
+7-1/Star
+4-1-1/Perpendicular edges
+4-1-1/Parallel edges
+Kite/Square
+Barrel/Square
+Shield/Square
+Fist/Square
+Pawn/Square
+Mushroom/Square
+Scallop/Square
+Barrel/Kite
+Fist/Kite
+Mushroom/Kite
+Fist/Barrel
+Mushroom/Barrel
+Fist (L)/Fist (L)
+Mushroom/Fist
+Mushroom/Mushroom
+
+4-4/Star
+o 1211112111_222222
+o 2111121111_222222
+o 1111211112_222222
+o 1112111121_222222
+o 1121111211_222222
+5-3/Star
+o 1121112111_222222
+o 1211121111_222222
+o 1112111112_222222
+o 1121111121_222222
+o 1211111211_222222
+o 2111112111_222222
+o 1111211121_222222
+o 1112111211_222222
+4-1-1/Parallel edges
+o 121212111_1221222
+o 212121111_1221222
+o 121211112_1221222
+o 212111121_1221222
+o 121111212_1221222
+o 211112121_1221222
+o 111121212_1221222
+o 111212121_1221222
+Barrel/Square
+o 11221122_21212121
+o 22112211_12121212
+Shield/Square
+o 11222112_21212121
+o 22211211_21212121
+o 22211211_12121212
+o 22112112_12121212
+Fist (L)/Square
+o 11221212_21212121
+Mushroom/Square
+o 22111221_12121212
+o 11221221_21212121
+Barrel/Kite
+o 11221122_12122121
+o 11221122_12212112
+o 22112211_12212112
+o 22112211_21211212
+Mushroom/Kite
+o 22111221_12212112
+o 22111221_21211212
+o 11221221_12122121
+o 11221221_12212112
+Fist (L)/Barrel
+o 21122121_11221122
+o 21122121_22112211
+o 11221212_21122112
+o 11221212_22112211
+o 21212112_11221122
+o 12121122_22112211
+o 21211221_11221122
+Mushroom/Barrel
+o 22111221_21122112
+o 22111221_11221122
+o 11221221_21122112
+o 11221221_22112211
+Fist (L)/Fist (L)
+o 21122121_12121122
+o 11221212_21122121
+o 11221212_12212121
+o 11221212_21212112
+o 21212112_12121122
+o 21211221_12121122
+Mushroom/Fist (L)
+o 22111221_11221212
+o 22111221_21212112
+o 22111221_12121122
+o 11221221_21122121
+o 11221221_12212121
+o 11221221_21212112
+Mushroom/Mushroom
+o 22111221_12211122
+o 11221221_12212211
+
+
+
+7-1/Star
+o 1112121111_222222
+o 1212111111_222222
+o 2121111111_222222
+o 1211111112_222222
+o 2111111121_222222
+x 1111111212_222222
+x 1111112121_222222
+o 1111212111_222222
+4-1-1/Perpendicular edges
+o 121212111_2121222
+x 121212111_1212222
+x 212121111_2121222
+o 212121111_1212222
+o 121211112_2121222
+x 121211112_1212222
+x 212111121_2121222
+o 212111121_1212222
+o 121111212_2121222
+x 121111212_1212222
+x 211112121_2121222
+o 211112121_1212222
+o 111121212_2121222
+x 111121212_1212222
+x 111212121_2121222
+o 111212121_1212222
+Kite/Square
+Pawn (L)/Square
+x 22211121_21212121
+o 22211121_12121212
+x 22111212_12121212
+Scallop/Square
+o 11222211_21212121
+x 22221111_21212121
+o 22221111_12121212
+o 22211112_21212121
+x 22211112_12121212
+o 22111122_12121212
+Fist (L)/Kite
+x 11221212_12122121
+o 11221212_12212112
+
+/ (3,0)/ (-5,-4)/ (0,2)/ (-3,4)/ (-4,0)/
+
+/ (3,0)/ (-5,-4)/ (0,2)/ (6,4)/

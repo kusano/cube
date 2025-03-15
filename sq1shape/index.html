@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>Square-1の成形</title>
+    <link rel="stylesheet" href="../bulma.min.css">
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>Square-1の成形</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; Square-1の成形
+        </p>
+        <hr>
+        <p>
+          全手順覚えたくはない。
+          しかし、「<a href="https://zonsan531.hatenablog.com/entry/2024/11/09/141932">Square-1の入り口</a>」のD面にPaired edgesを作る手順だけだと、Paired edgesを作るまでに手間取ることがたまにある。
+          そこだけ何とかしたい……と整理した。
+        </p>
+        <h2>
+          参考
+        </h2>
+        <ul>
+          <li><a href="https://zonsan531.hatenablog.com/entry/2024/11/09/141932">Square-1の入り口 - Square-zon</a></li>
+          <li><a href="https://blog.uesyuu.com/post/2017-12-04-order-when-you-learn-cubeshape/">スクエア1の成形の覚える順番 – uesyuu's Blog</a></li>
+          <li><a href="http://kosquare.blog.fc2.com/blog-entry-17.html">/直方体/　成形</a></li>
+          <li><a href="https://squanmate.cuber.pro/#/shapes">Squanmate ( ͡° ͜ʖ ͡°)</a></li>
+        </ul>
+        <h2>
+          1面の形状
+        </h2>
+        <p>
+          名前は「<a href="https://squanmate.cuber.pro/#/shapes">Squanmate</a>」から。
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>名前</th>
+              <th>コーナー</th>
+              <th>エッジ</th>
+              <th>画像</th>
+              <th>メモ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>4-4</td><td>2</td><td>8</td><td><img width="64" height="64" src="images/1211112111.png"></td><td>名前は塊ごとのエッジの個数。</td></tr>
+            <tr><td>5-3</td><td>2</td><td>8</td><td><img width="64" height="64" src="images/1121112111.png"></td><td></td></tr>
+            <tr><td>6-2</td><td>2</td><td>8</td><td><img width="64" height="64" src="images/1121121111.png"></td><td></td></tr>
+            <tr><td>7-1</td><td>2</td><td>8</td><td><img width="64" height="64" src="images/1112121111.png"></td><td></td></tr>
+            <tr><td>8</td><td>2</td><td>8</td><td><img width="64" height="64" src="images/1111221111.png"></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>2-2-2</td><td>3</td><td>6</td><td><img width="64" height="64" src="images/211211211.png"></td><td>名前は塊ごとのエッジの個数。コーナーが3個までは、左右反転を除いて、塊ごとのエッジの個数から一意に定まる。</td></tr>
+            <tr><td>3-3</td><td>3</td><td>6</td><td><img width="64" height="64" src="images/111211122.png"></td><td></td></tr>
+            <tr><td>3-2-1</td><td>3</td><td>6</td><td><img width="64" height="64" src="images/121211121.png"></td><td>線対称ではない。</td></tr>
+            <tr><td>4-2</td><td>3</td><td>6</td><td><img width="64" height="64" src="images/211221111.png"></td><td>線対称ではない。</td></tr>
+            <tr><td>4-1-1</td><td>3</td><td>6</td><td><img width="64" height="64" src="images/121212111.png"></td><td></td></tr>
+            <tr><td>5-1</td><td>3</td><td>6</td><td><img width="64" height="64" src="images/121221111.png"></td><td>線対称ではない。</td></tr>
+            <tr><td>6</td><td>3</td><td>6</td><td><img width="64" height="64" src="images/112221111.png"></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Square</td><td>4</td><td>4</td><td><img width="64" height="64" src="images/21212121.png"></td><td>正方形。</td></tr>
+            <tr><td>Kite</td><td>4</td><td>4</td><td><img width="64" height="64" src="images/12122121.png"></td><td>凧。</td></tr>
+            <tr><td>Barrel</td><td>4</td><td>4</td><td><img width="64" height="64" src="images/21122112.png"></td><td>樽。</td></tr>
+            <tr><td>Shield</td><td>4</td><td>4</td><td><img width="64" height="64" src="images/21121122.png"></td><td>盾。</td></tr>
+            <tr><td>Fist</td><td>4</td><td>4</td><td><img width="64" height="64" src="images/21122121.png"></td><td>握り拳。線対称ではない。</td></tr>
+            <tr><td>Pawn</td><td>4</td><td>4</td><td><img width="64" height="64" src="images/12122211.png"></td><td>チェスのポーン？　線対称ではない。</td></tr>
+            <tr><td>Mushroom</td><td>4</td><td>4</td><td><img width="64" height="64" src="images/12212211.png"></td><td>マッシュルーム。</td></tr>
+            <tr><td>Scallop</td><td>4</td><td>4</td><td><img width="64" height="64" src="images/11222211.png"></td><td>ホタテ貝。</td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Paired edges</td><td>5</td><td>2</td><td><img width="64" height="64" src="images/2211222.png"></td><td>2個のエッジがくっついている。</td></tr>
+            <tr><td>Perpendicular edges</td><td>5</td><td>2</td><td><img width="64" height="64" src="images/2121222.png"></td><td>2個のエッジが垂直の位置にある。</td></tr>
+            <tr><td>Parallel edges</td><td>5</td><td>2</td><td><img width="64" height="64" src="images/1221222.png"></td><td>2個のエッジが（ほぼ）平行の位置にある。</td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Star</td><td>6</td><td>0</td><td><img width="64" height="64" src="images/222222.png"></td><td>星。</td></tr>
+          </tbody>
+        </table>
+        <h2>形状の個数</h2>
+        <p>
+          U面とD面の組み合わせは、当然コーナーとエッジの個数の合計がそれぞれ8個になるものに限る。
+          また、U面とD面の形状を入れ替えたものは同一視する。
+          そのままスライス（ <b>/</b> ）と、U面とD面を入れ替えて <b>(6, 6)/</b> は同じ状態になる。
+          コーナーが2個エッジが8個と、コーナーが6個エッジが0個の組み合わせは、5×1=5通り。
+          コーナーが3個エッジが6個と、コーナーが5個エッジが2個の組み合わせは、7×3=21通り。
+          コーナーが4個とエッジが4個同士の組み合わせは、上下を入れ替えたものを同一視することを考慮して、8+7+…+2+1=36通り。
+        </p>
+        <p>
+          線対称ではないものについて、U面かD面のどちらか一方が線対称ではない場合、手前と奥を反転させた手順を回せば良いので、同一視できる。
+          U面もD面も線対称ではない場合だけ考慮が必要。
+          U面もD面も線対称ではないのは、FistかPawnがU面とD面にある場合のみ。
+          これらの組み合わせは3通り。
+        </p>
+        <p>
+          ということで、形状の個数は、完成状態であるSquare/Squareも含めて、5+21+36+3=65個。
+        </p>
+        <h2>Paired edges</h2>
+        <p>
+          「<a href="https://zonsan531.hatenablog.com/entry/2024/11/09/141932">Square-1の入り口</a>」の通り。
+          これを覚えれば、途中の形状も含めると、次の14個がカバーできる。
+        </p>
+        <ul>
+          <li>Square/Square</li>
+          <li>Kite/Kite</li>
+          <li>Barrel/Barrel</li>
+          <li>Scallop/Scallop</li>
+          <li>4-2/Paired edges</li>
+          <li>6/Paired edges</li>
+          <li>2-2-2/Paired edges</li>
+          <li>Fist (R)/Fist (L)</li>
+          <li>Kite/Scallop</li>
+          <li>5-1/Paired edges</li>
+          <li>Fist/Scallop</li>
+          <li>4-1-1/Paired edges</li>
+          <li>3-2-1/Paired edges</li>
+          <li>3-3/Paired edges</li>
+        </ul>
+        <p>
+          <img src="images/tree.png" width="870" height="820">
+        </p>
+        <p>
+          図の向きからスライスすると、次の形状に遷移する。
+          D面は、U面方向からではなく、D面方向から見た向きを描いている。
+        </p>
+        <h2>1手でPaired edges</h2>
+        <p>
+          Paired edgesが無く、1手でPaired edgesにできる、すなわち、U面とD面にコーナー3個と、コーナー2個とエッジが2個がある形状は次の31個。
+          D面にStarではなくPaired edgesを作るのは、1手でその形にできる形状が多い点で強い。
+        </p>
+        <div class="is-flex is-flex-direction-row is-flex-wrap-wrap">
+          <div class="m-4 has-text-centered"><div>6-2/Star</div><div><img src="images/2112111111_222222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>8/Star</div><div><img src="images/1122111111_222222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>2-2-2/Perpendicular edges</div><div><img src="images/211211211_2121222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>3-3/Perpendicular edges</div><div><img src="images/221112111_2121222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>3-2-1/Perpendicular edges</div><div><img src="images/211212111_2121222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>4-2/Perpendicular edges</div><div><img src="images/221111211_2121222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>5-1/Perpendicular edges</div><div><img src="images/221111121_2121222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>6/Perpendicular edges</div><div><img src="images/112221111_2121222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>2-2-2/Parallel edges</div><div><img src="images/211211211_1221222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>3-3/Parallel edges</div><div><img src="images/221112111_1221222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>3-2-1/Parallel edges</div><div><img src="images/211212111_1221222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>4-2/Parallel edges</div><div><img src="images/221111211_1221222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>5-1/Parallel edges</div><div><img src="images/221111121_1221222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>6/Parallel edges</div><div><img src="images/112221111_1221222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Shield/Kite</div><div><img src="images/22211211_12212112.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Pawn/Kite</div><div><img src="images/22211121_12212112.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Shield/Barrel</div><div><img src="images/22211211_21122112.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Pawn/Barrel</div><div><img src="images/22211121_21122112.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Scallop/Barrel</div><div><img src="images/22221111_21122112.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Shield/Shield</div><div><img src="images/21121122_11211222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Fist/Shield</div><div><img src="images/21122121_11211222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Pawn/Shield</div><div><img src="images/22111212_11211222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Mushroom/Shield</div><div><img src="images/11221221_11211222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Scallop/Shield</div><div><img src="images/11222211_11211222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Pawn (L)/Fist (L)</div><div><img src="images/22211121_21212112.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Pawn (L)/Fist (R)</div><div><img src="images/22211121_12122112.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Pawn (L)/Pawn (L)</div><div><img src="images/22111212_11121222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Pawn (L)/Pawn (R)</div><div><img src="images/22111212_12111222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Mushroom/Pawn</div><div><img src="images/22111221_11121222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Scallop/Pawn</div><div><img src="images/11222211_11121222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Scallop/Mushroom</div><div><img src="images/22221111_12212211.png" width="64" height="128"></div></div>
+        </div>
+        <h2>コーナー3個の塊を作る</h2>
+        <p>
+          次の14個の形状は、1手でコーナー3個の塊を作る（あるいは3個の塊をそのままにする）ことができ、そのとき（コーナー3個の塊の作り方が複数ある場合でも）対面に必ずコーナー2個とエッジ2個の塊ができる。
+          次の1手でPaired edgesを作れば良い。
+        </p>
+        <div class="is-flex is-flex-direction-row is-flex-wrap-wrap">
+          <div class="m-4 has-text-centered"><div>4-4/Star</div><div><img src="images/1211112111_222222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>5-3/Star</div><div><img src="images/1121112111_222222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>4-1-1/Parallel edges</div><div><img src="images/121212111_1221222.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Barrel/Square</div><div><img src="images/11221122_21212121.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Shield/Square</div><div><img src="images/11222112_21212121.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Fist/Square</div><div><img src="images/11221212_21212121.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Mushroom/Square</div><div><img src="images/22111221_12121212.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Barrel/Kite</div><div><img src="images/11221122_12122121.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Mushroom/Kite</div><div><img src="images/22111221_12212112.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Fist/Barrel</div><div><img src="images/21122121_11221122.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Mushroom/Barrel</div><div><img src="images/22111221_21122112.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Fist (L)/Fist (L)</div><div><img src="images/21122121_12121122.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Mushroom/Fist</div><div><img src="images/22111221_11221212.png" width="64" height="128"></div></div>
+          <div class="m-4 has-text-centered"><div>Mushroom/Mushroom</div><div><img src="images/22111221_12211122.png" width="64" height="128"></div></div>
+        </div>
+        <h2>残り</h2>
+        <p>
+          残りは次の6個の形状。
+          このうち、Kite/Squareは1手でコーナー3個の塊を作ることができない。
+          他の5個は、コーナー3個の塊を作ることはできるし、その中には対面にコーナー2個とエッジ2個ができるものがあるが、コーナー3個の作り方によっては対面にコーナー2個とエッジ2個ができない場合がある。
+        </p>
+        <ul>
+          <li>7-1/Star</li>
+          <li>4-1-1/Perpendicular edges</li>
+          <li>Kite/Square</li>
+          <li>Pawn/Square</li>
+          <li>Scallop/Square</li>
+          <li>Fist/Kite</li>
+        </ul>
+        <h3>7-1/Star</h3>
+        <p>
+          <strong>/ (3,0)/ (-5,-4)/ (-3,2)/ (-3,-2)/ (-2,0)/</strong> で生成できる。
+          次の2個の位置でスライスを回すのが<strong>だめ</strong>。
+          U面にエッジ2個のペアができない。
+          これら以外は、どの位置で回してもコーナー3個の塊と、コーナー2個エッジ2個ができる。
+        </p>
+        <p>
+          <img src="images/1111111212_222222.png" width="64" height="128">
+          <img src="images/1111112121_222222.png" width="64" height="128">
+        </p>
+        <h3>Kite/Square</h3>
+        <p>
+          <strong>/ (3,0)/ (1,0)/ (-2,0)/ (2,0)/ (-2,0)/ (1,0)/</strong> で生成できる。
+          向きが同じFist/Fistか、Kite/Square自身にしか遷移しない。
+          Fist/Fistにして、コーナー3個の塊を作る。
+        </p>
+        <p>
+          <img src="images/21121221_12121212.png" width="64" height="128">
+        </p>
+        <h3>他</h3>
+        <p>
+          残り4個の4-1-1/Perpendicular edges, Pawn/Square, Scallop/Square, Fist/Kiteについて、これらの形状が乗っている最短ルートがある。
+          これを覚えるのが良いだろう。
+        </p>
+        <p>
+          <img src="images/rest.png" width="870" height="320">
+        </p>
+        <p>
+          Kite/Scallop以降はPaired edgesと同じ。
+        </p>
+        <p>
+          Fist/Kiteは <b>/ (3,0)/ (-5,-4)/ (0,2)/ (-3,4)/ (-4,0)/</b>で、Scallop/Squareは、 <b>/ (3,0)/ (-5,-4)/ (0,2)/ (6,4)/</b> で生成できる。
+        </p>
+        <p>
+          整理するために各形状の最短手順を眺めていると、Paired edgesを経由すると手数が伸びる形状がそれなりにあった。
+          少しずつでもPaired edgesを経由しない最短手順を覚えていくのが良いのだろう。
+        </p>
+        <hr>
+        <address>
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>
