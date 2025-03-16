@@ -124,23 +124,23 @@ make("1122111111_222222")
 # 2-2-2/Perpendicular edges
 make("211211211_2121222")
 # 3-3/Perpendicular edges
-make("221112111_2121222")
+make("112211121_1212222")
 # 3-2-1/Perpendicular edges
 make("211212111_2121222")
 # 4-2/Perpendicular edges
-make("221111211_2121222")
+make("211221111_1212222")
 # 5-1/Perpendicular edges
-make("221111121_2121222")
+make("221111121_1212222")
 # 6/Perpendicular edges
-make("112221111_2121222")
+make("112221111_1212222")
 # 2-2-2/Parallel edges
 make("211211211_1221222")
 # 3-3/Parallel edges
-make("221112111_1221222")
+make("112211121_1221222")
 # 3-2-1/Parallel edges
 make("211212111_1221222")
 # 4-2/Parallel edges
-make("221111211_1221222")
+make("211221111_1221222")
 # 5-1/Parallel edges
 make("221111121_1221222")
 # 6/Parallel edges
@@ -150,9 +150,9 @@ make("22211211_12212112")
 # Pawn/Kite
 make("22211121_12212112")
 # Shield/Barrel
-make("22211211_21122112")
+make("22211211_11221122")
 # Pawn/Barrel
-make("22211121_21122112")
+make("22211121_22112211")
 # Scallop/Barrel
 make("22221111_21122112")
 # Shield/Shield
@@ -160,21 +160,21 @@ make("21121122_11211222")
 # Fist/Shield
 make("21122121_11211222")
 # Pawn/Shield
-make("22111212_11211222")
+make("22211121_22112112")
 # Mushroom/Shield
 make("11221221_11211222")
 # Scallop/Shield
 make("11222211_11211222")
 # Pawn (L)/Fist (L)
-make("22211121_21212112")
+make("22211121_12121122")
 # Pawn (L)/Fist (R)
 make("22211121_12122112")
 # Pawn (L)/Pawn (L)
-make("22111212_11121222")
+make("22211121_12122211")
 # Pawn (L)/Pawn (R)
-make("22111212_12111222")
+make("22211121_21211122")
 # Mushroom/Pawn
-make("22111221_11121222")
+make("11221221_11121222")
 # Scallop/Pawn
 make("11222211_11121222")
 # Scallop/Mushroom
