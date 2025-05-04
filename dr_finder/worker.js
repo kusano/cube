@@ -479,9 +479,10 @@ ${C[15]}${C[16]}${C[17]}${C[24]}${C[25]}${C[26]}${C[33]}${C[34]}${C[35]}${C[42]}
             } else if (n==2) {
                 for (let m of [" ", "F2", "R2"]) {
                     this.move(m);
-
                     const ud2 = extractUD(this.C);
                     const fb2 = extractFB(this.C);
+                    this.undo();
+
                     let nud = 0;
                     let nfb = 0;
                     for (let i=0; i<4; i++) {
@@ -500,8 +501,6 @@ ${C[15]}${C[16]}${C[17]}${C[24]}${C[25]}${C[26]}${C[33]}${C[34]}${C[35]}${C[42]}
                         }
                         break;
                     }
-
-                    this.undo();
                 }
                 if (add=="") {
                     throw "error";
