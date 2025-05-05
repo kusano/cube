@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="Pyraminx V solves">
+    <title>Pyraminx L4E</title>
+    <link rel="stylesheet" href="../bulma.min.css">
+    <style>
+      address {
+        text-align: right;
+      }
+    </style>
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>Pyraminx V solver</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; Pyraminx V solver
+        </p>
+        <p>
+          This tool computes V solves for each D and F faces.
+          By looking V solves, you may learn how to make V.
+          <span class="has-text-weight-bold">Uw</span>, <span class="has-text-weight-bold">Lw</span>, <span class="has-text-weight-bold">Rw</span> and <span class="has-text-weight-bold">Bw</span> are rotations.
+        </p>
+        <hr>
+        <h2>Scramble</h2>
+        <div class="columns">
+          <div class="column">
+            <div class="field is-grouped">
+              <div class="control">
+                <button id="previous" class="button is-primary" disabled>Previous</button>
+              </div>
+              <div class="control">
+                <button id="next" class="button is-primary">Next</button>
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <input id="scramble" class="input has-text-weight-bold" type="text">
+              </div>
+              <p id="error" class="help is-danger" style="display: none">ERROR</p>
+            </div>
+          </div>
+          <div class="column">
+            <canvas id="visual"></canvas>
+          </div>
+        </div>
+        <h2>V Solves</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th colspan="2"><span style="color: #AA0">Yellow D</span></th>
+              <th colspan="2"><span style="color: #00F">Blue D</span></th>
+              <th colspan="2"><span style="color: #0C0">Green D</span></th>
+              <th colspan="2"><span style="color: #F00">Red D</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="has-text-weight-bold" style="color: #0C0">Green F</div>
+                <div><canvas id="visual_df"></canvas></div>
+              </td>
+              <td>
+                <div id="solve_df" class="has-text-weight-bold"></div>
+              </td>
+              <td>
+                <div class="has-text-weight-bold" style="color: #AA0">Yellow F</div>
+                <div><canvas id="visual_rd"></canvas></div>
+              </td>
+              <td>
+                <div id="solve_rd" class="has-text-weight-bold"></div>
+              </td>
+              <td>
+                <div class="has-text-weight-bold" style="color: #F00">Red F</div>
+                <div><canvas id="visual_fl"></canvas></div>
+              </td>
+              <td>
+                <div id="solve_fl" class="has-text-weight-bold"></div>
+              </td>
+              <td>
+                <div class="has-text-weight-bold" style="color: #0C0">Green F</div>
+                <div><canvas id="visual_lf"></canvas></div>
+              </td>
+              <td>
+                <div id="solve_lf" class="has-text-weight-bold"></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="has-text-weight-bold" style="color: #00F">Blue F</div>
+                <div><canvas id="visual_dr"></canvas></div>
+              </td>
+              <td>
+                <div id="solve_dr" class="has-text-weight-bold"></div>
+              </td>
+              <td>
+                <div class="has-text-weight-bold" style="color: #0C0">Green F</div>
+                <div><canvas id="visual_rf"></canvas></div>
+              </td>
+              <td>
+                <div id="solve_rf" class="has-text-weight-bold"></div>
+              </td>
+              <td>
+                <div class="has-text-weight-bold" style="color: #00F">Blue F</div>
+                <div><canvas id="visual_fr"></canvas></div>
+              </td>
+              <td>
+                <div id="solve_fr" class="has-text-weight-bold"></div>
+              </td>
+              <td>
+                <div class="has-text-weight-bold" style="color: #AA0">Yellow F</div>
+                <div><canvas id="visual_ld"></canvas></div>
+              </td>
+              <td>
+                <div id="solve_ld" class="has-text-weight-bold"></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="has-text-weight-bold" style="color: #F00">Red F</div>
+                <div><canvas id="visual_dl"></canvas></div>
+              </td>
+              <td>
+                <div id="solve_dl" class="has-text-weight-bold"></div>
+              </td>
+              <td>
+                <div class="has-text-weight-bold" style="color: #F00">Red F</div>
+                <div><canvas id="visual_rl"></canvas></div>
+              </td>
+              <td>
+                <div id="solve_rl" class="has-text-weight-bold"></div>
+              </td>
+              <td>
+                <div class="has-text-weight-bold" style="color: #AA0">Yellow F</div>
+                <div><canvas id="visual_fd"></canvas></div>
+              </td>
+              <td>
+                <div id="solve_fd" class="has-text-weight-bold"></div>
+              </td>
+              <td>
+                <div class="has-text-weight-bold" style="color: #00F">Blue F</div>
+                <div><canvas id="visual_lr"></canvas></div>
+              </td>
+              <td>
+                <div id="solve_lr" class="has-text-weight-bold"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+        <address class="mb-6">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>

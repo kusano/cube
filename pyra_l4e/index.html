@@ -382,7 +382,6 @@ for (let canvas of document.querySelectorAll(".pyra")) {
     for (let j=0; j<3; j++) {
       const x = (X0*F[i][j][0]+X1*F[i][j][1]+X2*F[i][j][2])+W/2;
       const y = (Y0*F[i][j][0]+Y1*F[i][j][1]+Y2*F[i][j][2])+H/2;
-      console.log(x, y);
       if (j==0) {
         ctx.moveTo(x, y);
       } else {
