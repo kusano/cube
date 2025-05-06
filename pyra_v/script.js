@@ -710,7 +710,7 @@ const elPrevious = document.getElementById("previous");
 const elNext = document.getElementById("next");
 
 function solve(scramble) {
-    const num = 4;
+    const num = 3;
 
     const CF = [
         [ 1, 21, 33], // LRD
@@ -738,22 +738,27 @@ function solve(scramble) {
             if (d!=f) {
                 const df = d+f;
 
-                const container = document.getElementById(`solve_${df.toLowerCase()}`);
+                const container = document.getElementById(`solve_${df}`);
                 while (container.firstChild) {
                     container.removeChild(container.firstChild);
                 }
 
                 const solves = solveV(scramble, df, num+1);
 
+                const rotation = [];
+                for (let m of solves[0].split(" ")) {
+                    if (m.includes("w")) {
+                        rotation.push(m);
+                    }
+                }
+
                 const pyra = new Pyra();
 
                 for (let m of scramble.split(" ")) {
                     pyra.move(m);
                 }
-                for (let m of solves[0].split(" ")) {
-                    if (m.includes("w")) {
-                        pyra.move(m);
-                    }
+                for (let m of rotation) {
+                    pyra.move(m);
                 }
 
                 // Vを構成するピース以外を削除。
@@ -774,33 +779,25 @@ function solve(scramble) {
                     pyra.F[f] = " ";
                 }
 
-                render(document.getElementById(`visual_${df.toLocaleLowerCase()}`), pyra, "v");
+                render(document.getElementById(`visual_${df}`), pyra, "v");
 
+                const div = document.createElement("div");
+                container.appendChild(div);
+                div.classList.add("has-text-grey-light");
+                div.textContent = rotation.join(" ");
 
                 for (let i=0; i<solves.length; i++) {
                     const div = document.createElement("div");
                     container.appendChild(div);
 
                     if (i<num) {
-                        const s1 = [];
-                        const s2 = [];
+                        const s = [];
                         for (let m of solves[i].split(" ")) {
-                            if (m.includes("w")) {
-                                s1.push(m);
-                            } else {
-                                s2.push(m);
+                            if (!m.includes("w")) {
+                                s.push(m);
                             }
                         }
-                        if (s1.length>0) {
-                            const span = document.createElement("span");
-                            div.appendChild(span);
-
-                            span.classList.add("has-text-grey-light");
-                            span.textContent = s1.join(" ")+" ";
-                        }
-
-                        const text = document.createTextNode(s2.join(" "));
-                        div.appendChild(text);
+                        div.textContent = s.join(" ");
                     } else {
                         div.textContent = "...";
                     }
@@ -808,6 +805,40 @@ function solve(scramble) {
             }
         }
     }
+}
+
+const template = document.getElementById("template");
+for (let i=0; i<12; i++) {
+    const [d, f] = [
+        ["D", "F"], ["R", "D"], ["F", "L"], ["L", "F"],
+        ["D", "R"], ["R", "F"], ["F", "R"], ["L", "D"],
+        ["D", "L"], ["R", "L"], ["F", "D"], ["L", "R"],
+    ][i];
+
+    const faceToColor = {
+        "D": "Yellow",
+        "F": "Green",
+        "R": "Blue",
+        "L": "Red",
+    }
+
+    const faceToCode = {
+        "D": "#AA0",
+        "F": "#0C0",
+        "R": "#00F",
+        "L": "#F00",
+    };
+
+    const node = template.content.cloneNode(true);
+
+    node.querySelector(".face_d").textContent = `${faceToColor[d]} D`;
+    node.querySelector(".face_d").style.color = faceToCode[d];
+    node.querySelector(".face_f").textContent = `${faceToColor[f]} F`;
+    node.querySelector(".face_f").style.color = faceToCode[f];
+    node.querySelector("canvas").id = `visual_${d}${f}`;
+    node.querySelector(".solve").id = `solve_${d}${f}`;
+
+    document.getElementById(`row${i/4|0}`).appendChild(node);
 }
 
 const history = [makeScramble()];

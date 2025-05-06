@@ -49,108 +49,24 @@
           </div>
         </div>
         <h2>V Solves</h2>
-        <table class="table">
-          <thead>
-            <tr>
-              <th colspan="2"><span style="color: #AA0">Yellow D</span></th>
-              <th colspan="2"><span style="color: #00F">Blue D</span></th>
-              <th colspan="2"><span style="color: #0C0">Green D</span></th>
-              <th colspan="2"><span style="color: #F00">Red D</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <div class="has-text-weight-bold" style="color: #0C0">Green F</div>
-                <div><canvas id="visual_df"></canvas></div>
-              </td>
-              <td>
-                <div id="solve_df" class="has-text-weight-bold"></div>
-              </td>
-              <td>
-                <div class="has-text-weight-bold" style="color: #AA0">Yellow F</div>
-                <div><canvas id="visual_rd"></canvas></div>
-              </td>
-              <td>
-                <div id="solve_rd" class="has-text-weight-bold"></div>
-              </td>
-              <td>
-                <div class="has-text-weight-bold" style="color: #F00">Red F</div>
-                <div><canvas id="visual_fl"></canvas></div>
-              </td>
-              <td>
-                <div id="solve_fl" class="has-text-weight-bold"></div>
-              </td>
-              <td>
-                <div class="has-text-weight-bold" style="color: #0C0">Green F</div>
-                <div><canvas id="visual_lf"></canvas></div>
-              </td>
-              <td>
-                <div id="solve_lf" class="has-text-weight-bold"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="has-text-weight-bold" style="color: #00F">Blue F</div>
-                <div><canvas id="visual_dr"></canvas></div>
-              </td>
-              <td>
-                <div id="solve_dr" class="has-text-weight-bold"></div>
-              </td>
-              <td>
-                <div class="has-text-weight-bold" style="color: #0C0">Green F</div>
-                <div><canvas id="visual_rf"></canvas></div>
-              </td>
-              <td>
-                <div id="solve_rf" class="has-text-weight-bold"></div>
-              </td>
-              <td>
-                <div class="has-text-weight-bold" style="color: #00F">Blue F</div>
-                <div><canvas id="visual_fr"></canvas></div>
-              </td>
-              <td>
-                <div id="solve_fr" class="has-text-weight-bold"></div>
-              </td>
-              <td>
-                <div class="has-text-weight-bold" style="color: #AA0">Yellow F</div>
-                <div><canvas id="visual_ld"></canvas></div>
-              </td>
-              <td>
-                <div id="solve_ld" class="has-text-weight-bold"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="has-text-weight-bold" style="color: #F00">Red F</div>
-                <div><canvas id="visual_dl"></canvas></div>
-              </td>
-              <td>
-                <div id="solve_dl" class="has-text-weight-bold"></div>
-              </td>
-              <td>
-                <div class="has-text-weight-bold" style="color: #F00">Red F</div>
-                <div><canvas id="visual_rl"></canvas></div>
-              </td>
-              <td>
-                <div id="solve_rl" class="has-text-weight-bold"></div>
-              </td>
-              <td>
-                <div class="has-text-weight-bold" style="color: #AA0">Yellow F</div>
-                <div><canvas id="visual_fd"></canvas></div>
-              </td>
-              <td>
-                <div id="solve_fd" class="has-text-weight-bold"></div>
-              </td>
-              <td>
-                <div class="has-text-weight-bold" style="color: #00F">Blue F</div>
-                <div><canvas id="visual_lr"></canvas></div>
-              </td>
-              <td>
-                <div id="solve_lr" class="has-text-weight-bold"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div id="row0" class="columns"></div>
+        <div id="row1" class="columns"></div>
+        <div id="row2" class="columns"></div>
+        <template id="template">
+          <div class="column">
+            <div class="has-text-weight-bold mb-2">
+              <span class="face_d"></span>, <span class="face_f"></span>
+            </div>
+            <div style="display: flex">
+              <div style="width: 140px">
+                <canvas></canvas>
+              </div>
+              <div>
+                <div class="solve has-text-weight-bold"></div>
+              </div>
+            </div>
+          </div>
+        </template>
         <hr>
         <address class="mb-6">
           <a href="https://twitter.com/kusano_k">@kusano_k</a>
