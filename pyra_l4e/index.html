@@ -23,7 +23,7 @@
           <a href="../">ルービックキューブ関連</a> &gt; Pyraminx L4E
         </p>
         <p>
-          PyraminxのL4E手順。以下の動画の書き起こし。
+          PyraminxのL4E手順。手順は以下の動画より。
         </p>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/hUJ40qUI_50?si=FZ8HHz7mPBb23li_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         <hr>
@@ -31,13 +31,14 @@
         <ul>
           <li>人差し指の位置を変えずに <b>U</b> を回せるように、中指はD面ではなくR/L面に置く。</li>
           <li><b>S</b> はスレッジハンマー（<b>R' L R L'</b>）、<b>H</b> はヘッジスラマー（<b>L R' L' R</b>）。</li>
-          <li>Pure L4Eは全てL3Eに帰着するので、とりあえずはL3Eより前の数手を覚えれば良い。
+          <li>DFエッジはブロックやペアに含めない。</li>
+          <li>LLの1ケースを除き、<b>H</b> , <b>S</b> , <b>L' U L</b> , <b>R U' R'</b> , <b>L' U' L</b> , <b>R U R'</b> , <b>U</b> , <b>U'</b> で構成されている。</li>
+          <li>
+            <b>U</b> や <b>U'</b> と他のケースの手順は灰色で示している。
             <ul>
-              <li>L3Eの部分は灰色にしている。</li>
-              <li>L3Eになるということは、その数手でブロックができる。</li>
+              <li>回し始める向きと、黒字の部分を覚えれば、とりあえず2 lookで解くことはできる。</li>
             </ul>
           </li>
-          <li>DFエッジはブロックやペアに含めない。</li>
           <li>図は、手順を回したときに、緑がF面、青がR面、赤がL面になる向き。</li>
         </ul>
         <h2>LL</h2>
@@ -53,30 +54,30 @@
             <tr>
               <td>
                 <div><canvas class="pyra" data-faces="RRFRFLFLL"></canvas></div>
-                <div><b>R U' R' U S</b></div>
+                <div><b>R U' R'</b> <b class="l3e">U S</b></div>
               </td>
               <td></td>
               <td><b>S U L' U' L</b> よりこの手順のほうが回しやすい。</td>
             </tr>
             <tr>
               <td>
-                <div><canvas class="pyra" data-faces="LRRLFFRLF"></canvas></div>
-                <div><b>R' U' L' U L R</b></div>
-              </td>
-              <td>
                 <div><canvas class="pyra" data-faces="FRLFFRLLR"></canvas></div>
                 <div><b>L U R U' R' L'</b></div>
               </td>
-              <td>ペアが2個。孤立しているピースを背面にし、正面の繋がっていないピースから回す。開始時、親指はR/L面。</td>
+              <td>
+                <div><canvas class="pyra" data-faces="LRRLFFRLF"></canvas></div>
+                <div><b>R' U' L' U L R</b></div>
+              </td>
+              <td>ペアが2個。孤立しているピースを背面にし、正面の繋がっていないピースから回す。手順が特殊。<b>L</b> の後 <b>L'</b> で戻す前に <b>R</b> を回すので、 <b>U'</b> を回せるように最初の <b>L</b> は左親指をL面にリグリップして回すと良い。右のケースも同様。</td>
             </tr>
             <tr>
               <td>
                 <div><canvas class="pyra" data-faces="LRLRFRFLF"></canvas></div>
-                <div><b>L' U L U L' U L</b></div>
+                <div><b>L' U L</b> <b class="l3e">U L' U L</b></div>
               </td>
               <td>
                 <div><canvas class="pyra" data-faces="FRFLFLRLR"></canvas></div>
-                <div><b>R U' R' U' R U' R'</b></div>
+                <div><b>R U' R'</b> <b class="l3e">U' R U' R'</b></div>
               </td>
               <td>センターを回すと揃う方向にU面を回す。</td>
             </tr>
@@ -97,36 +98,36 @@
           <tbody>
             <tr>
               <td>
-                <div><canvas class="pyra" data-faces="RRGDFFGLL"></canvas></div>
-                <div><b>S</b></div>
-              </td>
-              <td>
                 <div><canvas class="pyra" data-faces="RRGFFDGLL"></canvas></div>
                 <div><b>H</b></div>
               </td>
-              <td>ブロックを背面にしたときに、正面にペアとD面ステッカーがある。D面ステッカーのほうからスレッジやヘッジ。</td>
+              <td>
+                <div><canvas class="pyra" data-faces="RRGDFFGLL"></canvas></div>
+                <div><b>S</b></div>
+              </td>
+              <td>ペアがあり、D面ステッカーとペアが隣接している。</td>
             </tr>
             <tr>
               <td>
                 <div><canvas class="pyra" data-faces="LLDGRRGFF"></canvas></div>
-                <div><b>H R U' R'</b></div>
+                <div><b>H</b> <b class="l3e">R U' R'</b></div>
               </td>
               <td>
                 <div><canvas class="pyra" data-faces="FFGLLGDRR"></canvas></div>
-                <div><b>S L' U L</b></div>
+                <div><b>S</b> <b class="l3e">L' U L</b></div>
               </td>
-              <td>ブロックを背面にしたときに、D面ステッカーが側面にあり、正面にペアがある。ペアを崩すようにスレッジやヘッジし、DFエッジを入れる。</td>
+              <td>ペアがあり、D面ステッカーとペアが隣接していない。ペアを崩すようにスレッジやヘッジし、その後DFエッジを入れる。</td>
             </tr>
             <tr>
-              <td>
-                <div><canvas class="pyra" data-faces="DGGGLLRRG"></canvas></div>
-                <div><b>R U R'</b></div>
-              </td>
               <td>
                 <div><canvas class="pyra" data-faces="GLLRRGGGD"></canvas></div>
                 <div><b>L' U' L</b></div>
               </td>
-              <td>ペアが無く、ブロックとD面の色が隣接していない。DFエッジを入れる手順。</td>
+              <td>
+                <div><canvas class="pyra" data-faces="DGGGLLRRG"></canvas></div>
+                <div><b>R U R'</b></div>
+              </td>
+              <td>ペアが無く、ブロックとD面ステッカーが隣接していない。ブロックでもD面ステッカーでもないエッジを使いDFエッジを入れる。下のケースも同様。</td>
             </tr>
             <tr>
               <td>
@@ -137,7 +138,7 @@
                 <div><canvas class="pyra" data-faces="LLGGGGDFF"></canvas></div>
                 <div><b>R U' R'</b></div>
               </td>
-              <td>ペアが無く、ブロックとD面の色が隣接している。揃っていないピースを使ってD面を入れる。</td>
+              <td>ペアが無く、ブロックとD面ステッカーが隣接している。</td>
             </tr>
           </tbody>
         </table>
@@ -163,18 +164,18 @@
                 <div><canvas class="pyra" data-faces="GGGGGGRRGD"></canvas></div>
                 <div><b>R U' R'</b> <b class="l3e">L' U' L</b></div>
               </td>
-              <td>1個だけのペアが側面の手前にある。ペアが無いほうに出して、入れる。</td>
+              <td>ペアが1個。ペアが無いほうに出して、反対側から入れる。</td>
             </tr>
             <tr>
-              <td>
-                <div><canvas class="pyra" data-faces="GRRGFFGLLD"></canvas></div>
-                <div><b>S U'</b> <b class="l3e">S</b></div>
-              </td>
               <td>
                 <div><canvas class="pyra" data-faces="FFGLLGRRGD"></canvas></div>
                 <div><b>H U</b> <b class="l3e">H</b></div>
               </td>
-              <td>ペアが3個。ペアが無いほうから、スレッジ or ヘッジ。</td>
+              <td>
+                <div><canvas class="pyra" data-faces="GRRGFFGLLD"></canvas></div>
+                <div><b>S U'</b> <b class="l3e">S</b></div>
+              </td>
+              <td>ペアが3個。手前にペアが無いほうからスレッジ or ヘッジ。</td>
             </tr>
             <tr>
               <td>
@@ -185,12 +186,12 @@
                 <div><canvas class="pyra" data-faces="RRRFFLFLLD"></canvas></div>
                 <div><b>S</b> <b class="l3e">R U' R'</b></div>
               </td>
-              <td>DFエッジと他の1個のエッジのフリップ。ペアができているほうから、スレッジ or ヘッジ。</td>
+              <td>DFエッジと他の1個のエッジが反転している。ペアができているほうから、スレッジ or ヘッジ。</td>
             </tr>
             <tr>
               <td>
                 <div><canvas class="pyra" data-faces="LRFRFLFLFD"></canvas></div>
-                <div><b>(L' U L) (R U' R') (L' U L) (R U' R')</b></div>
+                <div><b>(L' U L) (R U' R')</b> <b class="l3e">(L' U L) (R U' R')</b></div>
               </td>
               <td></td>
               <td>全てのエッジが反転している。<a href="https://www.cuberoot.me/pyraminx-l4e/">https://www.cuberoot.me/pyraminx-l4e/</a> より。</td>
@@ -200,6 +201,12 @@
         <h2>Pure L4E</h2>
         <ul>
           <li>ここまでの分類に該当しないもの。</li>
+          <li>最初が <b>H</b> / <b>S</b> なのは1ケースのみ、<b>L' U' L</b> / <b>R U R'</b> は2ケースのみで、他は <b>L' U L</b> / <b>R U' R'</b> 。
+            <ul>
+              <li>後のほうの手順ほど楽なので、そういう手順を選択しているのかもしれない。</li>
+            </ul>
+          </li>
+          <li>全て、（LLではなく）L3Eに帰着する。すなわち、3手目でDFエッジはDFスロットに入らない。</li>
         </ul>
         <table class="table">
           <thead>
@@ -212,91 +219,91 @@
           <tbody>
             <tr>
               <td>
-                <div><canvas class="pyra" data-faces="GGDGGGLLG"></canvas></div>
-                <div><b>R U' R'</b> <b class="l3e">L' U L</b></div>
-              </td>
-              <td>
                 <div><canvas class="pyra" data-faces="GRRGGGDGG"></canvas></div>
                 <div><b>L' U L</b> <b class="l3e">R U' R'</b></div>
               </td>
-              <td>ペアが1個。ペアが1個の他のケースとは、D面ステッカーとペアの位置関係で見分ける。DFエッジのあるほうから回す。</td>
+              <td>
+                <div><canvas class="pyra" data-faces="GGDGGGLLG"></canvas></div>
+                <div><b>R U' R'</b> <b class="l3e">L' U L</b></div>
+              </td>
+              <td>ペアがある。</td>
             </tr>
             <tr>
               <td>
-                <div><canvas class="pyra" data-faces="GGGGRRGGD"></canvas></div>
-                <div><b>R U' R' U'</b> <b class="l3e">L' U L</b></div>
+                <div><canvas class="pyra" data-faces="DGGLLGGGG"></canvas></div>
+                <div><b>L' U L</b> <b class="l3e">U R U' R'</b></div>
               </td>
               <td>
-                <div><canvas class="pyra" data-faces="DGGLLGGGG"></canvas></div>
-                <div><b>L' U L U</b> <b class="l3e">R U' R'</b></div>
+                <div><canvas class="pyra" data-faces="GGGGRRGGD"></canvas></div>
+                <div><b>R U' R'</b> <b class="l3e">U' L' U L</b></div>
               </td>
-              <td>ペアが1個。DFに入っているエッジをD面ステッカーの無いほうに出す。</td>
+              <td>ペアがある。</td>
             </tr>
             <tr>
               <td>
                 <div><canvas class="pyra" data-faces="DFFGGGGGG"></canvas></div>
-                <div><b>H U'</b> <b class="l3e">R U' R'</b></div>
+                <div><b>H</b> <b class="l3e">U' R U' R'</b></div>
               </td>
               <td>
                 <div><canvas class="pyra" data-faces="GGGGGGFFD"></canvas></div>
-                <div><b>S U</b> <b class="l3e">L' U L</b></div>
+                <div><b>S</b> <b class="l3e">U L' U L</b></div>
               </td>
-              <td>ペアが1個。DFエッジを奥にして、D面ステッカーの無いほうから、スレッジ or ヘッジ。</td>
+              <td>ペアがある。</td>
             </tr>
             <tr>
               <td>
                 <div><canvas class="pyra" data-faces="GGDGLLGGG"></canvas></div>
-                <div><b>L' U' L U'</b> <b class="l3e">H</b></div>
+                <div><b>L' U' L</b> <b class="l3e">U' H</b></div>
               </td>
               <td>
                 <div><canvas class="pyra" data-faces="GGGRRGDGG"></canvas></div>
-                <div><b>R U R' U</b> <b class="l3e">S</b></div>
+                <div><b>R U R'</b> <b class="l3e">U S</b></div>
               </td>
-              <td>ペアが1個。最初の1手はペアを崩すほう。</td>
+              <td>ペアがある。</td>
             </tr>
             <tr>
-              <td>
-                <div><canvas class="pyra" data-faces="GGGDGGFFF"></canvas></div>
-                <div><b>R U' R'</b> <b class="l3e">S</b></div>
-              </td>
               <td>
                 <div><canvas class="pyra" data-faces="FFFGGDGGG"></canvas></div>
                 <div><b>L' U L</b> <b class="l3e">H</b></div>
               </td>
-              <td>3個揃った面がある。D面ステッカーのほうから回す。3手目はスレッジ or ヘッジの1手目と合わせて、 <b>R2'</b> や <b>L2</b> のように回せる。</td>
+              <td>
+                <div><canvas class="pyra" data-faces="GGGDGGFFF"></canvas></div>
+                <div><b>R U' R'</b> <b class="l3e">S</b></div>
+              </td>
+              <td>3個揃った面がある。3手目はスレッジ or ヘッジの1手目と合わせて、 <b>R2'</b> や <b>L2</b> のように回せる。</td>
             </tr>
             <tr>
               <td>
                 <div><canvas class="pyra" data-faces="DFLFLGGGG"></canvas></div>
-                <div><b>L' U L U'</b> <b class="l3e">R U R'</b></div>
+                <div><b>L' U L</b> <b class="l3e">U' R U R'</b></div>
               </td>
               <td>
                 <div><canvas class="pyra" data-faces="GGGGRFRFD"></canvas></div>
-                <div><b>R U' R' U</b> <b class="l3e">L' U' L</b></div>
+                <div><b>R U' R'</b> <b class="l3e">U L' U' L</b></div>
               </td>
-              <td>ペアが無い。センターに対し、位置があっていて反転しているエッジがある。下のケースとは、D面ステッカーと反転しているエッジの位置関係で見分ける。D面ステッカーや反転しているエッジが無いほうから回す。</td>
+              <td>ペアが無く、反転したエッジがある。</td>
             </tr>
             <tr>
               <td>
                 <div><canvas class="pyra" data-faces="LRGDGGGLR"></canvas></div>
-                <div><b>L' U' L U'</b> <b class="l3e">R U' R'</b></div>
+                <div><b>L' U' L</b> <b class="l3e">U' R U' R'</b></div>
               </td>
               <td>
                 <div><canvas class="pyra" data-faces="LRGGGDGLR"></canvas></div>
-                <div><b>R U R' U</b> <b class="l3e">L' U L</b></div>
+                <div><b>R U R'</b> <b class="l3e">U L' U L</b></div>
               </td>
-              <td>ペアが無く、反転しているエッジがある。反転しているエッジを奥にして、D面ステッカーの無いほうから回す。</td>
+              <td>ペアが無く、反転しているエッジがある。</td>
             </tr>
             <tr>
               <td>
-                <div><canvas class="pyra" data-faces="GGGDGGGGG"></canvas></div>
-                <div><b>R U' R' U'</b> <b class="l3e">R U R'</b></div>
+                <div><canvas class="pyra" data-faces="GGGGGDGGG"></canvas></div>
+                <div><b>L' U L</b> <b class="l3e">U R' U' R</b></div>
               </td>
               <td>
-                <div><canvas class="pyra" data-faces="GGGGGDGGG"></canvas></div>
-                <div><b>L' U L U</b> <b class="l3e">R' U' R</b></div>
+                <div><canvas class="pyra" data-faces="GGGDGGGGG"></canvas></div>
+                <div><b>R U' R'</b> <b class="l3e">U' R U R'</b></div>
               </td>
-              <td>ペアも反転しているエッジも無い。D面ステッカーを正面に持ってきて、D面ステッカーのほうから回す。</td>
+              <td>ペアも反転しているエッジも無い。</td>
             </tr>
           </tbody>
         </table>
