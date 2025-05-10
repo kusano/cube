@@ -745,10 +745,10 @@ function solve(scramble) {
 
                 const solves = solveV(scramble, df, num+1);
 
-                const rotation = [];
+                const rotations = [];
                 for (let m of solves[0].split(" ")) {
                     if (m.includes("w")) {
-                        rotation.push(m);
+                        rotations.push(m);
                     }
                 }
 
@@ -757,7 +757,7 @@ function solve(scramble) {
                 for (let m of scramble.split(" ")) {
                     pyra.move(m);
                 }
-                for (let m of rotation) {
+                for (let m of rotations) {
                     pyra.move(m);
                 }
 
@@ -784,7 +784,11 @@ function solve(scramble) {
                 const div = document.createElement("div");
                 container.appendChild(div);
                 div.classList.add("has-text-grey-light");
-                div.textContent = rotation.join(" ");
+                if (rotations.length>0) {
+                    div.textContent = "["+rotations.map(m => m.replaceAll("w", "")).join(" ")+"]";
+                } else {
+                    div.textContent = "";
+                }
 
                 for (let i=0; i<solves.length; i++) {
                     const div = document.createElement("div");
