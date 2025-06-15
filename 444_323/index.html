@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="4x4x4 Cube 3-2-3 Edge Pairing">
+    <title>4x4x4 Cube 3-2-3 Edge Pairing</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>4x4x4 Cube 3-2-3 Edge Pairing</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; 4x4x4 Cube 3-2-3 Edge Pairing
+        </p>
+        <p>
+          3-2-3 Edge Pairingは、4x4x4をYauメソッドで解くときに、クロスエッジ以外の8個のエッジを揃える手法である。
+          特殊ケースが出てきたときに詰まるので整理した。
+          <b>Uw</b> と <b>Uw'</b> を繰り返して揃えていくというだけの話ではあるけれど、定型化されていて、考える時間を減らせるのがメリットだろうか。
+          最初以外は、エッジを探すときにBRスロットとBLスロットを見る必要が無いのも良い。
+        </p>
+        <p>
+          手順は以下の動画より。
+        </p>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/XfNVsSl30LQ?si=J7NZcn4gUjuTxxRZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <hr>
+        <h2>標準の流れ</h2>
+        <p>
+          クロスとクロスエッジが完了した状態。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="     LL  LL  LL      BB  BB  BB      RR  RR  RR      FF  FF  FF "></canvas>
+        </p>
+        <p>
+          (1) <b>Uw</b> 。
+          最後のクロスエッジを揃えるときにはセンターがずれうる。
+          センターを揃えてから <b>Uw'</b> とするのではなく、ずれを直すときにこの形にすると良いかもしれない。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="     BB  LL  LL      RR  BB  BB      FF  RR  RR      LL  FF  FF "></canvas>
+        </p>
+        <p>
+          (2) FLスロットの上段のエッジと同じエッジを、FRスロットの下段に入れる。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="     BBF LL  LL     DRR  BBF BB      FF DRR  RR      LL  FF  FF "></canvas>
+        </p>
+        <p>
+          (3) <b>y</b> と持ち替えて、FLスロットの上段のエッジと同じエッジを、FRスロットの下段に入れる。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    DRRL BBF BB     FFF DRRL RR      LL FFF  FF      BBF LL  LL "></canvas>
+        </p>
+        <p>
+          (4) <b>y</b> と持ち替えて、FLスロットの上段のエッジと同じエッジを、FRスロットの下段に入れる。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    FFFBDRRL RR     RLL FFFB FF      BBFRLL  LL     DRRL BBF BB "></canvas>
+        </p>
+        <p>
+          (5) <b>Uw'</b> 。
+          ここで3個のエッジが揃う。
+          3-2-3 Edge Pairingの最初の3。
+          次に <b>y2</b> と持ち替えるので、これと合わせて、<b>Dw' y</b> のほうが良いかもしれない。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    DRRLDRRL RR     FFFBFFFB FF     RLL RLL  LL      BBF BBF BB "></canvas>
+        </p>
+        <p>
+          (6) <b>y2</b> と持ち替えて、FLスロットの上段と同じエッジを、FRスロットの下段に入れる。
+          この時点で、BLスロットとBRスロットにはすでに揃ったエッジが入っているので、FRスロットに入れるエッジを探すときに、これらのスロットは見る必要が無い。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    #LLB#LL  LL     LBB  BBB BB      RR#LRR# RR     #FF##FF# FF "></canvas>
+        </p>
+        <p>
+          (7) <b>Uw'</b> 。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    #FF##LL  LL     #LLB BBB BB     LBB LRR# RR      RR##FF# FF "></canvas>
+        </p>
+        <p>
+          (8) BRスロットの上段と同じエッジを、FRスロットの下段に入れる。
+          (7) の前にFRスロット上段のエッジを確認しておけば、このタイミングでBRスロットを見る必要は無い。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    #FF##LL  LL     #LL  BBL BB      BBLDRR# RR     DRR##FF# FF "></canvas>
+        </p>
+        <p>
+          (9) <b>Uw</b> 。
+          (7) と (8) で2個のエッジが揃う。
+          これが、3-2-3 Edge Pairingの2。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    #LL #LL  LL      BBL BBL BB     DRR#DRR# RR     #FF##FF# FF "></canvas>
+        </p>
+        <p>
+          (10) FLスロットの上段のエッジと同じエッジを、FRスロットの下段に入れる。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    #LLR#LL  LL     DBB  BBR BB      RR#DRR# RR     #FF##FF# FF "></canvas>
+        </p>
+        <p>
+          (11) <b>Uw'</b> 。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    #FF##LL  LL     #LLR BBR BB     DBB DRR# RR      RR##FF# FF "></canvas>
+        </p>
+        <p>
+          (12) BRスロットの上段と同じエッジを、FRスロットの下段に入れる。
+          後述の特殊な場合でなければ、ここでFLスロットの下段とFRスロットの上段も同じエッジになる。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    #FF##LLB LL     #LLBDBBF BB     DBBFRRR# RR     RRR##FF# FF "></canvas>
+        </p>
+        <p>
+          (13) <b>Uw</b> 。
+          (11) と合わせて、3個のエッジが揃う。
+          3-2-3 Edge Pairingの最後の3。
+          合計8個のエッジが揃ったので、エッジペアリング完了。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    #LLB#LLB LL     DBBFDBBF BB     RRR#RRR# RR     #FF##FF# FF "></canvas>
+        </p>
+        <h2>特殊な場合</h2>
+        <p>
+          上述の標準の流れ通りに事が進むのは、最初の <b>Uw</b> をした状態で、あるエッジと同じ色のエッジ、そのエッジと今ペアになっているエッジ、そのエッジと同じ色のエッジ、…と辿っていったときに、サイズ8の1個のサイクルになっている場合だろうか？　そうだとすると、これは1/8の確率でしか発生しない。
+          たいていは、この流れから外れることになる。
+          基本的には、途中でサイクルができてしまったときにどうするのかという話になる。
+        </p>
+        <h3>(1) の前に中段にペアができていた</h3>
+        <p>
+          <canvas class="cube" data-faces="     LLB LLB LL     DBB DBB  BB      RR  RR  RR      FF  FF  FF "></canvas>
+        </p>
+        <p>
+          無視して <b>Uw</b> 。
+          (2) が完了した状態になるので、(3) に進む。
+        </p>
+        <p>
+          せっかくペアができているのに退避しないのはもったいないように思えるが、ここで退避して1個ペアができた状態にすると、最後に2点交換が残る可能性が上がるのかもしれない。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    DBB  LLB LL      RR DBB  BB      FF  RR  RR      LLB FF  FF "></canvas>
+        </p>
+        <h3>(2) の前にFLスロットにペアができていた</h3>
+        <p>
+          <canvas class="cube" data-faces="     BBF LLF LL     DRR DBB  BB      FF  RR  RR      LL  FF  FF "></canvas>
+        </p>
+        <p>
+          すでにペアができているので、FRスロットに入れるべきエッジが無い。
+          <b>y</b> すると、FLスロットにペアができていない、(2) の前の状態になる。
+          最初にできていたペアは、(4) で自然に取り出される。
+        </p>
+        <p>
+          適当なエッジをFLに入れることも考えられるが、どうせなら <b>Uw'</b> でペアになるものを入れたい。
+          ここで例外的にペアを探すより、<b>y</b> して後に回したほうが楽ということだろうか。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    DRR DBB  BB      FF  RR  RR      LL  FF  FF      BBF LLF LL "></canvas>
+        </p>
+        <h3>(3) の前にサイズ2のサイクルができていた</h3>
+        <p>
+          <canvas class="cube" data-faces="     RRL BBF BB     FFFFDRRL RR     DLL FFF  FF      BB  LL  LL "></canvas>
+        </p>
+        <p>
+          （<b>Uw'</b> ではなく）<b>Uw</b> して、FLスロットに適当なエッジを入れ、<b>Uw'</b> 。
+          サイクルができていない、(3) の前の状態になる。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    FFFF BBF BB     DLL DRRL RR      BB FFF  FF      RRL LL  LL "></canvas>
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    FFFB BBR BB     RLL DRRL RR      BB FFF  FF      RRL LL  LL "></canvas>
+        </p>
+        <p>
+          <canvas class="cube" data-faces="     RRL BBR BB     FFFBDRRL RR     RLL FFF  FF      BB  LL  LL "></canvas>
+        </p>
+        <h3>(4) の前にサイズ3のサイクルができていた</h3>
+        <p>
+          <canvas class="cube" data-faces="    DRRLRBBF BB     FFFBDRRL RR     RLL FFF  FF      BBF LLB LL "></canvas>
+        </p>
+        <p>
+          <b>Dw2</b> して、(8) に進む。
+        </p>
+        <p>
+          残り1個は諦めて、(5) に進む、その後の (6) で入れるべきエッジがすでに入った状態なので、そのまま (7) に進む。
+          途中の <b>y2</b> と合わせて、<b>Dw2</b> となる。
+        </p>
+        <p>
+          なお、ペアが1個少ない状態のまま進むので、他にサイクルが無ければ、(13) の完了時点で2点交換が残る。
+        </p>
+        <h3>(6) の前にFLスロットにペアができていた</h3>
+        <p>
+          <canvas class="cube" data-faces="    #LLB#LLB LL     LBB LBB  BB      RR# RR# RR     #FF##FF# FF "></canvas>
+        </p>
+        <p>
+          すなわち、(5) の <b>Uw'</b> で4個全てのエッジがペアになったということ。
+          適当なエッジをFLスロットに入れる。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    #LLR#LLD LL     DBB LBB  BB      RR# RR# RR     #FF##FF# FF "></canvas>
+        </p>
+        <h3>(7) の前にサイズ2のサイクルができていた</h3>
+        <p>
+          <canvas class="cube" data-faces="    #LLB#LLL LL     LBBLDBBB BB     DRR#LRR# RR     #FF##FF# FF "></canvas>
+        </p>
+        <p>
+          他にペアになっていないエッジが残っているならば、 <b>Uw'</b> 、FRスロットに他のペアになっていないエッジを入れる、<b>Uw2</b> 、BLスロットの上段と同じエッジをFLスロットの下段に入れる、<b>Uw'</b> 。
+          これで、3個か4個のエッジをまとめてペアにできる。
+          他にペアになっていないエッジが残っていないならば、後述の2点交換。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    #FF##LLL LL     #LLBDBBB BB     LBBLLRR# RR     DRR##FF# FF "></canvas>
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    #FF##LLL LL     #LLFDBBR BB     RBBLDRR# RR     DRR##FF# FF "></canvas>
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    RBBL#LLL LL     DRR#DBBR BB     #FF#DRR# RR     #LLF#FF# FF "></canvas>
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    RBBR#LLF LL     DRR#RBBR BB     #FF#DRR# RR     #LLF#FF# FF "></canvas>
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    #LLF#LLF LL     RBBRRBBR BB     DRR#DRR# RR     #FF##FF# FF "></canvas>
+        </p>
+        <h3>1個の2点交換が残った</h3>
+        <p>
+          <canvas class="cube" data-faces="    #LLR#LLD LL     DBBDBBBB BB     RRR#DRR# RR     #FF##FF# FF "></canvas>
+        </p>
+        <p>
+          上記の状態から <b>Uw' R U R' F R' F' R Uw</b> とか。「4x4x4 L2E」などで検索するといくつか手順が出てくる。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="    #LLR#LLD LL     DBBDBBBR BB     BRR#DRR# RR     #FF##FF# FF "></canvas>
+        </p>
+        <p>
+          このように互い違いに入れた状態で気が付くとが多い。
+          こういうときはどうするのがベストなのだろう？　FRスロットを逆にして入れ直すのがちょっと面倒。
+          <b>L2 Uw2 R U R' F R' F' R Uw2</b> だろうか。
+          DLのクロスエッジが崩れるので、この後の3x3x3パートはまずクロスエッジを戻してからになる。
+        </p>
+        <hr>
+        <address class="mb-6 has-text-right">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+    <script>
+for (let canvas of document.querySelectorAll(".cube")) {
+  const W = 432;
+  const H = 150;
+
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio;
+  canvas.width = W*dpr;
+  canvas.height = H*dpr;
+  ctx.scale(dpr, dpr);
+  canvas.style.width = `${W}px`;
+  canvas.style.height = `${H}px`;
+
+  const faces = canvas.dataset.faces;
+
+  for (let f=0; f<4; f++) {
+    for (let y=0; y<4; y++) {
+      for (let x=0; x<4; x++) {
+        ctx.beginPath();
+        ctx.rect((f==3&&x>=2?-1:f)*108+x*24+60, y*24+12, 24, 24);
+        ctx.fillStyle = {
+          "F": "#0F0",
+          "B": "#00F",
+          "R": "#F00",
+          "L": "#F80",
+          "U": "#FFF",
+          "D": "#FF0",
+          " ": "#CCC",
+          "#": "#888",
+        }[faces[f*16+y*4+x]];
+        ctx.fill();
+        ctx.stroke();
+      }
+    }
+  }
+  ctx.fillStyle = "#000";
+  ctx.textAlign = "center";
+  ctx.font = "24px sans-serif";
+  for (let i=0; i<5; i++) {
+    ctx.fillText("BLFRB"[i], i*108, 144);
+  }
+}
+    </script>
+  </body>
+</html>
