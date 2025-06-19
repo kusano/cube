@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="Pyraminx V list">
+    <title>Pyraminx V list</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+    <script defer src="script.js"></script>
+    <style>
+      summary {
+        font-size: 1.5em;
+        margin-top: 1.3333em;
+        margin-bottom: .6666em;
+        color: var(--bulma-content-heading-color);
+        font-weight: var(--bulma-content-heading-weight);
+        line-height: var(--bulma-content-heading-line-height)
+      }
+    </style>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>Pyraminx V list</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; Pyraminx V list
+        </p>
+        <hr>
+        <p>
+          PyraminxのV firstでVを作る手順を求めた。
+          <a href="https://github.com/kusano/pyra_v">使ったプログラム</a>。
+          黄色をD面に、緑色をF面にした図を載せている。
+        </p>
+        <p>
+          手数ごとの状態数は次の通り。平均手数は4.95手。
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>手数</th>
+              <th>状態数</th>
+              <th>%</th>
+              <th>累積</th>
+              <th>%</th>
+            </tr>
+          </thead>
+          <tbody class="has-text-right">
+            <tr><td>0</td><td>1</td><td>0.03 %</td><td>1</td><td>0.03 %</td></tr>
+            <tr><td>1</td><td>6</td><td>0.19 %</td><td>7</td><td>0.22 %</td></tr>
+            <tr><td>2</td><td>31</td><td>0.96 %</td><td>38</td><td>1.17 %</td></tr>
+            <tr><td>3</td><td>160</td><td>4.94 %</td><td>198</td><td>6.11 %</td></tr>
+            <tr><td>4</td><td>653</td><td>20.15 %</td><td>851</td><td>26.27 %</td></tr>
+            <tr><td>5</td><td>1,494</td><td>46.11 %</td><td>2,345</td><td>72.38 %</td></tr>
+            <tr><td>6</td><td>866</td><td>26.73 %</td><td>3,211</td><td>99.10 %</td></tr>
+            <tr><td>7</td><td>29</td><td>0.90 %</td><td>3,240</td><td>100.00 %</td></tr>
+          </tbody>
+        </table>
+        <p>
+          あるスクランブルについて、D面をF面の選び方を変えることで、12通りのVが作れる。
+          Pyraminxの（頂点を除いた）全状態について、最適なD面とF面を選んだときのVの手数の分布は次の通り。
+          平均手数は3.57手になる。
+          1手動かして3手以下でVが作れる形になるかを12通りの向きで判断できれば、9割のスクランブルでVを4手で完了することができる。
+          2手動かして3手以下、もしくは1手動かして4手以下で同様のことができれば、ほぼ全てのスクランブルでVが5手になる。
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>手数</th>
+              <th>状態数</th>
+              <th>%</th>
+              <th>累積</th>
+              <th>%</th>
+            </tr>
+          </thead>
+          <tbody class="has-text-right">
+            <tr><td>0</td><td>2,972</td><td>0.32 %</td><td>2,972</td><td>0.32 %</td></tr>
+            <tr><td>1</td><td>16,672</td><td>1.79 %</td><td>19,644</td><td>2.11 %</td></tr>
+            <tr><td>2</td><td>77,408</td><td>8.30 %</td><td>97,052</td><td>10.40 %</td></tr>
+            <tr><td>3</td><td>284,046</td><td>30.44 %</td><td>381,098</td><td>40.84 %</td></tr>
+            <tr><td>4</td><td>449,504</td><td>48.17 %</td><td>830,602</td><td>89.01 %</td></tr>
+            <tr><td>5</td><td>102,021</td><td>10.93 %</td><td>932,623</td><td>99.95 %</td></tr>
+            <tr><td>6</td><td>480</td><td>0.05 %</td><td>933,103</td><td>100.00 %</td></tr>
+            <tr><td>7</td><td>17</td><td>0.00 %</td><td>933,120</td><td>100.00 %</td></tr>
+          </tbody>
+        </table>
+        <h2>List</h2>
+        <details open>
+          <summary>0 move (1)</summary>
+          <div id="moves0" class="grid is-col-min-12"></div>
+        </details>
+        <details open>
+          <summary>1 move (6)</summary>
+          <div id="moves1" class="grid is-col-min-12"></div>
+        </details>
+        <details open>
+          <summary>2 moves (31)</summary>
+          <div id="moves2" class="grid is-col-min-12"></div>
+        </details>
+        <details open>
+          <summary>3 moves (160)</summary>
+          <div id="moves3" class="grid is-col-min-12"></div>
+        </details>
+        <details id="details4">
+          <summary>4 moves (653)</summary>
+          <div id="moves4" class="grid is-col-min-12"></div>
+        </details>
+        <details id="details5">
+          <summary>5 moves (1494)</summary>
+          <div id="moves5" class="grid is-col-min-12"></div>
+        </details>
+        <details id="details6">
+          <summary>6 moves (866)</summary>
+          <div id="moves6" class="grid is-col-min-12"></div>
+        </details>
+        <details open>
+          <summary>7 moves (29)</summary>
+          <div id="moves7" class="grid is-col-min-12"></div>
+        </details>
+
+        <template id="template">
+          <div class="cell">
+            <div class="box">
+              <article class="media">
+                <figure class="media-left">
+                  <p class="image is-128x128">
+                    <canvas width="128" height="128"></canvas>
+                  </p>
+                </figure>
+                <div class="media-content">
+                  <div class="content has-text-weight-bold">
+                    <div class="sol1"></div>
+                    <div class="sol2"></div>
+                    <div class="sol3"></div>
+                    <div class="sol4"></div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </template>
+        <hr>
+        <address class="mb-6 has-text-right">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>
