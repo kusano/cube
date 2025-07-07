@@ -263,7 +263,7 @@ function search() {
     if (worker) {
         worker.terminate();
     }
-    worker = new Worker("worker.js");
+    worker = new Worker("worker.js?v=20250708");
 
     let number = 0;
     let best = 9999;

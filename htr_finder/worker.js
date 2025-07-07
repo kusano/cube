@@ -1345,13 +1345,21 @@ function analyzeSolution(scramble, normalInput, inverseInput, axis, niss, normal
             cube.move(m);
         }
         const subsetNormal = getSubset(cube);
-        const badEdge = cube.htrBadEdge(axis);
 
         cube = new Cube();
         for (let m of reverse(M)) {
             cube.move(m);
         }
         const subsetInverse = getSubset(cube);
+
+        const badCorner = cube.htrBadCorner(axis);
+        let badEdge = cube.htrBadEdge(axis);
+        // HTR subsetに合わせてバッドエッジを変更。
+        console.dir(+subsetNormal[0]!=badCorner, badCorner==4, badEdge>4)
+        if (+subsetNormal[0]!=badCorner ||
+            badCorner==4 && badEdge>4) {
+            badEdge = 8-badEdge;
+        }
 
         let subset = "";
         if (subsetNormal==subsetInverse) {
