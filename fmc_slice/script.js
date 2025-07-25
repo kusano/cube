@@ -1007,4 +1007,12 @@ R2 F2 R2 // leave slice (3/26)`,
             pasteSample(i);
         });
     }
+
+    const URLParams = new URLSearchParams(document.location.search);
+    if (URLParams.get("input")) {
+        const input = decodeURIComponent(URLParams.get("input"));
+        elInput.value = input;
+        currentInput = input;
+        solve(input);
+    }
 });

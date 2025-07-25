@@ -947,6 +947,10 @@ class Cube2 {
         return this.C==0 && this.E1==0;
     }
 
+    isFinish() {
+        return this.C==0 && this.E1==0 && this.E2==0;
+    }
+
     // Leave sliceでの状態が同一ならば等しくなる値を返す。
     extractLeaveSlice() {
         return ""+this.C+"_"+this.E1;
@@ -962,29 +966,49 @@ class Cube2 {
         return ""+this.C;
     }
 
-    // extractLeaveSliceCorner の返り値が finish になるような状態にする。
+    // extractLeaveSliceCorner の返り値が ls になるような状態にする。
     unextractLeaveSliceCorner(ls) {
         this.C = +ls;
+    }
+
+    // 状態が同一ならば等しくなる値を返す。
+    extractFinish() {
+        return ""+this.C+"_"+this.E1+"_"+this.E2;
+    }
+
+    // extractFinish の返り値が finish になるような状態にする。
+    unextractFinish(finish) {
+        [this.C, this.E1, this.E2] = finish.split("_").map(x=>+x);
     }
 };
 
 // 動きを axis 軸をU/Dに向けるように変更。
 function fixAxis(axis, m) {
     const T = {
-        "U/D": {"F": "F", "B": "B", "R": "R", "L": "L", "U": "U", "D": "D"},
-        "F/B": {"F": "U", "B": "D", "R": "R", "L": "L", "U": "B", "D": "F"},
-        "R/L": {"F": "F", "B": "B", "R": "U", "L": "D", "U": "L", "D": "R"},
+        "U/D": {"F": "F", "B": "B", "R": "R", "L": "L", "U": "U", "D": "D", "M": "M", "E": "E", "S": "S"},
+        "F/B": {"F": "U", "B": "D", "R": "R", "L": "L", "U": "B", "D": "F", "M": "M", "E": "S", "S": "E"},
+        "R/L": {"F": "F", "B": "B", "R": "U", "L": "D", "U": "L", "D": "R", "M": "E", "E": "M", "S": "S"},
     }
-    return T[axis][m[0]]+m.substr(1);
+    m = T[axis][m[0]]+m.substr(1);
+    if (axis=="F/B" && m[0]=="E" ||
+        axis=="R/L" && m[0]=="M") {
+        m = reverse(m);
+    }
+    return m;
 }
 
 function unfixAxis(axis, m) {
     const T = {
-        "U/D": {"F": "F", "B": "B", "R": "R", "L": "L", "U": "U", "D": "D"},
-        "F/B": {"F": "D", "B": "U", "R": "R", "L": "L", "U": "F", "D": "B"},
-        "R/L": {"F": "F", "B": "B", "R": "D", "L": "U", "U": "R", "D": "L"},
+        "U/D": {"F": "F", "B": "B", "R": "R", "L": "L", "U": "U", "D": "D", "M": "M", "E": "E", "S": "S"},
+        "F/B": {"F": "D", "B": "U", "R": "R", "L": "L", "U": "F", "D": "B", "M": "M", "E": "S", "S": "E"},
+        "R/L": {"F": "F", "B": "B", "R": "D", "L": "U", "U": "R", "D": "L", "M": "E", "E": "M", "S": "S"},
     }
-    return T[axis][m[0]]+m.substr(1);
+    m = T[axis][m[0]]+m.substr(1);
+    if (axis=="F/B" && m[0]=="S" ||
+        axis=="R/L" && m[0]=="E") {
+        m = reverse(m);
+    }
+    return m;
 }
 
 const leaveSliceTableMax = 6;
@@ -1068,7 +1092,7 @@ const leaveSliceCornerTable = new Map();
     console.log("Leave slice corner table constructed:", leaveSliceCornerTable.size);
 }
 
-function searchLeaveSlice(scramble, normal, inverse, axis, onlyHT) {
+function searchLeaveSlice(scramble, normal, inverse, axis) {
     let old = scramble;
     scramble = [];
     for (let m of old) {
@@ -1089,14 +1113,46 @@ function searchLeaveSlice(scramble, normal, inverse, axis, onlyHT) {
 
     let cube;
     let moves = [];
+    let movesLast;
+
+    let bestLSTotal = -1;
+    let bestLSSINumber = 0;
+    let bestLS = [];
+    let bestLSSlices = [];
 
     function f(depth, maxDepth) {
+        if (bestLSTotal>=0 && bestLSSINumber==0) {
+            // +0手のスライスインサートが見つかれば探索を打ちきって良い。
+            return true;
+        }
+
         if (depth==maxDepth) {
             if (cube.isLeaveSlice()) {
-                return [...moves];
-            } else {
-                return false;
+                const normal2 = [...normal, ...moves];
+                if (movesLast!="") {
+                    normal2.push(movesLast);
+                }
+                const si = searchSliceInsert(scramble, normal2, inverse);
+                if (si && (bestLSTotal==-1 || si.total<bestLSTotal)) {
+                    bestLSTotal = si.total;
+                    bestLSSINumber = si.total-normalizedMovesNumber([...normal2, ...reverse(inverse)]);
+                    bestLS = [];
+                    for (let m of moves) {
+                        bestLS.push(unfixAxis(axis, m));
+                    }
+                    if (movesLast!="") {
+                        bestLS.push(unfixAxis(axis, movesLast));
+                    }
+                    bestLSSlices = si.slices;
+                    for (let s of bestLSSlices) {
+                        s.move = unfixAxis(axis, s.move);
+                    }
+                    if (bestLSSINumber==0) {
+                        return true;
+                    }
+                }
             }
+            return false;
         }
 
         const ls = cube.extractLeaveSlice();
@@ -1113,13 +1169,9 @@ function searchLeaveSlice(scramble, normal, inverse, axis, onlyHT) {
             "B2",
             "R2",
             "L2",
-            "U", "U2", "U'",
-            "D", "D2", "D'",
+            "U2",
+            "D2",
         ]) {
-            if (onlyHT && m[1]!="2") {
-                continue;
-            }
-
             if (moves.length>0) {
                 const last = moves[moves.length-1];
                 if (m[0]==last[0] ||
@@ -1138,14 +1190,15 @@ function searchLeaveSlice(scramble, normal, inverse, axis, onlyHT) {
             cube.undo();
             moves.pop();
 
-            if (res!==false) {
+            if (res) {
                 return res;
             }
         }
         return false;
     }
 
-    for (let depth=0; ; depth++) {
+    let maxDepth = 99;
+    for (let depth=0; depth<=maxDepth; depth++) {
         for (let revN=0; revN<2; revN++) {
             if (revN==1 && normal.length==0) {
                 continue;
@@ -1185,71 +1238,289 @@ function searchLeaveSlice(scramble, normal, inverse, axis, onlyHT) {
 
                 cube = new Cube2(cubeTemp);
                 moves = [];
+                if (first!="") {
+                    moves.push(first);
+                }
+                movesLast = last;
 
-                const res = f(0, depth);
-                if (res!==false) {
-                    const moves = [];
-                    if (first!="") {
-                        moves.push(unfixAxis(axis, first));
-                    }
-                    for (let m of res) {
-                        moves.push(unfixAxis(axis, m));
-                    }
-                    if (last!="") {
-                        moves.push(unfixAxis(axis, last));
-                    }
-                    return moves;
+                f(0, depth);
+            }
+        }
+
+        if (bestLSTotal>=0) {
+            // 現在の深さ＋スライスインサート-1 まで探せば、それより短い解は見つからないはず？
+            // スライスインサートで手数が減る場合が怪しい。
+            maxDepth = Math.min(maxDepth, depth+Math.max(0, bestLSSINumber)-1);
+        }
+    }
+
+    return {
+        moves: bestLS,
+        slices: bestLSSlices,
+        sliceInsertNumber: bestLSSINumber,
+        sliceInsertTotal: bestLSTotal,
+    };
+}
+
+// 軸は補正済みとみなし、E*のみ挿入する。
+function searchSliceInsert(scramble, normal, inverse) {
+    const skeleton = [...normal, ...reverse(inverse)];
+
+    let lastNonDR = -1;
+    for (let i=normal.length-1; i>=0; i--) {
+        if (skeleton[i][0]!="U" && skeleton[i][0]!="D" && skeleton[i][1]!="2") {
+            lastNonDR = i;
+            break;
+        }
+    }
+
+    let firstNonDR = skeleton.length;
+    for (let i=normal.length; i<skeleton.length; i++) {
+        if (skeleton[i][0]!="U" && skeleton[i][0]!="D" && skeleton[i][1]!="2") {
+            firstNonDR = i;
+            break;
+        }
+    }
+
+    const cube = new Cube();
+    for (let i=firstNonDR; i<skeleton.length; i++) {
+        cube.move(skeleton[i]);
+    }
+    for (let m of scramble) {
+        cube.move(m);
+    }
+    for (let i=0; i<=lastNonDR; i++) {
+        cube.move(skeleton[i]);
+    }
+
+    // センターを含むE層。
+    const F = [12, 13, 14, 21, 22, 23, 30, 31, 32, 39, 40, 41];
+
+    extract = cube => {
+        let e = "";
+        for (const f of F) {
+            e += cube.C[f]
+        }
+        return e;
+    };
+
+    unextract = (cube, e) => {
+        for (let i=0; i<12; i++) {
+            cube.C[F[i]] = e[i];
+        }
+    };
+
+    // 動的計画法で最適なスライスインサートを探す。
+    // E層の状態のみを見ているが、そこまでの手順によって以降の手数が異なることもあるかもしれない。
+    let T = {};
+    T[extract(cube)] = {
+        length: 0,
+        moves: skeleton.slice(0, lastNonDR+1),
+        slices: [],
+    };
+
+    for (let i=lastNonDR+1; i<=firstNonDR; i++) {
+        const P = T;
+        T = {};
+
+        for (let p in P) {
+            unextract(cube, p);
+            const moves = P[p].moves;
+
+            for (let n=0; n<4; n++) {
+                const m = "E"+["", "", "2", "'"][n];
+                if (n>0) {
+                    cube.move(m);
+                    moves.push(m);
+                }
+                if (i<firstNonDR) {
+                    cube.move(skeleton[i]);
+                    moves.push(skeleton[i]);
+                }
+
+                const e = extract(cube);
+                const slices = [...P[p].slices];
+                if (n>0) {
+                    slices.push({
+                        position: i,
+                        move: m,
+                    });
+                }
+                const t = {
+                    length: normalizedMovesNumber(moves),
+                    moves: [...moves],
+                    slices: slices,
+                }
+                // 以下の優先順位で採用。
+                // - 手数が短い。
+                // - 挿入するスライスが少ない。
+                if (!T[e] ||
+                    t.length<T[e].length ||
+                    t.length==T[e].length && t.slices.length<T[e].slices.length) {
+                    T[e] = t;
+                }
+
+                if (i<firstNonDR) {
+                    cube.undo();
+                    moves.pop();
+                }
+                if (n>0) {
+                    cube.undo();
+                    moves.pop();
                 }
             }
         }
     }
+
+    const solved = "LLLFFFRRRBBB";
+    if (!T[solved]) {
+        return false;
+    }
+
+    const moves = T[solved].moves;
+    for (let i=firstNonDR; i<skeleton.length; i++) {
+        moves.push(skeleton[i]);
+    }
+
+    return {
+        total: normalizedMovesNumber(moves),
+        slices: T[solved].slices,
+    };
 }
 
+// キャンセルを考慮した手数を返す。
 function normalizedMovesNumber(moves) {
-    function merge(m1, m2) {
-        const n1 = m1.length==1 ? 1 : {"2": 2, "'": 3}[m1[1]];
-        const n2 = m2.length==1 ? 1 : {"2": 2, "'": 3}[m2[1]];
-        const n = (n1+n2)%4;
-        if (n==0) {
-            return "";
-        } else {
-            return m1[0]+["", "2", "'"][n];
+    // スライスを持ち替えと外層の動きに置き換え。
+    let tmp = moves;
+    moves = [];
+    for (let m of tmp) {
+        switch (m) {
+            case "M": moves.push("x'", "L'", "R"); break;
+            case "M2": moves.push("x2", "L2", "R2"); break;
+            case "M'": moves.push("x", "L", "R'"); break;
+            case "E": moves.push("y'", "D'", "U"); break;
+            case "E2": moves.push("y2", "D2", "U2"); break;
+            case "E'": moves.push("y", "D", "U'"); break;
+            case "S": moves.push("z", "F'", "B"); break;
+            case "S2": moves.push("z2", "F2", "B2"); break;
+            case "S'": moves.push("z'", "F", "B'"); break;
+            default:
+                moves.push(m);
         }
     }
 
-    const tmp = [];
-    for (let m of moves) {
-        if (tmp.length>0 && tmp[tmp.length-1][0]==m[0]) {
-            m = merge(m, tmp.pop());
-            if (m!="") {
-                tmp.push(m);
-            }
-        } else if (
-            tmp.length>1 &&
-            tmp[tmp.length-2][0]==m[0] &&
-            (tmp[tmp.length-1][0]=="F" && m[0]=="B" ||
-             tmp[tmp.length-1][0]=="B" && m[0]=="F" ||
-             tmp[tmp.length-1][0]=="R" && m[0]=="L" ||
-             tmp[tmp.length-1][0]=="L" && m[0]=="R" ||
-             tmp[tmp.length-1][0]=="U" && m[0]=="D" ||
-             tmp[tmp.length-1][0]=="D" && m[0]=="U")
-        ) {
-            const t = tmp.pop();
-            m = merge(m, tmp.pop());
-            if (m!="") {
-                tmp.push(m);
-            }
-            tmp.push(t);
+    const getN = m => {
+        if (m.length==1) {
+            return 1;
+        }
+        if (m[1]=="2") {
+            return 2;
         } else {
-            tmp.push(m);
+            return 3;
         }
     }
-    return tmp.length;
+
+    // 持ち替えの削除。
+    tmp = moves;
+    moves = [];
+    R = {}
+    for (let m of "FBRLUD") {
+        R[m] = m;
+    }
+    for (let m of tmp) {
+        if (m[0]=="x" || m[0]=="y" || m[0]=="z") {
+            for (let i=0; i<getN(m); i++) {
+                if (m[0]=="x") {
+                    const t = R["U"];
+                    R["U"] = R["F"];
+                    R["F"] = R["D"];
+                    R["D"] = R["B"];
+                    R["B"] = t;
+                }
+                if (m[0]=="y") {
+                    const t = R["F"];
+                    R["F"] = R["R"];
+                    R["R"] = R["B"];
+                    R["B"] = R["L"];
+                    R["L"] = t;
+                }
+                if (m[0]=="z") {
+                    const t = R["U"];
+                    R["U"] = R["L"];
+                    R["L"] = R["D"];
+                    R["D"] = R["R"];
+                    R["R"] = t;
+                }
+            }
+        } else {
+            let m2 = R[m[0]];
+            if (m.length>1) {
+                m2 += m[1];
+            }
+            moves.push(m2);
+        }
+    }
+
+    // 互いに影響しない動きをソートする。
+    tmp = moves;
+    moves = [];
+    let M = [];
+    const M2L = {
+        "F": "f",
+        "B": "f",
+        "R": "r",
+        "L": "r",
+        "U": "u",
+        "D": "d",
+    };
+    for (let m of tmp) {
+        if (M.length>0 && M2L[M[M.length-1][0]]!=M2L[m[0]]) {
+            M.sort();
+            for (let m2 of M) {
+                moves.push(m2);
+            }
+            M = [];
+        }
+        M.push(m);
+    }
+    M.sort();
+    for (let m2 of M) {
+        moves.push(m2);
+    }
+
+    // 同じ面の動きをまとめる。
+    tmp = moves;
+    moves = [];
+    for (let m of tmp) {
+        if (moves.length>0 && moves[moves.length-1][0]==m[0]) {
+            let n = (getN(moves[moves.length-1])+getN(m))%4;
+            moves.pop();
+            if (n!=0) {
+                moves.push(m[0]+["", "", "2", "'"][n]);
+            }
+        } else {
+            moves.push(m);
+        }
+    }
+
+    return moves.length;
 }
+
+function normalizedMovesNumberTest() {
+    console.assert(normalizedMovesNumber(["R", "R2"])==1);
+    console.assert(normalizedMovesNumber(["R", "R2", "R"])==0);
+    console.assert(normalizedMovesNumber(["R", "F'", "U2"])==3);
+    console.assert(normalizedMovesNumber(["R", "L'"])==2);
+    console.assert(normalizedMovesNumber(["R", "L'", "M'"])==0);
+    console.assert(normalizedMovesNumber(["R", "L'", "M"])==2);
+    console.assert(normalizedMovesNumber(["F", "R", "L'", "M'", "U2"])==1);
+    console.assert(normalizedMovesNumber(["F", "R", "L'", "M", "U2"])==4);
+}
+//normalizedMovesNumberTest();
 
 function analyzeSolution(scramble, normalInput, inverseInput, axis, niss, normal, inverse) {
     // leave slice.
-    let leaveSlice = searchLeaveSlice(scramble, [...normalInput, ...normal], [...inverseInput, ...inverse], axis, true);
+    let leaveSlice = searchLeaveSlice(scramble, [...normalInput, ...normal], [...inverseInput, ...inverse], axis);
 
     // moves.
     const movesNormal = [];
@@ -1355,7 +1626,6 @@ function analyzeSolution(scramble, normalInput, inverseInput, axis, niss, normal
         const badCorner = cube.htrBadCorner(axis);
         let badEdge = cube.htrBadEdge(axis);
         // HTR subsetに合わせてバッドエッジを変更。
-        console.dir(+subsetNormal[0]!=badCorner, badCorner==4, badEdge>4)
         if (+subsetNormal[0]!=badCorner ||
             badCorner==4 && badEdge>4) {
             badEdge = 8-badEdge;
@@ -1381,20 +1651,23 @@ function analyzeSolution(scramble, normalInput, inverseInput, axis, niss, normal
     }
     const htrTotal = normalizedMovesNumber([...normalInput, ...normal])+normalizedMovesNumber([...inverseInput, ...inverse]);
 
-    let leaveSliceNumber = leaveSlice.length;
+    let leaveSliceNumber = leaveSlice.moves.length;
     const leaveSliceTotal = normalizedMovesNumber(
-        [...normalInput, ...normal, ...leaveSlice, ...reverse(inverse), ...reverse(inverseInput)]);
+        [...normalInput, ...normal, ...leaveSlice.moves, ...reverse(inverse), ...reverse(inverseInput)]);
 
     return {
         moves,
         subsets,
-        leaveSlice: leaveSlice.join(" "),
+        leaveSlice: leaveSlice.moves.join(" "),
+        slices: leaveSlice.slices,
         htrNumber,
         htrDiff: htrTotal-inputTotal-htrNumber,
         htrTotal,
         leaveSliceNumber,
         leaveSliceDiff: leaveSliceTotal-htrTotal-leaveSliceNumber,
         leaveSliceTotal,
+        sliceInsertNumber: leaveSlice.sliceInsertNumber,
+        sliceInsertTotal: leaveSlice.sliceInsertTotal,
     };
 }
 
@@ -1558,6 +1831,7 @@ function searchHTR(scramble, normalInput, inverseInput, axis, niss, maxNum) {
             if (normal.length>0) {
                 const last = normal[normal.length-1];
                 if (m[0]==last[0] ||
+                    (m[0]=="U" || m[0]=="D") && (last[0]=="U" || last[0]=="D") ||
                     m[0]=="F" && last[0]=="B" ||
                     m[0]=="R" && last[0]=="L") {
                     continue;
@@ -1698,6 +1972,7 @@ function searchHTR(scramble, normalInput, inverseInput, axis, niss, maxNum) {
             if (inverse.length>0) {
                 const last = inverse[inverse.length-1];
                 if (m[0]==last[0] ||
+                    (m[0]=="U" || m[0]=="D") && (last[0]=="U" || last[0]=="D") ||
                     m[0]=="B" && last[0]=="F" ||
                     m[0]=="L" && last[0]=="R") {
                     continue;
@@ -1755,6 +2030,181 @@ function searchHTR(scramble, normalInput, inverseInput, axis, niss, maxNum) {
                 f1(0, depthN, depthI, false);
             } else {
                 f1(0, depthI, depthN, true);
+            }
+        }
+    }
+}
+
+const finishTableMax = 6;
+const finishTable = new Map();
+{
+    const cube = new Cube2();
+
+    leaveSliceTable.set(cube.extractFinish(), 0);
+    let P = [cube.extractFinish()];
+
+    for (let d=1; d<=finishTableMax; d++) {
+        const P2 = [];
+
+        for (let finish of P) {
+            cube.unextractFinish(finish);
+
+            for (let m of [
+                "F2",
+                "B2",
+                "R2",
+                "L2",
+                "U", "U2", "U'",
+                "D", "D2", "D'",
+            ]) {
+                cube.move(m);
+
+                const finish2 = cube.extractFinish();
+                if (!finishTable.has(finish2)) {
+                    finishTable.set(finish2, d);
+                    P2.push(finish2);
+                }
+
+                cube.undo();
+            }
+        }
+
+        P = P2;
+    }
+
+    console.log("Finish table constructed:", finishTable.size);
+}
+
+function searchFinish(scramble, normal, inverse, axis) {
+    let old = scramble;
+    scramble = [];
+    for (let m of old) {
+        scramble.push(fixAxis(axis, m));
+    }
+
+    old = normal;
+    normal = [];
+    for (let m of old) {
+        normal.push(fixAxis(axis, m));
+    }
+
+    old = inverse;
+    inverse = [];
+    for (let m of old) {
+        inverse.push(fixAxis(axis, m));
+    }
+
+    let cube;
+    let moves = [];
+
+    function f(depth, maxDepth) {
+        if (depth==maxDepth) {
+            if (cube.isFinish()) {
+                return [...moves];
+            } else {
+                return false;
+            }
+        }
+
+        const finish = cube.extractFinish();
+        const ls = cube.extractLeaveSlice();
+        const corner = cube.extractLeaveSliceCorner();
+        const h1 = finishTable.has(finish) ? finishTable.get(finish) : finishTableMax+1;
+        // ヒューリスティックとして使える。
+        const h2 = leaveSliceTable.has(ls) ? leaveSliceTable.get(ls) : leaveSliceTableMax+1;
+        const h3 = leaveSliceCornerTable.get(corner);
+        if (depth+Math.max(h1, h2, h3)>maxDepth) {
+            return false;
+        }
+
+        for (let m of [
+            "F2",
+            "B2",
+            "R2",
+            "L2",
+            "U", "U2", "U'",
+            "D", "D2", "D'",
+        ]) {
+            if (moves.length>0) {
+                const last = moves[moves.length-1];
+                if (m[0]==last[0] ||
+                    m[0]=="F" && last[0]=="B" ||
+                    m[0]=="R" && last[0]=="L" ||
+                    m[0]=="U" && last[0]=="D") {
+                    continue;
+                }
+            }
+
+            cube.move(m);
+            moves.push(m);
+
+            const res = f(depth+1, maxDepth);
+
+            cube.undo();
+            moves.pop();
+
+            if (res!==false) {
+                return res;
+            }
+        }
+        return false;
+    }
+
+    for (let depth=0; ; depth++) {
+        for (let revN=0; revN<2; revN++) {
+            if (revN==1 && normal.length==0) {
+                continue;
+            }
+
+            let first = "";
+            if (revN==1) {
+                first = normal[normal.length-1][0]+"2";
+            }
+
+            for (let revI=0; revI<2; revI++) {
+                if (revI==1 && inverse.length==0) {
+                    continue;
+                }
+
+                let last = "";
+                if (revI==1) {
+                    last = inverse[inverse.length-1][0]+"2";
+                }
+
+                const cubeTemp = new Cube();
+                if (last!="") {
+                    cubeTemp.move(last);
+                }
+                for (let m of reverse(inverse)) {
+                    cubeTemp.move(m);
+                }
+                for (let m of scramble) {
+                    cubeTemp.move(m);
+                }
+                for (let m of normal) {
+                    cubeTemp.move(m);
+                }
+                if (first!="") {
+                    cubeTemp.move(first);
+                }
+
+                cube = new Cube2(cubeTemp);
+                moves = [];
+
+                const res = f(0, depth);
+                if (res!==false) {
+                    const moves = [];
+                    if (first!="") {
+                        moves.push(unfixAxis(axis, first));
+                    }
+                    for (let m of res) {
+                        moves.push(unfixAxis(axis, m));
+                    }
+                    if (last!="") {
+                        moves.push(unfixAxis(axis, last));
+                    }
+                    return moves;
+                }
             }
         }
     }
@@ -1913,7 +2363,7 @@ function search(input, niss, number) {
         return;
     }
 
-    const optimal = searchLeaveSlice(scramble, normal, inverse, axis, false);
+    const optimal = searchFinish(scramble, normal, inverse, axis);
     const inputTotal = normalizedMovesNumber(normal)+normalizedMovesNumber(inverse);
     const optimalNumber = optimal.length;
     const optimalTotal = normalizedMovesNumber([...normal, ...optimal, ...reverse(inverse)]);

@@ -211,6 +211,83 @@ function formatNumber(num, diff, total) {
     return s;
 }
 
+function formatSolution(data, insert) {
+    const moves = [...data.moves];
+    let leaveSlice = data.leaveSlice;
+
+    const moveToSymbol = {}
+
+    if (insert) {
+        const inputNormalLen = elNormal.textContent=="" ? 0 : elNormal.textContent.split(" ").length;
+        const getSymbol = move => {
+            if (!moveToSymbol[move]) {
+                    moveToSymbol[move] = "*+%"[Object.keys(moveToSymbol).length];
+            }
+            return moveToSymbol[move];
+        }
+
+        for (let i=0; i<data.slices.length; i++) {
+            let p = data.slices[i].position-inputNormalLen+i;
+            let ok = false;
+            for (let j=0; j<moves.length && !ok; j++) {
+                if (moves[j][0]!="(") {
+                    if (p<=moves[j].split(" ").length) {
+                        ok = true;
+                        const t = moves[j].split(" ");
+                        moves[j] = [...t.slice(0, p), getSymbol(data.slices[i].move), ...t.slice(p)].join(" ");
+                    } else {
+                        p -= moves[j].split(" ").length;
+                    }
+                }
+            }
+            if (!ok && p<=leaveSlice.split(" ").length) {
+                ok = true;
+                const t = leaveSlice.split(" ");
+                leaveSlice = [...t.slice(0, p), getSymbol(data.slices[i].move), ...t.slice(p)].join(" ");
+            } else {
+                p -= leaveSlice.split(" ").length;
+            }
+            for (let j=moves.length-1; j>=0 && !ok; j--) {
+                if (moves[j][0]=="(") {
+                    if (p<=moves[j].split(" ").length) {
+                        ok = true;
+                        // Inverse区間なので逆にする。
+                        let move = data.slices[i].move;
+                        if (move.length==1) {
+                            move = move+"'";
+                        } else if (move[1]=="'") {
+                            move = move[0];
+                        }
+                        let t = moves[j].substring(1, moves[j].length-1).split(" ");
+                        t = [...t.slice(0, t.length-p), getSymbol(move), ...t.slice(t.length-p)];
+                        moves[j] = "("+t.join(" ")+")";
+                    } else {
+                        p -= moves[j].split(" ").length;
+                    }
+                }
+            }
+        }
+    }
+
+    let solution = moves.join(" ").replaceAll(") (", " ");
+    solution += " // HTR ";
+    solution += formatNumber(data.htrNumber, data.htrDiff, data.htrTotal)+"\n";
+    solution += "// "+data.subsets.join(" → ")+"\n";
+    solution += leaveSlice;
+    if (data.slices.length==0) {
+        solution += " // finish ";
+        solution += formatNumber(data.leaveSliceNumber, data.leaveSliceDiff, data.leaveSliceTotal);
+    } else {
+        solution += " // Leave slice ";
+        solution += formatNumber(data.leaveSliceNumber, data.leaveSliceDiff, data.leaveSliceTotal)+"\n";
+        if (insert) {
+            solution += Object.keys(moveToSymbol).map(m => `${moveToSymbol[m]} = ${m}`).join(", ");
+            solution += ` // finish (${data.sliceInsertNumber}/${data.sliceInsertTotal})`;
+        }
+    }
+    return solution;
+}
+
 let worker;
 
 function search() {
@@ -263,7 +340,7 @@ function search() {
     if (worker) {
         worker.terminate();
     }
-    worker = new Worker("worker.js?v=20250708");
+    worker = new Worker("worker.js?v=20250726");
 
     let number = 0;
     let best = 9999;
@@ -301,27 +378,19 @@ function search() {
             elNumber.style.display = "block";
             elNumberNum.textContent = ""+number;
 
-            if (data.leaveSliceTotal<best) {
-                best = data.leaveSliceTotal;
+            if (data.sliceInsertTotal<best) {
+                best = data.sliceInsertTotal;
 
                 elBest.style.display = "block";
                 elBestPre.style.display = "block";
-
-                let solution = data.moves.join(" ").replaceAll(") (", " ");
-                solution += " // HTR ";
-                solution += formatNumber(data.htrNumber, data.htrDiff, data.htrTotal)+"\n";
-                solution += "// "+data.subsets.join(" → ")+"\n";
-                solution += data.leaveSlice;
-                solution += " // Leave slice ";
-                solution += formatNumber(data.leaveSliceNumber, data.leaveSliceDiff, data.leaveSliceTotal);
-                elBestPre.textContent = solution;
+                elBestPre.textContent = formatSolution(data, true);
             }
 
             if (elView.value=="graph") {
-                addHTRGraph(data, best, optimal);
+                addHTRGraph(data, best, optimal, input);
             }
             if (elView.value=="list") {
-                addHTRList(data, best, optimal);
+                addHTRList(data, best, optimal, input);
             }
         }
 
@@ -494,7 +563,7 @@ function visualize(scramble, normal, inverse) {
 
 let root;
 
-function addHTRGraph(htr, best, optimal) {
+function addHTRGraph(htr, best, optimal, input) {
     elGraph.style.display = "block";
 
     // parent/id が存在しなければ、作成する。
@@ -571,10 +640,9 @@ function addHTRGraph(htr, best, optimal) {
     });
     path.push(htr.leaveSlice);
 
-    let lsNum = "LS "+formatNumber(htr.leaveSliceNumber, htr.leaveSliceDiff, htr.leaveSliceTotal);
-    add(path, lsNum, div => {
-        div.textContent = lsNum;
+    const hasSI = htr.slices.length>0;
 
+    addTags = div => {
         const best = document.createElement("span");
         best.classList.add("best", "tag", "is-info", "ml-2");
         best.textContent = "Best";
@@ -585,9 +653,39 @@ function addHTRGraph(htr, best, optimal) {
         optimal.textContent = "Optimal";
         div.appendChild(optimal);
 
-        div.dataset.total = ""+htr.leaveSliceTotal;
+        div.dataset.total = ""+htr.sliceInsertTotal;
+    };
+
+    let lsNum = "";
+    if (hasSI) {
+        lsNum = "LS ";
+    } else {
+        lsNum = "finish ";
+    }
+    lsNum += formatNumber(htr.leaveSliceNumber, htr.leaveSliceDiff, htr.leaveSliceTotal);
+    add(path, lsNum, div => {
+        div.textContent = lsNum;
+        if (!hasSI) {
+            addTags(div);
+        }
     });
     path.push(lsNum);
+
+    if (hasSI) {
+        siNum = `SI (${htr.sliceInsertNumber}/${htr.sliceInsertTotal})`;
+        add(path, siNum, div => {
+            const siInput = input+"\n"+formatSolution(htr, false);
+            const a = document.createElement("a");
+            a.setAttribute("href", `../fmc_slice/?input=${encodeURIComponent(siInput)}`);
+            a.setAttribute("target", "_blank");
+            a.textContent = "SI";
+            div.appendChild(a);
+            const text = document.createTextNode(` (${htr.sliceInsertNumber}/${htr.sliceInsertTotal})`);
+            div.appendChild(text);
+            addTags(div);
+        });
+        path.push(siNum);
+    }
 
     // 再配置。
     // 上下方向は子から親に、左右方向は親から子に伝播する。
@@ -683,7 +781,7 @@ function addHTRGraph(htr, best, optimal) {
     }
 }
 
-function addHTRList(htr, best, optimal) {
+function addHTRList(htr, best, optimal, input) {
     elList.style.display = "block";
 
     const li1 = document.createElement("li");
@@ -696,7 +794,20 @@ function addHTRList(htr, best, optimal) {
 
     const htrComment = document.createTextNode(
         " // HTR "+formatNumber(htr.htrNumber, htr.htrDiff, htr.htrTotal));
+
     li1.appendChild(htrComment);
+
+    const tagBest = document.createElement("span");
+    tagBest.classList.add("best", "tag", "is-info", "ml-2");
+    tagBest.textContent = "Best";
+    li1.appendChild(tagBest);
+
+    const tagOptimal = document.createElement("span");
+    tagOptimal.classList.add("optimal", "tag", "is-success", "ml-2");
+    tagOptimal.textContent = "Optimal";
+    li1.appendChild(tagOptimal);
+
+    li1.dataset.total = ""+htr.leaveSliceTotal;
 
     const ul = document.createElement("ul");
     li1.appendChild(ul);
@@ -713,21 +824,27 @@ function addHTRList(htr, best, optimal) {
     leaveSliceMoves.classList.add("has-text-weight-bold")
     li3.appendChild(leaveSliceMoves);
 
+    const hasSI = htr.slices.length>0;
+
     const leaveSliceComment = document.createTextNode(
-        " // LS "+formatNumber(htr.leaveSliceNumber, htr.leaveSliceDiff, htr.leaveSliceTotal));
+        ` // ${hasSI?"LS":"finish"} `+formatNumber(htr.leaveSliceNumber, htr.leaveSliceDiff, htr.leaveSliceTotal));
     li3.appendChild(leaveSliceComment);
 
-    const tagBest = document.createElement("span");
-    tagBest.classList.add("best", "tag", "is-info", "ml-2");
-    tagBest.textContent = "Best";
-    li3.appendChild(tagBest);
+    if (hasSI) {
+        const li4 = document.createElement("li");
+        ul.appendChild(li4);
 
-    const tagOptimal = document.createElement("span");
-    tagOptimal.classList.add("optimal", "tag", "is-success", "ml-2");
-    tagOptimal.textContent = "Optimal";
-    li3.appendChild(tagOptimal);
+        li4.appendChild(document.createTextNode("// "));
 
-    li1.dataset.total = ""+htr.leaveSliceTotal;
+        const siInput = input+"\n"+formatSolution(htr, false);
+        const a = document.createElement("a");
+        a.setAttribute("href", `../fmc_slice/?input=${encodeURIComponent(siInput)}`);
+        a.setAttribute("target", "_blank");
+        a.textContent = "SI";
+        li4.appendChild(a);
+
+        li4.appendChild(document.createTextNode(` (${htr.sliceInsertNumber}/${htr.sliceInsertTotal})`));
+    }
 
     // タグ。
     for (let e of elList.querySelectorAll(".best, .optimal")) {
