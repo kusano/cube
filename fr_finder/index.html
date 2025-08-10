@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="FMC HTR Finder">
+    <meta property="og:description" content="This tool finds FRs (Floppy Reductions) from HTR (Half Turn Reduction).">
+    <title>FMC FR Finder</title>
+    <link rel="stylesheet" href="../bulma.min.css">
+    <style>
+      html {
+        overflow-x: auto;
+      }
+      address {
+        text-align: right;
+      }
+    </style>
+    <script defer src="script.js?v=20250726"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>FMC FR Finder</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; FMC HTR Finder
+        </p>
+        <p>
+          This tool finds FRs (Floppy Reductions) from your HTR (Half Turn Reduction).
+          Do FRs dream of optimal solutions?
+        </p>
+        <hr>
+        <p>
+          <details>
+            <summary>Settings</summary>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">NISS</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select id="niss">
+                        <option value="normal">Normal</option>
+                        <option value="inverse">Inverse</option>
+                        <option value="htr">Direction in HTR</option>
+                        <option value="before">Switch before FR</option>
+                        <option value="full">Full</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">Axis</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select id="axis">
+                        <option value="dr">DR Axis</option>
+                        <option value="ud">U/D</option>
+                        <option value="fb">F/B</option>
+                        <option value="rl">R/L</option>
+                        <option value="all">All</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label"></label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <button id="reset" class="button is-primary">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ul>
+              <li>
+                Only shortest FRs will be searched for each direction and axis.
+              </li>
+            </ul>
+          </details>
+        </p>
+        <div class="mb-2" style="display: flex; justify-content: space-between">
+          <div class="cell">Scramble and your solution to HTR:</div>
+          <div class="cell has-text-right"><button id="example" class="button is-small is-primary">Example</button></div>
+        </div>
+        <p>
+          <textarea id="input" class="textarea" placeholder="R' U' F D' U R2 D2 L2 D' B2 D2 U' F2 U' L2 F' D' U L' B' F2 D' L2 B R' U' F
+
+D2 R2 B // EO (3/3)
+(R) // RZP (1/4)
+R2 D' R2 D R // DR (5/9)
+B2 U2 R2 U' B2 U' F2 U // HTR (8/17)" rows="6"></textarea>
+        </p>
+        <p>
+          <details>
+            <summary>Keyboard</summary>
+            <div class="mt-4" style="box-sizing: border-box">
+              <div class="mb-2">
+                <button class="key button is-small is-primary">F</button>
+                <button class="key button is-small is-primary">B</button>
+                <button class="key button is-small is-primary">R</button>
+                <button class="key button is-small is-primary">L</button>
+                <button class="key button is-small is-primary">U</button>
+                <button class="key button is-small is-primary">D</button>
+              </div>
+              <div class="mb-2">
+                <button class="key button is-small is-primary">F2</button>
+                <button class="key button is-small is-primary">B2</button>
+                <button class="key button is-small is-primary">R2</button>
+                <button class="key button is-small is-primary">L2</button>
+                <button class="key button is-small is-primary">U2</button>
+                <button class="key button is-small is-primary">D2</button>
+              </div>
+              <div class="mb-2">
+                <button class="key button is-small is-primary">F'</button>
+                <button class="key button is-small is-primary">B'</button>
+                <button class="key button is-small is-primary">R'</button>
+                <button class="key button is-small is-primary">L'</button>
+                <button class="key button is-small is-primary">U'</button>
+                <button class="key button is-small is-primary">D'</button>
+              </div>
+              <div class="mb-2">
+                <button class="key button is-small is-primary">(</button>
+                <button class="key button is-small is-primary">)</button>
+                <button class="key button is-small is-primary">//</button>
+                <button class="key button is-small is-primary">←</button>
+              </div>
+            </div>
+          </details>
+        </p>
+        <p>
+          <button id="start" class="button is-primary">Start</button>
+          <button id="stop" class="button is-danger" style="display: none">Stop</button>
+        </p>
+        <p id="parse" style="display: none">
+          Scramble: <span id="scramble" class="has-text-weight-bold"></span><br>
+          Normal: <span id="normal" class="has-text-weight-bold"></span><br>
+          Inverse: <span id="inverse" class="has-text-weight-bold"></span><br>
+          DR axis: <span id="dr_axis"></span><br>
+          Last direction: <span id="last_direction"></span>
+        </p>
+        <p id="visualize" style="display: none">
+          <canvas id="canvas" width="350" height="150"></canvas>
+        </p>
+        <p id="progress" style="display: none">
+          <progress class="progress is-primary is-small" max="100"></progress>
+        </p>
+        <p id="error" class="has-text-danger" style="display: none">
+          Error
+        </p>
+        <p>
+          <div id="optimal" style="display: none">
+            Optimal: <span id="optimal_moves" class="has-text-weight-bold"></span> <span id="optimal_number"></span>
+          </div>
+          <div id="number" style="display: none">
+            Number: <span id="number_num"></span>
+          </div>
+          <div id="depth" style="display: none">
+            Depth: <span id="depth_num"></span>
+          </div>
+          <p id="best" style="display: none">
+            Best:
+          </p>
+        </p>
+        <pre id="best_pre" style="display: none"></pre>
+        <ul id="list" style="display: none"></ul>
+        <hr>
+        <address class="mb-6">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1533035381204534"
+     crossorigin="anonymous"></script>
+<!-- 728x90 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-1533035381204534"
+     data-ad-slot="5612878542"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+      </div>
+    </section>
+  </body>
+</html>
