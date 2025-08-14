@@ -236,7 +236,7 @@ function formatSolution(data, inputDirection, insert, inputNormal, inputInverse)
 
     solution += ` // FR (${data.axis}) ${formatNumber(data.frNumber, data.frDiff, data.frTotal)}\n`;
 
-    if (lastDirection=="normal") {
+    if (lastDirection=="normal" || data.leaveSlice.length==0) {
         solution += data.leaveSlice.join(" ");
     } else {
         solution += "("+reverse(data.leaveSlice).join(" ")+")";
@@ -313,7 +313,7 @@ function search() {
     if (worker) {
         worker.terminate();
     }
-    worker = new Worker("worker.js?v=20250726");
+    worker = new Worker("worker.js?v=20250815");
 
     let number = 0;
     let best = 9999;
@@ -356,7 +356,8 @@ function search() {
                 elOptimalMoves.appendChild(separator);
                 separator.classList.add("separator");
 
-                const siInput = input+"\n"+"TODO";//formatSolution(, inputDirection, false);
+                const siInput = input+"\n"+
+                    `${data.moves.join(" ")} // LS ${formatNumber(data.optimalNumber, data.optimalDiff, data.optimalTotal)}}`;
                 const a = document.createElement("a");
                 a.setAttribute("href", `../fmc_slice/?input=${encodeURIComponent(siInput)}`);
                 a.setAttribute("target", "_blank");
@@ -651,7 +652,7 @@ function addFRList(fr, inputDirection, input) {
     separator1.classList.add("separator");
 
     let leaveSliceStr = "";
-    if (frDirection=="normal") {
+    if (frDirection=="normal" || fr.leaveSlice.length==0) {
         leaveSliceStr = fr.leaveSlice.join(" ");
     } else {
         leaveSliceStr = "("+reverse(fr.leaveSlice).join(" ")+")";
@@ -712,45 +713,38 @@ elReset.addEventListener("click", () => {
 });
 
 const examples = [
-    `R' U' F D' U R2 D2 L2 D' B2 D2 U' F2 U' L2 F' D' U L' B' F2 D' L2 B R' U' F
-
-D2 R2 B // EO (3/3)
-(R) // RZP (1/4)
-R2 D' R2 D R // DR (5/9)
-B2 U2 R2 U' B2 U' F2 U // HTR (8/17)`,
-
-    // "R' U' F U2 F2 R2 D2 B' D2 L2 U2 B2 R2 B D2 U F' D2 U B2 R D L' U2 R' U' F\n\n(D' R F) // EO (F/B, DR-6e6c (U/D), DR-4e4c (R/L)) (3/3)\nL // RZP (U/D, DR-4e4c, AR-1e3c (normal), AR-1e2c (inverse)) (1/4)\nL2 B2 D F2 R2 D' L // DR (U/D, 3QT, HTR-6e4c, Solved+Bars, 4b3) (7-1/10)",
-    // "R' U' F R2 B2 R2 F U2 B' D2 B D2 F L2 F R' U L2 B' D2 L' F' D2 F2 R' U' F\n\n(F) R' B // EO (F/B, DR-8e7c (U/D), DR-6e5c (R/L)) (3/3)\n(F2 R L) // RZP (U/D, DR-4e4c, AR-0e1c (normal), AR-2e3c (inverse)) (3-1/5)\n(U2 D L2 F2 D' L) // DR (U/D, 4QT, HTR-2e2c, Solved+One Bar, 2c4) (6/11)",
-    // "R' U' F R B L R2 F2 L2 U' R2 F2 D' R2 U' R2 U' R' D' R' U2 R U' F R' U' F\n\n(R) B R // EO (R/L, DR-4e5c (U/D), DR-8e6c (F/B)) (3/3)\nR2 D' F // RZP (U/D, DR-2e3c, AR-0e1c (normal), AR-1e2c (inverse)) (3-1/5)\n(B' D' B) // DR (U/D, 3QT, HTR-4e4c, Solved+One Face (ST2), 4a3) (3/8)",
-    // "R' U' F U' R2 B D' R D' F' D' B' L F' U2 B U2 F2 D2 F2 L2 B U2 F2 R' U' F\n\n(D' L) // EO (R/L, DR-6e5c (U/D), DR-4e5c (F/B)) (2/2)\nF U // RZP (F/B, DR-4e4c, AR-1e3c (normal), AR-2e4c (inverse)) (2/4)\n(F U2 F2 U) // DR (F/B, 4QT, HTR-6e4c, Bar/Slash+One Face, 4a4) (4/8)",
-    // "R' U' F R2 D' B D2 L2 F R2 F D2 L2 F R2 D2 L' D' B2 F' D2 L U2 R' U' F\n\n(U) R U // EO (U/D, DR-4e4c (F/B), DR-6e5c (R/L)) (3/3)\n// RZP (F/B, DR-4e4c, AR-1e2c (normal), AR-1e2c (inverse)) (0/3)\n(U2 R2 L2 F' D2 R) // DR (F/B, 2QT, HTR-4e4c, Bar/Slash+Bars, 4b2) (6-1/8)",
-    // "R' U' F L2 B2 D2 L2 F2 U' B2 U L2 D B2 L U2 B2 D' R F' R2 B' D F' R' U' F\n\n(B' D F) // EO (F/B, DR-4e4c (U/D), DR-6e5c (R/L)) (3/3)\n// RZP (U/D, DR-4e4c, AR-2e3c (normal), AR-0e2c (inverse)) (0/3)\nU F2 R2 U D2 L // DR (U/D, 4QT, HTR-2e4c, Bar/Slash+One Face, 4a4) (6/9)",
-    // "R' U' F D2 R2 U2 R' B2 U2 L' D2 R F2 L D2 U L' R2 B F' L U2 F' U R' U' F\n\nD F // EO (F/B, DR-4e7c (U/D), DR-4e4c (R/L)) (2/2)\n// RZP (R/L, DR-4e4c, AR-1e2c (normal), AR-1e2c (inverse)) (0/2)\nD2 F2 B2 R' F2 L2 D // DR (R/L, 3QT, HTR-2e4c, Bar/Slash+One Face, 4a3) (7/9)",
-    // "R' U' F D2 L2 F2 R2 D L2 D' B2 U L2 F' D L' D' B F2 U L R2 D U' R' U' F\n\nL' U' R2 F // EO (F/B, DR-4e4c (U/D), DR-6e5c (R/L)) (4/4)\n// RZP (U/D, DR-4e4c, AR-0e3c (normal), AR-1e2c (inverse)) (0/4)\n(B2 D2 L2 U' F2 R) // DR (U/D, 5QT, HTR-2e6c, Solved+One Bar, 2c5) (6/10)",
-    // "R' U' F L U F' U' R2 F2 B' L2 U' R' B' U2 F L2 B2 L2 B R2 F' R' U' F\n\nF R' U // EO (U/D, DR-6e6c (F/B), DR-8e6c (R/L)) (3/3)\n(L) // RZP (F/B, DR-4e4c, AR-2e3c (normal), AR-1e3c (inverse)) (1/4)\nU2 B2 R F L2 B' R // DR (F/B, 5QT, HTR-4e4c, Bars+Bars (BB3), 4b5) (7-1/10)",
-    // "R' U' F R F2 D2 F' U2 R2 F2 D' R B2 U2 B2 U2 L' B2 U2 R2 U2 R' U' F\n\n(F L) D R // EO (R/L, DR-6e5c (U/D), DR-6e3c (F/B)) (4/4)\n(D) // RZP (F/B, DR-4e4c, AR-1e2c (normal), AR-1e2c (inverse)) (1/5)\nF2 L2 B' R2 U // DR (F/B, 4QT, HTR-4e4c, Bars+Bars (BB3), 4b4) (5/10)",
-    // "R' U' F D2 B' F U2 B L2 R2 F' R2 B2 D' R U2 L' F U2 L2 U' B' D2 R' U' F\n\n(R2 F2 U) // EO (U/D, DR-4e3c (F/B), DR-6e5c (R/L)) (3/3)\n(U2 F R) // RZP (F/B, DR-4e4c, AR-0e2c (normal), AR-1e2c (inverse)) (3-1/5)\n(B' U2 B2 R) // DR (F/B, 3QT, HTR-2e4c, Bar/Slash+One Face, 4a3) (4/9)",
-    // "R' U' F L U2 R' D2 L' D2 B2 R' D2 B2 R' F2 D' B L2 D R B' L' F2 D2 R' U' F\n\nF B' U2 R // EO (R/L, DR-6e4c (U/D), DR-6e4c (F/B)) (4/4)\nB' D // RZP (F/B, DR-4e4c, AR-2e3c (normal), AR-0e2c (inverse)) (2/6)\nD2 F' U' F2 R2 U // DR (F/B, 5QT, HTR-4e4c, Bars+Bars (BB3), 4b5) (6-1/11)",
-    // "R' U' F D' L2 F' D2 B2 D2 L2 B2 F L2 R2 D2 F' L' F U' L R F U2 B' R' U' F\n\n(F' U D) // EO (U/D, DR-6e7c (F/B), DR-4e5c (R/L)) (3/3)\n(R) // RZP (F/B, DR-2e4c, AR-0e3c (normal), AR-1e1c (inverse)) (1/4)\nL' B L F D2 F L // DR (F/B, 1QT, HTR-4e4c, Bars+One Face, 4a1) (7/11)",
-    // "R' U' F R2 U2 L2 D' F2 D' R2 F2 R2 U2 F2 L' F' R' U R B L' U F R' U' F\n\n(U' L) L // EO (R/L, DR-6e5c (U/D), DR-6e6c (F/B)) (3/3)\n(U) // RZP (F/B, DR-4e4c, AR-1e2c (normal), AR-1e2c (inverse)) (1/4)\nD2 L2 F2 D2 F U // DR (F/B, 3QT, HTR-4e2c, Bar/Slash+One Bar (BS1), 2c3) (6/10)",
-    // "R' U' F D' U R2 D2 L2 D' B2 D2 U' F2 U' L2 F' D' U L' B' F2 D' L2 B R' U' F\n\nD2 R2 B // EO (F/B, DR-8e6c (U/D), DR-4e6c (R/L)) (3/3)\n(R) // RZP (U/D, DR-4e4c, AR-1e3c (normal), AR-2e2c (inverse)) (1/4)\nR2 D' R2 D R // DR (U/D, 3QT, HTR-4e6c, Bars+One Bar, 2c3) (5/9)",
-    // "R' U' F R2 U L' F' D2 F2 L' U2 R2 U B2 R2 D' F2 L2 F2 D' F L U R' U' F\n\n(B' F) R2 B // EO (F/B, DR-6e5c (U/D), DR-8e6c (R/L)) (4/4)\n(L' D) // RZP (R/L, DR-4e4c, AR-1e3c (normal), AR-2e0c (inverse)) (2/6)\nB2 R' D2 R' D // DR (R/L, 4QT, HTR-4e2c, Bar/Slash+One Bar (BS2), 2c4) (5-1/10)",
-    // "R' U' F D L B' D' R2 D U2 R2 B2 D F2 L2 F2 U' R F' D2 U' R' D2 B' R' U' F\n\nR D' L2 F // EO (F/B, DR-4e4c (U/D), DR-6e3c (R/L)) (4/4)\n// RZP (U/D, DR-4e4c, AR-2e2c (normal), AR-2e1c (inverse)) (0/4)\nD R2 F2 U' R2 D' L // DR (U/D, 3QT, HTR-4e2c, Bars+One Bar, 2c3) (7/11)",
-    // "R' U' F L2 F2 L2 D' U2 B2 U L2 D2 R2 B' D2 R2 F2 R U B D2 L' F' R' U' F\n\n(B U' L2 F) // EO (F/B, DR-6e7c (U/D), DR-4e4c (R/L)) (4/4)\n// RZP (R/L, DR-4e4c, AR-1e2c (normal), AR-1e3c (inverse)) (0/4)\nB2 R D2 R' F2 D // DR (R/L, 4QT, HTR-4e6c, Bar/Slash+One Bar (BS1), 2c4) (6/10)",
-    // "R' U' F R2 F L2 D2 U2 B R2 F2 U2 B' U2 L2 D' R' F D F2 D2 U B2 F R' U' F\n\n(R2 F2 L) L // EO (R/L, DR-6e5c (U/D), DR-8e4c (F/B)) (4/4)\nL2 U // RZP (F/B, DR-4e4c, AR-2e1c (normal), AR-1e2c (inverse)) (2-1/5)\n(L2 F2 L2 D2 B D) // DR (F/B, 4QT, HTR-6e2c, Bars+One Bar, 2c4) (6-1/10)",
-    // "R' U' F L' F B2 U' F2 L' B2 D' B U2 R2 D' F2 D' F2 D2 B2 R2 D' L2 U2 R' U' F\n\n(R D) // EO (U/D, DR-8e3c (F/B), DR-8e5c (R/L)) (2/2)\nF' R // RZP (F/B, DR-4e4c, AR-2e2c (normal), AR-2e2c (inverse)) (2/4)\n(B' L2 F' U2 R) // DR (F/B, 4QT, HTR-6e4c, Bars+Bars (BB3), 4b4) (5/9)",
-    // "R' U' F L' F' U' B' R2 F L F R' U F2 U L2 U2 F2 L2 U L2 D L2 D R' U' F\n\nU2 R B // EO (F/B, DR-2e4c (U/D), DR-2e5c (R/L)) (3/3)\n// RZP (U/D, DR-2e4c, AR-0e2c (normal), AR-1e2c (inverse)) (0/3)\nR' U R B2 U L // DR (U/D, 0QT, HTR-6e0c, Solved+Solved, 0c0) (6/9)",
-    // "R' U' F R2 D2 U2 F2 L2 F L2 R2 B U2 F2 L' B' D L2 D L U' B' U' F R' U' F\n\n(B2 R D) D // EO (U/D, DR-6e4c (F/B), DR-6e5c (R/L)) (4/4)\nR // RZP (F/B, DR-4e4c, AR-2e3c (normal), AR-1e2c (inverse)) (1/5)\nL2 F' D2 B L // DR (F/B, 2QT, HTR-4e4c, Bar/Slash+Bars, 4b2) (5/10)",
-    // "R' U' F U2 R' U' D' B2 U R U F B2 U2 D2 L F2 D2 R' U2 F2 D2 R' F2 R' U' F\n\n(R L' B2 U) // EO (U/D, DR-4e5c (F/B), DR-6e2c (R/L)) (4/4)\nL // RZP (F/B, DR-2e3c, AR-0e2c (normal), AR-0e1c (inverse)) (1/5)\nL2 B U2 L' B' L // DR (F/B, 2QT, HTR-4e4c, Bar/Slash+Bars, 4b2) (6-1/10)",
-    // "R' U' F U' F2 U' B2 F2 L2 F2 D B D' L' R U F' U2 L' U' B2 R' U' F\n\n(D B) U B // EO (F/B, DR-6e6c (U/D), DR-8e5c (R/L)) (4/4)\n(R) // RZP (U/D, DR-4e4c, AR-1e1c (normal), AR-2e3c (inverse)) (1/5)\nD B2 U' L // DR (U/D, 5QT, HTR-4e4c, Bars+Bars (BB3), 4b5) (4/9)",
-    // "R' U' F D2 B U2 B2 F L2 U2 L2 D2 F2 R' B2 D R2 D R2 F R F' R' U' F\n\nF' R U2 L // EO (R/L, DR-2e4c (U/D), DR-2e3c (F/B)) (4/4)\n// RZP (F/B, DR-2e3c, AR-0e1c (normal), AR-0e3c (inverse)) (0/4)\nL2 F B D F D // DR (F/B, 4QT, HTR-6e4c, Bar/Slash+One Face, 4a4) (6-1/9)",
-    // "R' U' F D' L B2 U' F D' R2 F2 R B L2 B2 L2 F2 U D2 F2 R2 L2 U2 R' U' F\n\n(B U L2 D) // EO (U/D, DR-4e4c (F/B), DR-6e3c (R/L)) (4/4)\n// RZP (F/B, DR-4e4c, AR-1e1c (normal), AR-1e2c (inverse)) (0/4)\nF B2 R F2 D2 R // DR (F/B, 2QT, HTR-6e4c, Bar/Slash+Bars, 4b2) (6/10)",
-    // "R' U' F R' B' U' D2 F' D L' U F D2 L2 B U2 D2 R2 B U2 L2 F L2 U R' U' F\n\n(B R2 L' D) // EO (U/D, DR-4e4c (F/B), DR-4e5c (R/L)) (4/4)\n// RZP (F/B, DR-4e4c, AR-1e2c (normal), AR-1e2c (inverse)) (0/4)\n(R2 D2 F R) // DR (F/B, 3QT, HTR-2e6c, Bars+One Bar, 2c3) (4/8)",
-    // "R' U' F L B2 U2 L2 F' R2 F' U2 L2 R2 F U2 L D F R D' U' L2 F R' U' F\n\nL U' D' B // EO (F/B, DR-4e6c (U/D), DR-2e4c (R/L)) (4/4)\n// RZP (R/L, DR-2e4c, AR-0e2c (normal), AR-0e2c (inverse)) (0/4)\n(F2 R B2 U' F2 U) // DR (R/L, 2QT, HTR-4e4c, Bar/Slash+Bars, 4b2) (6/10)",
-    // "R' U' F D2 R2 B R U2 F' B2 R D' F U2 B L2 F2 D2 R2 F2 U2 B U2 B2 R' U' F\n\nU F2 D // EO (U/D, DR-4e7c (F/B), DR-4e5c (R/L)) (3/3)\nR // RZP (F/B, DR-4e4c, AR-0e3c (normal), AR-1e2c (inverse)) (1/4)\n(F2 R2 B L) // DR (F/B, 5QT, HTR-4e4c, Bars+Bars (BB3), 4b5) (4/8)",
-    // "R' U' F D F' L U' B2 U2 F2 U2 L2 F2 U' F2 U' B D R' D' L B F2 R' U' F\n\n(L B' L) // EO (R/L, DR-6e7c (U/D), DR-4e6c (F/B)) (3/3)\n(U) // RZP (F/B, DR-4e4c, AR-0e3c (normal), AR-2e4c (inverse)) (1/4)\n(F' R2 B L2 F D) // DR (F/B, 2QT, HTR-4e4c, Solved+Bars, 4b2) (6/10)",
-    // "R' U' F L' B D2 R' U L' B2 U R B' D2 B R2 F D2 B2 U2 F' D2 U R' U' F\n\n(D' B) R D' B // EO (F/B, DR-4e4c (U/D), DR-6e4c (R/L)) (5/5)\n// RZP (U/D, DR-4e4c, AR-1e1c (normal), AR-1e2c (inverse)) (0/5)\n(B2 D' R2 U D' R) // DR (U/D, 3QT, HTR-6e2c, Bar/Slash+One Bar (BS1), 2c3) (6-1/10)",
-    // "R' U' F U' F R2 B F' R2 F' L2 U2 L2 U' L' B D' U' L D' B F2 R' U' F\n\n(B L D) // EO (U/D, DR-6e4c (F/B), DR-4e4c (R/L)) (3/3)\n// RZP (R/L, DR-4e4c, AR-0e3c (normal), AR-2e2c (inverse)) (0/3)\n(D2 L B2 D2 R2 D2 L' F) // DR (R/L, 5QT, HTR-2e4c, Bar/Slash+Bars, 4b5) (8-1/10)",
+    "R' U' F U2 F2 R2 D2 B' D2 L2 U2 B2 R2 B D2 U F' D2 U B2 R D L' U2 R' U' F\n\n(D' R F) // EO (F/B, DR-6e6c (U/D), DR-4e4c (R/L)) (3/3)\nL // RZP (U/D, DR-4e4c, AR-1e3c (normal), AR-1e2c (inverse)) (1/4)\nL2 B2 D F2 R2 D' L // DR (U/D, 3QT, HTR-6e4c, Solved+Bars, 4b3) (7-1/10)\nL2 B2 U F2 U (B2 U) // HTR (7-1/16)",
+    "R' U' F R2 B2 R2 F U2 B' D2 B D2 F L2 F R' U L2 B' D2 L' F' D2 F2 R' U' F\n\n(F) R' B // EO (F/B, DR-8e7c (U/D), DR-6e5c (R/L)) (3/3)\n(F2 R L) // RZP (U/D, DR-4e4c, AR-0e1c (normal), AR-2e3c (inverse)) (3-1/5)\n(U2 D L2 F2 D' L) // DR (U/D, 4QT, HTR-2e2c, Solved+One Bar, 2c4) (6/11)\n(L2 F2 U' R2 U R2 U) U // HTR (8-1/18)",
+    "R' U' F R B L R2 F2 L2 U' R2 F2 D' R2 U' R2 U' R' D' R' U2 R U' F R' U' F\n\n(R) B R // EO (R/L, DR-4e5c (U/D), DR-8e6c (F/B)) (3/3)\nR2 D' F // RZP (U/D, DR-2e3c, AR-0e1c (normal), AR-1e2c (inverse)) (3-1/5)\n(B' D' B) // DR (U/D, 3QT, HTR-4e4c, Solved+One Face (ST2), 4a3) (3/8)\n(U) R2 U2 F2 U F2 U2 R2 D // HTR (9/17)",
+    "R' U' F U' R2 B D' R D' F' D' B' L F' U2 B U2 F2 D2 F2 L2 B U2 F2 R' U' F\n\n(D' L) // EO (R/L, DR-6e5c (U/D), DR-4e5c (F/B)) (2/2)\nF U // RZP (F/B, DR-4e4c, AR-1e3c (normal), AR-2e4c (inverse)) (2/4)\n(F U2 F2 U) // DR (F/B, 4QT, HTR-6e4c, Bar/Slash+One Face, 4a4) (4/8)\n(D2 F D2 F) U2 R2 F D2 L2 B // HTR (10-1/17)",
+    "R' U' F R2 D' B D2 L2 F R2 F D2 L2 F R2 D2 L' D' B2 F' D2 L U2 R' U' F\n\n(U) R U // EO (U/D, DR-4e4c (F/B), DR-6e5c (R/L)) (3/3)\n// RZP (F/B, DR-4e4c, AR-1e2c (normal), AR-1e2c (inverse)) (0/3)\n(U2 R2 L2 F' D2 R) // DR (F/B, 2QT, HTR-4e4c, Bar/Slash+Bars, 4b2) (6-1/8)\n(F U2 F) F' R2 B // HTR (6/14)",
+    "R' U' F L2 B2 D2 L2 F2 U' B2 U L2 D B2 L U2 B2 D' R F' R2 B' D F' R' U' F\n\n(B' D F) // EO (F/B, DR-4e4c (U/D), DR-6e5c (R/L)) (3/3)\n// RZP (U/D, DR-4e4c, AR-2e3c (normal), AR-0e2c (inverse)) (0/3)\nU F2 R2 U D2 L // DR (U/D, 4QT, HTR-2e4c, Bar/Slash+One Face, 4a4) (6/9)\nL2 U B2 U F2 U2 R2 D (R2 U) // HTR (10-1/18)",
+    "R' U' F D2 R2 U2 R' B2 U2 L' D2 R F2 L D2 U L' R2 B F' L U2 F' U R' U' F\n\nD F // EO (F/B, DR-4e7c (U/D), DR-4e4c (R/L)) (2/2)\n// RZP (R/L, DR-4e4c, AR-1e2c (normal), AR-1e2c (inverse)) (0/2)\nD2 F2 B2 R' F2 L2 D // DR (R/L, 3QT, HTR-2e4c, Bar/Slash+One Face, 4a3) (7/9)\nB2 R (R2 B2 R B2 R) // HTR (7/16)",
+    "R' U' F D2 L2 F2 R2 D L2 D' B2 U L2 F' D L' D' B F2 U L R2 D U' R' U' F\n\nL' U' R2 F // EO (F/B, DR-4e4c (U/D), DR-6e5c (R/L)) (4/4)\n// RZP (U/D, DR-4e4c, AR-0e3c (normal), AR-1e2c (inverse)) (0/4)\n(B2 D2 L2 U' F2 R) // DR (U/D, 5QT, HTR-2e6c, Solved+One Bar, 2c5) (6/10)\n(U' F2 D' R2 U F2 U) U // HTR (8/18)",
+    "R' U' F L U F' U' R2 F2 B' L2 U' R' B' U2 F L2 B2 L2 B R2 F' R' U' F\n\nF R' U // EO (U/D, DR-6e6c (F/B), DR-8e6c (R/L)) (3/3)\n(L) // RZP (F/B, DR-4e4c, AR-2e3c (normal), AR-1e3c (inverse)) (1/4)\nU2 B2 R F L2 B' R // DR (F/B, 5QT, HTR-4e4c, Bars+Bars (BB3), 4b5) (7-1/10)\nR2 F (L2 F L2 B' L2 F R2 F) // HTR (10-2/18)",
+    "R' U' F R F2 D2 F' U2 R2 F2 D' R B2 U2 B2 U2 L' B2 U2 R2 U2 R' U' F\n\n(F L) D R // EO (R/L, DR-6e5c (U/D), DR-6e3c (F/B)) (4/4)\n(D) // RZP (F/B, DR-4e4c, AR-1e2c (normal), AR-1e2c (inverse)) (1/5)\nF2 L2 B' R2 U // DR (F/B, 4QT, HTR-4e4c, Bars+Bars (BB3), 4b4) (5/10)\nU2 L2 F U2 B (D2 F L2 D2 F) // HTR (10-2/18)",
+    "R' U' F D2 B' F U2 B L2 R2 F' R2 B2 D' R U2 L' F U2 L2 U' B' D2 R' U' F\n\n(R2 F2 U) // EO (U/D, DR-4e3c (F/B), DR-6e5c (R/L)) (3/3)\n(U2 F R) // RZP (F/B, DR-4e4c, AR-0e2c (normal), AR-1e2c (inverse)) (3-1/5)\n(B' U2 B2 R) // DR (F/B, 3QT, HTR-2e4c, Bar/Slash+One Face, 4a3) (4/9)\n(R2 U2 F' D2 F) R2 F2 U2 B // HTR (9-1/17)",
+    "R' U' F L U2 R' D2 L' D2 B2 R' D2 B2 R' F2 D' B L2 D R B' L' F2 D2 R' U' F\n\nF B' U2 R // EO (R/L, DR-6e4c (U/D), DR-6e4c (F/B)) (4/4)\nB' D // RZP (F/B, DR-4e4c, AR-2e3c (normal), AR-0e2c (inverse)) (2/6)\nD2 F' U' F2 R2 U // DR (F/B, 5QT, HTR-4e4c, Bars+Bars (BB3), 4b5) (6-1/11)\nB' L2 F L2 D2 F L2 F (L2 F) // HTR (10/21)",
+    "R' U' F D' L2 F' D2 B2 D2 L2 B2 F L2 R2 D2 F' L' F U' L R F U2 B' R' U' F\n\n(F' U D) // EO (U/D, DR-6e7c (F/B), DR-4e5c (R/L)) (3/3)\n(R) // RZP (F/B, DR-2e4c, AR-0e3c (normal), AR-1e1c (inverse)) (1/4)\nL' B L F D2 F L // DR (F/B, 1QT, HTR-4e4c, Bars+One Face, 4a1) (7/11)\nL2 U2 F2 D2 L2 F // HTR (6-1/16)",
+    "R' U' F R2 U2 L2 D' F2 D' R2 F2 R2 U2 F2 L' F' R' U R B L' U F R' U' F\n\n(U' L) L // EO (R/L, DR-6e5c (U/D), DR-6e6c (F/B)) (3/3)\n(U) // RZP (F/B, DR-4e4c, AR-1e2c (normal), AR-1e2c (inverse)) (1/4)\nD2 L2 F2 D2 F U // DR (F/B, 3QT, HTR-4e2c, Bar/Slash+One Bar (BS1), 2c3) (6/10)\nD2 L2 F' D2 B (F) // HTR (6/16)",
+    "R' U' F D' U R2 D2 L2 D' B2 D2 U' F2 U' L2 F' D' U L' B' F2 D' L2 B R' U' F\n\nD2 R2 B // EO (F/B, DR-8e6c (U/D), DR-4e6c (R/L)) (3/3)\n(R) // RZP (U/D, DR-4e4c, AR-1e3c (normal), AR-2e2c (inverse)) (1/4)\nR2 D' R2 D R // DR (U/D, 3QT, HTR-4e6c, Bars+One Bar, 2c3) (5/9)\n(R2 U2 B2 D' R2 U' F2 U) // HTR (8-1/16)",
+    "R' U' F R2 U L' F' D2 F2 L' U2 R2 U B2 R2 D' F2 L2 F2 D' F L U R' U' F\n\n(B' F) R2 B // EO (F/B, DR-6e5c (U/D), DR-8e6c (R/L)) (4/4)\n(L' D) // RZP (R/L, DR-4e4c, AR-1e3c (normal), AR-2e0c (inverse)) (2/6)\nB2 R' D2 R' D // DR (R/L, 4QT, HTR-4e2c, Bar/Slash+One Bar (BS2), 2c4) (5-1/10)\nD2 L' B2 U2 R' U2 R (D2 F2 R) // HTR (10-2/18)",
+    "R' U' F D L B' D' R2 D U2 R2 B2 D F2 L2 F2 U' R F' D2 U' R' D2 B' R' U' F\n\nR D' L2 F // EO (F/B, DR-4e4c (U/D), DR-6e3c (R/L)) (4/4)\n// RZP (U/D, DR-4e4c, AR-2e2c (normal), AR-2e1c (inverse)) (0/4)\nD R2 F2 U' R2 D' L // DR (U/D, 3QT, HTR-4e2c, Bars+One Bar, 2c3) (7/11)\nU2 R2 D' L2 B2 U' R2 U // HTR (8/19)",
+    "R' U' F L2 F2 L2 D' U2 B2 U L2 D2 R2 B' D2 R2 F2 R U B D2 L' F' R' U' F\n\n(B U' L2 F) // EO (F/B, DR-6e7c (U/D), DR-4e4c (R/L)) (4/4)\n// RZP (R/L, DR-4e4c, AR-1e2c (normal), AR-1e3c (inverse)) (0/4)\nB2 R D2 R' F2 D // DR (R/L, 4QT, HTR-4e6c, Bar/Slash+One Bar (BS1), 2c4) (6/10)\nB2 L B2 L' F2 R U2 R // HTR (8/18)",
+    "R' U' F R2 F L2 D2 U2 B R2 F2 U2 B' U2 L2 D' R' F D F2 D2 U B2 F R' U' F\n\n(R2 F2 L) L // EO (R/L, DR-6e5c (U/D), DR-8e4c (F/B)) (4/4)\nL2 U // RZP (F/B, DR-4e4c, AR-2e1c (normal), AR-1e2c (inverse)) (2-1/5)\n(L2 F2 L2 D2 B D) // DR (F/B, 4QT, HTR-6e2c, Bars+One Bar, 2c4) (6-1/10)\n(F L2 F) R2 L2 F' D2 B // HTR (8/18)",
+    "R' U' F L' F B2 U' F2 L' B2 D' B U2 R2 D' F2 D' F2 D2 B2 R2 D' L2 U2 R' U' F\n\n(R D) // EO (U/D, DR-8e3c (F/B), DR-8e5c (R/L)) (2/2)\nF' R // RZP (F/B, DR-4e4c, AR-2e2c (normal), AR-2e2c (inverse)) (2/4)\n(B' L2 F' U2 R) // DR (F/B, 4QT, HTR-6e4c, Bars+Bars (BB3), 4b4) (5/9)\n(R2 F) R2 F' R2 F' D2 F2 R2 F // HTR (10-2/17)",
+    "R' U' F L' F' U' B' R2 F L F R' U F2 U L2 U2 F2 L2 U L2 D L2 D R' U' F\n\nU2 R B // EO (F/B, DR-2e4c (U/D), DR-2e5c (R/L)) (3/3)\n// RZP (U/D, DR-2e4c, AR-0e2c (normal), AR-1e2c (inverse)) (0/3)\nR' U R B2 U L // DR (U/D, 0QT, HTR-6e0c, Solved+Solved, 0c0) (6/9)\nU2 L2 F2 B2 U (R2 U) // HTR (7/16)",
+    "R' U' F R2 D2 U2 F2 L2 F L2 R2 B U2 F2 L' B' D L2 D L U' B' U' F R' U' F\n\n(B2 R D) D // EO (U/D, DR-6e4c (F/B), DR-6e5c (R/L)) (4/4)\nR // RZP (F/B, DR-4e4c, AR-2e3c (normal), AR-1e2c (inverse)) (1/5)\nL2 F' D2 B L // DR (F/B, 2QT, HTR-4e4c, Bar/Slash+Bars, 4b2) (5/10)\nF L2 B (D2 F' L2 F) // HTR (7-1/16)",
+    "R' U' F U2 R' U' D' B2 U R U F B2 U2 D2 L F2 D2 R' U2 F2 D2 R' F2 R' U' F\n\n(R L' B2 U) // EO (U/D, DR-4e5c (F/B), DR-6e2c (R/L)) (4/4)\nL // RZP (F/B, DR-2e3c, AR-0e2c (normal), AR-0e1c (inverse)) (1/5)\nL2 B U2 L' B' L // DR (F/B, 2QT, HTR-4e4c, Bar/Slash+Bars, 4b2) (6-1/10)\nL2 U2 B' U2 L2 F' R2 F (F) // HTR (9-1/18)",
+    "R' U' F U' F2 U' B2 F2 L2 F2 D B D' L' R U F' U2 L' U' B2 R' U' F\n\n(D B) U B // EO (F/B, DR-6e6c (U/D), DR-8e5c (R/L)) (4/4)\n(R) // RZP (U/D, DR-4e4c, AR-1e1c (normal), AR-2e3c (inverse)) (1/5)\nD B2 U' L // DR (U/D, 5QT, HTR-4e4c, Bars+Bars (BB3), 4b5) (4/9)\nL2 F2 D R2 D' B2 U R2 U (R2 U) // HTR (11-2/18)",
+    "R' U' F D2 B U2 B2 F L2 U2 L2 D2 F2 R' B2 D R2 D R2 F R F' R' U' F\n\nF' R U2 L // EO (R/L, DR-2e4c (U/D), DR-2e3c (F/B)) (4/4)\n// RZP (F/B, DR-2e3c, AR-0e1c (normal), AR-0e3c (inverse)) (0/4)\nL2 F B D F D // DR (F/B, 4QT, HTR-6e4c, Bar/Slash+One Face, 4a4) (6-1/9)\nF U2 F R2 F2 D2 F (R2 F) // HTR (9/18)",
+    "R' U' F D' L B2 U' F D' R2 F2 R B L2 B2 L2 F2 U D2 F2 R2 L2 U2 R' U' F\n\n(B U L2 D) // EO (U/D, DR-4e4c (F/B), DR-6e3c (R/L)) (4/4)\n// RZP (F/B, DR-4e4c, AR-1e1c (normal), AR-1e2c (inverse)) (0/4)\nF B2 R F2 D2 R // DR (F/B, 2QT, HTR-6e4c, Bar/Slash+Bars, 4b2) (6/10)\n(F2 L2 F' U2 B) // HTR (5/15)",
+    "R' U' F R' B' U' D2 F' D L' U F D2 L2 B U2 D2 R2 B U2 L2 F L2 U R' U' F\n\n(B R2 L' D) // EO (U/D, DR-4e4c (F/B), DR-4e5c (R/L)) (4/4)\n// RZP (F/B, DR-4e4c, AR-1e2c (normal), AR-1e2c (inverse)) (0/4)\n(R2 D2 F R) // DR (F/B, 3QT, HTR-2e6c, Bars+One Bar, 2c3) (4/8)\n(U2 F' L2 F) L2 F2 L2 F // HTR (8/16)",
+    "R' U' F L B2 U2 L2 F' R2 F' U2 L2 R2 F U2 L D F R D' U' L2 F R' U' F\n\nL U' D' B // EO (F/B, DR-4e6c (U/D), DR-2e4c (R/L)) (4/4)\n// RZP (R/L, DR-2e4c, AR-0e2c (normal), AR-0e2c (inverse)) (0/4)\n(F2 R B2 U' F2 U) // DR (R/L, 2QT, HTR-4e4c, Bar/Slash+Bars, 4b2) (6/10)\nR2 D2 R U2 B2 L // HTR (6/16)",
+    "R' U' F D2 R2 B R U2 F' B2 R D' F U2 B L2 F2 D2 R2 F2 U2 B U2 B2 R' U' F\n\nU F2 D // EO (U/D, DR-4e7c (F/B), DR-4e5c (R/L)) (3/3)\nR // RZP (F/B, DR-4e4c, AR-0e3c (normal), AR-1e2c (inverse)) (1/4)\n(F2 R2 B L) // DR (F/B, 5QT, HTR-4e4c, Bars+Bars (BB3), 4b5) (4/8)\n(L2 F) F2 U2 B D2 B' R2 F D2 F // HTR (11-1/18)",
+    "R' U' F D F' L U' B2 U2 F2 U2 L2 F2 U' F2 U' B D R' D' L B F2 R' U' F\n\n(L B' L) // EO (R/L, DR-6e7c (U/D), DR-4e6c (F/B)) (3/3)\n(U) // RZP (F/B, DR-4e4c, AR-0e3c (normal), AR-2e4c (inverse)) (1/4)\n(F' R2 B L2 F D) // DR (F/B, 2QT, HTR-4e4c, Solved+Bars, 4b2) (6/10)\nD2 U2 R2 F D2 R2 B // HTR (7/17)",
+    "R' U' F L' B D2 R' U L' B2 U R B' D2 B R2 F D2 B2 U2 F' D2 U R' U' F\n\n(D' B) R D' B // EO (F/B, DR-4e4c (U/D), DR-6e4c (R/L)) (5/5)\n// RZP (U/D, DR-4e4c, AR-1e1c (normal), AR-1e2c (inverse)) (0/5)\n(B2 D' R2 U D' R) // DR (U/D, 3QT, HTR-6e2c, Bar/Slash+One Bar (BS1), 2c3) (6-1/10)\n(R2 U2 R2 U) F2 U' F2 D // HTR (8-1/17)",
+    "R' U' F U' F R2 B F' R2 F' L2 U2 L2 U' L' B D' U' L D' B F2 R' U' F\n\n(B L D) // EO (U/D, DR-6e4c (F/B), DR-4e4c (R/L)) (3/3)\n// RZP (R/L, DR-4e4c, AR-0e3c (normal), AR-2e2c (inverse)) (0/3)\n(D2 L B2 D2 R2 D2 L' F) // DR (R/L, 5QT, HTR-2e4c, Bar/Slash+Bars, 4b5) (8-1/10)\n(R) L' D2 L' U2 R D2 R // HTR (8/18)",
 ];
 let currentExample = -1;
 
