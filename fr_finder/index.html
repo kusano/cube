@@ -11,6 +11,15 @@
       html {
         overflow-x: auto;
       }
+      .separator {
+        display: inline-block;
+        height: 1px;
+        width: 32px;
+        margin-left: 8px;
+        margin-right: 8px;
+        vertical-align: middle;
+        background-color: #4a4a4a;
+      }
       address {
         text-align: right;
       }
@@ -162,13 +171,13 @@ B2 U2 R2 U' B2 U' F2 U // HTR (8/17)" rows="6"></textarea>
         </p>
         <p>
           <div id="optimal" style="display: none">
-            Optimal: <span id="optimal_moves" class="has-text-weight-bold"></span> <span id="optimal_number"></span>
+            Optimal: <span id="optimal_moves"></span>
+          </div>
+          <div id="status" style="display: none">
+            Search status: <span id="status_text"></span>
           </div>
           <div id="number" style="display: none">
             Number: <span id="number_num"></span>
-          </div>
-          <div id="depth" style="display: none">
-            Depth: <span id="depth_num"></span>
           </div>
           <p id="best" style="display: none">
             Best:

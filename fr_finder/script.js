@@ -17,11 +17,10 @@ const elProgress = document.getElementById("progress");
 const elError = document.getElementById("error");
 const elOptimal = document.getElementById("optimal");
 const elOptimalMoves = document.getElementById("optimal_moves");
-const elOptimalNumber = document.getElementById("optimal_number");
+const elStatus = document.getElementById("status");
+const elStatusText = document.getElementById("status_text");
 const elNumber = document.getElementById("number");
 const elNumberNum = document.getElementById("number_num");
-const elDepth = document.getElementById("depth");
-const elDepthNum = document.getElementById("depth_num");
 const elBest = document.getElementById("best");
 const elBestPre = document.getElementById("best_pre");
 const elList = document.getElementById("list");
@@ -198,86 +197,86 @@ function formatNumber(num, diff, total) {
     return s;
 }
 
-function formatSolution(data, insert) {
-    const moves = [...data.moves];
-    let leaveSlice = data.leaveSlice;
+// inputNormal, inputInverse は insert=true のときのみ使う。
+function formatSolution(data, inputDirection, insert, inputNormal, inputInverse) {
+    let solution = "";
 
-    const moveToSymbol = {}
-
-    if (insert) {
-        const inputNormalLen = elNormal.textContent=="" ? 0 : elNormal.textContent.split(" ").length;
-        const getSymbol = move => {
-            if (!moveToSymbol[move]) {
-                    moveToSymbol[move] = "*+%"[Object.keys(moveToSymbol).length];
+    let lastDirection;
+    if (inputDirection=="normal") {
+        lastDirection = "normal";
+        if (data.frNormal.length>0) {
+            if (solution!="") {
+                solution += " ";
             }
-            return moveToSymbol[move];
+            solution += data.frNormal.join(" ");
         }
-
-        for (let i=0; i<data.slices.length; i++) {
-            let p = data.slices[i].position-inputNormalLen+i;
-            let ok = false;
-            for (let j=0; j<moves.length && !ok; j++) {
-                if (moves[j][0]!="(") {
-                    if (p<=moves[j].split(" ").length) {
-                        ok = true;
-                        const t = moves[j].split(" ");
-                        moves[j] = [...t.slice(0, p), getSymbol(data.slices[i].move), ...t.slice(p)].join(" ");
-                    } else {
-                        p -= moves[j].split(" ").length;
-                    }
-                }
+        if (data.frInverse.length>0) {
+            if (solution!="") {
+                solution += " ";
             }
-            if (!ok && p<=leaveSlice.split(" ").length) {
-                ok = true;
-                const t = leaveSlice.split(" ");
-                leaveSlice = [...t.slice(0, p), getSymbol(data.slices[i].move), ...t.slice(p)].join(" ");
-            } else {
-                p -= leaveSlice.split(" ").length;
+            solution += "("+data.frInverse.join(" ")+")";
+            lastDirection = "inverse";
+        }
+    } else {
+        lastDirection = "inverse";
+        if (data.frInverse.length>0) {
+            if (solution!="") {
+                solution += " ";
             }
-            for (let j=moves.length-1; j>=0 && !ok; j--) {
-                if (moves[j][0]=="(") {
-                    if (p<=moves[j].split(" ").length) {
-                        ok = true;
-                        // Inverse区間なので逆にする。
-                        let move = data.slices[i].move;
-                        if (move.length==1) {
-                            move = move+"'";
-                        } else if (move[1]=="'") {
-                            move = move[0];
-                        }
-                        let t = moves[j].substring(1, moves[j].length-1).split(" ");
-                        t = [...t.slice(0, t.length-p), getSymbol(move), ...t.slice(t.length-p)];
-                        moves[j] = "("+t.join(" ")+")";
-                    } else {
-                        p -= moves[j].split(" ").length;
-                    }
-                }
+            solution += "("+data.frInverse.join(" ")+")";
+        }
+        if (data.frNormal.length>0) {
+            if (solution!="") {
+                solution += " ";
             }
+            solution += data.frNormal.join(" ");
+            lastDirection = "normal";
         }
     }
 
-    let solution = moves.join(" ").replaceAll(") (", " ");
-    solution += " // HTR ";
-    solution += formatNumber(data.htrNumber, data.htrDiff, data.htrTotal)+"\n";
-    solution += "// "+data.subsets.join(" → ")+"\n";
-    solution += leaveSlice;
+    solution += ` // FR (${data.axis}) ${formatNumber(data.frNumber, data.frDiff, data.frTotal)}\n`;
+
+    if (lastDirection=="normal") {
+        solution += data.leaveSlice.join(" ");
+    } else {
+        solution += "("+reverse(data.leaveSlice).join(" ")+")";
+    }
+
     if (data.slices.length==0) {
         solution += " // finish ";
         solution += formatNumber(data.leaveSliceNumber, data.leaveSliceDiff, data.leaveSliceTotal);
     } else {
-        solution += " // Leave slice ";
+        solution += " // LS ";
         solution += formatNumber(data.leaveSliceNumber, data.leaveSliceDiff, data.leaveSliceTotal)+"\n";
         if (insert) {
-            solution += Object.keys(moveToSymbol).map(m => `${moveToSymbol[m]} = ${m}`).join(", ");
-            solution += ` // finish (${data.sliceInsertNumber}/${data.sliceInsertTotal})`;
+            solution += `// SI (${data.sliceInsertNumber}/${data.sliceInsertTotal})\n`;
+            let moves = [...inputNormal, ...data.frNormal, ...data.leaveSlice, ...reverse(data.frInverse),
+                ...reverse(inputInverse)];
+            // data.slices[i].position は昇順。
+            for (let i=data.slices.length-1; i>=0; i--) {
+                const s = data.slices[i];
+                moves = [...moves.slice(0, s.position), `[${s.move}]`, ...moves.slice(s.position)];
+            }
+
+            solution += moves.join(" ");
         }
     }
+
     return solution;
 }
 
 let worker;
 
 function search() {
+    niss = elNISS.value,
+    axis = elAxis.value;
+
+    localStorage.setItem("fr_finder", JSON.stringify({
+        version: configVersion,
+        niss: niss,
+        axis: axis,
+    }));
+
     let input = elInput.value;
     if (input=="") {
         return;
@@ -286,15 +285,6 @@ function search() {
     input = input.replaceAll("‘", "'");
     input = input.replaceAll("’", "'");
     input = input.toUpperCase();
-
-    niss = elNISS.value,
-    axis = elAxis.value;
-
-    localStorage.setItem("htr_finder", JSON.stringify({
-        version: configVersion,
-        niss: niss,
-        axis: axis,
-    }));
 
     elStart.style.display = "none";
     elStop.style.display = "block";
@@ -308,8 +298,11 @@ function search() {
     elProgress.style.display = "block";
     elError.style.display = "none";
     elOptimal.style.display = "none";
+    while (elOptimalMoves.firstChild) {
+        elOptimalMoves.removeChild(elOptimalMoves.firstChild);
+    }
+    elStatus.style.display = "none";
     elNumber.style.display = "none";
-    elDepth.style.display = "none";
     elBest.style.display = "none";
     elBestPre.style.display = "none";
     elList.style.display = "none";
@@ -325,6 +318,10 @@ function search() {
     let number = 0;
     let best = 9999;
     let optimal = 9999;
+    let drAxis = "";
+    let inputNormal = [];
+    let inputInverse = [];
+    let lastDirection = "normal";
 
     worker.onmessage = e => {
         const data = e.data;
@@ -337,42 +334,72 @@ function search() {
             elDRAxis.textContent = data.drAxis;
             elLastDirection.textContent = data.lastDirection;
             visualize(data.scramble, data.normal, data.inverse);
+
+            drAxis = data.drAxis;
+            inputNormal = data.normal;
+            inputInverse = data.inverse;
+            lastDirection = data.lastDirection;
         }
 
         if (data.type=="optimal") {
-            // TODO: SI
-            optimal = data.optimalTotal;
-
             elOptimal.style.display = "block";
-            elOptimalMoves.textContent = data.optimal.join(" ");
-            elOptimalNumber.textContent = formatNumber(data.optimalNumber, data.optimalDiff, data.optimalTotal);
+
+            elOptimalMoves.appendChild(markAxisMoves(data.moves.join(" "), drAxis));
+
+            const hasSI = data.slices.length>0;
+
+            elOptimalMoves.appendChild(document.createTextNode(
+                ` // ${hasSI?"LS":"finish"} `+formatNumber(data.optimalNumber, data.optimalDiff, data.optimalTotal)));
+
+            if (hasSI) {
+                const separator = document.createElement("span");
+                elOptimalMoves.appendChild(separator);
+                separator.classList.add("separator");
+
+                const siInput = input+"\n"+"TODO";//formatSolution(, inputDirection, false);
+                const a = document.createElement("a");
+                a.setAttribute("href", `../fmc_slice/?input=${encodeURIComponent(siInput)}`);
+                a.setAttribute("target", "_blank");
+                a.textContent = "SI";
+                elOptimalMoves.appendChild(a);
+
+                elOptimalMoves.appendChild(document.createTextNode(
+                    ` (${data.sliceInsertNumber}/${data.sliceInsertTotal})`));
+            }
+
+            optimal = data.sliceInsertTotal;
         }
 
-        if (data.type=="depth") {
-            elDepth.style.display = "block";
-            elDepthNum.textContent = ""+data.depth;
+        if (data.type=="status") {
+            elStatus.style.display = "block";
+            elStatusText.textContent = ""+data.status;
         }
 
         if (data.type=="fr") {
             number++;
-            // TODO
 
             elNumber.style.display = "block";
             elNumberNum.textContent = ""+number;
+
+            addFRList(data, lastDirection, input);
 
             if (data.sliceInsertTotal<best) {
                 best = data.sliceInsertTotal;
 
                 elBest.style.display = "block";
                 elBestPre.style.display = "block";
-                elBestPre.textContent = formatSolution(data, true);
+                elBestPre.textContent = formatSolution(data, lastDirection, true, inputNormal, inputInverse);
             }
 
-            if (elView.value=="graph") {
-                addHTRGraph(data, best, optimal, input);
+            for (let e of elList.querySelectorAll(".best, .optimal")) {
+                e.style.display = "none";
             }
-            if (elView.value=="list") {
-                addHTRList(data, best, optimal, input);
+            for (let node of elList.childNodes) {
+                if (node.dataset.total==""+optimal) {
+                    node.querySelector(".optimal").style.display = "inline-flex";
+                } else if (node.dataset.total==""+best) {
+                    node.querySelector(".best").style.display = "inline-flex";
+                }
             }
         }
 
@@ -395,6 +422,38 @@ function search() {
         niss,
         axis,
     });
+}
+
+// 軸の動きを強調した <span> を返す。
+function markAxisMoves(moves, axis) {
+    const span = document.createElement("span");
+    span.classList.add("has-text-weight-bold");
+
+    let tmp = "";
+    for (let i=0; i<moves.length; i++) {
+        const m = moves.substring(i, i+2);
+        if (axis=="U/D" && (m=="U2" || m=="D2") ||
+            axis=="F/B" && (m=="F2" || m=="B2") ||
+            axis=="R/L" && (m=="R2" || m=="L2")) {
+            if (tmp!="") {
+                span.appendChild(document.createTextNode(tmp));
+                tmp = "";
+            }
+            const s = document.createElement("span");
+            span.appendChild(s);
+            s.classList.add("has-text-danger");
+            s.textContent = m;
+            i++;
+        } else {
+            tmp += moves[i];
+        }
+    }
+    if (tmp!="") {
+        span.appendChild(document.createTextNode(tmp));
+        tmp = "";
+    }
+
+    return span;
 }
 
 function visualize(scramble, normal, inverse) {
@@ -543,83 +602,98 @@ function visualize(scramble, normal, inverse) {
     }
 }
 
-function addFRList(htr, best, optimal, input) {
-    // TODO:
+function addFRList(fr, inputDirection, input) {
     elList.style.display = "block";
 
-    const li1 = document.createElement("li");
-    elList.appendChild(li1);
+    const li = document.createElement("li");
+    elList.appendChild(li);
 
-    const htrMoves = document.createElement("span");
-    htrMoves.textContent = htr.moves.join(" ").replaceAll(") (", " ");
-    htrMoves.classList.add("has-text-weight-bold")
-    li1.appendChild(htrMoves);
+    let frStr = "";
+    let frDirection;
+    if (inputDirection=="normal") {
+        frDirection = "normal";
+        if (fr.frNormal.length>0) {
+            if (frStr!="") {
+                frStr += " ";
+            }
+            frStr += fr.frNormal.join(" ");
+        }
+        if (fr.frInverse.length>0) {
+            if (frStr!="") {
+                frStr += " ";
+            }
+            frStr += "("+fr.frInverse.join(" ")+")";
+            frDirection = "inverse";
+        }
+    } else {
+        frDirection = "inverse";
+        if (fr.frInverse.length>0) {
+            if (frStr!="") {
+                frStr += " ";
+            }
+            frStr += "("+fr.frInverse.join(" ")+")";
+        }
+        if (fr.frNormal.length>0) {
+            if (frStr!="") {
+                frStr += " ";
+            }
+            frStr += fr.frNormal.join(" ");
+            frDirection = "normal";
+        }
+    }
+    li.appendChild(markAxisMoves(frStr, fr.axis));
 
-    const htrComment = document.createTextNode(
-        " // HTR "+formatNumber(htr.htrNumber, htr.htrDiff, htr.htrTotal));
+    li.appendChild(document.createTextNode(
+        ` // FR (${fr.axis}) ${formatNumber(fr.frNumber, fr.frDiff, fr.frTotal)}`));
 
-    li1.appendChild(htrComment);
+    const separator1 = document.createElement("span");
+    li.appendChild(separator1);
+    separator1.classList.add("separator");
 
-    const tagBest = document.createElement("span");
-    tagBest.classList.add("best", "tag", "is-info", "ml-2");
-    tagBest.textContent = "Best";
-    li1.appendChild(tagBest);
-
-    const tagOptimal = document.createElement("span");
-    tagOptimal.classList.add("optimal", "tag", "is-success", "ml-2");
-    tagOptimal.textContent = "Optimal";
-    li1.appendChild(tagOptimal);
-
-    li1.dataset.total = ""+htr.leaveSliceTotal;
-
-    const ul = document.createElement("ul");
-    li1.appendChild(ul);
-
-    const li2 = document.createElement("li");
-    ul.appendChild(li2);
-    li2.textContent = "// "+htr.subsets.join(" → ");
-
-    const li3 = document.createElement("li");
-    ul.appendChild(li3);
+    let leaveSliceStr = "";
+    if (frDirection=="normal") {
+        leaveSliceStr = fr.leaveSlice.join(" ");
+    } else {
+        leaveSliceStr = "("+reverse(fr.leaveSlice).join(" ")+")";
+    }
 
     const leaveSliceMoves = document.createElement("span");
-    leaveSliceMoves.textContent = htr.leaveSlice;
-    leaveSliceMoves.classList.add("has-text-weight-bold")
-    li3.appendChild(leaveSliceMoves);
+    li.appendChild(leaveSliceMoves);
+    leaveSliceMoves.textContent = leaveSliceStr;
+    leaveSliceMoves.classList.add("has-text-weight-bold");
 
-    const hasSI = htr.slices.length>0;
+    const hasSI = fr.slices.length>0;
 
-    const leaveSliceComment = document.createTextNode(
-        ` // ${hasSI?"LS":"finish"} `+formatNumber(htr.leaveSliceNumber, htr.leaveSliceDiff, htr.leaveSliceTotal));
-    li3.appendChild(leaveSliceComment);
+    li.appendChild(document.createTextNode(
+        ` // ${hasSI?"LS":"finish"} `+formatNumber(fr.leaveSliceNumber, fr.leaveSliceDiff, fr.leaveSliceTotal)));
 
     if (hasSI) {
-        const li4 = document.createElement("li");
-        ul.appendChild(li4);
+        const separator2 = document.createElement("span");
+        li.appendChild(separator2);
+        separator2.classList.add("separator");
 
-        li4.appendChild(document.createTextNode("// "));
-
-        const siInput = input+"\n"+formatSolution(htr, false);
+        const siInput = input+"\n"+formatSolution(fr, inputDirection, false);
         const a = document.createElement("a");
         a.setAttribute("href", `../fmc_slice/?input=${encodeURIComponent(siInput)}`);
         a.setAttribute("target", "_blank");
         a.textContent = "SI";
-        li4.appendChild(a);
+        li.appendChild(a);
 
-        li4.appendChild(document.createTextNode(` (${htr.sliceInsertNumber}/${htr.sliceInsertTotal})`));
+        li.appendChild(document.createTextNode(
+            ` (${fr.sliceInsertNumber}/${fr.sliceInsertTotal})`));
     }
 
-    // タグ。
-    for (let e of elList.querySelectorAll(".best, .optimal")) {
-        e.style.display = "none";
-    }
-    for (let node of elList.childNodes) {
-        if (node.dataset.total==""+optimal) {
-            node.querySelector(".optimal").style.display = "inline-flex";
-        } else if (node.dataset.total==""+best) {
-            node.querySelector(".best").style.display = "inline-flex";
-        }
-    }
+    const tagBest = document.createElement("span");
+    tagBest.classList.add("best", "tag", "is-info", "ml-2");
+    tagBest.textContent = "Best";
+    li.appendChild(tagBest);
+
+    const tagOptimal = document.createElement("span");
+    tagOptimal.classList.add("optimal", "tag", "is-success", "ml-2");
+    tagOptimal.textContent = "Optimal";
+    li.appendChild(tagOptimal);
+
+    li.dataset.total = ""+fr.sliceInsertTotal;
 }
 
 for (let e of [
@@ -631,9 +705,8 @@ for (let e of [
 }
 
 elReset.addEventListener("click", () => {
-    elMaxNumber.value = "16";
-    elNISS.value = "keep";
-    elView.value = "graph";
+    elNISS.value = "before";
+    elAxis.value = "dr";
 
     search();
 });

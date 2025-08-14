@@ -702,7 +702,7 @@ const leaveSliceCornerTable = new Map();
     console.log("Leave slice corner table constructed:", leaveSliceCornerTable.size);
 }
 
-function searchLeaveSlice(scramble, normal, inverse, axis) {
+function searchLeaveSlice(scramble, normal, inverse, axis, afterFR) {
     let old = scramble;
     scramble = [];
     for (let m of old) {
@@ -782,6 +782,10 @@ function searchLeaveSlice(scramble, normal, inverse, axis) {
             "U2",
             "D2",
         ]) {
+            if (afterFR && (m=="U2" || m=="D2")) {
+                continue;
+            }
+
             if (moves.length>0) {
                 const last = moves[moves.length-1];
                 if (m[0]==last[0] ||
@@ -810,7 +814,7 @@ function searchLeaveSlice(scramble, normal, inverse, axis) {
     let maxDepth = 99;
     for (let depth=0; depth<=maxDepth; depth++) {
         for (let revN=0; revN<2; revN++) {
-            if (revN==1 && normal.length==0) {
+            if (revN==1 && (normal.length==0 || afterFR)) {
                 continue;
             }
 
@@ -820,7 +824,7 @@ function searchLeaveSlice(scramble, normal, inverse, axis) {
             }
 
             for (let revI=0; revI<2; revI++) {
-                if (revI==1 && inverse.length==0) {
+                if (revI==1 && (inverse.length==0 || afterFR)) {
                     continue;
                 }
 
@@ -1129,61 +1133,29 @@ function normalizedMovesNumberTest() {
 //normalizedMovesNumberTest();
 
 function analyzeSolution(scramble, normalInput, inverseInput, axis, normal, inverse) {
-    // leave slice.
-    let leaveSlice = searchLeaveSlice(scramble, [...normalInput, ...normal], [...inverseInput, ...inverse], axis);
+    const leaveSlice = searchLeaveSlice(scramble, [...normalInput, ...normal], [...inverseInput, ...inverse],
+        axis, true);
 
-    // moves.
-    const movesNormal = [];
-    let movesTmp = [];
-    for (let m of normal) {
-        movesTmp.push(m);
-        if (m[0]==axis[0] || m[0]==axis[2]) {
-            movesNormal.push(movesTmp.join(" "));
-            movesTmp = [];
-        }
-    }
-    if (movesTmp.length>0) {
-        movesNormal.push(movesTmp.join(" "));
-        movesTmp = [];
-    }
+    const frNumber = normal.length+inverse.length;
+    const leaveSliceNumber = leaveSlice.moves.length;
 
-    const movesInverse = [];
-    for (let m of inverse) {
-        movesTmp.push(m);
-        if (m[0]==axis[0] || m[0]==axis[2]) {
-            movesInverse.push("("+movesTmp.join(" ")+")");
-            movesTmp = [];
-        }
-    }
-    if (movesTmp.length>0) {
-        movesInverse.push("("+movesTmp.join(" ")+")");
-        movesTmp = [];
-    }
-
-    let moves = [...movesNormal, ...movesInverse];
-
-    // moves number.
     const inputTotal = normalizedMovesNumber(normalInput)+normalizedMovesNumber(inverseInput);
-
-    let htrNumber = 0;
-    for (let m of moves) {
-        htrNumber += m.split(" ").length;
-    }
-    const htrTotal = normalizedMovesNumber([...normalInput, ...normal])+normalizedMovesNumber([...inverseInput, ...inverse]);
-
-    let leaveSliceNumber = leaveSlice.moves.length;
+    const frTotal = normalizedMovesNumber([...normalInput, ...normal])+
+        normalizedMovesNumber([...inverseInput, ...inverse]);
     const leaveSliceTotal = normalizedMovesNumber(
         [...normalInput, ...normal, ...leaveSlice.moves, ...reverse(inverse), ...reverse(inverseInput)]);
 
     return {
-        moves,
-        leaveSlice: leaveSlice.moves.join(" "),
+        axis,
+        frNormal: normal,
+        frInverse: inverse,
+        frNumber,
+        frDiff: frTotal-inputTotal-frNumber,
+        frTotal,
+        leaveSlice: leaveSlice.moves,
         slices: leaveSlice.slices,
-        htrNumber,
-        htrDiff: htrTotal-inputTotal-htrNumber,
-        htrTotal,
         leaveSliceNumber,
-        leaveSliceDiff: leaveSliceTotal-htrTotal-leaveSliceNumber,
+        leaveSliceDiff: leaveSliceTotal-frTotal-leaveSliceNumber,
         leaveSliceTotal,
         sliceInsertNumber: leaveSlice.sliceInsertNumber,
         sliceInsertTotal: leaveSlice.sliceInsertTotal,
@@ -1545,7 +1517,7 @@ function searchFR(scramble, normalInput, inverseInput, axis, niss) {
     for (let mode of ["normal", "inverse", "both"]) {
         if (!(niss=="normal" && mode=="normal" ||
               niss=="inverse" && mode=="inverse" ||
-              niss=="both" && (mode=="normal" || mode==inverse) ||
+              niss=="before" && (mode=="normal" || mode=="inverse") ||
               niss=="full")) {
             continue;
         }
@@ -1554,8 +1526,8 @@ function searchFR(scramble, normalInput, inverseInput, axis, niss) {
 
         for (let depth=0; ; depth++) {
             postMessage({
-                type: "depth",
-                depth: depth,
+                type: "status",
+                status: `axis=${axis}, direction=${mode}, depth=${depth}`,
             });
 
             for (let depthI=0; depthI<=depth; depthI++) {
@@ -1699,13 +1671,6 @@ function search(input, niss, axis) {
     for (let m of normal) {
         cube.move(m);
     }
-    if (!cube.isHTR()) {
-        postMessage({
-            type: "error",
-            error: "HTR is not finished.",
-        })
-        return;
-    }
 
     postMessage({
         type: "parsed",
@@ -1716,19 +1681,30 @@ function search(input, niss, axis) {
         lastDirection,
     });
 
+    if (!cube.isHTR()) {
+        postMessage({
+            type: "error",
+            error: "HTR is not finished.",
+        })
+        return;
+    }
+
     // DR軸以外はHTRより前にSIできないので、DR軸以外のLSが最短ならば、DR軸で探索すれば出てくるはず。
-    // TODO:
-    const optimal = searchLeaveSlice(scramble, normal, inverse, drAxis);
-    //const inputTotal = normalizedMovesNumber(normal)+normalizedMovesNumber(inverse);
-    //const optimalNumber = optimal.length;
-    //const optimalTotal = normalizedMovesNumber([...normal, ...optimal, ...reverse(inverse)]);
+    // NISSの逆側にインサートできる可能性はあるか。
+    const optimal = searchLeaveSlice(scramble, normal, inverse, drAxis, false);
+    const inputTotal = normalizedMovesNumber(normal)+normalizedMovesNumber(inverse);
+    const optimalNumber = optimal.moves.length;
+    const optimalTotal = normalizedMovesNumber([...normal, ...optimal.moves, ...reverse(inverse)]);
 
     postMessage({
         type: "optimal",
-        optimal: optimal,
-        //optimalNumber,
-        //optimalDiff: optimalTotal-inputTotal-optimalNumber,
-        //optimalTotal,
+        moves: optimal.moves,
+        optimalNumber,
+        optimalDiff: optimalTotal-inputTotal-optimalNumber,
+        optimalTotal,
+        slices: optimal.slices,
+        sliceInsertNumber: optimal.sliceInsertNumber,
+        sliceInsertTotal: optimal.sliceInsertTotal,
     });
 
     // niss = htr はここで変換。
@@ -1776,7 +1752,7 @@ D2 R2 B // EO (3/3)
 (R) // RZP (1/4)
 R2 D' R2 D R // DR (5/9)
 B2 U2 R2 U' B2 U' F2 U // HTR (8/17)`,
-        "htr", "all");
+        "full", "dr");
 }
 
 onmessage = e => {
