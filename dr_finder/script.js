@@ -274,15 +274,6 @@ function reverse(moves) {
 let worker;
 
 function search() {
-    let input = elInput.value;
-    if (input=="") {
-        return;
-    }
-
-    input = input.replaceAll("‘", "'");
-    input = input.replaceAll("’", "'");
-    input = input.toUpperCase();
-
     eoMaxDepth = +elEOMaxDepth.value,
     eoMaxNumber = +elEOMaxNumber.value,
     eoNiss = elEONiss.value,
@@ -309,6 +300,15 @@ function search() {
         dr_niss: drNiss,
         finish_max_depth: finishMaxDepth,
     }));
+
+    let input = elInput.value;
+    if (input=="") {
+        return;
+    }
+
+    input = input.replaceAll("‘", "'");
+    input = input.replaceAll("’", "'");
+    input = input.toUpperCase();
 
     // Parse.
     const scramble = [];

@@ -291,15 +291,6 @@ function formatSolution(data, insert) {
 let worker;
 
 function search() {
-    let input = elInput.value;
-    if (input=="") {
-        return;
-    }
-
-    input = input.replaceAll("‘", "'");
-    input = input.replaceAll("’", "'");
-    input = input.toUpperCase();
-
     maxNumber = +elMaxNumber.value,
     niss = elNISS.value,
     view = elView.value;
@@ -310,6 +301,15 @@ function search() {
         niss: niss,
         view: view,
     }));
+
+    let input = elInput.value;
+    if (input=="") {
+        return;
+    }
+
+    input = input.replaceAll("‘", "'");
+    input = input.replaceAll("’", "'");
+    input = input.toUpperCase();
 
     elStart.style.display = "none";
     elStop.style.display = "block";
