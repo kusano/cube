@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>目隠し</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>目隠し</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; 目隠し
+        </p>
+        <hr>
+        <p>
+          3BLD、4BLD、5BLDで私が使っている手順などのメモ。
+        </p>
+        <h2>目次</h2>
+        <ul>
+          <li><a href="#numbering">ナンバリング</a></li>
+          <li><a href="#3x3x3">3x3x3</a></li>
+          <li><a href="#4x4x4">4x4x4</a></li>
+          <li><a href="#5x5x5">5x5x5</a></li>
+          <li><a href="#letter">レターペア</a></li>
+          <li><a href="#place">場所</a></li>
+        </ul>
+        <h2 id="numbering">ナンバリング</h2>
+        <p>
+          <img src="numbering.png" width="350" height="250">
+        </p>
+        <h2 id="3x3x3">3x3x3</h2>
+        <h3>参考</h3>
+        <ul>
+          <li><a href="https://www.youtube.com/watch?v=eYiIHLMLPUc">【初級解法】目隠しルービックキューブ解説 - YouTube</a></li>
+          <li><a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:17741fa5-1d4c-4079-906e-fede0d6f6cb5">BLD教本2020-1-30</a></li>
+          <li><a href="https://www.youtube.com/watch?v=w2IlWPF6pOg">目隠しルービックキューブ Old Pochmann法の変形Yパームの代替手順 - YouTube</a></li>
+        </ul>
+        <h3>エッジ</h3>
+        <ul>
+          <li>バッファ: DF、ターゲット: UB。</li>
+          <li><b>M</b> = <b>Lw L'</b>。</li>
+        </ul>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ピース</th>
+              <th>文字</th>
+              <th>手順</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>RU</td><td>さ</td><td><b>B' R B (M2) B' R' B</b></td><td></td></tr>
+            <tr><td>RB</td><td>し</td><td><b>R B' R' B (M2) B' R B R'</b></td><td><b>B'</b> で目的のピースが動くので退避しておく。</td></tr>
+            <tr><td>RD</td><td>す</td><td><b>B' R' B (M2) B' R B</b></td><td></td></tr>
+            <tr><td>RF</td><td>せ</td><td><b>B' R2 B (M2) B' R2 B</b></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>UR</td><td>い</td><td><b>R' U R U' (M2) U R' U' R</b></td><td>退避。</td></tr>
+            <tr><td>BR</td><td>て</td><td><b>U R' U' (M2) U R U'</b></td><td></td></tr>
+            <tr><td>DR</td><td>ひ</td><td><b>U R2 U' (M2) U R2 U'</b></td><td></td></tr>
+            <tr><td>FR</td><td>き</td><td><b>U R U' (M2) U R' U'</b></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>LU</td><td>な</td><td><b>B L' B' (M2) B L B'</b></td><td></td></tr>
+            <tr><td>LF</td><td>に</td><td><b>B L2 B' (M2) B L2 B'</b></td><td></td></tr>
+            <tr><td>LD</td><td>ぬ</td><td><b>B L B' (M2) B L' B'</b></td><td></td></tr>
+            <tr><td>LB</td><td>ね</td><td><b>L' B L B' (M2) B L' B' L</b></td><td>退避。</td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>UL</td><td>え</td><td><b>L U' L' U (M2) U' L U L'</b></td><td>退避。</td></tr>
+            <tr><td>BL</td><td>ち</td><td><b>U' L U (M2) U' L' U</b></td><td></td></tr>
+            <tr><td>DL</td><td>へ</td><td><b>U' L2 U (M2) U' L2 U</b></td><td></td></tr>
+            <tr><td>FL</td><td>け</td><td><b>U' L' U (M2) U' L U</b></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>UF</td><td>う</td><td><b>U2 M' U2 M'</b></td><td>偶数番目はDBの手順。</td></tr>
+            <tr><td>DB</td><td>ふ</td><td><b>M U2 M U2</b></td><td>偶数番目はUFの手順。</td></tr>
+            <tr><td>FU</td><td>か</td><td><b>D M' (U R2 U') M (U R2 U') D' M2</b></td><td>偶数番目はBDの手順。</td></tr>
+            <tr><td>BD</td><td>つ</td><td><b>M2 D (U R2 U') M' (U R2 U') M D'</b></td><td>偶数番目はFUの手順。</td></tr>
+            <tr><td>UB</td><td>あ</td><td><b>M2</b></td><td>基本手順。</td></tr>
+            <tr><td>BU</td><td>た</td><td><b>(U' M')×3 (U' M) (U' M')×4</b></td><td></td></tr>
+          </tbody>
+        </table>
+        <h3>パリティ手順</h3>
+        <p>
+          <b>(D' L2 D) M2 (D' L2 D)</b>
+        </p>
+        <p>
+          エッジとコーナーの文字数が奇数であれば、エッジとコーナーの間に回す。
+        </p>
+        <h3>コーナー</h3>
+        <ul>
+          <li>バッファ: BUL、ターゲット: RDF。</li>
+        </ul>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ピース</th>
+              <th>文字</th>
+              <th>手順</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>UBR</td><td>い</td><td><b>R D' (F2 Rw2 U' Rw' F Rw' F2 R) D R'</b></td><td></td></tr>
+            <tr><td>URF</td><td>う</td><td><b>F (F2 Rw2 U' Rw' F Rw' F2 R) F'</b></td><td></td></tr>
+            <tr><td>UFL</td><td>え</td><td><b>F R' (F2 Rw2 U' Rw' F Rw' F2 R) R F'</b></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>FLU</td><td>か</td><td><b>F' D (F2 Rw2 U' Rw' F Rw' F2 R) D' F</b></td><td>F面はまずFDLに持っていく。</td></tr>
+            <tr><td>FUR</td><td>き</td><td><b>F2 D (F2 Rw2 U' Rw' F Rw' F2 R) D' F2</b></td><td></td></tr>
+            <tr><td>FRD</td><td>く</td><td><b>F D (F2 Rw2 U' Rw' F Rw' F2 R) D' F'</b></td><td></td></tr>
+            <tr><td>FDL</td><td>け</td><td><b>D (F2 Rw2 U' Rw' F Rw' F2 R) D'</b></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>RFU</td><td>さ</td><td><b>R' (F2 Rw2 U' Rw' F Rw' F2 R) R</b></td><td>R面はRDFに持っていく。</td></tr>
+            <tr><td>RUB</td><td>し</td><td><b>R2 (F2 Rw2 U' Rw' F Rw' F2 R) R2</b></td><td></td></tr>
+            <tr><td>RBD</td><td>す</td><td><b>R (F2 Rw2 U' Rw' F Rw' F2 R) R'</b></td><td></td></tr>
+            <tr><td>RDF</td><td>せ</td><td><b>F2 Rw2 U' Rw' F Rw' F2 R</b></td><td>基本手順。</td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>BRU</td><td>た</td><td><b>R' F (F2 Rw2 U' Rw' F Rw' F2 R) F' R</b></td><td></td></tr>
+            <tr><td>BLD</td><td>つ</td><td><b>D' R (F2 Rw2 U' Rw' F Rw' F2 R) R' D</b></td><td></td></tr>
+            <tr><td>BDR</td><td>て</td><td><b>D' (F2 Rw2 U' Rw' F Rw' F2 R) D</b></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>LUF</td><td>に</td><td><b>F2 (F2 Rw2 U' Rw' F Rw' F2 R) F2</b></td><td></td></tr>
+            <tr><td>LFD</td><td>ぬ</td><td><b>D2 R (F2 Rw2 U' Rw' F Rw' F2 R) R' D2</b></td><td></td></tr>
+            <tr><td>LDB</td><td>ね</td><td><b>D2 (F2 Rw2 U' Rw' F Rw' F2 R) D2</b></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>DLF</td><td>は</td><td><b>F' (F2 Rw2 U' Rw' F Rw' F2 R) F</b></td><td>D面はまずDLFに持っていく。</td></tr>
+            <tr><td>DFR</td><td>ひ</td><td><b>F' D' (F2 Rw2 U' Rw' F Rw' F2 R) D F</b></td><td></td></tr>
+            <tr><td>DRB</td><td>ふ</td><td><b>F' D2 (F2 Rw2 U' Rw' F Rw' F2 R) D2 F</b></td><td></td></tr>
+            <tr><td>DBL</td><td>へ</td><td><b>F' D (F2 Rw2 U' Rw' F Rw' F2 R) D' F</b></td><td></td></tr>
+          </tbody>
+        </table>
+        <h2 id="4x4x4">4x4x4</h2>
+        <h3>参考</h3>
+        <ul>
+          <li><a href="https://www.youtube.com/watch?v=4vBqj3vH8Fc">【目隠しルービックキューブ】4x4x4目隠し(4BLD)の入門用解法を解説！(U2/r2/OP) - YouTube</a>
+            <ul>
+              <li>自由度のある手順は上から見て時計回りの向きが最初になるように統一している。</li>
+            </ul>
+          </li>
+        </ul>
+        <h3>センター</h3>
+        <ul>
+          <li>バッファ: Ulb、ターゲット: Urf。</li>
+          <li><b>u</b> = <b>Uw U'</b>。他の小文字も同様。</li>
+        </ul>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ピース</th>
+              <th>文字</th>
+              <th>手順</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Ubr</td><td>い</td><td><b>(l u l') U' (l u' l') U' (l u l') U2 (l u' l') U2</b></td><td>偶数番目はUflの手順。</td></tr>
+            <tr><td>Urf</td><td>う</td><td><b>U2</b></td><td>基本手順。</td></tr>
+            <tr><td>Ufl</td><td>え</td><td><b>(l u l') U (l u' l') U (l u l') U2 (l u' l') U2</b></td><td>偶数番目はUbrの手順。</td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Flu</td><td>か</td><td><b>r u2 r' (U2) r u2 r'</b></td><td>側面の「あ」段はBruに持っていく。</td></tr>
+            <tr><td>Rfu</td><td>さ</td><td><b>r u' r' (U2) r u r'</b></td><td></td></tr>
+            <tr><td>Bru</td><td>た</td><td><b>u r u' r' (U2) r u r' u'</b></td><td>退避。</td></tr>
+            <tr><td>Lbu</td><td>な</td><td><b>r u r' (U2) r u' r'</b></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Fur</td><td>き</td><td><b>y' r' u r (U2) r' u' r y</b></td><td>側面の「い」段はLufに持っていく。</td></tr>
+            <tr><td>Rub</td><td>し</td><td><b>y' r' u2 r (U2) r' u2 r y</b></td><td></td></tr>
+            <tr><td>Bul</td><td>ち</td><td><b>y' r' u' r (U2) r' u r y</b></td><td></td></tr>
+            <tr><td>Luf</td><td>に</td><td><b>y' u r' u' r (U2) r' u r u' y</b></td><td>退避。</td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Frd</td><td>く</td><td><b>d' r' d r (U2) r' d' r d</b></td><td>側面の「う」段はFrdに持っていく。退避。</td></tr>
+            <tr><td>Rbd</td><td>す</td><td><b>r' d' r (U2) r' d r</b></td><td></td></tr>
+            <tr><td>Bld</td><td>つ</td><td><b>r' d2 r (U2) r' d2 r</b></td><td></td></tr>
+            <tr><td>Lfd</td><td>ぬ</td><td><b>r' d r (U2) r' d' r</b></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Fdl</td><td>け</td><td><b>y l d l' (U2) l d' l' y'</b></td><td>側面の「え」段はRdfに持っていく。</td></tr>
+            <tr><td>Rdf</td><td>せ</td><td><b>y d' l d l' (U2) l d' l' d y'</b></td><td>退避。</td></tr>
+            <tr><td>Bdr</td><td>て</td><td><b>y l d' l' (U2) l d l' y'</b></td><td></td></tr>
+            <tr><td>Ldb</td><td>ね</td><td><b>y l d2 l' (U2) l d2 l' y'</b></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Dlf</td><td>は</td><td><b>D (r2 D' r2 D r2) (U2) (r2 D' r2 D r2) D'</b></td><td>D面はDfrに持っていく。</td></tr>
+            <tr><td>Dfr</td><td>ひ</td><td><b>r2 D' r2 D r2 (U2) r2 D' r2 D r2</b></td><td></td></tr>
+            <tr><td>Drb</td><td>ふ</td><td><b>D' (r2 D' r2 D r2) (U2) (r2 D' r2 D r2) D</b></td><td></td></tr>
+            <tr><td>Dbl</td><td>へ</td><td><b>D2 (r2 D' r2 D r2) (U2) (r2 D' r2 D r2) D2</b></td><td></td></tr>
+          </tbody>
+        </table>
+        <h4>パリティ手順</h4>
+        <p>
+          <b>U2</b>
+        </p>
+        <p>
+          センターの文字数が奇数であれば、センターの後に回す。
+        </p>
+        <h3>エッジ</h3>
+        <ul>
+          <li>バッファ: DFr、ターゲット: UBr。</li>
+          <li>灰色は、3x3x3と同様で覚える必要の無い手順。</li>
+        </ul>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ピース</th>
+              <th>文字</th>
+              <th>手順</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>RUb</td><td>さ</td><td><span class="has-text-grey-lighter"><b>B' R B (r2) B' R' B</b></span></td><td></td></tr>
+            <tr><td>RBd</td><td>し</td><td><span class="has-text-grey-lighter"><b>R B' R' B (r2) B' R B R'</b></span></td><td></td></tr>
+            <tr><td>RDf</td><td>す</td><td><span class="has-text-grey-lighter"><b>B' R' B (r2) B' R B</b></span></td><td></td></tr>
+            <tr><td>RFu</td><td>せ</td><td><span class="has-text-grey-lighter"><b>B' R2 B (r2) B' R2 B</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>URf</td><td>い</td><td><span class="has-text-grey-lighter"><b>R' U R U' (r2) U R' U' R</b></span></td><td></td></tr>
+            <tr><td>BRu</td><td>て</td><td><span class="has-text-grey-lighter"><b>U R' U' (r2) U R U'</b></span></td><td></td></tr>
+            <tr><td>DRb</td><td>ひ</td><td><span class="has-text-grey-lighter"><b>U R2 U' (r2) U R2 U'</b></span></td><td></td></tr>
+            <tr><td>FRd</td><td>き</td><td><span class="has-text-grey-lighter"><b>U R U' (r2) U R' U'</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>LUf</td><td>な</td><td><span class="has-text-grey-lighter"><b>B L' B' (r2) B L B'</b></span></td><td></td></tr>
+            <tr><td>LFd</td><td>に</td><td><span class="has-text-grey-lighter"><b>B L2 B' (r2) B L2 B'</b></span></td><td></td></tr>
+            <tr><td>LDb</td><td>ぬ</td><td><span class="has-text-grey-lighter"><b>B L B' (r2) B L' B'</b></span></td><td></td></tr>
+            <tr><td>LBu</td><td>ね</td><td><span class="has-text-grey-lighter"><b>L' B L B' (r2) B L' B' L</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>ULb</td><td>え</td><td><span class="has-text-grey-lighter"><b>L U' L' U (r2) U' L U L'</b></span></td><td></td></tr>
+            <tr><td>BLu</td><td>ち</td><td><span class="has-text-grey-lighter"><b>U' L U (r2) U' L' U</b></span></td><td></td></tr>
+            <tr><td>DLf</td><td>へ</td><td><span class="has-text-grey-lighter"><b>U' L2 U (r2) U' L2 U</b></span></td><td></td></tr>
+            <tr><td>FLd</td><td>け</td><td><span class="has-text-grey-lighter"><b>U' L' U (r2) U' L U</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>BUl</td><td>た</td><td><b>U2 Lw' U2 Lw U2 (r2) U2 Lw' U2 Lw U2</b></td><td>l列はBUlに持っていく。</td></tr>
+            <tr><td>UFl</td><td>う</td><td><b>Lw' (U2 Lw' U2 Lw U2) (r2) (U2 Lw' U2 Lw U2) Lw</b></td><td></td></tr>
+            <tr><td>FDl</td><td>く</td><td><b>Lw2 (U2 Lw' U2 Lw U2) (r2) (U2 Lw' U2 Lw U2) Lw2</b></td><td></td></tr>
+            <tr><td>DBl</td><td>ふ</td><td><b>Lw (U2 Lw' U2 Lw U2) (r2) (U2 Lw' U2 Lw U2) Lw'</b></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>FUr</td><td>か</td><td><span class="has-text-grey-lighter"><b>D r (U R2 U') r' (U R2 U') D' r2</b></span></td><td>偶数番目はBDrの手順。</td></tr>
+            <tr><td>BDr</td><td>つ</td><td><span class="has-text-grey-lighter"><b>r2 D (U R2 U') r (U R2 U') r' D'</b></span></td><td>偶数番目はFUrの手順。</td></tr>
+            <tr><td>UBr</td><td>あ</td><td><span class="has-text-grey-lighter"><b>r2</b></span></td><td>基本手順。</td></tr>
+          </tbody>
+        </table>
+        <h4>パリティ手順</h4>
+        <p>
+          <b>r2 D R F' (l' U2 l' U2 M' U2 l' U2 l U2 r' U2 l2) F R' D'</b>
+        </p>
+        <p>
+          <b>M = 3Lw L'</b>。
+          エッジの文字数が奇数であれば、エッジの後に回す。
+        </p>
+        <h3>コーナー</h3>
+        <ul>
+          <li>バッファ: ULB、ターゲット: RDF。</li>
+        </ul>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ピース</th>
+              <th>文字</th>
+              <th>手順</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>UBR</td><td>い</td><td><span class="has-text-grey-lighter"><b>R D' (R U' R' U' R U R' F' R U R' U' R' F R) D R'</b></span></td><td></td></tr>
+            <tr><td>URF</td><td>う</td><td><span class="has-text-grey-lighter"><b>F (R U' R' U' R U R' F' R U R' U' R' F R) F'</b></span></td><td></td></tr>
+            <tr><td>UFL</td><td>え</td><td><span class="has-text-grey-lighter"><b>F R' (R U' R' U' R U R' F' R U R' U' R' F R) R F'</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>FLU</td><td>か</td><td><span class="has-text-grey-lighter"><b>F' D (R U' R' U' R U R' F' R U R' U' R' F R) D' F</b></span></td><td></td></tr>
+            <tr><td>FUR</td><td>き</td><td><span class="has-text-grey-lighter"><b>F2 D (R U' R' U' R U R' F' R U R' U' R' F R) D' F2</b></span></td><td></td></tr>
+            <tr><td>FRD</td><td>く</td><td><span class="has-text-grey-lighter"><b>F D (R U' R' U' R U R' F' R U R' U' R' F R) D' F'</b></span></td><td></td></tr>
+            <tr><td>FDL</td><td>け</td><td><span class="has-text-grey-lighter"><b>D (R U' R' U' R U R' F' R U R' U' R' F R) D'</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>RFU</td><td>さ</td><td><span class="has-text-grey-lighter"><b>R' (R U' R' U' R U R' F' R U R' U' R' F R) R</b></span></td><td></td></tr>
+            <tr><td>RUB</td><td>し</td><td><span class="has-text-grey-lighter"><b>R2 (R U' R' U' R U R' F' R U R' U' R' F R) R2</b></span></td><td></td></tr>
+            <tr><td>RBD</td><td>す</td><td><span class="has-text-grey-lighter"><b>R (R U' R' U' R U R' F' R U R' U' R' F R) R'</b></span></td><td></td></tr>
+            <tr><td>RDF</td><td>せ</td><td><span class="has-text-grey-lighter"><b>R U' R' U' R U R' F' R U R' U' R' F R</b></span></td><td>基本手順。</td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>BRU</td><td>た</td><td><span class="has-text-grey-lighter"><b>R' F (R U' R' U' R U R' F' R U R' U' R' F R) F' R</b></span></td><td></td></tr>
+            <tr><td>BLD</td><td>つ</td><td><span class="has-text-grey-lighter"><b>D' R (R U' R' U' R U R' F' R U R' U' R' F R) R' D</b></span></td><td></td></tr>
+            <tr><td>BDR</td><td>て</td><td><span class="has-text-grey-lighter"><b>D' (R U' R' U' R U R' F' R U R' U' R' F R) D</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>LUF</td><td>に</td><td><span class="has-text-grey-lighter"><b>F2 (R U' R' U' R U R' F' R U R' U' R' F R) F2</b></span></td><td></td></tr>
+            <tr><td>LFD</td><td>ぬ</td><td><span class="has-text-grey-lighter"><b>D2 R (R U' R' U' R U R' F' R U R' U' R' F R) R' D2</b></span></td><td></td></tr>
+            <tr><td>LDB</td><td>ね</td><td><span class="has-text-grey-lighter"><b>D2 (R U' R' U' R U R' F' R U R' U' R' F R) D2</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>DLF</td><td>は</td><td><span class="has-text-grey-lighter"><b>F' (R U' R' U' R U R' F' R U R' U' R' F R) F</b></span></td><td></td></tr>
+            <tr><td>DFR</td><td>ひ</td><td><span class="has-text-grey-lighter"><b>F' D' (R U' R' U' R U R' F' R U R' U' R' F R) D F</b></span></td><td></td></tr>
+            <tr><td>DRB</td><td>ふ</td><td><span class="has-text-grey-lighter"><b>F' D2 (R U' R' U' R U R' F' R U R' U' R' F R) D2 F</b></span></td><td></td></tr>
+            <tr><td>DBL</td><td>へ</td><td><span class="has-text-grey-lighter"><b>F' D (R U' R' U' R U R' F' R U R' U' R' F R) D' F</b></span></td><td></td></tr>
+          </tbody>
+        </table>
+        <h4>パリティ手順</h4>
+        <p>
+          <b>L U L' U' (r2 U2 r2 Uw2 r2 u2) U L U' L'</b>
+        </p>
+        <p>
+          コーナーの文字数が奇数であれば、コーナーの後に回す。
+        </p>
+        <h2 id="5x5x5">5x5x5</h2>
+        <h3>参考</h3>
+        <ul>
+          <li><a href="https://cubevoyage.net/speedcubing/45mbld/yy-5bldbeginner/">5BLD入門（Y.Yさんからの寄稿） | Cube Voyage</a></li>
+          <li><a href="https://ameblo.jp/shin2179/entry-12262819263.html">4BLDと5BLD、同時習得の勧め。及び5BLDのU2法解説 | ― no torture, no BLD ―</a></li>
+          <li><a href="https://x.com/ironcuber333/status/1552233315712655361">Xユーザーの鉄Cuberさん: 「@canacodayo_ktm l' U2 l' U2 M' U2 l' U2 (l m) U2 r' U2 l2 です。」 / X</a></li>
+        </ul>
+        <h3>+センター</h3>
+        <ul>
+          <li>バッファ: Ub、ターゲット: Uf。</li>
+          <li><b>m</b> = <b>3Lw Lw'</b>, <b>e</b> = <b>3Dw Dw'</b>, </li>
+        </ul>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ピース</th>
+              <th>文字</th>
+              <th>手順</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Ur</td><td>い</td><td><b>(m u m') U' (m u' m') U' (m u m') U2 (m u' m') U2</b></td><td>4x4x4のUbrセンターの <b>l</b> を <b>m</b> に変えた手順。偶数番目はUlの手順。</td></tr>
+            <tr><td>Uf</td><td>う</td><td><b>U2</b></td><td>基本手順。</td></tr>
+            <tr><td>Ul</td><td>え</td><td><b>(m u m') U (m u' m') U (m u m') U2 (m u' m') U2</b></td><td>4x4x4のUflセンターの <b>l</b> を <b>m</b> に変えた手順。偶数番目はUrの手順。</td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Fu</td><td>か</td><td><b>u m' u m (U2) m' u' m u'</b></td><td>側面の「あ」段はBuに持っていく。<b>m</b> の影響を受けないように、 <b>u2</b> は2回に分ける。</td></tr>
+            <tr><td>Ru</td><td>さ</td><td><b>m' u' m (U2) m' u m</b></td><td></td></tr>
+            <tr><td>Bu</td><td>た</td><td><b>u m' u' m (U2) m' u m u'</b></td><td>退避。</td></tr>
+            <tr><td>Lu</td><td>な</td><td><b>m' u m (U2) m' u' m</b></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Fr</td><td>き</td><td><b>y' r' e' r (U2) r' e r y</b></td><td>側面の「い」段はLufに持っていく。</td></tr>
+            <tr><td>Rb</td><td>し</td><td><b>y' r' e2 r (U2) r' e2 r y</b></td><td></td></tr>
+            <tr><td>Bl</td><td>ち</td><td><b>y' r' e r (U2) r' e' r y</b></td><td></td></tr>
+            <tr><td>Lf</td><td>に</td><td><b>y' e' r' e r (U2) r' e' r e y</b></td><td>退避。</td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Fd</td><td>く</td><td><b>d' m d m' (U2) m d' m' d</b></td><td>側面の「う」段はFdに持っていく。退避。</td></tr>
+            <tr><td>Rd</td><td>す</td><td><b>m d' m' (U2) m d m'</b></td><td></td></tr>
+            <tr><td>Bd</td><td>つ</td><td><b>d' m d' m' (U2) m d m' d</b></td><td><b>m</b> の影響を受けないように、 <b>d2</b> は2回に分ける。</td></tr>
+            <tr><td>Ld</td><td>ぬ</td><td><b>m d m' (U2) m d' m'</b></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Fl</td><td>け</td><td><b>y l e l' (U2) l e' l' y'</b></td><td>側面の「え」段はRfに持っていく。</td></tr>
+            <tr><td>Rf</td><td>せ</td><td><b>y e' l e l' (U2) l e' l' e y'</b></td><td>退避。</td></tr>
+            <tr><td>Br</td><td>て</td><td><b>y l e' l' (U2) l e l' y'</b></td><td></td></tr>
+            <tr><td>Lb</td><td>ね</td><td><b>y l e2 l' (U2) l e2 l' y'</b></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Df</td><td>は</td><td><b>m d2 m' (U2) m' d2 m</b></td><td>D面はDfに持っていく。</td></tr>
+            <tr><td>Dr</td><td>ひ</td><td><b>D' (m d2 m') (U2) (m' d2 m) D</b></td><td></td></tr>
+            <tr><td>Db</td><td>ふ</td><td><b>D2 (m d2 m') (U2) (m' d2 m) D2</b></td><td></td></tr>
+            <tr><td>Dl</td><td>へ</td><td><b>D (m d2 m') (U2) (m' d2 m) D'</b></td><td></td></tr>
+          </tbody>
+        </table>
+        <h4>パリティ手順</h4>
+        <p>
+          <b>U2</b>
+        </p>
+        <p>
+          +センターの文字数が奇数であれば、+センターの後に回す。
+        </p>
+        <h3>Xセンター</h3>
+        <ul>
+          <li>バッファ: Ulb、ターゲット: Urf。</li>
+        </ul>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ピース</th>
+              <th>文字</th>
+              <th>手順</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Ubr</td><td>い</td><td><span class="has-text-grey-lighter"><b>(l u l') U' (l u' l') U' (l u l') U2 (l u' l') U2</b></span></td><td>偶数番目はUflの手順。</td></tr>
+            <tr><td>Urf</td><td>う</td><td><span class="has-text-grey-lighter"><b>U2</b></span></td><td></td></tr>
+            <tr><td>Ufl</td><td>え</td><td><span class="has-text-grey-lighter"><b>(l u l') U (l u' l') U (l u l') U2 (l u' l') U2</b></span></td><td>偶数番目はUbrの手順。</td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Flu</td><td>か</td><td><span class="has-text-grey-lighter"><b>r u2 r' (U2) r u2 r'</b></span></td><td></td></tr>
+            <tr><td>Rfu</td><td>さ</td><td><span class="has-text-grey-lighter"><b>r u' r' (U2) r u r'</b></span></td><td></td></tr>
+            <tr><td>Bru</td><td>た</td><td><span class="has-text-grey-lighter"><b>u r u' r' (U2) r u r' u'</b></span></td><td></td></tr>
+            <tr><td>Lbu</td><td>な</td><td><span class="has-text-grey-lighter"><b>r u r' (U2) r u' r'</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Fur</td><td>き</td><td><span class="has-text-grey-lighter"><b>y' r' u r (U2) r' u' r y</b></span></td><td></td></tr>
+            <tr><td>Rub</td><td>し</td><td><span class="has-text-grey-lighter"><b>y' r' u2 r (U2) r' u2 r y</b></span></td><td></td></tr>
+            <tr><td>Bul</td><td>ち</td><td><span class="has-text-grey-lighter"><b>y' r' u' r (U2) r' u r y</b></span></td><td></td></tr>
+            <tr><td>Lur</td><td>に</td><td><span class="has-text-grey-lighter"><b>y' u r' u' r (U2) r' u r u' y</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Frd</td><td>く</td><td><span class="has-text-grey-lighter"><b>d' r' d r (U2) r' d' r d</b></span></td><td></td></tr>
+            <tr><td>Rbd</td><td>す</td><td><span class="has-text-grey-lighter"><b>r' d' r (U2) r' d r</b></span></td><td></td></tr>
+            <tr><td>Bld</td><td>つ</td><td><span class="has-text-grey-lighter"><b>r' d2 r (U2) r' d2 r</b></span></td><td></td></tr>
+            <tr><td>Lfd</td><td>ぬ</td><td><span class="has-text-grey-lighter"><b>r' d r (U2) r' d' r</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Fdl</td><td>け</td><td><span class="has-text-grey-lighter"><b>y l d l' (U2) l d' l' y'</b></span></td><td></td></tr>
+            <tr><td>Rdf</td><td>せ</td><td><span class="has-text-grey-lighter"><b>y d' l d l' (U2) l d' l' d y'</b></span></td><td></td></tr>
+            <tr><td>Bdr</td><td>て</td><td><span class="has-text-grey-lighter"><b>y l d' l' (U2) l d l' y'</b></span></td><td></td></tr>
+            <tr><td>Ldb</td><td>ね</td><td><span class="has-text-grey-lighter"><b>y l d2 l' (U2) l d2 l' y'</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Dlf</td><td>は</td><td><span class="has-text-grey-lighter"><b>D (r2 D' r2 D r2) (U2) (r2 D' r2 D r2) D'</b></span></td><td></td></tr>
+            <tr><td>Dfr</td><td>ひ</td><td><span class="has-text-grey-lighter"><b>r2 D' r2 D r2 (U2) r2 D' r2 D r2</b></span></td><td></td></tr>
+            <tr><td>Drb</td><td>ふ</td><td><span class="has-text-grey-lighter"><b>D' (r2 D' r2 D r2) (U2) (r2 D' r2 D r2) D</b></span></td><td></td></tr>
+            <tr><td>Dbl</td><td>へ</td><td><span class="has-text-grey-lighter"><b>D2 (r2 D' r2 D r2) (U2) (r2 D' r2 D r2) D2</b></span></td><td></td></tr>
+          </tbody>
+        </table>
+        <h4>パリティ手順</h4>
+        <p>
+          <b>U2</b>
+        </p>
+        <p>
+          Xセンターの文字数が奇数であれば、センターの後に回す。
+        </p>
+        <h3>ウィングエッジ</h3>
+        <ul>
+          <li>バッファ: DFr、ターゲット: UBr。</li>
+        </ul>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ピース</th>
+              <th>文字</th>
+              <th>手順</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>RUb</td><td>さ</td><td><span class="has-text-grey-lighter"><b>B' R B (r2) B' R' B</b></span></td><td></td></tr>
+            <tr><td>RBd</td><td>し</td><td><span class="has-text-grey-lighter"><b>R B' R' B (r2) B' R B R'</b></span></td><td></td></tr>
+            <tr><td>RDf</td><td>す</td><td><span class="has-text-grey-lighter"><b>B' R' B (r2) B' R B</b></span></td><td></td></tr>
+            <tr><td>RFu</td><td>せ</td><td><span class="has-text-grey-lighter"><b>B' R2 B (r2) B' R2 B</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>URf</td><td>い</td><td><span class="has-text-grey-lighter"><b>R' U R U' (r2) U R' U' R</b></span></td><td></td></tr>
+            <tr><td>BRu</td><td>て</td><td><span class="has-text-grey-lighter"><b>U R' U' (r2) U R U'</b></span></td><td></td></tr>
+            <tr><td>DRb</td><td>ひ</td><td><span class="has-text-grey-lighter"><b>U R2 U' (r2) U R2 U'</b></span></td><td></td></tr>
+            <tr><td>FRd</td><td>き</td><td><span class="has-text-grey-lighter"><b>U R U' (r2) U R' U'</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>LUf</td><td>な</td><td><span class="has-text-grey-lighter"><b>B L' B' (r2) B L B'</b></span></td><td></td></tr>
+            <tr><td>LFd</td><td>に</td><td><span class="has-text-grey-lighter"><b>B L2 B' (r2) B L2 B'</b></span></td><td></td></tr>
+            <tr><td>LDb</td><td>ぬ</td><td><span class="has-text-grey-lighter"><b>B L B' (r2) B L' B'</b></span></td><td></td></tr>
+            <tr><td>LBu</td><td>ね</td><td><span class="has-text-grey-lighter"><b>L' B L B' (r2) B L' B' L</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>ULb</td><td>え</td><td><span class="has-text-grey-lighter"><b>L U' L' U (r2) U' L U L'</b></span></td><td></td></tr>
+            <tr><td>BLu</td><td>ち</td><td><span class="has-text-grey-lighter"><b>U' L U (r2) U' L' U</b></span></td><td></td></tr>
+            <tr><td>DLf</td><td>へ</td><td><span class="has-text-grey-lighter"><b>U' L2 U (r2) U' L2 U</b></span></td><td></td></tr>
+            <tr><td>FLd</td><td>け</td><td><span class="has-text-grey-lighter"><b>U' L' U (r2) U' L U</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>BUl</td><td>た</td><td><span class="has-text-grey-lighter"><b>U2 Lw' U2 Lw U2 (r2) U2 Lw' U2 Lw U2</b></span></td><td></td></tr>
+            <tr><td>UFl</td><td>う</td><td><span class="has-text-grey-lighter"><b>Lw' (U2 Lw' U2 Lw U2) (r2) (U2 Lw' U2 Lw U2) Lw</b></span></td><td></td></tr>
+            <tr><td>FDl</td><td>く</td><td><span class="has-text-grey-lighter"><b>Lw2 (U2 Lw' U2 Lw U2) (r2) (U2 Lw' U2 Lw U2) Lw2</b></span></td><td></td></tr>
+            <tr><td>DBl</td><td>ふ</td><td><span class="has-text-grey-lighter"><b>Lw (U2 Lw' U2 Lw U2) (r2) (U2 Lw' U2 Lw U2) Lw'</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>FUr</td><td>か</td><td><span class="has-text-grey-lighter"><b>D r (U R2 U') r' (U R2 U') D' r2</b></span></td><td>偶数番目はBDrの手順。</td></tr>
+            <tr><td>BDr</td><td>つ</td><td><span class="has-text-grey-lighter"><b>r2 D (U R2 U') r (U R2 U') r' D'</b></span></td><td>偶数番目はFUrの手順。</td></tr>
+            <tr><td>UBr</td><td>あ</td><td><span class="has-text-grey-lighter"><b>r2</b></span></td><td></td></tr>
+          </tbody>
+        </table>
+        <h4>パリティ手順</h4>
+        <p>
+          <b>r2 D R F' (l' U2 l' U2 M' U2 l' U2 <span style="color:#e00">l m</span> U2 r' U2 l2) F R' D'</b>
+        </p>
+        <p>
+          <b>M = 4Lw L'</b>。
+          エッジの文字数が奇数であれば、エッジの後に回す。
+          4x4x4のエッジのパリティ手順との違いは赤字の部分。
+        </p>
+        <h3>ミドルエッジ</h3>
+        <ul>
+          <li>バッファ: DF、ターゲット: UB。</li>
+        </ul>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ピース</th>
+              <th>文字</th>
+              <th>手順</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>RU</td><td>さ</td><td><span class="has-text-grey-lighter"><b>B' R B (m2) B' R' B</b></span></td><td></td></tr>
+            <tr><td>RB</td><td>し</td><td><span class="has-text-grey-lighter"><b>R B' R' B (m2) B' R B R'</b></span></td><td></td></tr>
+            <tr><td>RD</td><td>す</td><td><span class="has-text-grey-lighter"><b>B' R' B (m2) B' R B</b></span></td><td></td></tr>
+            <tr><td>RF</td><td>せ</td><td><span class="has-text-grey-lighter"><b>B' R2 B (m2) B' R2 B</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>UR</td><td>い</td><td><span class="has-text-grey-lighter"><b>R' U R U' (m2) U R' U' R</b></span></td><td></td></tr>
+            <tr><td>BR</td><td>て</td><td><span class="has-text-grey-lighter"><b>U R' U' (m2) U R U'</b></span></td><td></td></tr>
+            <tr><td>DR</td><td>ひ</td><td><span class="has-text-grey-lighter"><b>U R2 U' (m2) U R2 U'</b></span></td><td></td></tr>
+            <tr><td>FR</td><td>き</td><td><span class="has-text-grey-lighter"><b>U R U' (m2) U R' U'</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>LU</td><td>な</td><td><span class="has-text-grey-lighter"><b>B L' B' (m2) B L B'</b></span></td><td></td></tr>
+            <tr><td>LF</td><td>に</td><td><span class="has-text-grey-lighter"><b>B L2 B' (m2) B L2 B'</b></span></td><td></td></tr>
+            <tr><td>LD</td><td>ぬ</td><td><span class="has-text-grey-lighter"><b>B L B' (m2) B L' B'</b></span></td><td></td></tr>
+            <tr><td>LB</td><td>ね</td><td><span class="has-text-grey-lighter"><b>L' B L B' (m2) B L' B' L</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>UL</td><td>え</td><td><span class="has-text-grey-lighter"><b>L U' L' U (m2) U' L U L'</b></span></td><td></td></tr>
+            <tr><td>BL</td><td>ち</td><td><span class="has-text-grey-lighter"><b>U' L U (m2) U' L' U</b></span></td><td></td></tr>
+            <tr><td>DL</td><td>へ</td><td><span class="has-text-grey-lighter"><b>U' L2 U (m2) U' L2 U</b></span></td><td></td></tr>
+            <tr><td>FL</td><td>け</td><td><span class="has-text-grey-lighter"><b>U' L' U (m2) U' L U</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>UF</td><td>う</td><td><span class="has-text-grey-lighter"><b>U2 m' U2 m'</b></span></td><td>偶数番目はDBの手順。</td></tr>
+            <tr><td>DB</td><td>ふ</td><td><span class="has-text-grey-lighter"><b>m U2 m U2</b></span></td><td>偶数番目はUFの手順。</td></tr>
+            <tr><td>FU</td><td>か</td><td><span class="has-text-grey-lighter"><b>D m' (U R2 U') m (U R2 U') D' m2</b></span></td><td>偶数番目はBDの手順。</td></tr>
+            <tr><td>BD</td><td>つ</td><td><span class="has-text-grey-lighter"><b>m2 D (U R2 U') m' (U R2 U') m D'</b></span></td><td>偶数番目はFUの手順。</td></tr>
+            <tr><td>UB</td><td>あ</td><td><span class="has-text-grey-lighter"><b>m2</b></span></td><td></td></tr>
+            <tr><td>BU</td><td>た</td><td><b>B' R' B R' U R U' (m2) U R' U' R B' R B</b></td><td>3x3x3の手順ではセンターを揃えた後であってもセンターが崩れる。BUエッジを反転して <b>m2</b>。</td></tr>
+          </tbody>
+        </table>
+        <h4>パリティ手順</h4>
+        <p>
+          <b>(D' L2 D) m2 (D' L2 D)</b>
+        </p>
+        <p>
+          3x3x3のパリティ手順と同様。
+          ミドルエッジの文字数が奇数であれば、ミドルエッジの後に回す。
+          ミドルエッジとコーナーの文字数の偶奇は一致する。
+          3x3x3と異なり、コーナーの後にもパリティ手順が必要。
+        </p>
+        <h3>コーナー</h3>
+        <ul>
+          <li>バッファ: ULB、ターゲット: RDF。</li>
+        </ul>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ピース</th>
+              <th>文字</th>
+              <th>手順</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>UBR</td><td>い</td><td><span class="has-text-grey-lighter"><b>R D' (R U' R' U' R U R' F' R U R' U' R' F R) D R'</b></span></td><td></td></tr>
+            <tr><td>URF</td><td>う</td><td><span class="has-text-grey-lighter"><b>F (R U' R' U' R U R' F' R U R' U' R' F R) F'</b></span></td><td></td></tr>
+            <tr><td>UFL</td><td>え</td><td><span class="has-text-grey-lighter"><b>F R' (R U' R' U' R U R' F' R U R' U' R' F R) R F'</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>FLU</td><td>か</td><td><span class="has-text-grey-lighter"><b>F' D (R U' R' U' R U R' F' R U R' U' R' F R) D' F</b></span></td><td></td></tr>
+            <tr><td>FUR</td><td>き</td><td><span class="has-text-grey-lighter"><b>F2 D (R U' R' U' R U R' F' R U R' U' R' F R) D' F2</b></span></td><td></td></tr>
+            <tr><td>FRD</td><td>く</td><td><span class="has-text-grey-lighter"><b>F D (R U' R' U' R U R' F' R U R' U' R' F R) D' F'</b></span></td><td></td></tr>
+            <tr><td>FDL</td><td>け</td><td><span class="has-text-grey-lighter"><b>D (R U' R' U' R U R' F' R U R' U' R' F R) D'</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>RFU</td><td>さ</td><td><span class="has-text-grey-lighter"><b>R' (R U' R' U' R U R' F' R U R' U' R' F R) R</b></span></td><td></td></tr>
+            <tr><td>RUB</td><td>し</td><td><span class="has-text-grey-lighter"><b>R2 (R U' R' U' R U R' F' R U R' U' R' F R) R2</b></span></td><td></td></tr>
+            <tr><td>RBD</td><td>す</td><td><span class="has-text-grey-lighter"><b>R (R U' R' U' R U R' F' R U R' U' R' F R) R'</b></span></td><td></td></tr>
+            <tr><td>RDF</td><td>せ</td><td><span class="has-text-grey-lighter"><b>R U' R' U' R U R' F' R U R' U' R' F R</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>BRU</td><td>た</td><td><span class="has-text-grey-lighter"><b>R' F (R U' R' U' R U R' F' R U R' U' R' F R) F' R</b></span></td><td></td></tr>
+            <tr><td>BLD</td><td>つ</td><td><span class="has-text-grey-lighter"><b>D' R (R U' R' U' R U R' F' R U R' U' R' F R) R' D</b></span></td><td></td></tr>
+            <tr><td>BDR</td><td>て</td><td><span class="has-text-grey-lighter"><b>D' (R U' R' U' R U R' F' R U R' U' R' F R) D</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>LUF</td><td>に</td><td><span class="has-text-grey-lighter"><b>F2 (R U' R' U' R U R' F' R U R' U' R' F R) F2</b></span></td><td></td></tr>
+            <tr><td>LFD</td><td>ぬ</td><td><span class="has-text-grey-lighter"><b>D2 R (R U' R' U' R U R' F' R U R' U' R' F R) R' D2</b></span></td><td></td></tr>
+            <tr><td>LDB</td><td>ね</td><td><span class="has-text-grey-lighter"><b>D2 (R U' R' U' R U R' F' R U R' U' R' F R) D2</b></span></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td></tr>
+            <tr><td>DLF</td><td>は</td><td><span class="has-text-grey-lighter"><b>F' (R U' R' U' R U R' F' R U R' U' R' F R) F</b></span></td><td></td></tr>
+            <tr><td>DFR</td><td>ひ</td><td><span class="has-text-grey-lighter"><b>F' D' (R U' R' U' R U R' F' R U R' U' R' F R) D F</b></span></td><td></td></tr>
+            <tr><td>DRB</td><td>ふ</td><td><span class="has-text-grey-lighter"><b>F' D2 (R U' R' U' R U R' F' R U R' U' R' F R) D2 F</b></span></td><td></td></tr>
+            <tr><td>DBL</td><td>へ</td><td><span class="has-text-grey-lighter"><b>F' D (R U' R' U' R U R' F' R U R' U' R' F R) D' F</b></span></td><td></td></tr>
+          </tbody>
+        </table>
+        <h4>パリティ手順</h4>
+        <p>
+          <b>L U L’ U’ (Rw2 F2 U2) r2 (U2 F2 Rw2) U L U’ L’</b>
+        </p>
+        <p>
+          コーナーの文字数が奇数であれば、コーナーの後に回す。
+        </p>
+        <h2 id="letter">レターペア</h2>
+        <h3>参考</h3>
+        <ul>
+          <li><a href="https://saxcy.info/hinemos/top.html">BLDerによるBLDerのためのツールhinemos</a></li>
+        </ul>
+        <ul>
+          <li>「ま」行は「な」行とする（例: ミカン → にか）。</li>
+          <li>濁点と半濁点は清音とする（例: ピエロ → ひえ）。</li>
+          <li>「や」行や「ら」行、「わ」行、長音、拗音と促音の小さい文字は無視する（例: クラリネット → くね、切手 → きて）。</li>
+          <li>「あ/あ」などの同一文字は、1文字を表す。</li>
+        </ul>
+        <table class="table is-bordered is-narrow is-size-7" style="word-break: keep-all">
+          <thead>
+            <tr><th></th><th>あ</th><th>い</th><th>う</th><th>え</th><th></th><th>か</th><th>き</th><th>く</th><th>け</th><th></th><th>さ</th><th>し</th><th>す</th><th>せ</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>あ</th><td>アラ</td><td>アイマスク</td><td>アウラ</td><td>アロエ</td><td></td><td>赤紙</td><td>秋</td><td>悪魔</td><td>アケビ</td><td></td><td>アサガオ</td><td>足</td><td>アスカ</td><td>汗</td></tr>
+            <tr><th>い</th><td>居合い切り</td><td>胃</td><td>淫雨</td><td>家</td><td></td><td>イカ</td><td>息</td><td>イクラ</td><td>池</td><td></td><td>居酒屋</td><td>石</td><td>椅子</td><td>伊勢エビ</td></tr>
+            <tr><th>う</th><td>裏垢女子</td><td>ウイスキー</td><td>鵜</td><td>植木</td><td></td><td>羽化</td><td>浮き</td><td>ウグイス</td><td>受け身</td><td></td><td>ウサギ</td><td>牛</td><td>臼</td><td>運勢</td></tr>
+            <tr><th>え</th><td>エアコン</td><td>エイ</td><td>エウロパ</td><td>円</td><td></td><td>演歌</td><td>駅</td><td>エクセル</td><td>AK47</td><td></td><td>餌</td><td>エッシャー</td><td>エスカレーター</td><td>エンゼル</td></tr>
+            <tr><th></th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><th>か</th><td>唐揚げ</td><td>貝</td><td>カウボーイ</td><td>カエル</td><td></td><td>缶</td><td>柿</td><td>角</td><td>崖</td><td></td><td>傘</td><td>火事</td><td>ガス</td><td>化石</td></tr>
+            <tr><th>き</th><td>ギア2</td><td>機雷</td><td>キウイ</td><td>気円斬</td><td></td><td>金貨</td><td>キキ</td><td>キクラゲ</td><td>金蹴り</td><td></td><td>喫茶店</td><td>雉</td><td>キス</td><td>キセル</td></tr>
+            <tr><th>く</th><td>クリアファイル</td><td>杭</td><td>空気</td><td>クエーサー</td><td></td><td>軍艦巻き</td><td>釘</td><td>九九</td><td>矩形</td><td></td><td>草</td><td>櫛</td><td>くす玉</td><td>クゼ・ヒデオ</td></tr>
+            <tr><th>け</th><td>毛穴</td><td>毛糸</td><td>巻雲</td><td>嫌煙</td><td></td><td>毛皮</td><td>ケーキ</td><td>月9</td><td>毛</td><td></td><td>袈裟</td><td>ケシ</td><td>懸垂</td><td>血栓</td></tr>
+            <tr><th></th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><th>さ</th><td>皿洗い</td><td>サイコロ</td><td>サウナ</td><td>冴えカノ</td><td></td><td>サッカー</td><td>咲</td><td>柵</td><td>鮭</td><td></td><td>笹</td><td>刺身</td><td>刺股</td><td>座禅</td></tr>
+            <tr><th>し</th><td>白和え</td><td>シイタケ</td><td>シュウマイ</td><td>シエル先輩</td><td></td><td>鹿</td><td>指揮者</td><td>シクラメン</td><td>試験管</td><td></td><td>シーサー</td><td>獅子</td><td>雫</td><td>自然</td></tr>
+            <tr><th>す</th><td>四暗刻</td><td>スイカ</td><td>数独</td><td>据え膳</td><td></td><td>スカート</td><td>スキー</td><td>スク水</td><td>スケート</td><td></td><td>朱雀</td><td>寿司</td><td>煤</td><td>寸前</td></tr>
+            <tr><th>せ</th><td>背脂</td><td>精子</td><td>ゼウス</td><td>千円札</td><td></td><td>世界地図</td><td>席</td><td>セクシー</td><td>石鹸</td><td></td><td>セサミストリート</td><td>戦士</td><td>扇子</td><td>先生</td></tr>
+            <tr><th></th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><th>た</th><td>綿飴</td><td>鯛焼き</td><td>田植え</td><td>たえちゃん</td><td></td><td>宝箱</td><td>滝</td><td>沢庵</td><td>竹</td><td></td><td>ターザン</td><td>端子</td><td>箪笥</td><td>打席</td></tr>
+            <tr><th>ち</th><td>チアガール</td><td>チャイム</td><td>九蓮宝燈</td><td>遅延証明</td><td></td><td>痴漢</td><td>地球</td><td>乳首</td><td>チケット</td><td></td><td>チーザ</td><td>血しぶき</td><td>チーズ</td><td>ちせ（最彼）</td></tr>
+            <tr><th>つ</th><td>ツアーガイド</td><td>Twitter</td><td>通知</td><td>杖</td><td></td><td>柄</td><td>月</td><td>ツクシ</td><td>漬物</td><td></td><td>ツーサイドアップ</td><td>対馬</td><td>ツーステップ</td><td>釣り銭</td></tr>
+            <tr><th>て</th><td>天安門</td><td>低気圧</td><td>蝶々</td><td>田園</td><td></td><td>手鏡</td><td>電気</td><td>天狗</td><td>電源ユニット</td><td></td><td>手提げ袋</td><td>手品</td><td>デスノート</td><td>電線</td></tr>
+            <tr><th></th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><th>な</th><td>マリア</td><td>マイナンバー</td><td>マウスピース</td><td>苗</td><td></td><td>中出し</td><td>薪</td><td>マークシート</td><td>万華鏡</td><td></td><td>NASA</td><td>梨</td><td>ナス</td><td>磨製石器</td></tr>
+            <tr><th>に</th><td>ニーアオートマタ</td><td>新潟県</td><td>ミュウ</td><td>贄</td><td></td><td>ミカン</td><td>ニキビ</td><td>肉</td><td>三毛猫</td><td></td><td>二酸化炭素</td><td>虹</td><td>ニス</td><td>店</td></tr>
+            <tr><th>ぬ</th><td>ムーアの法則</td><td>ぬいぐるみ</td><td>ヌゥ（クロノ）</td><td>ムエタイ</td><td></td><td>糠漬け</td><td>ムキムキ</td><td>ムンクの叫び</td><td>抜け毛</td><td></td><td>ムササビ</td><td>虫</td><td>ムスカ</td><td>無線</td></tr>
+            <tr><th>ね</th><td>メアド</td><td>メイちゃん</td><td>ネウロイ</td><td>姉さん</td><td></td><td>メガネ</td><td>メッキ</td><td>ネクタイ</td><td>ねりけし</td><td></td><td>ネザー</td><td>ネッシー</td><td>ネス</td><td>目線</td></tr>
+            <tr><th></th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><th>は</th><td>バリア</td><td>肺</td><td>ハウリング</td><td>蠅</td><td></td><td>墓</td><td>刃牙</td><td>爆弾</td><td>ハゲ</td><td></td><td>ハサミ</td><td>橋</td><td>ハス</td><td>破線</td></tr>
+            <tr><th>ひ</th><td>ピアノ</td><td>柊</td><td>火打ち石</td><td>ピエロ</td><td></td><td>ピカチュウ</td><td>ビキニ</td><td>ピクミン</td><td>ヒゲ</td><td></td><td>ピザ</td><td>飛車</td><td>ピース</td><td>ピンセット</td></tr>
+            <tr><th>ふ</th><td>ブルアカ</td><td>ふるい</td><td>風船</td><td>笛</td><td></td><td>フカヒレ</td><td>吹き矢</td><td>河豚</td><td>フケ</td><td></td><td>ブサイク</td><td>富士山</td><td>襖</td><td>付箋</td></tr>
+            <tr><th>へ</th><td>ヘアヌード</td><td>塀</td><td>へうげもの</td><td>へぇ</td><td></td><td>ベガ</td><td>ペンギン</td><td>ペグ</td><td>弁慶</td><td></td><td>便座</td><td>ベジータ</td><td>ベース</td><td>ベンゼン</td></tr>
+          </tbody>
+        </table>
+        <table class="table is-bordered is-narrow is-size-7" style="word-break: keep-all">
+          <thead>
+            <tr><th></th><th>た</th><th>ち</th><th>つ</th><th>て</th><th></th><th>な</th><th>に</th><th>ぬ</th><th>ね</th><th></th><th>は</th><th>ひ</th><th>ふ</th><th>へ</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>あ</th><td>頭</td><td>アーチェリー</td><td>あつ森</td><td>宛名</td><td></td><td>穴</td><td>杏仁豆腐</td><td>アムロ</td><td>雨</td><td></td><td>アンパンマン</td><td>アヒージョ</td><td>アフロ</td><td>アヘ顔</td></tr>
+            <tr><th>い</th><td>板</td><td>インチねじ</td><td>厳島神社</td><td>射手座</td><td></td><td>イナバウアー</td><td>頭文字D</td><td>犬</td><td>稲</td><td></td><td>位牌</td><td>居飛車</td><td>イーブイ</td><td>イベリコ豚</td></tr>
+            <tr><th>う</th><td>歌</td><td>宇宙</td><td>ウツボ</td><td>雲梯</td><td></td><td>ウナギ</td><td>ウニ</td><td>ウラヌス</td><td>畝</td><td></td><td>乳母車</td><td>雨氷</td><td>産毛</td><td>右辺</td></tr>
+            <tr><th>え</th><td>枝</td><td>円柱</td><td>閲覧履歴</td><td>エンテイ</td><td></td><td>絵馬</td><td>エニグマ</td><td>M字開脚</td><td>エネル</td><td></td><td>エヴァンゲリオン</td><td>海老</td><td>FF</td><td>エベレスト</td></tr>
+            <tr><th></th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><th>か</th><td>刀</td><td>ガチャガチャ</td><td>カツ丼</td><td>空手</td><td></td><td>カンナ</td><td>蟹</td><td>カヌー</td><td>亀</td><td></td><td>カバ</td><td>カビルンルン</td><td>カブ</td><td>壁</td></tr>
+            <tr><th>き</th><td>北</td><td>ギロチン</td><td>キツネ</td><td>切手</td><td></td><td>きな粉</td><td>黄身</td><td>キムワイプ</td><td>杵</td><td></td><td>牙</td><td>きびだんご</td><td>切符</td><td>木べら</td></tr>
+            <tr><th>く</th><td>管</td><td>口紅</td><td>靴</td><td>ぐでたま</td><td></td><td>熊</td><td>クンニリングス</td><td>クヌギダマ</td><td>クラリネット</td><td></td><td>クッパ</td><td>首輪</td><td>クー・フーリン</td><td>クレベリン</td></tr>
+            <tr><th>け</th><td>下駄</td><td>ケチャップ</td><td>ケツだけ星人</td><td>原点</td><td></td><td>蹴鞠</td><td>ケミカルライト</td><td>毛虫</td><td>ケネディ大統領</td><td></td><td>毛羽立ち</td><td>顕微鏡</td><td>ケフカ</td><td>ケルベロス</td></tr>
+            <tr><th></th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><th>さ</th><td>サンタ</td><td>山頂</td><td>サツマイモ</td><td>砂鉄</td><td></td><td>サンマ</td><td>サニー号</td><td>侍</td><td>サメ</td><td></td><td>サバ</td><td>錆</td><td>座布団</td><td>サーベルタイガー</td></tr>
+            <tr><th>し</th><td>舌</td><td>シチュー</td><td>シーツ</td><td>心電図</td><td></td><td>島耕作</td><td>シミ</td><td>シムシティ</td><td>しめ縄</td><td></td><td>芝生</td><td>尿瓶</td><td>新聞</td><td>シベリアンハスキー</td></tr>
+            <tr><th>す</th><td>スタバ</td><td>スチール缶</td><td>スーツケース</td><td>ステゴサウルス</td><td></td><td>砂時計</td><td>墨</td><td>スヌーピー</td><td>脛</td><td></td><td>スパイ</td><td>スピーカー</td><td>スプーン</td><td>滑り台</td></tr>
+            <tr><th>せ</th><td>セーター</td><td>船長</td><td>節分</td><td>セロテープ</td><td></td><td>ゼンマイ</td><td>セミ</td><td>栓抜き</td><td>洗面器</td><td></td><td>セバスチャン</td><td>背びれ</td><td>セブンイレブン</td><td>煎餅</td></tr>
+            <tr><th></th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><th>た</th><td>タン</td><td>団地</td><td>タツノオトシゴ</td><td>盾</td><td></td><td>棚</td><td>谷</td><td>タヌキ</td><td>種</td><td></td><td>タバコ</td><td>足袋</td><td>タブレット</td><td>たべっ子どうぶつ</td></tr>
+            <tr><th>ち</th><td>チタタプ</td><td>父</td><td>膣</td><td>沈殿</td><td></td><td>ちまき</td><td>チラ見せ</td><td>チームラボ</td><td>致命傷</td><td></td><td>千葉</td><td>チビ太</td><td>チップ</td><td>地平線</td></tr>
+            <tr><th>つ</th><td>蔦</td><td>土</td><td>筒</td><td>ツンデレ</td><td></td><td>（刺身の）ツマ</td><td>積み木</td><td>ツムツム</td><td>爪</td><td></td><td>ツバメ</td><td>吊り紐</td><td>粒</td><td>ツベ（YouTube）</td></tr>
+            <tr><th>て</th><td>電卓</td><td>電池</td><td>鉄棒</td><td>手</td><td></td><td>電マ</td><td>テニス</td><td>手ぬぐい</td><td>出目金</td><td></td><td>手羽先</td><td>天秤</td><td>手袋</td><td>デベソ</td></tr>
+            <tr><th></th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><th>な</th><td>ナタ</td><td>ナチス</td><td>夏</td><td>マテリア</td><td></td><td>生しらす</td><td>マニ車</td><td>マヌーバー</td><td>ナメクジ</td><td></td><td>ナッパ</td><td>ナンピン</td><td>名札</td><td>鍋</td></tr>
+            <tr><th>に</th><td>煮卵</td><td>ミンチ肉</td><td>密</td><td>任天堂</td><td></td><td>南</td><td>耳</td><td>ニムト</td><td>峰</td><td></td><td>ニッパー</td><td>鈍色</td><td>妊婦</td><td>ニベア</td></tr>
+            <tr><th>ぬ</th><td>六太</td><td>ヌンチャク</td><td>ムツゴロウ</td><td>無敵状態</td><td></td><td>沼</td><td>ムニエル</td><td>無</td><td>胸</td><td></td><td>ムハンマド</td><td>ムヒ</td><td>ヌーブラ</td><td>ぬ～べ～</td></tr>
+            <tr><th>ね</th><td>Meta</td><td>メンチカツ</td><td>熱さまシート</td><td>メテオ</td><td></td><td>メンマ</td><td>メニュー</td><td>NEM</td><td>根</td><td></td><td>ネバーランド</td><td>メビウスの輪</td><td>ねぶた祭り</td><td>メンヘラ</td></tr>
+            <tr><th></th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><th>は</th><td>旗</td><td>蜂</td><td>初音ミク</td><td>はてな</td><td></td><td>花火</td><td>ハニワ</td><td>ハム</td><td>羽</td><td></td><td>母</td><td>法被</td><td>ハープーン</td><td>バベルの塔</td></tr>
+            <tr><th>ひ</th><td>ピータン</td><td>ヒッチハイク</td><td>羊</td><td>日照り</td><td></td><td>ヒマワリ</td><td>ビニール袋</td><td>ビーム</td><td>姫</td><td></td><td>ビーバー</td><td>火</td><td>皮膚</td><td>ピペット</td></tr>
+            <tr><th>ふ</th><td>豚</td><td>フローチャート</td><td>仏壇</td><td>筆</td><td></td><td>船囲い</td><td>プニキ</td><td>憤怒</td><td>船</td><td></td><td>ブーバー</td><td>フロッピー</td><td>歩</td><td>分娩台</td></tr>
+            <tr><th>へ</th><td>ヘタ</td><td>ヘチマ</td><td>ベンツ</td><td>ペテルギウス</td><td></td><td>ペン回し</td><td>紅ショウガ</td><td>ヘムヘム</td><td>ベネッセ</td><td></td><td>ペッパー</td><td>蛇</td><td>ヘブンズドア</td><td>辺</td></tr>
+          </tbody>
+        </table>
+        <h2 id="place">場所</h2>
+        <h3>室内</h3>
+        <ol>
+          <li>枕元</li>
+          <li>電子ピアノ</li>
+          <li>本棚</li>
+          <li>冷蔵庫</li>
+          <li>トイレ</li>
+          <li>玄関</li>
+        </ol>
+        <h3>散歩</h3>
+        <ol>
+          <li>マンション入り口</li>
+          <li>マンション前道路</li>
+          <li>ファミリーマート</li>
+          <li>ドラッグストア</li>
+          <li>喫煙所</li>
+          <li>川沿い</li>
+        </ol>
+        <h3>通勤</h3>
+        <ol>
+          <li>地下鉄入口</li>
+          <li>交番</li>
+          <li>公園1</li>
+          <li>公園2</li>
+          <li>会社ビル前</li>
+          <li>会社ビルエレベーターホール</li>
+        </ol>
+        <h3>WCA大会</h3>
+        <ol>
+          <li>プラットホーム</li>
+          <li>踏切</li>
+          <li>セブンイレブン</li>
+          <li>区民プラザ入口</li>
+          <li>地下1階</li>
+          <li>展示室</li>
+        </ol>
+      </div>
+      <div class="container content">
+        <hr>
+        <address class="has-text-right">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>
