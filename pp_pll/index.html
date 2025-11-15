@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="PP-PLL">
+    <title>PP-PLL</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>PP-PLL</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; PP-PLL
+        </p>
+        <p>
+          作成中。
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>画像</th>
+              <th>候補</th>
+              <th>手順</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th colspan="4">コーナー無交換</th>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="BFBLLLFBFRRR"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div>PP</div>
+                <div class="has-text-grey-light">PP + H</div>
+                <div class="has-text-grey-light">H + PP</div>
+              </td>
+              <td class="has-text-weight-bold">r2 U2' r2 Uw2' r2 Uw2'</td>
+              <td>この手順を <span class="has-text-weight-bold">[PP]</span> とする。<span class="has-text-weight-bold">r</span> = <span class="has-text-weight-bold">Rw R'</span>。</span></td>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="FFFRBRBRBLLL"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + Ua</div>
+                <div class="has-text-grey-light">PP + Ub</div>
+                <div class="has-text-grey-light">Ua + PP</div>
+                <div class="has-text-grey-light">Ub + PP</div>
+              </td>
+              <td class="has-text-weight-bold">R' U R U' [PP] U' R' U' R</td>
+              <td>専用手順。<span class="has-text-weight-bold">[PP]</span> で交換される位置にセットアップ。</td>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="BLBLFLFRFRBR"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + Z</div>
+                <div>Z + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[Z] [PP]</td>
+              <td>ヘッドライトが全て隣接色。開始の向きは任意。下のPP-PLLも合わせて、とりあえず <span class="has-text-weight-bold">[Z]</span> を回してから判断すれば良い。</td>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="LBLFLFRFRBRB"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + Z</div>
+                <div>Z + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[Z] U [PP]</td>
+              <td>ヘッドライトが全て隣接色。</td>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="BRBLFLFBFRLR"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + Ua</div>
+                <div>PP + Ub</div>
+                <div class="has-text-grey-light">Ua + PP</div>
+                <div class="has-text-grey-light">Ub + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[PP] [Ub]</td>
+              <td>対面色ヘッドライトがある。どの向きでも <span class="has-text-weight-bold">[PP]</span> を回すとUになる。</td>
+            </tr>
+            <tr>
+              <th colspan="4">コーナー対角交換</th>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="BFFRRLFBBLLR"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + Na</div>
+                <div class="has-text-grey-light">PP + Nb</div>
+                <div class="has-text-grey-light">Na + PP</div>
+                <div class="has-text-grey-light">Nb + PP</div>
+              </td>
+              <td class="has-text-weight-bold">(F R U' R' U' R U R' F')<br>U [PP] U<br>(R U R' U' R' F R F')</td>
+              <td>専用手順。<span class="has-text-weight-bold">[Y]</span> の途中に <span class="has-text-weight-bold">PP</span>。</td>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="RFLFLBLBRBRF"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + E</div>
+                <div>E + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[E] [PP]</td>
+              <td>3x1のペア無し。任意の向きで <span class="has-text-weight-bold">[E]</span> を回せば良い。</td>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="BLFRBLFRBLFR"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + E</div>
+                <div>E + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[E] U [PP]</td>
+              <td>3x1のペア無し。任意の向きで <span class="has-text-weight-bold">[E]</span> を回せば良い。</td>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="FRBLLRBBFRFL"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + V</div>
+                <div class="has-text-grey-light">PP + Y</div>
+                <div class="has-text-grey-light">V + PP</div>
+                <div>Y + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[Y] [PP]</td>
+              <td>3x1のペアが2個ある。そのペアをFとRに持ってきて <span class="has-text-weight-bold">[Y]</span>。</td>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="RFLFBBLRRBLF"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + V</div>
+                <div class="has-text-grey-light">PP + Y</div>
+                <div class="has-text-grey-light">V + PP</div>
+                <div>Y + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[Y] U [PP]</td>
+              <td>3x1のペアが2個ある。そのペアをFとRに持ってきて <span class="has-text-weight-bold">[Y]</span>。</td>
+            </tr>
+            <tr>
+              <th colspan="4">コーナー隣接交換、4x1バー</th>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="LLFRFLFRRBBB"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + F</div>
+                <div class="has-text-grey-light">PP + T</div>
+                <div class="has-text-grey-light">F + PP</div>
+                <div>T + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[T] U [PP]</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="FBRBFFRRBLLL"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + Ga</div>
+                <div class="has-text-grey-light">PP + Ja</div>
+                <div class="has-text-grey-light">Gd + PP</div>
+                <div>Jb + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[Jb] U [PP]</td>
+              <td><span class="has-text-weight-bold">[Ja]</span> より <span class="has-text-weight-bold">[Jb]</span> のほうが回しやすいので、<span class="has-text-weight-bold">[PP]</span> を後にする。</td>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="BRLFFFRBBLLR"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + Gc</div>
+                <div>PP + Jb</div>
+                <div class="has-text-grey-light">Gb + PP</div>
+                <div class="has-text-grey-light">Ja + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[PP] [Jb]</td>
+              <td><span class="has-text-weight-bold">[Ja]</span> より <span class="has-text-weight-bold">[Jb]</span> のほうが回しやすいので、<span class="has-text-weight-bold">[PP]</span> を先にする。</td>
+            </tr>
+            <tr>
+              <th colspan="4">コーナー隣接交換、対面色ヘッドライト</th>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="BFLFRBLBFRLR"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + F</div>
+                <div class="has-text-grey-light">PP + T</div>
+                <div class="has-text-grey-light">F + PP</div>
+                <div>T + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[T] [PP]</td>
+              <td>3x1のペアが無い。</td>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="LLFRRLFBRBFB"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + Gb</div>
+                <div class="has-text-grey-light">PP + Rb</div>
+                <div class="has-text-grey-light">Gd + PP</div>
+                <div>Jb + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[Jb] [PP]</td>
+              <td>3x1のペアがある。下との見分け方は、対面色ヘッドライトを3x1バーと思って、3x3x3のJaに近いかどうかか。</td>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="LBFRLLFRRBFB"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + Gd</div>
+                <div class="has-text-grey-light">PP + Ra</div>
+                <div class="has-text-grey-light">Gb + PP</div>
+                <div>Ja + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[Ja] U [PP]</td>
+              <td>3x1のペアがある。上との見分け方は、対面色ヘッドライトを3x1バーと思って、3x3x3のJaに近いかどうかか。</td>
+            </tr>
+            <tr>
+              <th colspan="4">コーナー隣接交換、隣接色ヘッドライト</th>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="LFLFRRBLFRBB"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + Ga</div>
+                <div>PP + Ja</div>
+                <div class="has-text-grey-light">Gc + PP</div>
+                <div class="has-text-grey-light">Ra + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[PP] U [Ja]</td>
+              <td>3x1のペアが対面にある。ヘッドライトを手前か奥に置いて <span class="has-text-weight-bold">[PP]</span>。</td>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="FLFRRBLFRBBL"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + Gc</div>
+                <div>PP + Jb</div>
+                <div class="has-text-grey-light">Ga + PP</div>
+                <div class="has-text-grey-light">Rb + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[PP] U [Jb]</td>
+              <td>3x1のペアが対面にある。ヘッドライトを手前か奥に置いて <span class="has-text-weight-bold">[PP]</span>。</td>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="BFLFRFRLBLBR"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + Gd</div>
+                <div>PP + Ra</div>
+                <div class="has-text-grey-light">Ga + PP</div>
+                <div class="has-text-grey-light">Rb + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[PP] [Ra]</td>
+              <td>3x1のペアが無い。ヘッドライトを左か右に置いて <span class="has-text-weight-bold">[PP]</span>。</td>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="RFBLBLFLRBRF"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + Gb</div>
+                <div>PP + Rb</div>
+                <div class="has-text-grey-light">Gc + PP</div>
+                <div class="has-text-grey-light">Ra + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[PP] U' [Rb]</td>
+              <td>3x1のペアが無い。ヘッドライトを左か右に置いて <span class="has-text-weight-bold">[PP]</span>。</td>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="LFLFLRBBFRRB"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + Aa</div>
+                <div class="has-text-grey-light">PP + Ab</div>
+                <div>Aa + PP</div>
+                <div class="has-text-grey-light">Ab + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[Aa] [PP]</td>
+              <td>3x1のペアが隣接面にある。ヘッドライトを3x3x3のAaのヘッドライトだと思って <span class="has-text-weight-bold">[Aa]</span>。</td>
+            </tr>
+            <tr>
+              <td><canvas class="cube4" data-faces="FLFRBBLRRBFL"></canvas></td>
+              <td class="has-text-weight-bold">
+                <div class="has-text-grey-light">PP + Aa</div>
+                <div class="has-text-grey-light">PP + Ab</div>
+                <div>Aa + PP</div>
+                <div class="has-text-grey-light">Ab + PP</div>
+              </td>
+              <td class="has-text-weight-bold">[Aa] U [PP]</td>
+              <td>3x1のペアが隣接面にある。ヘッドライトを3x3x3のAaのヘッドライトだと思って <span class="has-text-weight-bold">[Aa]</span>。</td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+        <address class="mb-6 has-text-right">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+    <script>
+for (let canvas of document.querySelectorAll(".cube4")) {
+  const C = 16;
+
+  const W = C*6;
+  const H = C*6;
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio;
+  canvas.width = W*dpr;
+  canvas.height = H*dpr;
+  ctx.scale(dpr, dpr);
+  canvas.style.width = `${W}px`;
+  canvas.style.height = `${H}px`;
+
+  const faces = canvas.dataset.faces;
+
+  ctx.strokeStyle = "#303030";
+
+  const colors = {
+    "F": "#08f808",
+    "B": "#0808f8",
+    "R": "#f80808",
+    "L": "#f8a008",
+  };
+
+  function s(p) {
+    return (p-C*3)*.9+C*3;
+  }
+
+  for (let x=0; x<4; x++) {
+    ctx.beginPath();
+    ctx.moveTo(s((x+1)*C), C/3);
+    ctx.lineTo(s((x+2)*C), C/3);
+    ctx.lineTo((x+2)*C, C);
+    ctx.lineTo((x+1)*C, C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[x+(x<2?0:-1)]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let y=0; y<4; y++) {
+    ctx.beginPath();
+    ctx.moveTo((6-1/3)*C, s((y+1)*C));
+    ctx.lineTo((6-1/3)*C, s((y+2)*C));
+    ctx.lineTo(5*C, (y+2)*C);
+    ctx.lineTo(5*C, (y+1)*C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[3+y+(y<2?0:-1)]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let x=0; x<4; x++) {
+    ctx.beginPath();
+    ctx.moveTo(s((5-x)*C), (6-1/3)*C);
+    ctx.lineTo(s((4-x)*C), (6-1/3)*C);
+    ctx.lineTo((4-x)*C, 5*C);
+    ctx.lineTo((5-x)*C, 5*C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[6+x+(x<2?0:-1)]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let y=0; y<4; y++) {
+    ctx.beginPath();
+    ctx.moveTo(1/3*C, s((5-y)*C));
+    ctx.lineTo(1/3*C, s((4-y)*C));
+    ctx.lineTo(C, (4-y)*C);
+    ctx.lineTo(C, (5-y)*C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[9+y+(y<2?0:-1)]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let y=0; y<4; y++) {
+    for (let x=0; x<4; x++) {
+      ctx.beginPath();
+      ctx.rect((x+1)*C, (y+1)*C, C, C);
+      ctx.fillStyle = "#f8f808";
+      ctx.fill();
+      ctx.stroke();
+    }
+  }
+
+  ctx.beginPath();
+  ctx.rect(C, C, 4*C, 4*C);
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+}
+    </script>
+  </body>
+</html>
