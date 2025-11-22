@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="2x2x2 Cube 1 Face Solver">
+    <title>2x2x2 Cube 1 Face Solver</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>2x2x2 Cube 1 Face Solver</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; 2x2x2 Cube 1 Face Solver
+        </p>
+        <p>
+          次の制約の下で、2x2x2キューブの不完全1面の手順を各色について出力します。
+        </p>
+        <details>
+          <summary>制約</summary>
+          <ul>
+          <li>不完全1面はD面に作る。</li>
+          <li>不完全1面が隣接交換のとき、ペアはDBに作る。</li>
+          <li>B面の動きは使わない。</li>
+          <li>ここまでの制約を満たした上で、（持ち替えを除いた）手数が最少になる。
+            <ul>
+              <li>たぶん、制約を満たさない場合と手数は変わらない。</li>
+            </ul>
+          </li>
+          <li>D面の動きはなるべく使わない。</li>
+          <li>持ち替え後の時点で、不完全1面を作る色がD面になるべく多い。</li>
+          <li>F面の動きはなるべく使わない。</li>
+          <li>L面の動きはなるべく使わない。
+            <ul>
+              <li>「なるべく」の優先順位はこの順番。</li>
+              <li>例えば、持ち替え後に2ピースがD面を向いていてL面の動きを使う手順と、持ち替え後に1ピースがD面を向いていてL面の動きを使わない手順があれば、前者を出力する。</li>
+            </ul>
+          </li>
+        </ul>
+        </details>
+        <hr>
+        <h2>Scramble</h2>
+        <div class="columns">
+          <div class="column">
+            <div class="field">スクランブルを貼り付けください。Nextボタンでランダムに生成することもできます。</div>
+            <div class="field">
+              <div class="control">
+                <input id="scramble" class="input has-text-weight-bold" type="text">
+              </div>
+              <p id="error" class="help is-danger" style="display: none">ERROR</p>
+            </div>
+            <div class="field is-grouped">
+              <div class="control">
+                <button id="previous" class="button is-primary" disabled>Previous</button>
+              </div>
+              <div class="control">
+                <button id="next" class="button is-primary">Next</button>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <canvas id="visual"></canvas>
+          </div>
+        </div>
+        <h2>Solutions</h2>
+        <div class="columns">
+          <div class="column">
+            <div id="box_D" class="box">
+              <div class="has-text-weight-bold mb-2" style="color: #a0a008">
+                Yellow D
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_D"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_D" class="has-text-grey-light"></div>
+                    <div id="solution_D"></div>
+                  </div>
+                  <div class="mt-2">
+                    <span id="solved_D" class="tag is-rounded is-success">Solved</span>
+                    <span id="diagonal_D" class="tag is-rounded is-info">Diagonal</span>
+                    <span id="adjacent_D" class="tag is-rounded is-warning">Adjacent</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_B" class="box">
+              <div class="has-text-weight-bold mb-2" style="color: #0808f8">
+                Blue D
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_B"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_B" class="has-text-grey-light"></div>
+                    <div id="solution_B"></div>
+                  </div>
+                  <div class="mt-2">
+                    <span id="solved_B" class="tag is-rounded is-success">Solved</span>
+                    <span id="diagonal_B" class="tag is-rounded is-info">Diagonal</span>
+                    <span id="adjacent_B" class="tag is-rounded is-warning">Adjacent</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_L" class="box">
+              <div class="has-text-weight-bold mb-2" style="color: #f88008">
+                Orange D
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_L"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_L" class="has-text-grey-light"></div>
+                    <div id="solution_L"></div>
+                  </div>
+                  <div class="mt-2">
+                    <span id="solved_L" class="tag is-rounded is-success">Solved</span>
+                    <span id="diagonal_L" class="tag is-rounded is-info">Diagonal</span>
+                    <span id="adjacent_L" class="tag is-rounded is-warning">Adjacent</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <div id="box_U" class="box">
+              <div class="has-text-weight-bold mb-2" style="color: #a0a0a0">
+                White D
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_U"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_U" class="has-text-grey-light"></div>
+                    <div id="solution_U"></div>
+                  </div>
+                  <div class="mt-2">
+                    <span id="solved_U" class="tag is-rounded is-success">Solved</span>
+                    <span id="diagonal_U" class="tag is-rounded is-info">Diagonal</span>
+                    <span id="adjacent_U" class="tag is-rounded is-warning">Adjacent</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_F" class="box">
+              <div class="has-text-weight-bold mb-2" style="color: #08a008">
+                Green D
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_F"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_F" class="has-text-grey-light"></div>
+                    <div id="solution_F"></div>
+                  </div>
+                  <div class="mt-2">
+                    <span id="solved_F" class="tag is-rounded is-success">Solved</span>
+                    <span id="diagonal_F" class="tag is-rounded is-info">Diagonal</span>
+                    <span id="adjacent_F" class="tag is-rounded is-warning">Adjacent</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_R" class="box">
+              <div class="has-text-weight-bold mb-2" style="color: #f80808">
+                Red D
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_R"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_R" class="has-text-grey-light"></div>
+                    <div id="solution_R"></div>
+                  </div>
+                  <div class="mt-2">
+                    <span id="solved_R" class="tag is-rounded is-success">Solved</span>
+                    <span id="diagonal_R" class="tag is-rounded is-info">Diagonal</span>
+                    <span id="adjacent_R" class="tag is-rounded is-warning">Adjacent</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <address class="mb-6 has-text-right">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>
