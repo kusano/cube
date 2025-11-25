@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="2x2x2の先読み">
+    <title>2x2x2の先読み</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+    <style>
+      figure {
+        display: inline-block;
+        margin: 1em 0.25em !important;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>2x2x2の先読み</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; 2x2x2の先読み
+        </p>
+        <p>
+          あるステップの実行前に、次のステップがどの状態になるのかを読む。
+          そのステップで使う手順に依存するので、私が使っている手順についてまとめておく。
+        </p>
+        <h2>目次</h2>
+        <ul>
+          <li><a href="#oll">OLLでのPBL読み</a>
+            <ul style="margin-top: 0.25em">
+              <li><a href="#oll_sune">Sune</a></li>
+              <li><a href="#oll_anti_sune">Anti-Sune</a></li>
+              <li><a href="#oll_t">T</a></li>
+              <li><a href="#oll_l">L</a></li>
+              <li><a href="#oll_u">U</a></li>
+              <li><a href="#oll_pi">Pi</a></li>
+              <li><a href="#oll_h">H</a></li>
+            </ul>
+          </li>
+          <li><a href="#pbl">PBLでのAUF読み</a>
+            <ul style="margin-top: 0.25em">
+              <li><a href="#pbl1">完成＋対角交換以外</a></li>
+              <li><a href="#pbl2">完成＋対角交換</a></li>
+            </ul>
+          </li>
+        </ul>
+        <h2 id="oll">OLLでのPBL読み</h2>
+        <p>
+          下段はすでに揃えているので、OLLの実行後に上段がどの状態になるのかが分かれば良い。
+          完成と対角交換、隣接交換があり、隣接交換はバーのできる位置が4通りある。
+          それぞれの状態は次の通り。
+        </p>
+        <p>
+          <figure>
+            <canvas class="top" data-faces="DDDDFFRRBBLL"></canvas>
+            <figcaption>完成</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="DDDDBFRLFBLR"></canvas>
+            <figcaption>対角交換</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="DDDDFFRBLRBL"></canvas>
+            <figcaption>B面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="DDDDLFRRBLFB"></canvas>
+            <figcaption>R面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="DDDDRLFRBBLF"></canvas>
+            <figcaption>F面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="DDDDFRBFRBLL"></canvas>
+            <figcaption>L面バー</figcaption>
+          </figure>
+        </p>
+        <p>
+          完成状態は全ての側面が同色の組み合わせ、対角交換は全ての側面が対面色。
+          隣接交換は、同色と対面色、隣接色があり、同色と対面色が反対側にある。
+          任意の2側面の状態が分かれば、2側面とも同色か、2側面とも対面色か、それ以外かで、完成、対面交換、隣接交換のうちのどれなのかが分かる。
+          状態が分かった2側面が対面だと、隣接交換のバーの位置が分からない場合がある。
+          できれば隣接する2側面のOLL実行後の状態が分かることが望ましい。
+        </p>
+        <p>
+          各OLLがコーナーの位置をどのように変えるかを把握し、OLL実行後に同じ側面になるステッカーの実行前の位置を調べれば良い。
+        </p>
+        <p>
+          手順は「<a href="https://cubevoyage.net/speedcubing/2x2x2/ortega/">Ortega Method 解説 | Cube Voyage</a>」より。
+        </p>
+        <h3 id="oll_sune">Sune</h3>
+        <p>手順: <b>R U R' U R U2' R'</b></p>
+        <p>コーナーは180度回転する。</p>
+        <p>
+          <img src="images/move_sune.png" width="192" height="192">
+        </p>
+        <p>手順を回し終えた後にF面に来るステッカーと、R面に来るステッカーが見えているので、これらで判断できる。</p>
+        <p>
+          <img src="images/recog_sune.png" width="192" height="192">
+        </p>
+        <p>
+          手順を回し終えた後に、完成状態、対角交換、各面にバーができる隣接交換になる状態は次の通り。
+        </p>
+        <p>
+          <figure>
+            <canvas class="top" data-faces="RBDLDLDFDFRB"></canvas>
+            <figcaption>完成</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="LBDRDLDBDFRF"></canvas>
+            <figcaption>対角交換</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="BRDLDBDFDFRL"></canvas>
+            <figcaption>B面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="RLDBDFDLDFRB"></canvas>
+            <figcaption>R面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="RBDFDLDRDLFB"></canvas>
+            <figcaption>F面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="FBDLDLDFDRBR"></canvas>
+            <figcaption>L面バー</figcaption>
+          </figure>
+        </p>
+        <p>
+          完成状態について、回し終えた後の状態は次のようになる。
+          以降のOLLも同様。
+        </p>
+        <p>
+          <canvas class="top" data-faces="DDDDFFRRBBLL"></canvas>
+        </p>
+        <h3 id="oll_anti_sune">Anti-Sune</h3>
+        <p>手順: <b>R U2' R' U' R U' R'</b></p>
+        <p>コーナーは180度回転する。</p>
+        <p>
+          <img src="images/move_anti_sune.png" width="192" height="192">
+        </p>
+        <p>手順を回し終えた後にB面に来るステッカーと、L面に来るステッカーが見えているので、これらで判断できる。</p>
+        <p>
+          <img src="images/recog_anti_sune.png" width="192" height="192">
+        </p>
+        <p>
+          <figure>
+            <canvas class="top" data-faces="BDRFRBLDLDFD"></canvas>
+            <figcaption>完成</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="FDRBLBLDRDFD"></canvas>
+            <figcaption>対角交換</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="LDRFBRBDLDFD"></canvas>
+            <figcaption>B面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="BDRLRLFDBDFD"></canvas>
+            <figcaption>R面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="RDLBFLFDRDBD"></canvas>
+            <figcaption>F面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="RDBFFBLDLDRD"></canvas>
+            <figcaption>L面バー</figcaption>
+          </figure>
+        </p>
+        <h3 id="oll_t">T</h3>
+        <p>手順: <b>R U R' U' R' F R F'</b></p>
+        <p>コーナーは反時計回りに3点交換する。</p>
+        <p>
+          <img src="images/move_t.png" width="192" height="192">
+        </p>
+        <p>手順を回し終えた後にF面に来るステッカーと、R面に来るステッカーが見えているので、これらで判断できる。</p>
+        <p>
+          <img src="images/recog_t.png" width="192" height="192">
+        </p>
+        <p>
+          <figure>
+            <canvas class="top" data-faces="BDRDDLFRBDFL"></canvas>
+            <figcaption>完成</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="BDRDDRBLFDFL"></canvas>
+            <figcaption>対角交換</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="RDRDDLFBLDFB"></canvas>
+            <figcaption>B面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="LDRDDBLRBDFF"></canvas>
+            <figcaption>R面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="BDFDDFRRBDLL"></canvas>
+            <figcaption>F面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="BDBDDLFFRDRL"></canvas>
+            <figcaption>L面バー</figcaption>
+          </figure>
+        </p>
+        <h3 id="oll_l">L</h3>
+        <p>手順: <b>F R' F' R U R U' R'</b></p>
+        <p>コーナーは時計回りに3点交換する。</p>
+        <p>
+          <img src="images/move_l.png" width="192" height="192">
+        </p>
+        <p>
+          手順を回し終えた後にF面に来るステッカーと、B面に来るステッカーが見えているので、完成状態、対角交換、F面かB面にバーがある隣接交換は判断できる。
+          隣接交換のとき、U面にある側面色が同色ならバーはR面、対面色ならL面。
+        </p>
+        <p>
+          <img src="images/recog_l.png" width="192" height="192">
+        </p>
+        <p>
+          <figure>
+            <canvas class="top" data-faces="DBFDRLDRBDLF"></canvas>
+            <figcaption>完成</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="DBBDRLDLFDRF"></canvas>
+            <figcaption>対角交換</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="DRFDRBDBLDLF"></canvas>
+            <figcaption>B面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="DLLDRFDRBDBF"></canvas>
+            <figcaption>R面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="DBRDFLDRBDFL"></canvas>
+            <figcaption>F面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="DBFDBLDFRDLR"></canvas>
+            <figcaption>L面バー</figcaption>
+          </figure>
+        </p>
+        <h3 id="oll_u">U</h3>
+        <p>手順: <b>F R U R' U' F'</b></p>
+        <p>コーナーは左右が入れ替わる。</p>
+        <p>
+          <img src="images/move_u.png" width="192" height="192">
+        </p>
+        <p>手順を回し終えた後にF面に来るステッカーと、R面に来るステッカーが見えているので、これらで判断できる。</p>
+        <p>
+          <img src="images/recog_u.png" width="192" height="192">
+        </p>
+        <p>
+          <figure>
+            <canvas class="top" data-faces="RDRDFLFBLBDD"></canvas>
+            <figcaption>完成</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="RDLDFRBBLFDD"></canvas>
+            <figcaption>対角交換</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="RDBDFLFRBLDD"></canvas>
+            <figcaption>B面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="RDRDFBLLFBDD"></canvas>
+            <figcaption>R面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="LDFDBRBLFRDD"></canvas>
+            <figcaption>F面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="BDFDRLFBLRDD"></canvas>
+            <figcaption>L面バー</figcaption>
+          </figure>
+        </p>
+        <h3 id="oll_pi">Pi</h3>
+        <p>手順: <b>F R U R' U' R U R' U' F'</b></p>
+        <p>コーナーの位置は変わらない。</p>
+        <p>
+          <img src="images/move_pi.png" width="192" height="192">
+        </p>
+        <p>手順を回し終えた後にF面に来るステッカーと、R面に来るステッカーが見えているので、これらで判断できる。</p>
+        <p>
+          <img src="images/recog_pi.png" width="192" height="192">
+        </p>
+        <p>
+          <figure>
+            <canvas class="top" data-faces="FRBRLDFBDLDD"></canvas>
+            <figcaption>完成</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="BRBLRDFFDLDD"></canvas>
+            <figcaption>対角交換</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="FRRBLDFLDBDD"></canvas>
+            <figcaption>B面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="LRLRBDFBDFDD"></canvas>
+            <figcaption>R面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="RFBRFDLBDLDD"></canvas>
+            <figcaption>F面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="FBBFLDRRDLDD"></canvas>
+            <figcaption>L面バー</figcaption>
+          </figure>
+        </p>
+        <h3 id="oll_h">H</h3>
+        <p>手順: <b>R2 U2' R' U2 R2</b></p>
+        <p>コーナーは時計回りに回転する。</p>
+        <p>
+          <img src="images/move_h.png" width="192" height="192">
+        </p>
+        <p>手順を回し終えた後にF面に来るステッカーと、R面に来るステッカーが見えているので、これらで判断できる。</p>
+        <p>
+          <img src="images/recog_h.png" width="192" height="192">
+        </p>
+        <p>
+          <figure>
+            <canvas class="top" data-faces="FBFBDDRLDDLR"></canvas>
+            <figcaption>完成</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="FFBBDDLLDDRR"></canvas>
+            <figcaption>対角交換</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="FLFRDDBBDDLR"></canvas>
+            <figcaption>B面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="FBLLDDRFDDBR"></canvas>
+            <figcaption>R面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="LBRBDDRLDDFF"></canvas>
+            <figcaption>F面バー</figcaption>
+          </figure>
+          <figure>
+            <canvas class="top" data-faces="RRFBDDFLDDLB"></canvas>
+            <figcaption>L面バー</figcaption>
+          </figure>
+        </p>
+        <h2 id="pbl">PBLでのAUF読み</h2>
+        <p>
+          AUFは、Adjust U Faceの略で、キューブ完成前の最後のU面の動き。
+          PBL後に見ればすぐに分かる情報ではあるけれど、事前に知っておくことで多少は速くなる。
+        </p>
+        <p>
+          手順は「<a href="https://www.youtube.com/watch?v=-hzWk5Y0ip4">2x2x2キューブの全て 10. 揃え方中級編STEP3 PBL - YouTube</a>」より。
+        </p>
+        <h3 id="pbl1">完成＋対角交換以外</h3>
+        <p>
+          手順:
+        </p>
+        <ul>
+          <li>完成＋隣接交換: （バーをUBに置いて）<b>R' F R' F2 R U' R' F2 R2</b></li>
+          <li>対角交換＋対角交換: <b>R2 B2 R2'</b></li>
+          <li>対角交換＋隣接交換: （バーをUFに置いて）<b>R' F R' F2 R U' R</b></li>
+          <li>隣接交換＋隣接交換: （バーをDBとUBに置いて）<b>R2 U' R2' U2' F2 U' R2</b></li>
+        </ul>
+        <p>
+          AUFは、PBL実行前のFLスロットのピースを揃える動きになる。
+          例えば、次の図の左の状態は、FLスロットのみに注目すると、図の右と同様に <b>U</b> で揃う形である。
+        </p>
+        <p>
+          <canvas class="proj" data-faces="DDDDLBLRRRFBFLRLBFBFUUUU"></canvas>
+          <canvas class="proj" data-faces="DDDDBBRRRRFFFFLLLLBBUUUU"></canvas>
+        </p>
+        <p>
+          ここから「対角交換＋隣接交換」の手順を回すと次の図の状態になる。
+          FLスロットのピースの組み合わせは変わっているが、<b>U</b> で揃う状態である。
+        </p>
+        <p>
+          <canvas class="proj" data-faces="DDDDFFLLLLBBBBRRRRFFUUUU"></canvas>
+        </p>
+        <h3 id="pbl2">完成＋対角交換</h3>
+        <p>
+          手順:
+        </p>
+        <ul>
+          <li>完成＋対角交換: <b>R' F R' F2 R U' F R' F2 R U' R</b></li>
+        </ul>
+        <p>
+          手順を回すと、下段は変化せず、上段はLUFとRFUのステッカーがF面に来ることから、AUFを判断する。
+          例えば、次の図の左の状態はLUFステッカーが橙であり、手順を回すとこれが図の右のように正面に来るので、AUFは <b>U</b> になることが分かる。
+        </p>
+        <p>
+          <canvas class="proj" data-faces="DDDDRLLLBFBBLRRRFBFFUUUU"></canvas>
+          <canvas class="proj" data-faces="DDDDFFLLLLBBBBRRRRFFUUUU"></canvas>
+        </p>
+        <hr>
+        <address class="mb-6 has-text-right">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+    <script>
+const colors = {
+  "F": "#08f808",
+  "B": "#0808f8",
+  "R": "#f80808",
+  "L": "#f8a008",
+  "D": "#f8f840",
+};
+
+for (let canvas of document.querySelectorAll(".top")) {
+  const C = 32;
+
+  const W = C*4;
+  const H = C*4;
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio;
+  canvas.width = W*dpr;
+  canvas.height = H*dpr;
+  ctx.scale(dpr, dpr);
+  canvas.style.width = `${W}px`;
+  canvas.style.height = `${H}px`;
+
+  const faces = canvas.dataset.faces;
+
+  ctx.strokeStyle = "#303030";
+
+  function s(p) {
+    return (p-C*2)*.8+C*2;
+  }
+
+  for (let x=0; x<2; x++) {
+    ctx.beginPath();
+    ctx.moveTo(s((x+1)*C), C/2);
+    ctx.lineTo(s((x+2)*C), C/2);
+    ctx.lineTo((x+2)*C, C);
+    ctx.lineTo((x+1)*C, C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[4+x]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let y=0; y<2; y++) {
+    ctx.beginPath();
+    ctx.moveTo((4-1/2)*C, s((y+1)*C));
+    ctx.lineTo((4-1/2)*C, s((y+2)*C));
+    ctx.lineTo(3*C, (y+2)*C);
+    ctx.lineTo(3*C, (y+1)*C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[6+y]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let x=0; x<2; x++) {
+    ctx.beginPath();
+    ctx.moveTo(s((3-x)*C), (4-1/2)*C);
+    ctx.lineTo(s((2-x)*C), (4-1/2)*C);
+    ctx.lineTo((2-x)*C, 3*C);
+    ctx.lineTo((3-x)*C, 3*C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[8+x]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let y=0; y<2; y++) {
+    ctx.beginPath();
+    ctx.moveTo(1/2*C, s((3-y)*C));
+    ctx.lineTo(1/2*C, s((2-y)*C));
+    ctx.lineTo(C, (2-y)*C);
+    ctx.lineTo(C, (3-y)*C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[10+y]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let y=0; y<2; y++) {
+    for (let x=0; x<2; x++) {
+      ctx.beginPath();
+      ctx.rect((x+1)*C, (y+1)*C, C, C);
+      ctx.fillStyle = colors[faces[y*2+x]];
+      ctx.fill();
+      ctx.stroke();
+    }
+  }
+
+  ctx.beginPath();
+  ctx.rect(C, C, 2*C, 2*C);
+  ctx.lineWidth = 2;
+  ctx.stroke();
+}
+
+for (let canvas of document.querySelectorAll(".cube3")) {
+  const C = 16;
+
+  const W = C*5;
+  const H = C*5;
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio;
+  canvas.width = W*dpr;
+  canvas.height = H*dpr;
+  ctx.scale(dpr, dpr);
+  canvas.style.width = `${W}px`;
+  canvas.style.height = `${H}px`;
+
+  const faces = canvas.dataset.faces;
+
+  ctx.strokeStyle = "#303030";
+
+  function s(p) {
+    return (p-C*2.5)*.9+C*2.5;
+  }
+
+  for (let x=0; x<3; x++) {
+    ctx.beginPath();
+    ctx.moveTo(s((x+1)*C), C/3);
+    ctx.lineTo(s((x+2)*C), C/3);
+    ctx.lineTo((x+2)*C, C);
+    ctx.lineTo((x+1)*C, C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[x]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let y=0; y<3; y++) {
+    ctx.beginPath();
+    ctx.moveTo((5-1/3)*C, s((y+1)*C));
+    ctx.lineTo((5-1/3)*C, s((y+2)*C));
+    ctx.lineTo(4*C, (y+2)*C);
+    ctx.lineTo(4*C, (y+1)*C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[3+y]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let x=0; x<3; x++) {
+    ctx.beginPath();
+    ctx.moveTo(s((4-x)*C), (5-1/3)*C);
+    ctx.lineTo(s((3-x)*C), (5-1/3)*C);
+    ctx.lineTo((3-x)*C, 4*C);
+    ctx.lineTo((4-x)*C, 4*C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[6+x]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let y=0; y<3; y++) {
+    ctx.beginPath();
+    ctx.moveTo(1/3*C, s((4-y)*C));
+    ctx.lineTo(1/3*C, s((3-y)*C));
+    ctx.lineTo(C, (3-y)*C);
+    ctx.lineTo(C, (4-y)*C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[9+y]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let y=0; y<3; y++) {
+    for (let x=0; x<3; x++) {
+      ctx.beginPath();
+      ctx.rect((x+1)*C, (y+1)*C, C, C);
+      ctx.fillStyle = "#f8f840";
+      ctx.fill();
+      ctx.stroke();
+    }
+  }
+
+  ctx.beginPath();
+  ctx.rect(C, C, 3*C, 3*C);
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+}
+
+for (let canvas of document.querySelectorAll(".proj")) {
+  const faces = canvas.dataset.faces;
+
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio;
+  canvas.width = 128*dpr;
+  canvas.height = 128*dpr;
+  ctx.scale(dpr, dpr);
+  canvas.style.width = `${128}px`;
+  canvas.style.height = `${128}px`;
+
+  function rotate(x, y, z) {
+    const th1 = -0.4;
+    const x2 = x*Math.cos(th1)-z*Math.sin(th1);
+    const y2 = y;
+    const z2 = x*Math.sin(th1)+z*Math.cos(th1);
+
+    const th2 = 0.3;
+    const x3 = x2;
+    const y3 = y2*Math.cos(th2)-z2*Math.sin(th2);
+    const z3 = y2*Math.sin(th2)+z2*Math.cos(th2);
+
+    const w = 40;
+    const s = 0.2;
+    const x4 = x3*(z3*s/2+1)*w+64;
+    const y4 = -y3*(z3*s/2+1)*w+64;
+
+    return [x4, y4];
+  }
+
+  const FP = [
+    [[-1,  1, -1], [ 1,  1, -1], [ 1,  1,  1], [-1,  1,  1]],
+    [[-1,  1, -1], [-1,  1,  1], [-1, -1,  1], [-1, -1, -1]],
+    [[-1,  1,  1], [ 1,  1,  1], [ 1, -1,  1], [-1, -1,  1]],
+    [[ 1,  1,  1], [ 1,  1, -1], [ 1, -1, -1], [ 1, -1,  1]],
+    [[ 1,  1, -1], [-1,  1, -1], [-1, -1, -1], [ 1, -1, -1]],
+    [[-1, -1,  1], [ 1, -1,  1], [ 1, -1, -1], [-1, -1, -1]],
+  ];
+
+  // B, R, D, F, L, Uの順に描画。
+  const I = [];
+  for (let f of [16, 12, 20, 8, 4, 0]) {
+    for (let i=0; i<4; i++) {
+      I.push(f+i);
+    }
+  }
+
+  for (let i of I) {
+    const fp = FP[i/4|0];
+    const fx = i%4%2;
+    const fy = i%4/2|0;
+
+    ctx.beginPath();
+    ctx.moveTo(...rotate(
+        (fp[1][0]-fp[0][0])*fx/2+(fp[3][0]-fp[0][0])*fy/2+fp[0][0],
+        (fp[1][1]-fp[0][1])*fx/2+(fp[3][1]-fp[0][1])*fy/2+fp[0][1],
+        (fp[1][2]-fp[0][2])*fx/2+(fp[3][2]-fp[0][2])*fy/2+fp[0][2]));
+    ctx.lineTo(...rotate(
+        (fp[1][0]-fp[0][0])*(fx+1)/2+(fp[3][0]-fp[0][0])*fy/2+fp[0][0],
+        (fp[1][1]-fp[0][1])*(fx+1)/2+(fp[3][1]-fp[0][1])*fy/2+fp[0][1],
+        (fp[1][2]-fp[0][2])*(fx+1)/2+(fp[3][2]-fp[0][2])*fy/2+fp[0][2]));
+    ctx.lineTo(...rotate(
+        (fp[1][0]-fp[0][0])*(fx+1)/2+(fp[3][0]-fp[0][0])*(fy+1)/2+fp[0][0],
+        (fp[1][1]-fp[0][1])*(fx+1)/2+(fp[3][1]-fp[0][1])*(fy+1)/2+fp[0][1],
+        (fp[1][2]-fp[0][2])*(fx+1)/2+(fp[3][2]-fp[0][2])*(fy+1)/2+fp[0][2]));
+    ctx.lineTo(...rotate(
+        (fp[1][0]-fp[0][0])*fx/2+(fp[3][0]-fp[0][0])*(fy+1)/2+fp[0][0],
+        (fp[1][1]-fp[0][1])*fx/2+(fp[3][1]-fp[0][1])*(fy+1)/2+fp[0][1],
+        (fp[1][2]-fp[0][2])*fx/2+(fp[3][2]-fp[0][2])*(fy+1)/2+fp[0][2]));
+    ctx.closePath();
+
+    ctx.fillStyle = colors[faces[i]];
+    ctx.fill();
+    ctx.lineWidth = .5;
+    ctx.stroke();
+  }
+}
+    </script>
+  </body>
+</html>
