@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html class="theme-dark is-clipped">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>Browser Timer Display</title>
+    <script defer src="script.js"></script>
+    <link rel="stylesheet" href="bulma.min.css">
+    <style>
+      @font-face {
+        font-family: "7seg";
+        src:
+          url("DSEG7Classic-Bold.woff2") format("woff2"),
+          url("DSEG7Classic-Bold.woff") format("woff");
+      }
+      html, body {
+        background: #101010;
+      }
+      .error {
+        color: #f82010;
+      }
+      #timer {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: "7seg";
+        font-size: 16vw;
+        color: #f82010;
+        text-shadow: 0 0 .5vw #c04020;
+        text-align: center;
+        text-wrap: nowrap;
+      }
+      #led {
+        margin-right: .2em;
+      }
+      #led[data-status="disconnect"] {
+        color: #808080;
+        text-shadow: 0 0 .5vw #404040;
+      }
+      #led[data-status="progress"] {
+        color: #20f810;
+        text-shadow: 0 0 .5vw #40c020;
+        animation: blink .1s infinite alternate;
+      }
+      @keyframes blink{
+        0% {opacity: .7;}
+        100% {opacity: 1;}
+      }
+      #led[data-status="completed"] {
+        color: #f0f010;
+        text-shadow: 0 0 .5vw #c0c020;
+      }
+      #buttons {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="timer"><span id="led" data-status="disconnect">.</span><span id="timer_m">-:</span><span id=timer_s10>-</span><span id=timer_s1>-</span>.<span id=timer_ms>---</span></div>
+    <div id="error" class="error m-4"></div>
+    <div class="buttons is-centered pb-4" id="buttons">
+      <button id="button-connect" class="button is-white">Connect</button>
+      <button id="button-disconnect" class="button" style="display: none">Disconnect</button>
+      <button id="button-select-device" disabled class="button">Select Device</button>
+      <button id="button-help" class="button">Help</button>
+      <button id="button-fullscreen" class="button">Full Screen</button>
+    </div>
+    <div id="modal-select-device" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="box">
+          <div class="field">
+            <label class="label">Device</label>
+            <div class="control">
+              <div class="select">
+                <select id="devices"></select>
+              </div>
+            </div>
+          </div>
+          <div id="error-device" class="error"></div>
+          <div class="field">
+            <label class="label">Wave</label>
+            <div>
+              <canvas id="wave" width="600" height="150"></canvas>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Message</label>
+            <pre id="message"></pre>
+          </div>
+          <div class="field">
+            <label class="label">Time</label>
+            <div id="time-device"></div>
+          </div>
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+    <div id="modal-help" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="box">
+          <div class="content">
+            <h1>Browser Timer Display</h1>
+            <p>
+              ブラウザをスタックタイマーのディスプレイにできるツールです。
+            </p>
+            <h2>使用法</h2>
+            <p>
+              スタックタイマーをPCやスマートフォンに接続してください。
+              スタックタイマーをマイクとして接続する必要があります。
+              必要なコネクタなどは次の記事を参照してください。
+            </p>
+            <ul>
+              <li><a target="_blank" href="https://blog.uesyuu.com/post/2019-02-07-stacktimer-cstimer/">スタックタイマーとcsTimerの繋げ方 - uesyuu's Blog</a></li>
+              <li><a target="_blank" href="https://kawam1123.github.io/stacktimer-cstimer-connection/">スタックタイマーをcsTimerに接続するには - KawamHub"></a></li>
+            </ul>
+            <p>
+              次の環境で動作することを確認しています。
+            </p>
+            <ul>
+              <li>スタックタイマーから3.5mmオーディオプラグ
+                <ul>
+                  <li>Speed Stacks Pro Timer G5</li>
+                  <li><a target="_blank" href="https://store.tribox.com/products/detail.php?product_id=3955">Speed Stacks タイマーディスプレイケーブル</a></li>
+                </ul>
+              </li>
+              <li>Windows
+                <ul>
+                  <li>Windows 11</li>
+                  <li>Google Chrome</li>
+                </ul>
+              </li>
+              <li>iPhone
+                <ul>
+                  <li><a target="_blank" href="https://www.apple.com/jp/shop/product/mw2q3fe/a/usb-c-35-mm%E3%83%98%E3%83%83%E3%83%89%E3%83%95%E3%82%A9%E3%83%B3%E3%82%B8%E3%83%A3%E3%83%83%E3%82%AF%E3%82%A2%E3%83%80%E3%83%97%E3%82%BF">Apple USB-C - 3.5 mmヘッドフォンジャックアダプタ</a></li>
+                  <li><a target="_blank" href="https://www.yodobashi.com/product/100000001005611328/">YOUZIPPER ユージッパー 変換アダプター 3極→4極 150mm P-34G</a></li>
+                  <li>iPhone 16 Pro</li>
+                  <li>iOS 26.1</li>
+                  <li>Google Chrome or Safari</li>
+                </ul>
+              </li>
+            </ul>
+            <p>
+              「Connect」ボタンを押して、マイクの使用を許可してください。
+              一度拒否した場合には、ブラウザの設定から許可してください。
+            </p>
+            <p>
+              スタックタイマーの電源を入れてもタイムが表示されない場合は、「Select Device」から、スタックタイマーを接続したデバイスを選択してください。
+              次の画像のような波形が表示される状態が正常です。
+            </p>
+            <p>
+              <img src="wave.png" width="475" height="358" style="border: #888 solid 1px">
+            </p>
+            <h2>参考・使用フォント</h2>
+            <ul>
+              <li><a target="_blank" href="https://qiita.com/Nyanyan_Cube/items/e517e71cf5c4e2aaf1e5">スタックタイマーの信号について #RS232C - Qiita</a></li>
+              <li><a target="_blank" href="https://github.com/cs0x7f/cstimer/blob/41af2b00ac718ce790e964519ea6079ae9a8be49/src/js/hardware/stackmat.js">csTimer</a></li>
+              <li><a target="_blank" href="https://www.keshikan.net/fonts.html">Font "DSEG" by けしかん</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+  </body>
+</html>
