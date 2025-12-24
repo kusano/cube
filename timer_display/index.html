@@ -3,6 +3,8 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
+    <link rel="icon" href="icon.png">
+    <link rel="apple-touch-icon" href="icon.png">
     <title>Browser Timer Display</title>
     <script defer src="script.js"></script>
     <link rel="stylesheet" href="bulma.min.css">
@@ -25,7 +27,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         font-family: "7seg";
-        font-size: 16vw;
+        font-size: 15vw;
         color: #f82010;
         text-shadow: 0 0 .5vw #c04020;
         text-align: center;
@@ -64,8 +66,9 @@
     <div class="buttons is-centered pb-4" id="buttons">
       <button id="button-connect" class="button is-white">Connect</button>
       <button id="button-disconnect" class="button" style="display: none">Disconnect</button>
-      <button id="button-select-device" disabled class="button">Select Device</button>
+      <button id="button-select-device" class="button">Select Device</button>
       <button id="button-help" class="button">Help</button>
+      <button id="button-hide-buttons" class="button">Hide Buttons</button>
       <button id="button-fullscreen" class="button">Full Screen</button>
     </div>
     <div id="modal-select-device" class="modal">
@@ -154,6 +157,9 @@
             </p>
             <p>
               <img src="wave.png" width="475" height="358" style="border: #888 solid 1px">
+            </p>
+            <p>
+              スマートフォンでは「ホーム画面に追加」をしておくと便利です。
             </p>
             <h2>参考・使用フォント</h2>
             <ul>

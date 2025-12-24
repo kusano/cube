@@ -51,15 +51,16 @@ async function connect() {
         sampleRate: 48000,
     });
 
+    const audio = {
+        autoGainControl: false,
+        echoCancellation: false,
+        noiseSuppression: false,
+    };
+    if (config.deviceID!="default") {
+        audio.deviceId = {exact: config.deviceID};
+    }
     try {
-        stream = await navigator.mediaDevices.getUserMedia({
-            audio: {
-                deviceId: {exact: config.deviceID},
-                autoGainControl: false,
-                echoCancellation: false,
-                noiseSuppression: false,
-            },
-        });
+        stream = await navigator.mediaDevices.getUserMedia({audio});
     } catch (error) {
         elem("button-connect").classList.remove("is-loading");
         throw `Failed to get ${config.deviceName} (${config.deviceID}). Check permission and that the device exists. Error: ${error}`;
@@ -137,7 +138,6 @@ async function connect() {
     elem("button-connect").classList.remove("is-loading");
     elem("button-connect").style.display = "none";
     elem("button-disconnect").style.removeProperty("display");
-    elem("button-select-device").removeAttribute("disabled");
 }
 
 async function disconnect() {
@@ -152,7 +152,6 @@ async function disconnect() {
 
     elem("button-connect").style.removeProperty("display");
     elem("button-disconnect").style.display = "none";
-    elem("button-select-device").setAttribute("disabled", "");
 
     wave = [];
     for (let i=0; i<600; i++) {
@@ -174,6 +173,17 @@ elem("button-connect").addEventListener("click", async () => {
     }
 });
 
+elem("button-disconnect").addEventListener("click", () => {
+    disconnect();
+    elem("led").dataset.status = "disconnect";
+    elem("timer_m").textContent = "-:";
+    elem("timer_m").style.visibility = "visible";
+    elem("timer_s10").textContent = "-";
+    elem("timer_s10").style.visibility = "visible";
+    elem("timer_s1").textContent = "-";
+    elem("timer_ms").textContent = "---";
+});
+
 elem("button-select-device").addEventListener("click", async () => {
     elem("modal-select-device").classList.add("is-active");
 
@@ -185,7 +195,7 @@ elem("button-select-device").addEventListener("click", async () => {
     const devices = await navigator.mediaDevices.enumerateDevices();
     let deviceNumber = 0;
     for (const device of devices) {
-        if (device.kind=="audioinput") {
+        if (device.kind=="audioinput" && device.deviceId!="" && device.label!="") {
             deviceNumber++;
 
             const elOption = document.createElement("option");
@@ -228,15 +238,14 @@ elem("devices").addEventListener("input", async () => {
     }
 });
 
-elem("button-disconnect").addEventListener("click", () => {
-    disconnect();
-    elem("led").dataset.status = "disconnect";
-    elem("timer_m").textContent = "-:";
-    elem("timer_m").style.visibility = "visible";
-    elem("timer_s10").textContent = "-";
-    elem("timer_s10").style.visibility = "visible";
-    elem("timer_s1").textContent = "-";
-    elem("timer_ms").textContent = "---";
+elem("button-help").addEventListener("click", () => {
+    elem("modal-help").classList.add("is-active");
+});
+
+elem("button-hide-buttons").addEventListener("click", e => {
+    elem("buttons").style.display = "none";
+    // document クリックでボタンが再度表示されるのを防ぐ。
+    e.stopPropagation();
 });
 
 elem("button-fullscreen").addEventListener("click", () => {
@@ -247,6 +256,7 @@ document.addEventListener("click", () => {
     if (document.fullscreenElement) {
         document.exitFullscreen();
     }
+    elem("buttons").style.removeProperty("display");
 });
 
 document.addEventListener("fullscreenchange", () => {
@@ -255,10 +265,6 @@ document.addEventListener("fullscreenchange", () => {
     } else {
         elem("buttons").style.removeProperty("display");
     }
-});
-
-elem("button-help").addEventListener("click", () => {
-    elem("modal-help").classList.add("is-active");
 });
 
 function renderWave() {
