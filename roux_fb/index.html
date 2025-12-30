@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="Roux Method First Block Solver">
+    <title>Roux Method First Block Solver</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>Roux Method First Block Solver</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; Roux Method First Block Solver
+        </p>
+        <p>
+          Roux methodの最初の手順であるFB（First Block）のソルバーです。
+          使用する動きを選択することができます。
+        </p>
+        <hr>
+        <details>
+          <summary>設定</summary>
+          <div class="field">
+            <label class="label">使用する動き</label>
+            <div class="control">
+              <label class="checkbox"><input type="checkbox" checked disabled>U</label>
+              <label class="checkbox"><input type="checkbox" checked disabled>R</label>
+              <label class="checkbox"><input type="checkbox" checked disabled>L</label>
+              <label class="checkbox"><input type="checkbox">D</label>
+              <label class="checkbox"><input type="checkbox">F</label>
+              <label class="checkbox"><input type="checkbox">B</label>
+            </div>
+            <div class="control">
+              <label class="checkbox"><input type="checkbox" checked>Rw</label>
+              <label class="checkbox"><input type="checkbox">Lw</label>
+              <label class="checkbox"><input type="checkbox">M</label>
+            </div>
+            <div class="control">
+              <label class="checkbox"><input type="checkbox">Uw</label>
+              <label class="checkbox"><input type="checkbox">Dw</label>
+              <label class="checkbox"><input type="checkbox">E</label>
+            </div>
+            <div class="control">
+              <label class="checkbox"><input type="checkbox">Fw</label>
+              <label class="checkbox"><input type="checkbox">Bw</label>
+              <label class="checkbox"><input type="checkbox">S</label>
+            </div>
+          </div>
+          <div class="has-text-danger">
+            At least one of wide moves or slices moves required.
+          </div>
+        </details>
+
+        <h2>Scramble</h2>
+        <div class="columns">
+          <div class="column">
+            <div class="field">スクランブルを貼り付けてください。Nextボタンでランダムに生成することもできます。</div>
+            <div class="field">
+              <div class="control">
+                <input id="scramble" class="input has-text-weight-bold" type="text">
+              </div>
+              <p id="error" class="help is-danger" style="display: none">ERROR</p>
+            </div>
+            <div class="field is-grouped">
+              <div class="control">
+                <button id="previous" class="button is-primary" disabled>Previous</button>
+              </div>
+              <div class="control">
+                <button id="next" class="button is-primary">Next</button>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <canvas id="visual"></canvas>
+          </div>
+        </div>
+        <h2>Solutions</h2>
+        <div class="columns">
+          <div class="column">
+            <div id="box_LD" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #f88008">Orange L</span>, <span style="color: #a0a008">Yellow D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_LD" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_LD" class="has-text-grey-light"></div>
+                    <div id="solution_LD"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_FD" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #08a008">Green L</span>, <span style="color: #a0a008">Yellow D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_FD" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_FD" class="has-text-grey-light"></div>
+                    <div id="solution_FD"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_RD" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #f80808">Red L</span>, <span style="color: #a0a008">Yellow D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_RD" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_RD" class="has-text-grey-light"></div>
+                    <div id="solution_RD"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_BD" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #0808f8">Blue L</span>, <span style="color: #a0a008">Yellow D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_BD" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_BD" class="has-text-grey-light"></div>
+                    <div id="solution_BD"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="columns">
+          <div class="column">
+            <div id="box_LU" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #f88008">Orange L</span>, <span style="color: #a0a0a0">White D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_LU" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_LU" class="has-text-grey-light"></div>
+                    <div id="solution_LU"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_BU" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #0808f8">Blue L</span>, <span style="color: #a0a0a0">White D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_BU" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_BU" class="has-text-grey-light"></div>
+                    <div id="solution_BU"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_RU" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #f80808">Red L</span>, <span style="color: #a0a0a0">White D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_RU" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_RU" class="has-text-grey-light"></div>
+                    <div id="solution_RU"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_FU" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #08a008">Green L</span>, <span style="color: #a0a0a0">White D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_FU" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_FU" class="has-text-grey-light"></div>
+                    <div id="solution_FU"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="columns">
+          <div class="column">
+            <div id="box_LB" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #f88008">Orange L</span>, <span style="color: #0808f8">Blue D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_LB" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_LB" class="has-text-grey-light"></div>
+                    <div id="solution_LB"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_DB" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #a0a008">Yellow L</span>, <span style="color: #0808f8">Blue D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_DB" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_DB" class="has-text-grey-light"></div>
+                    <div id="solution_DB"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_RB" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #f80808">Red L</span>, <span style="color: #0808f8">Blue D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_RB" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_RB" class="has-text-grey-light"></div>
+                    <div id="solution_RB"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_UB" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #a0a0a0">White L</span>, <span style="color: #0808f8">Blue D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_UB" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_UB" class="has-text-grey-light"></div>
+                    <div id="solution_UB"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="columns">
+          <div class="column">
+            <div id="box_LF" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #f88008">Orange L</span>, <span style="color: #08a008">Green D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_LF" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_LF" class="has-text-grey-light"></div>
+                    <div id="solution_LF"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_UF" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #a0a0a0">White L</span>, <span style="color: #08a008">Green D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_UF" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_UF" class="has-text-grey-light"></div>
+                    <div id="solution_UF"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_RF" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #f80808">Red L</span>, <span style="color: #08a008">Green D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_RF" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_RF" class="has-text-grey-light"></div>
+                    <div id="solution_RF"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_DF" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #a0a008">Yellow L</span>, <span style="color: #08a008">Green D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_DF" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_DF" class="has-text-grey-light"></div>
+                    <div id="solution_DF"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="columns">
+          <div class="column">
+            <div id="box_UL" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #a0a0a0">White L</span>, <span style="color: #f88008">Orange D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_UL" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_UL" class="has-text-grey-light"></div>
+                    <div id="solution_UL"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_FL" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #08a008">Green L</span>, <span style="color: #f88008">Orange D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_FL" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_FL" class="has-text-grey-light"></div>
+                    <div id="solution_FL"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_DL" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #a0a008">Yellow L</span>, <span style="color: #f88008">Orange D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_DL" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_DL" class="has-text-grey-light"></div>
+                    <div id="solution_DL"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_BL" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #0808f8">Blue L</span>, <span style="color: #f88008">Orange D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_BL" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_BL" class="has-text-grey-light"></div>
+                    <div id="solution_BL"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="columns">
+          <div class="column">
+            <div id="box_UR" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #a0a0a0">White L</span>, <span style="color: #f80808">Red D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_UR" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_UR" class="has-text-grey-light"></div>
+                    <div id="solution_UR"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_BR" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #0808f8">Blue L</span>, <span style="color: #f80808">Red D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_BR" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_BR" class="has-text-grey-light"></div>
+                    <div id="solution_BR"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_DR" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #a0a008">Yellow L</span>, <span style="color: #f80808">Red D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_DR" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_DR" class="has-text-grey-light"></div>
+                    <div id="solution_DR"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div id="box_FR" class="box">
+              <div class="has-text-weight-bold mb-2">
+                <span style="color: #08a008">Green L</span>, <span style="color: #f80808">Red D</span>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_FR" width="128" height="128"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div class="has-text-weight-bold">
+                    <div id="rotation_FR" class="has-text-grey-light"></div>
+                    <div id="solution_FR"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <address class="mb-6 has-text-right">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>
