@@ -250,7 +250,7 @@ function update() {
 
     // TODO
     const moves = [];
-    for (let m of ["U", "R", "L", "Rw", "D", "F"]) {
+    for (let m of ["U", "R", "L", "Rw", "Lw", "D"]) {
         for (let m2 of ["", "2", "'"]) {
             moves.push(m+m2);
         }
