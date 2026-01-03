@@ -158,6 +158,7 @@ function makeTable(moves) {
     for (let d=1; ; d++) {
         const P = T;
         T = [];
+        let up = false;
         for (const faces of P) {
             cube.faces = faces.split("");
             for (const move of moves) {
@@ -167,10 +168,11 @@ function makeTable(moves) {
                 if (!table.has(faces2)) {
                     table.set(faces2, d);
                     T.push(faces2);
+                    up = true;
                 }
             }
         }
-        if (table.size>=20000) {
+        if (!up || table.size>=20000) {
             break;
         }
     }
@@ -353,7 +355,7 @@ onmessage = e => {
 
     const solved = new Set();
 
-    for (let maxDepth=0; solved.size<lds.length; maxDepth++) {
+    for (let maxDepth=0; maxDepth<30 && solved.size<lds.length; maxDepth++) {
         for (const ld of lds) {
             if (solved.has(ld)) {
                 continue;

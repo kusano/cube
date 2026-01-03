@@ -240,18 +240,9 @@ function update() {
             movesOrg.push(move);
         }
     }
-    let ok = false;
-    for (const move of ["F", "B", "Rw", "Lw", "M", "Uw", "Dw", "E", "Fw", "Bw", "S"]) {
-        if (movesOrg.includes(move)) {
-            ok = true;
-        }
-    }
-    if (!ok) {
-        elem("moves_error").style.removeProperty("display");
-        elem("config").open = true;
+    if (movesOrg.length==0) {
         return;
     }
-    elem("moves_error").style.display = "none";
 
     const moves = [];
     for (let m of movesOrg) {

@@ -25,9 +25,9 @@
           <div class="field">
             <label class="label">使用する動き</label>
             <div class="control">
-              <label class="checkbox"><input id="move_U" type="checkbox" checked disabled>U</label>
-              <label class="checkbox"><input id="move_R" type="checkbox" checked disabled>R</label>
-              <label class="checkbox"><input id="move_L" type="checkbox" checked disabled>L</label>
+              <label class="checkbox"><input id="move_U" type="checkbox">U</label>
+              <label class="checkbox"><input id="move_R" type="checkbox">R</label>
+              <label class="checkbox"><input id="move_L" type="checkbox">L</label>
               <label class="checkbox"><input id="move_D" type="checkbox">D</label>
               <label class="checkbox"><input id="move_F" type="checkbox">F</label>
               <label class="checkbox"><input id="move_B" type="checkbox">B</label>
@@ -48,8 +48,9 @@
               <label class="checkbox"><input id="move_S" type="checkbox">S</label>
             </div>
           </div>
-          <div id="moves_error" class="has-text-danger" style="display: none">
-            At least one of F/B, wide moves or slices moves is required.
+          <div>
+            使用する動きの組み合わせによっては解が得られないことがあります。
+            その場合には別の組み合わせを試してください。
           </div>
           <div class="field">
             <div class="control">
