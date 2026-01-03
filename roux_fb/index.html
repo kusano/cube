@@ -20,36 +20,36 @@
           使用する動きを選択することができます。
         </p>
         <hr>
-        <details>
+        <details id="config">
           <summary>設定</summary>
           <div class="field">
             <label class="label">使用する動き</label>
             <div class="control">
-              <label class="checkbox"><input type="checkbox" checked disabled>U</label>
-              <label class="checkbox"><input type="checkbox" checked disabled>R</label>
-              <label class="checkbox"><input type="checkbox" checked disabled>L</label>
-              <label class="checkbox"><input type="checkbox">D</label>
-              <label class="checkbox"><input type="checkbox">F</label>
-              <label class="checkbox"><input type="checkbox">B</label>
+              <label class="checkbox"><input id="move_U" type="checkbox" checked disabled>U</label>
+              <label class="checkbox"><input id="move_R" type="checkbox" checked disabled>R</label>
+              <label class="checkbox"><input id="move_L" type="checkbox" checked disabled>L</label>
+              <label class="checkbox"><input id="move_D" type="checkbox">D</label>
+              <label class="checkbox"><input id="move_F" type="checkbox">F</label>
+              <label class="checkbox"><input id="move_B" type="checkbox">B</label>
             </div>
             <div class="control">
-              <label class="checkbox"><input type="checkbox" checked>Rw</label>
-              <label class="checkbox"><input type="checkbox">Lw</label>
-              <label class="checkbox"><input type="checkbox">M</label>
+              <label class="checkbox"><input id="move_Rw" type="checkbox">Rw</label>
+              <label class="checkbox"><input id="move_Lw" type="checkbox">Lw</label>
+              <label class="checkbox"><input id="move_M" type="checkbox">M</label>
             </div>
             <div class="control">
-              <label class="checkbox"><input type="checkbox">Uw</label>
-              <label class="checkbox"><input type="checkbox">Dw</label>
-              <label class="checkbox"><input type="checkbox">E</label>
+              <label class="checkbox"><input id="move_Uw" type="checkbox">Uw</label>
+              <label class="checkbox"><input id="move_Dw" type="checkbox">Dw</label>
+              <label class="checkbox"><input id="move_E" type="checkbox">E</label>
             </div>
             <div class="control">
-              <label class="checkbox"><input type="checkbox">Fw</label>
-              <label class="checkbox"><input type="checkbox">Bw</label>
-              <label class="checkbox"><input type="checkbox">S</label>
+              <label class="checkbox"><input id="move_Fw" type="checkbox">Fw</label>
+              <label class="checkbox"><input id="move_Bw" type="checkbox">Bw</label>
+              <label class="checkbox"><input id="move_S" type="checkbox">S</label>
             </div>
           </div>
-          <div class="has-text-danger">
-            At least one of wide moves or slices moves required.
+          <div id="moves_error" class="has-text-danger" style="display: none">
+            At least one of F/B, wide moves or slices moves is required.
           </div>
         </details>
 
@@ -87,11 +87,9 @@
                 <div>
                   <canvas id="visual_LD" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_LD" class="has-text-grey-light"></div>
-                    <div id="solution_LD"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_LD" class="has-text-grey-light"></div>
+                  <div id="solution_LD"></div>
                 </div>
               </div>
             </div>
@@ -105,11 +103,9 @@
                 <div>
                   <canvas id="visual_FD" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_FD" class="has-text-grey-light"></div>
-                    <div id="solution_FD"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_FD" class="has-text-grey-light"></div>
+                  <div id="solution_FD"></div>
                 </div>
               </div>
             </div>
@@ -123,11 +119,9 @@
                 <div>
                   <canvas id="visual_RD" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_RD" class="has-text-grey-light"></div>
-                    <div id="solution_RD"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_RD" class="has-text-grey-light"></div>
+                  <div id="solution_RD"></div>
                 </div>
               </div>
             </div>
@@ -141,11 +135,9 @@
                 <div>
                   <canvas id="visual_BD" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_BD" class="has-text-grey-light"></div>
-                    <div id="solution_BD"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_BD" class="has-text-grey-light"></div>
+                  <div id="solution_BD"></div>
                 </div>
               </div>
             </div>
@@ -162,11 +154,9 @@
                 <div>
                   <canvas id="visual_LU" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_LU" class="has-text-grey-light"></div>
-                    <div id="solution_LU"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_LU" class="has-text-grey-light"></div>
+                  <div id="solution_LU"></div>
                 </div>
               </div>
             </div>
@@ -180,11 +170,9 @@
                 <div>
                   <canvas id="visual_BU" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_BU" class="has-text-grey-light"></div>
-                    <div id="solution_BU"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_BU" class="has-text-grey-light"></div>
+                  <div id="solution_BU"></div>
                 </div>
               </div>
             </div>
@@ -198,11 +186,9 @@
                 <div>
                   <canvas id="visual_RU" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_RU" class="has-text-grey-light"></div>
-                    <div id="solution_RU"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_RU" class="has-text-grey-light"></div>
+                  <div id="solution_RU"></div>
                 </div>
               </div>
             </div>
@@ -216,11 +202,9 @@
                 <div>
                   <canvas id="visual_FU" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_FU" class="has-text-grey-light"></div>
-                    <div id="solution_FU"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_FU" class="has-text-grey-light"></div>
+                  <div id="solution_FU"></div>
                 </div>
               </div>
             </div>
@@ -237,11 +221,9 @@
                 <div>
                   <canvas id="visual_LB" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_LB" class="has-text-grey-light"></div>
-                    <div id="solution_LB"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_LB" class="has-text-grey-light"></div>
+                  <div id="solution_LB"></div>
                 </div>
               </div>
             </div>
@@ -255,11 +237,9 @@
                 <div>
                   <canvas id="visual_DB" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_DB" class="has-text-grey-light"></div>
-                    <div id="solution_DB"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_DB" class="has-text-grey-light"></div>
+                  <div id="solution_DB"></div>
                 </div>
               </div>
             </div>
@@ -273,11 +253,9 @@
                 <div>
                   <canvas id="visual_RB" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_RB" class="has-text-grey-light"></div>
-                    <div id="solution_RB"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_RB" class="has-text-grey-light"></div>
+                  <div id="solution_RB"></div>
                 </div>
               </div>
             </div>
@@ -291,11 +269,9 @@
                 <div>
                   <canvas id="visual_UB" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_UB" class="has-text-grey-light"></div>
-                    <div id="solution_UB"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_UB" class="has-text-grey-light"></div>
+                  <div id="solution_UB"></div>
                 </div>
               </div>
             </div>
@@ -312,11 +288,9 @@
                 <div>
                   <canvas id="visual_LF" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_LF" class="has-text-grey-light"></div>
-                    <div id="solution_LF"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_LF" class="has-text-grey-light"></div>
+                  <div id="solution_LF"></div>
                 </div>
               </div>
             </div>
@@ -330,11 +304,9 @@
                 <div>
                   <canvas id="visual_UF" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_UF" class="has-text-grey-light"></div>
-                    <div id="solution_UF"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_UF" class="has-text-grey-light"></div>
+                  <div id="solution_UF"></div>
                 </div>
               </div>
             </div>
@@ -348,11 +320,9 @@
                 <div>
                   <canvas id="visual_RF" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_RF" class="has-text-grey-light"></div>
-                    <div id="solution_RF"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_RF" class="has-text-grey-light"></div>
+                  <div id="solution_RF"></div>
                 </div>
               </div>
             </div>
@@ -366,11 +336,9 @@
                 <div>
                   <canvas id="visual_DF" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_DF" class="has-text-grey-light"></div>
-                    <div id="solution_DF"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_DF" class="has-text-grey-light"></div>
+                  <div id="solution_DF"></div>
                 </div>
               </div>
             </div>
@@ -387,11 +355,9 @@
                 <div>
                   <canvas id="visual_UL" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_UL" class="has-text-grey-light"></div>
-                    <div id="solution_UL"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_UL" class="has-text-grey-light"></div>
+                  <div id="solution_UL"></div>
                 </div>
               </div>
             </div>
@@ -405,11 +371,9 @@
                 <div>
                   <canvas id="visual_FL" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_FL" class="has-text-grey-light"></div>
-                    <div id="solution_FL"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_FL" class="has-text-grey-light"></div>
+                  <div id="solution_FL"></div>
                 </div>
               </div>
             </div>
@@ -423,11 +387,9 @@
                 <div>
                   <canvas id="visual_DL" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_DL" class="has-text-grey-light"></div>
-                    <div id="solution_DL"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_DL" class="has-text-grey-light"></div>
+                  <div id="solution_DL"></div>
                 </div>
               </div>
             </div>
@@ -441,11 +403,9 @@
                 <div>
                   <canvas id="visual_BL" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_BL" class="has-text-grey-light"></div>
-                    <div id="solution_BL"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_BL" class="has-text-grey-light"></div>
+                  <div id="solution_BL"></div>
                 </div>
               </div>
             </div>
@@ -462,11 +422,9 @@
                 <div>
                   <canvas id="visual_UR" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_UR" class="has-text-grey-light"></div>
-                    <div id="solution_UR"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_UR" class="has-text-grey-light"></div>
+                  <div id="solution_UR"></div>
                 </div>
               </div>
             </div>
@@ -480,11 +438,9 @@
                 <div>
                   <canvas id="visual_BR" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_BR" class="has-text-grey-light"></div>
-                    <div id="solution_BR"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_BR" class="has-text-grey-light"></div>
+                  <div id="solution_BR"></div>
                 </div>
               </div>
             </div>
@@ -498,11 +454,9 @@
                 <div>
                   <canvas id="visual_DR" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_DR" class="has-text-grey-light"></div>
-                    <div id="solution_DR"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_DR" class="has-text-grey-light"></div>
+                  <div id="solution_DR"></div>
                 </div>
               </div>
             </div>
@@ -516,11 +470,9 @@
                 <div>
                   <canvas id="visual_FR" width="128" height="128"></canvas>
                 </div>
-                <div class="ml-4">
-                  <div class="has-text-weight-bold">
-                    <div id="rotation_FR" class="has-text-grey-light"></div>
-                    <div id="solution_FR"></div>
-                  </div>
+                <div class="ml-4 has-text-weight-bold">
+                  <div id="rotation_FR" class="has-text-grey-light"></div>
+                  <div id="solution_FR"></div>
                 </div>
               </div>
             </div>

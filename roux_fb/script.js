@@ -107,6 +107,11 @@ function render(canvas, cube, transparent) {
     canvas.style.width = `${128}px`;
     canvas.style.height = `${128}px`;
 
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (!cube) {
+        return;
+    }
+
     function rotate(x, y, z) {
         const th1 = 0.6;
         const x2 = x*Math.cos(th1)-z*Math.sin(th1);
@@ -196,7 +201,7 @@ let historyPosition = -1;
 let worker;
 
 function nextScramble() {
-    elem("scramble").setAttribute("disabled", "");
+    elem("previous").setAttribute("disabled", "");
     elem("next").setAttribute("disabled", "");
     elem("next").classList.add("is-loading");
 
@@ -212,12 +217,15 @@ function nextScramble() {
         worker.terminate();
         worker = undefined;
 
-        elem("scramble").removeAttribute("disabled");
+        history.length = historyPosition+1;
+        historyPosition++;
+        history.push(scramble);
+
+        if (historyPosition>0) {
+            elem("previous").removeAttribute("disabled");
+        }
         elem("next").removeAttribute("disabled");
         elem("next").classList.remove("is-loading");
-
-        history.push(scramble);
-        historyPosition++;
         elem("scramble").value = scramble;
 
         update();
@@ -226,6 +234,32 @@ function nextScramble() {
 nextScramble();
 
 function update() {
+    const movesOrg = [];
+    for (const move of ["U", "R", "L", "D", "F", "B", "Rw", "Lw", "M", "Uw", "Dw", "E", "Fw", "Bw", "S"]) {
+        if (elem(`move_${move}`).checked) {
+            movesOrg.push(move);
+        }
+    }
+    let ok = false;
+    for (const move of ["F", "B", "Rw", "Lw", "M", "Uw", "Dw", "E", "Fw", "Bw", "S"]) {
+        if (movesOrg.includes(move)) {
+            ok = true;
+        }
+    }
+    if (!ok) {
+        elem("moves_error").style.removeProperty("display");
+        elem("config").open = true;
+        return;
+    }
+    elem("moves_error").style.display = "none";
+
+    const moves = [];
+    for (let m of movesOrg) {
+        for (let m2 of ["", "2", "'"]) {
+            moves.push(m+m2);
+        }
+    }
+
     const scramble = [];
     for (let move of elem("scramble").value.split(" ")) {
         if (move.match(/^((F|B|R|L|U|D)w?|S|M|E|x|y|z)('|2)?$/)) {
@@ -239,7 +273,25 @@ function update() {
     }
     render(elem("visual"), cube, false);
 
-    // TODO: clear
+    const lds = [
+        "LD", "FD", "RD", "BD",
+        "LU", "BU", "RU", "FU",
+        "LB", "DB", "RB", "UB",
+        "LF", "UF", "RF", "DF",
+        "UL", "FL", "DL", "BL",
+        "UR", "BR", "DR", "FR",
+    ];
+
+    for (const ld of lds) {
+        elem(`box_${ld}`).style.background = "#eee";
+
+        render(elem(`visual_${ld}`), null, false);
+        elem(`rotation_${ld}`).textContent = "";
+        elem(`solution_${ld}`).textContent = "";
+
+        elem(`visual_${ld}`).parentElement.classList.add("is-skeleton");
+        elem(`rotation_${ld}`).parentElement.classList.add("skeleton-lines");
+    }
 
     if (worker) {
         worker.terminate();
@@ -248,18 +300,17 @@ function update() {
 
     worker = new Worker("solve_fb.js");
 
-    // TODO
-    const moves = [];
-    for (let m of ["U", "R", "L", "Rw", "Lw", "D"]) {
-        for (let m2 of ["", "2", "'"]) {
-            moves.push(m+m2);
-        }
-    }
-
     worker.postMessage({
         scramble,
         moves,
     });
+
+    const shortestLength = {};
+    const shortestColors = {};
+    for (const d of ["D", "U", "B", "F", "L", "R"]) {
+        shortestLength[d] = 99;
+        shortestColors[d] = [];
+    };
 
     worker.addEventListener("message", e => {
         if (e.data.type=="solution") {
@@ -300,6 +351,25 @@ function update() {
 
             elem(`rotation_${ld}`).textContent = rotation.join(" ");
             elem(`solution_${ld}`).textContent = solution.join(" ");
+
+            elem(`visual_${ld}`).parentElement.classList.remove("is-skeleton");
+            elem(`rotation_${ld}`).parentElement.classList.remove("skeleton-lines");
+
+            if (solution.length<shortestLength[ld[1]]) {
+                shortestLength[ld[1]] = solution.length;
+                shortestColors[ld[1]] = [];
+            }
+            if (solution.length==shortestLength[ld[1]]) {
+                shortestColors[ld[1]].push(ld[0]);
+            }
+            for (const ld of lds) {
+                elem(`box_${ld}`).style.background = "#eee";
+            }
+            for (const d of ["D", "U", "B", "F", "L", "R"]) {
+                for (const l of shortestColors[d]) {
+                    elem(`box_${l+d}`).style.removeProperty("background");
+                }
+            }
         }
         if (e.data.type=="end") {
             worker.terminate();
@@ -307,109 +377,91 @@ function update() {
         }
     })
 }
-/*
-    let shortestLength = 99;
-    let shortestColors = [];
 
-    for (const color of ["D", "B", "L", "U", "F", "R"]) {
-        const solution = solveFace(cube, color);
-
-        const rotation = [];
-        const solution2 = [];
-        for (const move of solution.moves) {
-            if (move[0]=="x" || move[0]=="y" || move[0]=="z") {
-                rotation.push(move);
-            } else {
-                solution2.push(move);
-            }
-        }
-
-        for (const move of rotation) {
-            cube.move(move);
-        }
-        render(document.getElementById(`visual_${color}`), cube, color);
-        for (const _ of rotation) {
-            cube.undo();
-        }
-
-        document.getElementById(`rotation_${color}`).textContent = rotation.join(" ");
-        document.getElementById(`solution_${color}`).textContent = solution2.join(" ");
-
-        for (const type of ["solved", "diagonal", "adjacent"]) {
-            document.getElementById(`${type}_${color}`).style.display = "none";
-        }
-        document.getElementById(`${solution.type}_${color}`).style.display = "inline-flex";
-
-        if (solution2.length<shortestLength) {
-            shortestLength = solution2.length;
-            shortestColors = [];
-        }
-        if (solution2.length==shortestLength) {
-            shortestColors.push(color);
+function loadConfig() {
+    const configStr = localStorage.getItem("roux_fb");
+    let config;
+    if (configStr) {
+        config = JSON.parse(configStr);
+    } else {
+        config = {
+            moves: ["U", "R", "L", "D", "Rw", "Lw"],
         }
     }
 
-    for (const color of ["D", "B", "L", "U", "F", "R"]) {
-        document.getElementById(`box_${color}`).style.background = "#eee";
-    }
-    for (const color of shortestColors) {
-        document.getElementById(`box_${color}`).style.removeProperty("background");
+    for (const move of config.moves) {
+        elem(`move_${move}`).checked = true;
     }
 }
-*/
+loadConfig();
 
-/*
-document.addEventListener("DOMContentLoaded", () => {
-    makeSolveTable();
-    makeSolveFaceTable();
+for (const move of ["U", "R", "L", "D", "F", "B", "Rw", "Lw", "M", "Uw", "Dw", "E", "Fw", "Bw", "S"]) {
+    elem(`move_${move}`).addEventListener("input", () => {
+        const moves = [];
+        for (const m of ["U", "R", "L", "D", "F", "B", "Rw", "Lw", "M", "Uw", "Dw", "E", "Fw", "Bw", "S"]) {
+            if (elem(`move_${m}`).checked) {
+                moves.push(m);
+            }
+        }
+        localStorage.setItem("roux_fb", JSON.stringify({moves}));
 
-    const scramble = generateScramble();
-    document.getElementById("scramble").value = scramble;
+        update();
+    });
+}
+
+elem("scramble").addEventListener("input", () => {
+    const scramble = elem("scramble").value.trim();
+
+    if (scramble==history[historyPosition]) {
+        return;
+    }
+
+    if (worker) {
+        worker.terminate();
+        worker = undefined;
+    }
+
+    history.length = historyPosition+1;
     history.push(scramble);
-    update(history[historyPosition]);
+    historyPosition++;
 
-    document.getElementById("scramble").addEventListener("input", () => {
-        const scramble = document.getElementById("scramble").value.trim();
-        if (scramble==history[historyPosition]) {
-            return;
-        }
+    elem("previous").removeAttribute("disabled")
 
-        history.length = historyPosition+1;
-        history.push(scramble);
-        historyPosition++;
-
-        document.getElementById("previous").removeAttribute("disabled");
-
-        update(history[historyPosition]);
-    });
-
-    document.getElementById("scramble").addEventListener("focus", () => {
-        document.getElementById("scramble").select();
-    });
-
-    document.getElementById("previous").addEventListener("click", () => {
-        if (historyPosition==0) {
-            return;
-        }
-
-        historyPosition--;
-        document.getElementById("scramble").value = history[historyPosition];
-        if (historyPosition==0) {
-            document.getElementById("previous").setAttribute("disabled", "");
-        }
-
-        update(history[historyPosition]);
-    });
-
-    document.getElementById("next").addEventListener("click", () => {
-        historyPosition++;
-        while (history.length<=historyPosition) {
-            history.push(generateScramble());
-        }
-        document.getElementById("scramble").value = history[historyPosition];
-        document.getElementById("previous").removeAttribute("disabled");
-
-        update(history[historyPosition]);
-    });
+    update();
 });
-*/
+
+elem("scramble").addEventListener("focus", () => {
+    elem("scramble").select();
+});
+
+elem("previous").addEventListener("click", () => {
+    if (historyPosition==0) {
+        return;
+    }
+
+    historyPosition--;
+    elem("scramble").value = history[historyPosition];
+
+    if (historyPosition==0) {
+        elem("previous").setAttribute("disabled", "");
+    }
+
+    update();
+});
+
+elem("next").addEventListener("click", () => {
+    if (worker) {
+        worker.terminate();
+        worker = undefined;
+    }
+
+    if (historyPosition+1<history.length) {
+        historyPosition++;
+        elem("scramble").value = history[historyPosition];
+        elem("previous").removeAttribute("disabled");
+
+        update();
+    } else {
+        nextScramble();
+    }
+});

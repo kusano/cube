@@ -177,7 +177,7 @@ function makeTable(moves) {
     return table;
 }
 
-function solve(cube, table, moves) {
+function solve(cube, table, moves, maxDepth) {
     let solution = [];
     let solved = false;
 
@@ -188,9 +188,7 @@ function solve(cube, table, moves) {
         tableDepth = Math.max(tableDepth, d);
     }
 
-    let n = 0;
     function search(depth, maxDepth, prevMove) {
-        n++;
         if (depth>=maxDepth) {
             let ok = true;
             for (let [p, f] of [
@@ -214,9 +212,40 @@ function solve(cube, table, moves) {
                 }
             }
             if (ok) {
-                // TODO: 優先順位
-                solved = true;
-                solution = [...cube.history];
+                // 持ち替え以外の手数が短いものを優先、手数が同じなら回しにくい動きが少ないものを優先。
+                function score(solution) {
+                    const move2score = {
+                        "F": 100,
+                        "B": 100,
+                        "R": 1,
+                        "L": 1,
+                        "U": 1,
+                        "D": 100,
+                        "S": 100,
+                        "M": 1,
+                        "E": 100,
+                        "Fw": 100,
+                        "Bw": 100,
+                        "Rw": 1,
+                        "Lw": 1,
+                        "Uw": 100,
+                        "Dw": 100,
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                    };
+
+                    let s = 0;
+                    for (const m of solution) {
+                        s += move2score[m.replace("2","").replace("'","")];
+                    }
+                    return s;
+                }
+
+                if (!solved || score(cube.history)<score(solution)) {
+                    solved = true;
+                    solution = [...cube.history];
+                }
             }
             return;
         }
@@ -259,48 +288,47 @@ function solve(cube, table, moves) {
         }
     }
 
-    for (let maxDepth=0; ; maxDepth++) {
-        n = 0;
-        for (let rotate of [
-            [],
-            ["y"],
-            ["y2"],
-            ["y'"],
-            ["x"],
-            ["x", "y"],
-            ["x", "y2"],
-            ["x", "y'"],
-            ["x2"],
-            ["x2", "y"],
-            ["x2", "y2"],
-            ["x2", "y'"],
-            ["x'"],
-            ["x'", "y"],
-            ["x'", "y2"],
-            ["x'", "y'"],
-            ["z"],
-            ["z", "y"],
-            ["z", "y2"],
-            ["z", "y'"],
-            ["z'"],
-            ["z'", "y"],
-            ["z'", "y2"],
-            ["z'", "y'"],
-        ]) {
-            for (let move of rotate) {
-                cube.move(move);
-            }
-
-            search(0, maxDepth, "");
-
-            for (let _ of rotate) {
-                cube.undo();
-            }
+    for (let rotate of [
+        [],
+        ["y"],
+        ["y2"],
+        ["y'"],
+        ["x"],
+        ["x", "y"],
+        ["x", "y2"],
+        ["x", "y'"],
+        ["x2"],
+        ["x2", "y"],
+        ["x2", "y2"],
+        ["x2", "y'"],
+        ["x'"],
+        ["x'", "y"],
+        ["x'", "y2"],
+        ["x'", "y'"],
+        ["z"],
+        ["z", "y"],
+        ["z", "y2"],
+        ["z", "y'"],
+        ["z'"],
+        ["z'", "y"],
+        ["z'", "y2"],
+        ["z'", "y'"],
+    ]) {
+        for (let move of rotate) {
+            cube.move(move);
         }
 
-        if (solved) {
-            return solution;
+        search(0, maxDepth, "");
+
+        for (let _ of rotate) {
+            cube.undo();
         }
+    }
+
+    if (solved) {
+        return solution;
+    } else {
+        return false;
     }
 }
 
@@ -314,58 +342,72 @@ onmessage = e => {
     const table = makeTable(moves);
     console.log(`Table size: ${table.size}`);
 
-    for (const ld of [
+    const lds = [
         "LD", "FD", "RD", "BD",
         "LU", "BU", "RU", "FU",
         "LB", "DB", "RB", "UB",
         "LF", "UF", "RF", "DF",
         "UL", "FL", "DL", "BL",
         "UR", "BR", "DR", "FR",
-    ]) {
-        const cube = new Cube();
-        for (const move of scramble) {
-            cube.move(move);
+    ];
+
+    const solved = new Set();
+
+    for (let maxDepth=0; solved.size<lds.length; maxDepth++) {
+        for (const ld of lds) {
+            if (solved.has(ld)) {
+                continue;
+            }
+
+            const cube = new Cube();
+            for (const move of scramble) {
+                cube.move(move);
+            }
+
+            // LDが目的の色になるように塗り替える。
+            const replaces = {
+                "LD": {"F": "F", "B": "B", "R": "R", "L": "L", "U": "U", "D": "D"},
+                "FD": {"F": "L", "B": "R", "R": "F", "L": "B", "U": "U", "D": "D"},
+                "RD": {"F": "B", "B": "F", "R": "L", "L": "R", "U": "U", "D": "D"},
+                "BD": {"F": "R", "B": "L", "R": "B", "L": "F", "U": "U", "D": "D"},
+                "LU": {"F": "B", "B": "F", "R": "R", "L": "L", "U": "D", "D": "U"},
+                "BU": {"F": "R", "B": "L", "R": "F", "L": "B", "U": "D", "D": "U"},
+                "RU": {"F": "F", "B": "B", "R": "L", "L": "R", "U": "D", "D": "U"},
+                "FU": {"F": "L", "B": "R", "R": "B", "L": "F", "U": "D", "D": "U"},
+                "LB": {"F": "U", "B": "D", "R": "R", "L": "L", "U": "B", "D": "F"},
+                "DB": {"F": "U", "B": "D", "R": "F", "L": "B", "U": "R", "D": "L"},
+                "RB": {"F": "U", "B": "D", "R": "L", "L": "R", "U": "F", "D": "B"},
+                "UB": {"F": "U", "B": "D", "R": "B", "L": "F", "U": "L", "D": "R"},
+                "LF": {"F": "D", "B": "U", "R": "R", "L": "L", "U": "F", "D": "B"},
+                "UF": {"F": "D", "B": "U", "R": "F", "L": "B", "U": "L", "D": "R"},
+                "RF": {"F": "D", "B": "U", "R": "L", "L": "R", "U": "B", "D": "F"},
+                "DF": {"F": "D", "B": "U", "R": "B", "L": "F", "U": "R", "D": "L"},
+                "UL": {"F": "F", "B": "B", "R": "U", "L": "D", "U": "L", "D": "R"},
+                "FL": {"F": "L", "B": "R", "R": "U", "L": "D", "U": "B", "D": "F"},
+                "DL": {"F": "B", "B": "F", "R": "U", "L": "D", "U": "R", "D": "L"},
+                "BL": {"F": "R", "B": "L", "R": "U", "L": "D", "U": "F", "D": "B"},
+                "UR": {"F": "B", "B": "F", "R": "D", "L": "U", "U": "L", "D": "R"},
+                "BR": {"F": "R", "B": "L", "R": "D", "L": "U", "U": "B", "D": "F"},
+                "DR": {"F": "F", "B": "B", "R": "D", "L": "U", "U": "R", "D": "L"},
+                "FR": {"F": "L", "B": "R", "R": "D", "L": "U", "U": "F", "D": "B"},
+            };
+            for (let i=0; i<54; i++) {
+                cube.faces[i] = replaces[ld][cube.faces[i]];
+            }
+
+            mask(cube);
+
+            const solution = solve(cube, table, moves, maxDepth);
+            if (solution!==false) {
+                solved.add(ld);
+
+                postMessage({
+                    type: "solution",
+                    ld,
+                    solution: solution,
+                });
+            }
         }
-
-        // LDが目的の色になるように塗り替える。
-        const replaces = {
-            "LD": {"F": "F", "B": "B", "R": "R", "L": "L", "U": "U", "D": "D"},
-            "FD": {"F": "L", "B": "R", "R": "F", "L": "B", "U": "U", "D": "D"},
-            "RD": {"F": "B", "B": "F", "R": "L", "L": "R", "U": "U", "D": "D"},
-            "BD": {"F": "R", "B": "L", "R": "B", "L": "F", "U": "U", "D": "D"},
-            "LU": {"F": "B", "B": "F", "R": "R", "L": "L", "U": "D", "D": "U"},
-            "BU": {"F": "R", "B": "L", "R": "F", "L": "B", "U": "D", "D": "U"},
-            "RU": {"F": "F", "B": "B", "R": "L", "L": "R", "U": "D", "D": "U"},
-            "FU": {"F": "L", "B": "R", "R": "B", "L": "F", "U": "D", "D": "U"},
-            "LB": {"F": "U", "B": "D", "R": "R", "L": "L", "U": "B", "D": "F"},
-            "DB": {"F": "U", "B": "D", "R": "F", "L": "B", "U": "R", "D": "L"},
-            "RB": {"F": "U", "B": "D", "R": "L", "L": "R", "U": "F", "D": "B"},
-            "UB": {"F": "U", "B": "D", "R": "B", "L": "F", "U": "L", "D": "R"},
-            "LF": {"F": "D", "B": "U", "R": "R", "L": "L", "U": "F", "D": "B"},
-            "UF": {"F": "D", "B": "U", "R": "F", "L": "B", "U": "L", "D": "R"},
-            "RF": {"F": "D", "B": "U", "R": "L", "L": "R", "U": "B", "D": "F"},
-            "DF": {"F": "D", "B": "U", "R": "B", "L": "F", "U": "R", "D": "L"},
-            "UL": {"F": "F", "B": "B", "R": "U", "L": "D", "U": "L", "D": "R"},
-            "FL": {"F": "L", "B": "R", "R": "U", "L": "D", "U": "B", "D": "F"},
-            "DL": {"F": "B", "B": "F", "R": "U", "L": "D", "U": "R", "D": "L"},
-            "BL": {"F": "R", "B": "L", "R": "U", "L": "D", "U": "F", "D": "B"},
-            "UR": {"F": "B", "B": "F", "R": "D", "L": "U", "U": "L", "D": "R"},
-            "BR": {"F": "R", "B": "L", "R": "D", "L": "U", "U": "B", "D": "F"},
-            "DR": {"F": "F", "B": "B", "R": "D", "L": "U", "U": "R", "D": "L"},
-            "FR": {"F": "L", "B": "R", "R": "D", "L": "U", "U": "F", "D": "B"},
-        };
-        for (let i=0; i<54; i++) {
-            cube.faces[i] = replaces[ld][cube.faces[i]];
-        }
-
-        mask(cube);
-
-        const solution = solve(cube, table, moves);
-        postMessage({
-            type: "solution",
-            ld,
-            solution: solution,
-        });
     }
 
     postMessage({
