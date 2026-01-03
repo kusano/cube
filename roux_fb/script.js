@@ -409,6 +409,18 @@ for (const move of ["U", "R", "L", "D", "F", "B", "Rw", "Lw", "M", "Uw", "Dw", "
     });
 }
 
+elem("reset").addEventListener("click", () => {
+    const defaultMoves = ["U", "R", "L", "D", "Rw", "Lw"];
+
+    for (const move of ["U", "R", "L", "D", "F", "B", "Rw", "Lw", "M", "Uw", "Dw", "E", "Fw", "Bw", "S"]) {
+        elem(`move_${move}`).checked = defaultMoves.includes(move);
+    }
+
+    localStorage.setItem("roux_fb", JSON.stringify({moves: defaultMoves}));
+
+    update();
+});
+
 elem("scramble").addEventListener("input", () => {
     const scramble = elem("scramble").value.trim();
 
