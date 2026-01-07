@@ -227,6 +227,7 @@ function nextScramble() {
         elem("next").removeAttribute("disabled");
         elem("next").classList.remove("is-loading");
         elem("scramble").value = scramble;
+        elem("scramble_sub").textContent = scramble;
 
         update();
     });
@@ -415,6 +416,8 @@ elem("reset").addEventListener("click", () => {
 elem("scramble").addEventListener("input", () => {
     const scramble = elem("scramble").value.trim();
 
+    elem("scramble_sub").textContent = scramble;
+
     if (scramble==history[historyPosition]) {
         return;
     }
@@ -444,6 +447,7 @@ elem("previous").addEventListener("click", () => {
 
     historyPosition--;
     elem("scramble").value = history[historyPosition];
+    elem("scramble_sub").textContent = history[historyPosition];
 
     if (historyPosition==0) {
         elem("previous").setAttribute("disabled", "");
@@ -461,6 +465,7 @@ elem("next").addEventListener("click", () => {
     if (historyPosition+1<history.length) {
         historyPosition++;
         elem("scramble").value = history[historyPosition];
+        elem("scramble_sub").textContent = history[historyPosition];
         elem("previous").removeAttribute("disabled");
 
         update();

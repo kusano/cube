@@ -575,6 +575,37 @@ const getScramble = (() => {
         return solution;
     }
 
+    function normalizeMoves(moves) {
+        const res = [];
+        for (let m of moves) {
+            if (res.length==0) {
+                res.push(m);
+            } else {
+                let p = res.pop();
+                if ((p/3|0)*3==D1 && (m/3|0)*3==U1 ||
+                    (p/3|0)*3==L1 && (m/3|0)*3==R1 ||
+                    (p/3|0)*3==B1 && (m/3|0)*3==F1) {
+                    const t = p;
+                    p = m;
+                    m = t;
+                }
+
+                if ((p/3|0)!=(m/3|0)) {
+                    res.push(p);
+                    res.push(m);
+                } else {
+                    const pn = p%3;
+                    const mn = m%3;
+                    const n = (pn+mn)%4;
+                    if (n>0) {
+                        res.push((m/3|0)*3+n-1);
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
     function getScramble() {
         const cube = getRandom();
         //console.log(""+cube);
@@ -584,20 +615,7 @@ const getScramble = (() => {
         }
         const solution2 = solvePhase2(cube);
         // phase1 の最後と phase2 の最初がキャンセルする可能性がある。
-        const solution = [];
-        for (let m of [...solution1, ...solution2]) {
-            if (solution.length>0 && (solution[solution.length-1]/3|0)==(m/3|0)) {
-                const p = solution.pop();
-                const pn = p%3+1;
-                const mn = m%3+1;
-                const n = (pn+mn)%4;
-                if (n>0) {
-                    solution.push((m/3|0)*3+n-1);
-                }
-            } else {
-                solution.push(m);
-            }
-        }
+        const solution = normalizeMoves([...solution1, ...solution2]);
 
         const gen = [];
         for (let i=solution.length-1; i>=0; i--) {
