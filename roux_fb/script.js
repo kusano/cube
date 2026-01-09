@@ -377,7 +377,7 @@ function loadConfig() {
         config = JSON.parse(configStr);
     } else {
         config = {
-            moves: ["U", "R", "L", "D", "Rw", "Lw"],
+            moves: ["U", "R", "D", "F", "B", "Rw"],
         }
     }
 
@@ -402,7 +402,7 @@ for (const move of ["U", "R", "L", "D", "F", "B", "Rw", "Lw", "M", "Uw", "Dw", "
 }
 
 elem("reset").addEventListener("click", () => {
-    const defaultMoves = ["U", "R", "L", "D", "Rw", "Lw"];
+    const defaultMoves = ["U", "R", "D", "F", "B", "Rw"];
 
     for (const move of ["U", "R", "L", "D", "F", "B", "Rw", "Lw", "M", "Uw", "Dw", "E", "Fw", "Bw", "S"]) {
         elem(`move_${move}`).checked = defaultMoves.includes(move);
