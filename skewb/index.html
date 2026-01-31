@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="Skewb">
+    <title>Skewb</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>Skewb</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; Skewb
+        </p>
+        <p>
+          Skewbの解法。Sarah中級＋α。
+        </p>
+        <hr>
+        <h2>目次</h2>
+        <ul>
+          <li><a href="#structure">構造</a></li>
+          <li><a href="#notation">記法</a>
+            <ul style="margin-top: 0px">
+              <li><a href="#s">スレッジハンマー</a></li>
+              <li><a href="#h">ヘッジスラマー</a></li>
+            </ul>
+          </li>
+          <li><a href="#flow">解法の流れ</a></li>
+          <li><a href="#fl">完全1面</a></li>
+          <li><a href="#sl">対面</a>
+            <ul style="margin-top: 0px">
+              <li><a href="#sl4">4個のコーナーの向きが合っている</a>
+                <ul style="margin-top: 0px">
+                  <li><a href="#uperm">U-permの指使い</a></li>
+                </ul>
+              </li>
+              <li><a href="#sl0">0個のコーナーの向きが合っている</a>
+                <ul style="margin-top: 0px">
+                  <li><a href="#ss">S Sの指使い</a></li>
+                  <li><a href="#avoidh">H-perm回避</a></li>
+                </ul>
+              </li>
+              <li><a href="#sl2">2個のコーナーの向きが合っている</a></li>
+            </ul>
+          </li>
+          <li><a href="#mc">中列センター</a>
+            <ul style="margin-top: 0px">
+              <li><a href="#hperm">H-permの指使い</a></li>
+              <li><a href="#zperm">Z-permの指使い</a></li>
+            </ul>
+          </li>
+          <li><a href="#l3cl4c">L3CとL4C</a></li>
+        </ul>
+        <h2 id="structure">構造</h2>
+        <p>
+          参考: <a href="https://www.jaapsch.net/puzzles/skewb.htm">https://www.jaapsch.net/puzzles/skewb.htm</a>
+        </p>
+        <ul>
+          <li>コーナーの向きを、コーナーのU/D面が完成状態のU/D面を向いているときを0とし、時計回りに回転していれば+1、反時計回りに回転していれば-1とすると、コーナーの向きの合計は0になる。
+            <ul>
+              <li>3x3x3キューブと同じ。</li>
+            </ul>
+          </li>
+          <li>センターは常に偶置換になる。<ul>
+              <li>2点交換でセンターを揃えようとすると交換回数は偶数回になるということ。</li>
+              <li>BLDトレースをすると、サイズが偶数のサイクルが偶数個ということでもある。</li>
+              <li>6個のセンターのうちの4個の位置が分かると、残りの2個のセンターの位置も分かる。</li>
+            </ul>
+          </li>
+          <li>下の図の赤丸で囲んだコーナーと青四角で囲んだコーナーは、互いに入れ替わることは無いし、それぞれのコーナーの中での相対位置は変わらない。
+            <ul>
+              <li>Skwebを分解すると、一方の4個のコーナーは軸に固定されている。</li>
+            </ul>
+          </li>
+          <li>一方の4個のコーナーの位置を固定して考えると、残りの4個のコーナーは偶置換になる。</li>
+          <li>固定されているコーナーの向きと、固定されていないコーナーのうちの1個の位置が決まると、残り3個のコーナーの位置が決まる。
+            <ul>
+              <li>ある面の4個のコーナーを揃えると、残り4個のコーナーの向きに制約が掛かったり、これらのコーナーの向きを揃えると位置も揃ったりするのは、この性質によるもの？</li>
+            </ul>
+          </li>
+        </ul>
+        <p>
+          <img src="structure.png" width="160" height="160">
+        </p>
+        <h2 id="notation">記法</h2>
+        <p>
+          Skewbの回転記号は、WCA regulationに規定された<a href="https://www.worldcubeassociation.org/regulations/translations/japanese/#12h">スクランブル用の記法</a>と、解法で一般的に使われる記法が異なる。
+          スクランブル用の記法の <b>R</b> と <b>l</b> などは持ち替えを除けば同じであり、両方を使う必要は無いので4通りの動きのみを定義しているのだろう。
+          一方で、解法ではこれらの動きを分けて扱いたい。
+          しかし、スクランブル用の記法を8通りに自然に派生させることができないから、別途動きが定義されたのだと思う。
+        </p>
+        <p>スクランブル用。</p>
+        <p>
+          <img src="wca.png" width="160" height="160">
+        </p>
+        <p>解法用。</p>
+        <p>
+          <img src="solution.png" width="160" height="160">
+        </p>
+        <p>
+          回転は英字の頂点を回す。
+          持ち替えは、書いてある面が時計回りになるように回す。
+          持ち替えの記号は、スクランブルのときに持つ向きで、色が3x3x3と同じ。
+        </p>
+        <p>
+          この記事では、回転の英字でコーナーを表すことにする。
+          面とセンターは次のように定める。
+        </p>
+        <p>
+          <img src="centers.png" width="160" height="160">
+        </p>
+        <h3 id="s">スレッジハンマー</h3>
+        <p>
+          <b>r' R r R'</b> の4手をスレッジハンマーと言い、<b>S</b> で表す。
+          指使いは次の記事中の動画を参照。
+          左手の親指をFL面、左手の人差し指をBL面、右手の親指をFR面、右手の人差し指をBR面に置き、これらの指を置いた面から離さずに回す。
+        </p>
+        <p>
+          <a href="http://nokicube.seesaa.net/article/472141607.html">スキューブの指使いについて: のきぶろぐ</a>
+        </p>
+        <h3 id="h">ヘッジスラマー</h3>
+        <p>
+          <b>R r' R' r</b> の4手をヘッジスラマーと言い、<b>H</b> で表す。
+          上の記事にヘッジスラマーの動画もある。
+          スレッジハンマーを回し終えた後の指の配置にして回すこともできるが、指を持っていくまでに少し時間が掛かる。
+          そこで、右手親指はBR面に置くが、右手人差し指はFR面まで持っていかずU面のあたりに置く。
+          これでは3手目の <b>R'</b> を右手で回せないので、3手目は左手人差し指をUに引っ掛けて回す。
+        </p>
+        <h2 id="flow">解法の流れ</h2>
+        <p>
+          以降の解法はSarah's MethodのIntermediate Variation（Sarahメソッド中級）を元にしている。
+        </p>
+        <p>
+          <a href="https://sarah.cubing.net/skewb/my-method">Sarah's Cubing Site — Skewb — Sarah's Method</a>
+        </p>
+        <ol>
+          <li><a href="#fl">完全1面</a></li>
+          <li><a href="#sl">対面</a></li>
+          <li><a href="#mc">中列センター</a></li>
+        </ol>
+        <p>
+          の順で揃えていく。
+        </p>
+        <h2 id="fl">完全1面</h2>
+        <p>
+          <canvas class="skewb" data-faces="GGGFF.....DDDDDRGGRG..........."></canvas>
+        </p>
+        <p>
+          FL面のセンターとコーナーを側面も含めて揃える。
+        </p>
+        <p>
+          まずは、FL面の隣接する2個のコーナーを揃える。
+          各図で、黄色のコーナーが赤色の位置にあるとき、青色の場所に1手で移動できる。
+          1手で移動できないならば、赤色の位置で向きを変えれば良い。
+        </p>
+        <p>
+          <canvas class="skewb" data-faces="..........B.D...R...........R."></canvas>
+          <canvas class="skewb" data-faces=".....R.....BD................R"></canvas>
+          <canvas class="skewb" data-faces=".R......R...D.B..............."></canvas>
+          <canvas class="skewb" data-faces="R...........DB.....R.........."></canvas>
+        </p>
+        <p>
+          3個目のコーナーは、赤か緑の位置にあるときに1手で揃えられる。
+          なお、Skewbの構造上、残り2個のコーナーの位置は入れ替わることが無いので、FL面色だけを見れば良い。
+          向きが違うとき、赤色の位置で向きを変えれば、すでに揃えた2個のコーナーが崩れない。
+        </p>
+        <p>
+          <canvas class="skewb" data-faces=".R...F..F.D.DD...............R"></canvas>
+        </p>
+        <p>
+          3個のコーナーが揃っているときに、4個目のコーナーを揃える1手以外の手順。
+        </p>
+        <p>
+          参考: <a href="https://rubiha.hatenadiary.jp/entry/2025/12/15/232709">Skewb~CLLを覚えずに平均sub5へ~②[一面編] - るびぶろぐ</a>
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th width="140">画像</th>
+              <th width="100">手順</th>
+              <th width="140">画像</th>
+              <th width="100">手順</th>
+              <th>備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces="..........D.DDD....D.........."></canvas>
+              </td>
+              <td><b>r' R r</b></td>
+              <td>
+                <canvas class="skewb" data-faces="..........DDDD..D............."></canvas>
+              </td>
+              <td><b>R r' R'</b></td>
+              <td>他は基本的に1手でこの形に持っていく。</td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces="..........D.DDD......D........"></canvas>
+              </td>
+              <td><b>R r' R r</b></td>
+              <td>
+                <canvas class="skewb" data-faces="..........DDDD..........D....."></canvas>
+              </td>
+              <td><b>r' R r' R'</b></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces="....D.....D.DDD..............."></canvas>
+              </td>
+              <td><b>R' r' R r</b></td>
+              <td>
+                <canvas class="skewb" data-faces="..........DDDD............D..."></canvas>
+              </td>
+              <td><b>r R r' R'</b></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces="..........DDDD....D..........."></canvas>
+              </td>
+              <td><b>R r R' r'</b></td>
+              <td>
+                <canvas class="skewb" data-faces="..........D.DDDD.............."></canvas>
+              </td>
+              <td><b>r' R' r R</b></td>
+              <td>
+                向き違いでFL面にある場合には、この手順でも揃えられる。
+                揃っているコーナーを避けておき、揃っていないコーナーの向きを変えるときに戻す手順。
+                左は上の手順が、右はこの手順が回しやすい。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          2個のコーナーが向き違いでFL面にある場合の手順。
+          2個のコーナーを揃えたとき、各コーナーは1手でFL面に持っていける。
+          3個目のコーナーを揃えることと、この形に持っていくことの両方を考えると良い。
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th width="140">画像</th>
+              <th width="140">手順</th>
+              <th>備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces="..........D.DD.D..........D..."></canvas>
+              </td>
+              <td><b>R' r R r'</b></td>
+              <td>FR面を向いているほうのコーナーを先に揃えると、もう1個のコーナーが1手で揃う形になる。</td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces="....D.....D.DD....D..........."></canvas>
+              </td>
+              <td><b>r R' r' R</b></td>
+              <td>上の逆手順でもあるし、上下反転させた手順でもある。</td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces="..........D.DD.D..D..........."></canvas>
+              </td>
+              <td><b>r R' r2' R r</b></td>
+              <td>素直に揃えようとすると、<b>r R' r' r' R r</b>となり、3手目と4手目はまとめて回せる。</td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces="....D.....D.DD............D..."></canvas>
+              </td>
+              <td><b>r' R' r' R r'</b></td>
+              <td>上と同様だが、3手目を <b>r2</b> とすると、4手目が回しづらい。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2 id="sl">対面</h2>
+        <p>
+          <canvas class="skewb" data-mirror="true" data-faces="FFGFFLLGLLDDDDDRRGRRUUUUUBBGBB"></canvas>
+        </p>
+        <p>
+          BR面を揃える。
+          なお、BR面を揃えれば側面（コーナーの位置）は常に揃う。
+        </p>
+        <p>
+          参考: <a href="https://sarah.cubing.net/skewb/my-method">Sarah's Cubing Site — Skewb — Sarah's Method</a>
+        </p>
+        <h3 id="sl4">4個のコーナーの向きが合っている</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th width="140">画像</th>
+              <th width="140">手順</th>
+              <th>備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces=".......B..FFFFF.....BB.BB....."></canvas>
+              </td>
+              <td><b>S z2 S</b></td>
+              <td>BR面センターをBLに置く。同じ向きから <b>H z2 H</b> でも良いが、スレッジハンマーのほうが回しやすい。</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 id="uperm">U-permの指使い</h4>
+        <p>
+          <b>S z2 S</b> は後述のU-permと同じ手順。
+          書き下すと、<b>r' R r R' z2 r' R r R'</b> になる。
+          4手目の <b>R'</b> と5手目の <b>z2</b> を合わせて、<b>r' R r l' x y' r' R r R'</b> と回せると良い。
+        </p>
+        <p>
+          <a href="https://x.com/cube_224/status/1889903860594176033"">https://x.com/cube_224/status/1889903860594176033</a>
+        </p>
+        <p>
+          この動画のように回せるとなお良い。
+          <b>r' R r l' L' l U' l'</b> と回している。
+          持ち替えを除けば、キューブの動きは同じ。
+          5手目の <b>L'</b> はUコーナーに左手人差し指を引っ掛けて回す、7手目の <b>U'</b> はLコーナーに左手薬指を引っ掛けて回す。
+        </p>
+        <h3 id="sl0">0個のコーナーの向きが合っている</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th width="140">画像</th>
+              <th width="140">手順</th>
+              <th>備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces=".....B....FFFFF.BB..........BB"></canvas>
+              </td>
+              <td><b>S</b></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces="BB......B.FFFFF..B.B.........."></canvas>
+              </td>
+              <td><b>H</b></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces="BB......B.FFFFF....B..B......."></canvas>
+              </td>
+              <td><b>S S</b></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces="..B..B....FFFFF.B...........BB"></canvas>
+              </td>
+              <td><b>S z S z2 S</b></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces=".....B....FFFFF.B..........BBB"></canvas>
+              </td>
+              <td><b>S z' S z2 S</b></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          コーナーの向きはこの1通りしかなく、BR面センターの位置によって状態が決まる。
+        </p>
+        <p>
+          BR面センターがコーナーのBR面が1個しか無い面にあるならば、その面をFR面に持ってくる。
+          U面にコーナーのBR面が無いなら <b>S</b>、2個あるなら <b>H</b>。
+        </p>
+        <p>
+          BR面センターがコーナーのBR面が0個か2個の面にあるならば、<b>S</b> でコーナーを揃える。
+          そうすると、BR面センターがU面 ↔ D面で入れ替わるので、それをFB面に持ってきて <b>S z2 S</b>。
+        </p>
+        <p>
+          BR面センターがBR面にあるならば、<b>S S</b>。
+        </p>
+        <h4 id="ss">S Sの指使い</h4>
+        <p>
+          参考: <a href="https://www.youtube.com/watch?v=k1nSreset5c">https://www.youtube.com/watch?v=k1nSreset5c</a>
+        </p>
+        <p>
+          素直に <b>S S</b> を回そうとすると、1回目の <b>S</b> の後にリグリップが必要になる。
+          <b>S S</b> を書き下すと、<b>r' R r R' r' R r R'</b>。
+          これは、<b>r' R r R' r2 l U l'</b> と同じ。
+          7手目の <b>U</b> を左手薬指をLコーナーに引っ掛けて回すと、リグリップが不要になる。
+        </p>
+        <p>
+          この動画はスレッジハンマー3回の <b>S S S</b> という手順の解説である。
+          2回目の <b>S</b> をこのように回すことで、前後両方のリグリップが不要になるというメリットがある。
+          スレッジハンマー2回だとリグリップが1回なので、メリットが薄いかもしれない。
+        </p>
+        <h4 id="avoidh">H-perm回避</h4>
+        <p>
+          参考: <a href="https://rubiha.hatenadiary.jp/entry/2024/12/15/232243#H-Perm%E5%9B%9E%E9%81%BF">Skewb~CLLを覚えずに平均sub5へ~①[LL編] - るびぶろぐ</a>
+        </p>
+        <p>
+          1回のスレッジハンマーかヘッジスラマーで対面が完成する状態を考える。
+          スレッジハンマーもヘッジスラマーも、U面 ↔ D面 と FR面 ↔ BR面 のセンターを入れ替える。
+        </p>
+        <p>
+          よって、U面かD面（どちらか一方を確認すれば良い）のセンターの色がコーナーの側面と合っていて、BR面にあるセンターとFR面にあるコーナーの側面が対面色の場合は、スレッジハンマーやヘッジスラマーを回すとH-permになる。
+        </p>
+        <p>
+          <canvas class="skewb" data-mirror="true" data-faces="GGUUUBLRGLFFFFFRBBRGGGLGGDDDBB"></canvas>
+        </p>
+        </p>
+          H-permは回しにくい。
+          そこで、残りがスレッジハンマーかヘッジスラマー1回という状態でセンターがH-permになる配置だった場合には、<b>z2</b> した向きから次の手順を回すと、H-permを回避し、キューブを完成させることができる。
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th width="140">画像</th>
+              <th width="140">手順</th>
+              <th>備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces="BB.....BB.FFFFF....B.........."></canvas>
+              </td>
+              <td><b>S z2 H</b></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces=".....B.B..FFFFF.B...........BB"></canvas>
+              </td>
+              <td><b>H z2 S</b></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          元がスレッジハンマーなら1手目がスレッジハンマー。
+          ヘッジスラマーも同様。
+        </p>
+        <h3 id="sl2">2個のコーナーの向きが合っている</h3>
+        <p>
+          BR面センターがBR面に無い状態と手順は次の通り。
+          左右は同じ状態の開始面違い。
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th width="140">画像</th>
+              <th width="100">手順</th>
+              <th width="140">画像</th>
+              <th width="100">手順</th>
+              <th>備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces="B.B.......FFFFF....BB...B....."></canvas>
+              </td>
+              <td><b>S z' S</b></td>
+              <td>
+                <canvas class="skewb" data-faces=".....B....FFFFF.....B...B..B.B"></canvas>
+              </td>
+              <td><b>H z S</b></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces="B.........FFFFF....BB...B..B.."></canvas>
+              </td>
+              <td><b>S z H</b></td>
+              <td>
+                <canvas class="skewb" data-faces="..B..B....FFFFF.....B...B....B"></canvas>
+              </td>
+              <td><b>H z' H</b></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces=".BB.....B.FFFFF......B.B......"></canvas>
+              </td>
+              <td><b>S z' H</b></td>
+              <td>
+                <canvas class="skewb" data-faces="..........FFFFF.B....B.B...BB."></canvas>
+              </td>
+              <td><b>H z H</b></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces=".B......B.FFFFF......B.B...B.."></canvas>
+              </td>
+              <td><b>S z S</b></td>
+              <td>
+                <canvas class="skewb" data-faces="..B.......FFFFF.B....B.B....B."></canvas>
+              </td>
+              <td><b>H z' S</b></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          判断と手順をどうするか。
+          最終的には8通りの判断と実行ができるべきなのだろう。
+          とりあえずは、BR面センターをU面に持ってきて、コーナーのBR面がU面にあるなら <b>S</b>、無いなら <b>H</b>。
+          その後は常に <b>z'</b>。
+          後は改めて状態を見て、<b>S</b> と <b>H</b> を使い分ける……でどうだろうか。
+        </p>
+        <p>
+          BR面がセンターにある状態は1個のみ。
+          手順が色々ある。
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th width="140">画像</th>
+              <th width="140">手順</th>
+              <th>備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces="B.........FFFFF....BB.B.B....."></canvas>
+              </td>
+              <td>
+                <div><b>H z H z S</b></div>
+                <div><b>H z' S z' S</b></div>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces="..........FFFFF.B....BBB....B."></canvas>
+              </td>
+              <td>
+                <div><b>S z H z H</b></div>
+                <div><b>S z' S z' H</b></div>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces=".....B....FFFFF.....B.B.B....B"></canvas>
+              </td>
+              <td>
+                <div><b>S z S z H</b></div>
+                <div><b>S z' H z' H</b></div>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-faces=".B......B.FFFFF......BBB......"></canvas>
+              </td>
+              <td>
+                <div><b>H z S z S</b></div>
+                <div><b>H z' H z' S</b></div>
+              </td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          色々な向きから回せるべきではあるのだろうが、とりあえずは、コーナーのBR面が2個とも見える向きにしての <b>H z' S z' S</b> が、分かりやすく、スレッジハンマーが多くて良いだろうか。
+        </p>
+        <h2 id="mc">中列センター</h2>
+        <p>
+          2面を揃えた後は、センターは完成状態と次の3通りの状態しかない。
+        </p>
+        <p>
+          参考: <a href="https://rubiha.hatenadiary.jp/entry/2024/12/15/232243#L4C">Skewb~CLLを覚えずに平均sub5へ~①[LL編] - るびぶろぐ</a>
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th width="100">名前</th>
+              <th width="140">画像</th>
+              <th width="200">手順</th>
+              <th>備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>U-perm</td>
+              <td>
+                <canvas class="skewb" data-mirror="true" data-faces="UUUUULLBLLFFFFFRRLRRBBRBBDDDDD"></canvas>
+              </td>
+              <td>
+                <b>S z2 S</b>
+              </td>
+              <td>センターとコーナーが対面色の面をFRにする。指使いは、<a href="#uperm">U-permの指使い</a>を参照。</td>
+            </tr>
+            <tr>
+              <td>H-perm</td>
+              <td>
+                <canvas class="skewb" data-mirror="true" data-faces="UUDUULLRLLFFFFFRRLRRBBBBBDDUDD"></canvas>
+              </td>
+              <td>
+                <b>R' r b' R r B' R r'</b>
+              </td>
+              <td>Sarahメソッドではスレッジハンマー4回の手順になっているが、スレッジハンマー2回とヘッジスラマー1回の <b>S z2 H z2 S</b> でも揃えられる。</td>
+            </tr>
+            <tr>
+              <td>Z-perm</td>
+              <td>
+                <canvas class="skewb" data-mirror="true" data-faces="UURUULLDLLFFFFFRRURRBBBBBDDLDD"></canvas>
+              </td>
+              <td>
+                <b>R2 r R' B' r' B' r B R'</b>
+              </td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <h3 id="hperm">H-permの指使い</h3>
+        <p>
+          参考記事からリンクされている動画を参照。
+        </p>
+        <p>
+          右手親指は、最初にD面に置き、D面にあるセンターに合わせて動く。
+          この右手親指の動きに注目したら理解ができた。
+        </p>
+        <ol>
+          <li>左手人差し指をBコーナーに引っ掛けて <b>R'</b></li>
+          <li>右手親指をFL面に動かして <b>r</b></li>
+          <li>右手中指をBコーナーに引っ掛けて <b>b'</b></li>
+          <li>右手親指をU面に動かして <b>R</b></li>
+          <li>左手薬指をbコーナーに引っ掛けて <b>r</b></li>
+          <li>右手親指をBR面に動かして <b>B'</b></li>
+          <li>右手親指をFR面に動かして <b>R</b></li>
+          <li>右手親指をD面に動かして <b>r'</b></li>
+        </ol>
+        <h3 id="zperm">Z-permの指使い</h3>
+        <p>
+          参考記事からリンクされている動画を参照。
+        </p>
+        <p>
+          H-permの指使いと同様に、右手親指は最初にBR面に置き、BR面にあるセンターに合わせて動く。
+        </p>
+        <ol>
+          <li>右手親指をU面に動かして <b>R2</b></li>
+          <li>左手薬指をbコーナーに引っ掛けて <b>r</b></li>
+          <li>最初が <b>R'</b> ではなく <b>R2</b> なのはこの動きをしたいからなので、右手親指をFR面に動かして <b>R'</b></li>
+          <li>右手薬指でbコーナーを押して <b>B'</b>
+            <ul style="margin-top: 0px">
+              <li>左手薬指でbコーナーを引っ張っても良いかも</li>
+            </ul>
+          </li>
+          <li>右手親指をD面に動かして <b>r'</b></li>
+          <li>右手薬指をRコーナーに引っ掛けて <b>B'</b></li>
+          <li>右手親指をFR面に動かして <b>r</b></li>
+          <li>右手中指をbコーナーに引っ掛けて <b>B</b></li>
+          <li>右手親指をBR面に動かして <b>R'</b></li>
+        </ol>
+        <h2 id="l3cl4c">L3CとL4C</h2>
+        <p>
+          Last 3/4 centers。
+          コーナーが揃っていて、BR面を含む3個か4個のセンターが揃っていない状態の手順を覚えておくと有益。
+        </p>
+        <p>
+          完全1面を作った時点でコーナーが全て揃っている確率は1/9。
+          そのうち4/5はBR面センターが揃っていない。
+          また、コーナーが2個揃っている確率は4/9で、そのうち2/5はコーナーが揃っていてBR面センターが揃っていない状態を経由する。
+          合わせて、12/45 = 27%の確率で、解いている途中にコーナーが揃っていてBR面センターが揃っていない状態が出てくる。
+          また、順列を生成して確認してみると、BR面センターが揃っていないときに、3個のセンターが揃っていない確率は25%、4個は25%、5個が50%。
+          <a target="_blank" href="l3c_l4c.txt">検証スクリプト</a>。
+          ということで、7.5回に1回は使える。
+          また、最適なものを求めなければ、手順も簡単。
+        </p>
+        <p>
+          参考:
+        </p>
+        <ul>
+          <li><a href="https://rubiha.hatenadiary.jp/entry/2024/12/15/232243#%E6%9C%80%E4%BD%8E%E9%99%90%E8%A6%9A%E3%81%88%E3%82%8B%E3%81%B9%E3%81%8D%E8%BF%BD%E5%8A%A0%E6%89%8B%E9%A0%86</li>">Skewb~CLLを覚えずに平均sub5へ~①[LL編] - るびぶろぐ</a></li>
+          <li><a href="https://ikanoosushi.hatenadiary.com/entry/2025/12/20/215228">Skewb CLL全134手順議事録①～Centers～ - いかおすのキューブブログ</a></li>
+        </ul>
+        <table class="table">
+          <thead>
+            <tr>
+              <th width="140">画像</th>
+              <th width="140">手順</th>
+              <th>備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <canvas class="skewb" data-mirror="true" data-faces="UUUUULLLLLFFFFFRRBRRBBDBBDDRDD"></canvas>
+              </td>
+              <td>
+                <b>b S z2 S R'</b>
+              </td>
+              <td>
+                <b>b</b> でセットアップしてU-perm。U-permでキューブの向きが変わるので、最後は <b>b'</b> ではなく <b>R'</b> になる。
+                スレッジハンマーの最後は <b>R'</b> なので、実際には合わせて <b>R</b> になる。
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-mirror="true" data-faces="UURUULLLLLFFFFFRRBRRBBUBBDDDDD"></canvas>
+              </td>
+              <td>
+                <b>B' S z2 S r</b>
+              </td>
+              <td>
+                <b>B'</b> でセットアップしてU-perm。
+                上との見分け方は、BR面センターがFR面に来るようにして、D面とU面のどちらが揃っていないか。
+                揃っていないほうをBR面に送るように <b>b'</b> か <b>B'</b>。
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-mirror="true" data-faces="UUDUULLLLLFFFFFRRBRRBBRBBDDUDD"></canvas>
+              </td>
+              <td>
+                <b>S S S</b>
+              </td>
+              <td>
+                トリプルスレッジ。
+                指使いは<a href="#ss">S Sの指使い</a>を参照。
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-mirror="true" data-faces="UURUULLLLLFFFFFRRURRBBDBBDDBDD"></canvas>
+              </td>
+              <td>
+                <b>R' S S S R</b>
+              </td>
+              <td>
+                <b>R'</b> でセットアップしてトリプルスレッジ。
+                最後の <b>R</b> はスレッジハンマーの最後の <b>R'</b> とキャンセルして消える。
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="skewb" data-mirror="true" data-faces="UUBUULLLLLFFFFFRRDRRBBUBBDDRDD"></canvas>
+              </td>
+              <td>
+                <b>r S S S r'</b>
+              </td>
+              <td>
+                <b>r</b> でセットアップしてトリプルスレッジ。
+                <b>r</b> は実際には <b>S</b> の最初の <b>r'</b> を回さないということ。
+                これら3個の状態は、揃っていない面をBR, U, FR, Dに置いて判断すれば良い。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+        <address class="mb-6">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+    <script>
+const S = 128;
+
+for (let canvas of document.querySelectorAll(".skewb")) {
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio;
+  canvas.width = S*dpr;
+  canvas.height = S*dpr;
+  ctx.scale(dpr, dpr);
+  canvas.style.width = `${S}px`;
+  canvas.style.height = `${S}px`;
+
+  //               _0
+  // _5        _3  _2  _1        21
+  //     _6        _4        20
+  //   _7    10          16    22
+  // _8          11  15          24
+  //     _9    12      17    23
+  //         13          19
+  //             14  18
+  //         25
+  //             26
+  //           27
+  //         28
+  //             29
+  const faces = canvas.dataset.faces;
+  const mirror = !!canvas.dataset.mirror;
+
+  function rotate(x, y, z) {
+    const th1 = 0.85;
+    const x2 = x*Math.cos(th1)-z*Math.sin(th1);
+    const y2 = y;
+    const z2 = x*Math.sin(th1)+z*Math.cos(th1);
+
+    const th2 = 0.5;
+    const x3 = x2;
+    const y3 = y2*Math.cos(th2)-z2*Math.sin(th2);
+    const z3 = y2*Math.sin(th2)+z2*Math.cos(th2);
+
+    const w = S*(mirror?.23:.30);
+    const s = 0.1;
+    const x4 = x3*(z3*s+1)*w+S/2;
+    const y4 = -y3*(z3*s+1)*w+S/2+(mirror?-S*.1:-S*.04);
+
+    return [x4, y4];
+  }
+
+  for (const f of [5, 20, 25, 0, 10, 15]) {
+    let FP;
+    if (mirror) {
+      FP = [
+        [[-1,  1, -1], [ 1,  1, -1], [ 1,  1,  1], [-1,  1,  1]], // U
+        [[-2,  1, -1], [-2,  1,  1], [-2, -1,  1], [-2, -1, -1]], // BL
+        [[-1,  1,  1], [ 1,  1,  1], [ 1, -1,  1], [-1, -1,  1]], // FL
+        [[ 1,  1,  1], [ 1,  1, -1], [ 1, -1, -1], [ 1, -1,  1]], // FR
+        [[ 1,  1, -2], [-1,  1, -2], [-1, -1, -2], [ 1, -1, -2]], // BR
+        [[-1, -2,  1], [ 1, -2,  1], [ 1, -2, -1], [-1, -2, -1]], // D
+      ][f/5|0];
+    } else {
+      FP = [
+        [[-1,  1, -1], [ 1,  1, -1], [ 1,  1,  1], [-1,  1,  1]], // U
+        [[-1,  1, -1], [-1,  1,  1], [-1, -1,  1], [-1, -1, -1]], // BL
+        [[-1,  1,  1], [ 1,  1,  1], [ 1, -1,  1], [-1, -1,  1]], // FL
+        [[ 1,  1,  1], [ 1,  1, -1], [ 1, -1, -1], [ 1, -1,  1]], // FR
+        [[ 1,  1, -1], [-1,  1, -1], [-1, -1, -1], [ 1, -1, -1]], // BR
+        [[-1, -1,  1], [ 1, -1,  1], [ 1, -1, -1], [-1, -1, -1]], // D
+      ][f/5|0];
+    }
+  
+    // 0  1  2
+    // 7     3
+    // 6  5  4
+    const P = [
+      rotate(...FP[0]),
+      ,
+      rotate(...FP[1]),
+      ,
+      rotate(...FP[2]),
+      ,
+      rotate(...FP[3]),
+      ,
+    ];
+
+    for (let i=1; i<8; i+=2) {
+      P[i] = [
+        (P[(i+7)%8][0]+P[(i+1)%8][0])/2,
+        (P[(i+7)%8][1]+P[(i+1)%8][1])/2,
+      ];
+    }
+
+    for (let p=0; p<5; p++) {
+      const indices = [
+        [0, 1, 7],
+        [2, 3, 1],
+        [1, 3, 5, 7],
+        [6, 7, 5],
+        [4, 5, 3],
+      ][p];
+
+      ctx.beginPath();
+      ctx.moveTo(...P[indices[0]]);
+      for (let i=1; i<indices.length; i++) {
+        ctx.lineTo(...P[indices[i]]);
+      }
+      ctx.closePath();
+      if (faces[f+p]!="..") {
+        ctx.fillStyle = {
+          "F": "#00F800",
+          "B": "#0000F8",
+          "R": "#F80000",
+          "L": "#F88000",
+          "U": "#FFFFFF",
+          "D": "#F8F800",
+          "G": "#C0C0C0",
+          ".": "rgb(192 192 192 / 50%)"
+        }[faces[f+p]];
+        ctx.fill();
+      }
+      ctx.lineWidth = .5;
+      ctx.stroke();
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(...P[0]);
+    ctx.lineTo(...P[2]);
+    ctx.lineTo(...P[4]);
+    ctx.lineTo(...P[6]);
+    ctx.closePath();
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  }
+}
+    </script>
+  </body>
+</html>

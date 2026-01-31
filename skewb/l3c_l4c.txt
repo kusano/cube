@@ -1,0 +1,17 @@
+import itertools
+
+C = [0]*6
+for p in itertools.permutations(range(5)):
+    c = 0
+    for i in range(5):
+        for j in range(i):
+            if p[j]>p[i]:
+                c += 1
+    if p[0]!=0 and c%2==0:
+        n = 0
+        for i in range(5):
+            if p[i]!=i:
+                n += 1
+        C[n] += 1
+print(C, sum(C))
+# [0, 0, 0, 12, 12, 24] 48
