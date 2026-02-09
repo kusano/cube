@@ -569,7 +569,18 @@
           <li>「や」行や「ら」行、「わ」行、長音、拗音と促音の小さい文字は無視する（例: クラリネット → くね、切手 → きて）。</li>
           <li>「あ/あ」などの同一文字は、1文字を表す。</li>
         </ul>
-        <table class="table is-bordered is-narrow is-size-7" style="word-break: keep-all">
+        <div class="field">
+          <label class="label">検索</label>
+          <div class="control">
+            <input id="letter_input" class="input" type="text">
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <input id="letter_result" class="input" type="text" readonly>
+          </div>
+        </div>
+        <table id="letter_table1" class="table is-bordered is-narrow is-size-7" style="word-break: keep-all">
           <thead>
             <tr><th></th><th>あ</th><th>い</th><th>う</th><th>え</th><th></th><th>か</th><th>き</th><th>く</th><th>け</th><th></th><th>さ</th><th>し</th><th>す</th><th>せ</th></tr>
           </thead>
@@ -589,7 +600,7 @@
             <tr><th>す</th><td>四暗刻</td><td>スイカ</td><td>数独</td><td>据え膳</td><td></td><td>スカート</td><td>スキー</td><td>スク水</td><td>スケート</td><td></td><td>朱雀</td><td>寿司</td><td>煤</td><td>寸前</td></tr>
             <tr><th>せ</th><td>背脂</td><td>精子</td><td>ゼウス</td><td>千円札</td><td></td><td>世界地図</td><td>席</td><td>セクシー</td><td>石鹸</td><td></td><td>セサミストリート</td><td>戦士</td><td>扇子</td><td>先生</td></tr>
             <tr><th></th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><th>た</th><td>綿飴</td><td>鯛焼き</td><td>田植え</td><td>たえちゃん</td><td></td><td>宝箱</td><td>滝</td><td>沢庵</td><td>竹</td><td></td><td>ターザン</td><td>端子</td><td>箪笥</td><td>打席</td></tr>
+            <tr><th>た</th><td>綿飴</td><td>鯛焼き</td><td>タウンページ</td><td>たえちゃん</td><td></td><td>宝箱</td><td>滝</td><td>沢庵</td><td>竹</td><td></td><td>ターザン</td><td>端子</td><td>箪笥</td><td>打席</td></tr>
             <tr><th>ち</th><td>チアガール</td><td>チャイム</td><td>九蓮宝燈</td><td>遅延証明</td><td></td><td>痴漢</td><td>地球</td><td>乳首</td><td>チケット</td><td></td><td>チーザ</td><td>血しぶき</td><td>チーズ</td><td>ちせ（最彼）</td></tr>
             <tr><th>つ</th><td>ツアーガイド</td><td>Twitter</td><td>通知</td><td>杖</td><td></td><td>柄</td><td>月</td><td>ツクシ</td><td>漬物</td><td></td><td>釣り竿</td><td>対馬</td><td>ツーステップ</td><td>釣り銭</td></tr>
             <tr><th>て</th><td>天安門</td><td>低気圧</td><td>手打ちそば</td><td>田園</td><td></td><td>手鏡</td><td>電気</td><td>天狗</td><td>電源ユニット</td><td></td><td>テーザー銃</td><td>手品</td><td>デスノート</td><td>電線</td></tr>
@@ -605,7 +616,7 @@
             <tr><th>へ</th><td>ヘアヌード</td><td>塀</td><td>へうげもの</td><td>へぇ</td><td></td><td>ベガ</td><td>ペンギン</td><td>ペグ</td><td>弁慶</td><td></td><td>便座</td><td>ベジータ</td><td>ベース</td><td>ベンゼン</td></tr>
           </tbody>
         </table>
-        <table class="table is-bordered is-narrow is-size-7" style="word-break: keep-all">
+        <table id="letter_table2" class="table is-bordered is-narrow is-size-7" style="word-break: keep-all">
           <thead>
             <tr><th></th><th>た</th><th>ち</th><th>つ</th><th>て</th><th></th><th>な</th><th>に</th><th>ぬ</th><th>ね</th><th></th><th>は</th><th>ひ</th><th>ふ</th><th>へ</th></tr>
           </thead>
@@ -686,5 +697,40 @@
         </address>
       </div>
     </section>
+    <script>
+      const elInput = document.getElementById("letter_input");
+      elInput.addEventListener("input", () => {
+        const input = elInput.value;
+        const hiragana = [
+          "あ", "い", "う", "え", "お",
+          "か", "き", "く", "け", "こ",
+          "さ", "し", "す", "せ", "そ",
+          "た", "ち", "つ", "て", "と",
+          "な", "に", "ぬ", "ね", "の",
+          "は", "ひ", "ふ", "へ", "ほ",
+        ];
+        const V = [];
+        for (let c of input) {
+          const v = hiragana.indexOf(c);
+          if (v!=-1) {
+            V.push(v);
+          }
+        }
+        if (V.length%2!=0) {
+          V.push(V[V.length-1]);
+        }
+        const body1 = document.getElementById("letter_table1").querySelector("tbody");
+        const body2 = document.getElementById("letter_table2").querySelector("tbody");
+        const images = [];
+        for (let i=0; i<V.length; i+=2) {
+          if (V[i+1]<15) {
+            images.push(body1.children[V[i]].children[V[i+1]+1].textContent);
+          } else {
+            images.push(body2.children[V[i]].children[V[i+1]-15+1].textContent);
+          }
+        }
+        document.getElementById("letter_result").value = images.join("　");
+      });
+    </script>
   </body>
 </html>
