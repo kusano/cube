@@ -340,7 +340,7 @@ function search() {
     if (worker) {
         worker.terminate();
     }
-    worker = new Worker("worker.js?v=20250726");
+    worker = new Worker("worker.js?v=20260331");
 
     let number = 0;
     let best = 9999;

@@ -1311,12 +1311,17 @@ function searchSliceInsert(scramble, normal, inverse) {
     };
 
     // 動的計画法で最適なスライスインサートを探す。
-    // E層の状態のみを見ているが、そこまでの手順によって以降の手数が異なることもあるかもしれない。
+    // E層の状態と最後にインサートした手をキーとする。
+    // インサートした手もキーとするのは、以降に追加する手とのキャンセルで、最適かどうかが変わりうるため。
+    // 例えば、 ... U2 U という手順にインサートするとき、U2 までを見ているときは ... E U2 より ... E2 U2 のほうが良いが、
+    // U までを見ると、 ... E2 U2 U より ... E U2 U のほうが良くなる。
     let T = {};
     T[extract(cube)] = {
-        length: 0,
-        moves: skeleton.slice(0, lastNonDR+1),
-        slices: [],
+        "none": {
+            length: 0,
+            moves: skeleton.slice(0, lastNonDR+1),
+            slices: [],
+        }
     };
 
     for (let i=lastNonDR+1; i<=firstNonDR; i++) {
@@ -1324,49 +1329,59 @@ function searchSliceInsert(scramble, normal, inverse) {
         T = {};
 
         for (let p in P) {
-            unextract(cube, p);
-            const moves = P[p].moves;
+            for (let last in P[p]) {
+                unextract(cube, p);
+                const moves = P[p][last].moves;
 
-            for (let n=0; n<4; n++) {
-                const m = "E"+["", "", "2", "'"][n];
-                if (n>0) {
-                    cube.move(m);
-                    moves.push(m);
-                }
-                if (i<firstNonDR) {
-                    cube.move(skeleton[i]);
-                    moves.push(skeleton[i]);
-                }
+                for (let n=0; n<4; n++) {
+                    const m = "E"+["", "", "2", "'"][n];
+                    if (n>0) {
+                        cube.move(m);
+                        moves.push(m);
+                    }
+                    if (i<firstNonDR) {
+                        cube.move(skeleton[i]);
+                        moves.push(skeleton[i]);
+                    }
 
-                const e = extract(cube);
-                const slices = [...P[p].slices];
-                if (n>0) {
-                    slices.push({
-                        position: i,
-                        move: m,
-                    });
-                }
-                const t = {
-                    length: normalizedMovesNumber(moves),
-                    moves: [...moves],
-                    slices: slices,
-                }
-                // 以下の優先順位で採用。
-                // - 手数が短い。
-                // - 挿入するスライスが少ない。
-                if (!T[e] ||
-                    t.length<T[e].length ||
-                    t.length==T[e].length && t.slices.length<T[e].slices.length) {
-                    T[e] = t;
-                }
+                    const e = extract(cube);
+                    const slices = [...P[p][last].slices];
+                    if (n>0) {
+                        slices.push({
+                            position: i,
+                            move: m,
+                        });
+                    }
+                    const t = {
+                        length: normalizedMovesNumber(moves),
+                        moves: [...moves],
+                        slices: slices,
+                    }
+                    let last2 = last;
+                    if (n>0) {
+                        last2 = `${m}_${i}`;
+                    }
+                    // 以下の優先順位で採用。
+                    // - 手数が短い。
+                    // - 挿入するスライスが少ない。
+                    if (!T[e] ||
+                        !T[e][last2] ||
+                        t.length<T[e][last2].length ||
+                        t.length==T[e][last2].length && t.slices.length<T[e][last2].slices.length) {
+                        if (!T[e]) {
+                            T[e] = {};
+                        }
+                        T[e][last2] = t;
+                    }
 
-                if (i<firstNonDR) {
-                    cube.undo();
-                    moves.pop();
-                }
-                if (n>0) {
-                    cube.undo();
-                    moves.pop();
+                    if (i<firstNonDR) {
+                        cube.undo();
+                        moves.pop();
+                    }
+                    if (n>0) {
+                        cube.undo();
+                        moves.pop();
+                    }
                 }
             }
         }
@@ -1376,15 +1391,22 @@ function searchSliceInsert(scramble, normal, inverse) {
     if (!T[solved]) {
         return false;
     }
+    let last = "";
+    for (let l in T[solved]) {
+        if (last=="" ||
+            T[solved][l].length<T[solved][last].length) {
+            last = l;
+        }
+    }
 
-    const moves = T[solved].moves;
+    const moves = T[solved][last].moves;
     for (let i=firstNonDR; i<skeleton.length; i++) {
         moves.push(skeleton[i]);
     }
 
     return {
         total: normalizedMovesNumber(moves),
-        slices: T[solved].slices,
+        slices: T[solved][last].slices,
     };
 }
 
@@ -1471,7 +1493,7 @@ function normalizedMovesNumber(moves) {
         "R": "r",
         "L": "r",
         "U": "u",
-        "D": "d",
+        "D": "u",
     };
     for (let m of tmp) {
         if (M.length>0 && M2L[M[M.length-1][0]]!=M2L[m[0]]) {
@@ -1515,6 +1537,7 @@ function normalizedMovesNumberTest() {
     console.assert(normalizedMovesNumber(["R", "L'", "M"])==2);
     console.assert(normalizedMovesNumber(["F", "R", "L'", "M'", "U2"])==1);
     console.assert(normalizedMovesNumber(["F", "R", "L'", "M", "U2"])==4);
+    console.assert(normalizedMovesNumber(["F2", "U", "E'", "F2"])==3);
 }
 //normalizedMovesNumberTest();
 
