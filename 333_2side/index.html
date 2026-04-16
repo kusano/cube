@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="PP-PLL">
+    <title>OLLとPLLの2側面判断</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+    <style>
+      td.oll_side {
+        vertical-align: middle !important;
+      }
+      td.oll_oll {
+        vertical-align: middle !important;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>OLLとPLLの2側面判断</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; OLLとPLLの2側面判断
+        </p>
+        <p>
+          PLLはF面とR面の2側面を見ればどのPLLかの判断ができる。
+          OLLも、加えてU面を見れば、判断できる。
+          判断方法をまとめる。
+        </p>
+        <h2>参考</h2>
+        <ul>
+          <li><a href="https://speedcubedb.com/a/3x3/OLL">OLL - Speed Cube Database</a></li>
+        </ul>
+        <h2>目次</h2>
+        <ul>
+          <li><a href="#pp_pll">PP-PLL</a></li>
+          <li><a href="#pll">使っているPLL</a></li>
+        </ul>
+        <h2 id="oll">OLL</h2>
+        <h3 id="oll_logic">理論</h3>
+        <p>
+          エッジは、U面がU面色かどうかで側面がU面色でないかどうかが分かる。
+          コーナーは、1個は3面が見えている。
+          2個は2面が見えているので、U面色がどの面にあるのかが分かる。
+          残りの1個のコーナーは、コーナーの回転の合計が3の倍数になるというキューブの性質から分かる。
+          向きの合っていないコーナーが1個になることはない。
+          向きの合っていないコーナーが2個のとき、その2個は時計回りと反時計回りに回転している。
+          3個のときは、全てが時計回りか、全てが反時計回り。
+          4個のときは、時計回りと反時計回りが2個ずつある。
+        </p>
+        <p>
+          普通に（3側面以上を見て）OLLの判断ができている時点で2側面でもだいたいは判断でき、判断に使っている部分が見えない面にある場合を追加で覚えるだけで良いはず。
+        </p>
+        <h3 id="oll_recog">判断</h3>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width: 90px">U面</th>
+                <th style="width: 360px">側面</th>
+                <th style="width: 90px">OLL</th>
+                <th style="width: 5em"></th>
+                <th style="min-width: 10em">コメント</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="....D...."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D.DDD....D...."></canvas>
+                  <canvas class="pers" data-faces="DDD.D.....D...."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D.DDD.D.DDD....D...."></canvas></td>
+                <td class="oll_oll">OLL1</td>
+                <td>側面にエッジとどちらか一方のコーナーからなるペアが無い。</td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".DD.D.....D...."></canvas>
+                  <canvas class="pers" data-faces=".D.DD.....D...."></canvas>
+                  <canvas class="pers" data-faces="DD.DDD....D...."></canvas>
+                  <canvas class="pers" data-faces="DDD.DD....D...."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".DD.D.DD.DDD....D...."></canvas></td>
+                <td class="oll_oll">OLL2</td>
+                <td>ペアがある。</td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="....D.D.."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".DD.DD....D.D.."></canvas>
+                  <canvas class="pers" data-faces=".DD.DDD...D...."></canvas>
+                  <canvas class="pers" data-faces=".DD.D...D.D...."></canvas>
+                  <canvas class="pers" data-faces=".D..DD....D...D"></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="DD.DD.DD..D.....D.D.."></canvas></td>
+                <td class="oll_oll">OLL3</td>
+                <td>ペアが右に寄っている。</td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D.DD.....D.D.."></canvas>
+                  <canvas class="pers" data-faces="DD.DD.D...D...."></canvas>
+                  <canvas class="pers" data-faces="DD.DD...D.D...."></canvas>
+                  <canvas class="pers" data-faces="DD..D.....D...D"></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".DD.DD.D..DD....D.D.."></canvas></td>
+                <td class="oll_oll">OLL4</td>
+                <td>ペアが左に寄っている。</td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="....DD.DD"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".....D....DD.DD"></canvas>
+                  <canvas class="pers" data-faces="..D.DD...DD.DD."></canvas>
+                  <canvas class="pers" data-faces=".DD.DDDD.DD...."></canvas>
+                  <canvas class="pers" data-faces=".DD....DD.DD..."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="DD.D.....DD.....DD.DD"></canvas></td>
+                <td class="oll_oll">OLL5</td>
+                <td>向きの合っているコーナーが1個のOLLは、U面色が側面にあるコーナーの向きで判断できる？</td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="D.........DD.DD"></canvas>
+                  <canvas class="pers" data-faces="...DD....DD.DD."></canvas>
+                  <canvas class="pers" data-faces="DD.DD.DD.DD...."></canvas>
+                  <canvas class="pers" data-faces="DD.D...DD.DD..."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".DD.....D.DD....DD.DD"></canvas></td>
+                <td class="oll_oll">OLL6</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces=".D.DD.D.."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".DD.DD.D.DD.D.."></canvas>
+                  <canvas class="pers" data-faces=".DD..DDD..DD..."></canvas>
+                  <canvas class="pers" data-faces="..D.....D.DD.D."></canvas>
+                  <canvas class="pers" data-faces="....DD...DD..DD"></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="D..DD.DD.....D.DD.D.."></canvas></td>
+                <td class="oll_oll">OLL7</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D.DD..D.DD.D.."></canvas>
+                  <canvas class="pers" data-faces="DD.D..DD..DD..."></canvas>
+                  <canvas class="pers" data-faces="D..D....D.DD.D."></canvas>
+                  <canvas class="pers" data-faces="D...D....DD..DD"></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="..D.DD.D...D.D.DD.D.."></canvas></td>
+                <td class="oll_oll">OLL12</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces=".D..DD..D"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="DD.....D..DD..D"></canvas>
+                  <canvas class="pers" data-faces="...D......DDDD."></canvas>
+                  <canvas class="pers" data-faces="D..DD.D..DD..D."></canvas>
+                  <canvas class="pers" data-faces="DD.DD..DDDD...."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="..D....DD.DD.D..DD..D"></canvas></td>
+                <td class="oll_oll">OLL8</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D...D.D..DD..D"></canvas>
+                  <canvas class="pers" data-faces="..D..D....DDDD."></canvas>
+                  <canvas class="pers" data-faces="..D.DDD..DD..D."></canvas>
+                  <canvas class="pers" data-faces=".DD.D..DDDD...."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="D..D...D.DD..D..DD..D"></canvas></td>
+                <td class="oll_oll">OLL11</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="..DDD..D."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="D..DD...DDD..D."></canvas>
+                  <canvas class="pers" data-faces="DD..D..D.DD...D"></canvas>
+                  <canvas class="pers" data-faces=".D.D...D..DDD.."></canvas>
+                  <canvas class="pers" data-faces="D..D..D...DD.D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D..DD..D..D..DDD..D."></canvas></td>
+                <td class="oll_oll">OLL9</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="..D.D...DDD..D."></canvas>
+                  <canvas class="pers" data-faces=".D..DD.D.DD...D"></canvas>
+                  <canvas class="pers" data-faces=".DD..D.D..DDD.."></canvas>
+                  <canvas class="pers" data-faces="..D..DD...DD.D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="DD..D.D..D....DDD..D."></canvas></td>
+                <td class="oll_oll">OLL10</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="...DDDD.."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".DD..D...DDDD.."></canvas>
+                  <canvas class="pers" data-faces="..D.DDDD..D..D."></canvas>
+                  <canvas class="pers" data-faces=".DD.....DDDD..."></canvas>
+                  <canvas class="pers" data-faces="....DD.D..D..DD"></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="DD.D..DD.......DDDD.."></canvas></td>
+                <td class="oll_oll">OLL13</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D.D.....DDDD.."></canvas>
+                  <canvas class="pers" data-faces="D..DD.DD..D..D."></canvas>
+                  <canvas class="pers" data-faces="DD.D....DDDD..."></canvas>
+                  <canvas class="pers" data-faces="D...D..D..D..DD"></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".DD..D.D...D...DDDD.."></canvas></td>
+                <td class="oll_oll">OLL16</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="...DDD..D"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="DD.......DDD..D"></canvas>
+                  <canvas class="pers" data-faces="...DD..D..D.DD."></canvas>
+                  <canvas class="pers" data-faces="DD.D..D..DDD..."></canvas>
+                  <canvas class="pers" data-faces="D..DD..DD.D..D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".DD....DD..D...DDD..D"></canvas></td>
+                <td class="oll_oll">OLL14</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D...D...DDD..D"></canvas>
+                  <canvas class="pers" data-faces="..D.DD.D..D.DD."></canvas>
+                  <canvas class="pers" data-faces=".DD..DD..DDD..."></canvas>
+                  <canvas class="pers" data-faces="..D.D..DD.D..D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="DD.D...D.D.....DDD..D"></canvas></td>
+                <td class="oll_oll">OLL15</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><canvas class="top" data-faces="D...D...D"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D..D.D...D...D"></canvas>
+                  <canvas class="pers" data-faces=".D.DD...D.D.D.."></canvas>
+                  <canvas class="pers" data-faces="DD..DDD...D...D"></canvas>
+                  <canvas class="pers" data-faces=".DD.D...D.D.D.."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".DD.D..D.DD.D...D...D"></canvas></td>
+                <td class="oll_oll">OLL17</td>
+                <td>U面がこの形になるのはOLL17のみ。</td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="D.D.D...."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="DDD.D.D.D.D...."></canvas>
+                  <canvas class="pers" data-faces=".D..D...D.D...D"></canvas>
+                  <canvas class="pers" data-faces=".D..D.....D.D.D"></canvas>
+                  <canvas class="pers" data-faces=".D.DDDD...D.D.."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D..D.DDD.D.D.D.D...."></canvas></td>
+                <td class="oll_oll">OLL18</td>
+                <td>ペアが無い。</td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D.DD.D.D.D...."></canvas>
+                  <canvas class="pers" data-faces="DD..D...D.D...D"></canvas>
+                  <canvas class="pers" data-faces=".D..DD....D.D.D"></canvas>
+                  <canvas class="pers" data-faces=".DD.D.D...D.D.."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D..DD.D.DD.D.D.D...."></canvas></td>
+                <td class="oll_oll">OLL19</td>
+                <td>ペアがある。</td>
+              </tr>
+              <tr>
+                <td><canvas class="top" data-faces="D.D.D.D.D"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D..D.D.D.D.D.D"></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D..D..D..D.D.D.D.D.D"></canvas></td>
+                <td class="oll_oll">OLL20</td>
+                <td>U面がこの形になるのはOLL20のみ。</td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces=".D.DDD.D."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="...D.D.D.DDD.D."></canvas>
+                  <canvas class="pers" data-faces="D.D....D.DDD.D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="...D.D...D.D.D.DDD.D."></canvas></td>
+                <td class="oll_oll">OLL21</td>
+                <td>コーナー1個のみがU面の側面が無い。</td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="..D....D.DDD.D."></canvas>
+                  <canvas class="pers" data-faces="...D...D.DDD.D."></canvas>
+                  <canvas class="pers" data-faces="D..D.D.D.DDD.D."></canvas>
+                  <canvas class="pers" data-faces="D.D..D.D.DDD.D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="..D...D..D.D.D.DDD.D."></canvas></td>
+                <td class="oll_oll">OLL22</td>
+                <td>コーナー1個のみがU面の側面がある。</td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="DDDDDD.D."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="D.D...DDDDDD.D."></canvas>
+                  <canvas class="pers" data-faces=".......DDDDD.DD"></canvas>
+                  <canvas class="pers" data-faces=".......D.DDDDDD"></canvas>
+                  <canvas class="pers" data-faces="...D.DDD.DDDDD."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="......D.D...DDDDDD.D."></canvas></td>
+                <td class="oll_oll">OLL23</td>
+                <td>コーナー1個のみがU面の側面が無い。</td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="...D..DDDDDD.D."></canvas>
+                  <canvas class="pers" data-faces="D......DDDDD.DD"></canvas>
+                  <canvas class="pers" data-faces=".....D.D.DDDDDD"></canvas>
+                  <canvas class="pers" data-faces="..D...DD.DDDDD."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".....D...D..DDDDDD.D."></canvas></td>
+                <td class="oll_oll">OLL24</td>
+                <td>コーナー1個のみがU面の側面がある。</td>
+              </tr>
+              <tr>
+                <td><canvas class="top" data-faces="DD.DDD.DD"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="D....DDD.DDD.DD"></canvas>
+                  <canvas class="pers" data-faces="..D....DDDDDDD."></canvas>
+                  <canvas class="pers" data-faces="......DD.DDD.DD"></canvas>
+                  <canvas class="pers" data-faces="...D...DDDDDDD."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="...D....D...DD.DDD.DD"></canvas></td>
+                <td class="oll_oll">OLL25</td>
+                <td>U面がこの形になるのはOLL25のみ。</td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="DD.DDD.D."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="D..D..DD.DDD.D."></canvas>
+                  <canvas class="pers" data-faces="D..D...DDDDD.D."></canvas>
+                  <canvas class="pers" data-faces="D......D.DDD.DD"></canvas>
+                  <canvas class="pers" data-faces="...D...D.DDDDD."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="..D..D..D...DD.DDD.D."></canvas></td>
+                <td class="oll_oll">OLL26</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="..D..DDD.DDD.D."></canvas>
+                  <canvas class="pers" data-faces="..D....DDDDD.D."></canvas>
+                  <canvas class="pers" data-faces=".....D.D.DDD.DD"></canvas>
+                  <canvas class="pers" data-faces="..D..D.D.DDDDD."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="...D..D..D..DD.DDD.D."></canvas></td>
+                <td class="oll_oll">OLL27</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><canvas class="top" data-faces="DDDDD.D.D"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D..D.DDDDD.D.D"></canvas>
+                  <canvas class="pers" data-faces=".D....DDD.DDD.D"></canvas>
+                  <canvas class="pers" data-faces="......D.D.DDDDD"></canvas>
+                  <canvas class="pers" data-faces="....D.D.DDD.DDD"></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="....D..D....DDDDD.D.D"></canvas></td>
+                <td class="oll_oll">OLL28</td>
+                <td>U面がこの形になるのはOLL28のみ。</td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="D.DDD..D."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="...DD.D.DDD..D."></canvas>
+                  <canvas class="pers" data-faces="DD..D..DDDD...D"></canvas>
+                  <canvas class="pers" data-faces=".D...D.D..DDD.D"></canvas>
+                  <canvas class="pers" data-faces="..D...D...DDDD."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D..DD...D..D.DDD..D."></canvas></td>
+                <td class="oll_oll">OLL29</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="D.D.D.D.DDD..D."></canvas>
+                  <canvas class="pers" data-faces=".D..D..DDDD...D"></canvas>
+                  <canvas class="pers" data-faces=".D.....D..DDD.D"></canvas>
+                  <canvas class="pers" data-faces="...D.DD...DDDD."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D..D.D.D...D.DDD..D."></canvas></td>
+                <td class="oll_oll">OLL42</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="D.D.DD.D."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="...D..D.D.DD.D."></canvas>
+                  <canvas class="pers" data-faces="D...D...DDD..DD"></canvas>
+                  <canvas class="pers" data-faces=".D..DD.D.DD.D.D"></canvas>
+                  <canvas class="pers" data-faces=".DD...DD..DDD.."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D...D...DD.D.D.DD.D."></canvas></td>
+                <td class="oll_oll">OLL30</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="D.D...D.D.DD.D."></canvas>
+                  <canvas class="pers" data-faces="....D...DDD..DD"></canvas>
+                  <canvas class="pers" data-faces=".D..D..D.DD.D.D"></canvas>
+                  <canvas class="pers" data-faces=".D.D.DDD..DDD.."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D....D.D.D.D.D.DD.D."></canvas></td>
+                <td class="oll_oll">OLL41</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces=".DD.DD..D"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="DD.....DD.DD..D"></canvas>
+                  <canvas class="pers" data-faces=".....D....DDDDD"></canvas>
+                  <canvas class="pers" data-faces="..D.D.D..DD.DD."></canvas>
+                  <canvas class="pers" data-faces=".D.DD.DDDDD...."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="D......DD.D..DD.DD..D"></canvas></td>
+                <td class="oll_oll">OLL31</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D.....DD.DD..D"></canvas>
+                  <canvas class="pers" data-faces="..........DDDDD"></canvas>
+                  <canvas class="pers" data-faces="...DDDD..DD.DD."></canvas>
+                  <canvas class="pers" data-faces="DDD.D.DDDDD...."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".......D.DDD.DD.DD..D"></canvas></td>
+                <td class="oll_oll">OLL43</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="..D.DD.DD"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="D.......D.DD.DD"></canvas>
+                  <canvas class="pers" data-faces="....DDDD.DD.D.."></canvas>
+                  <canvas class="pers" data-faces=".DD.D.DD.DD.D.."></canvas>
+                  <canvas class="pers" data-faces=".D.D..DDD.DD..."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="DD......D.D...D.DD.DD"></canvas></td>
+                <td class="oll_oll">OLL32</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="........D.DD.DD"></canvas>
+                  <canvas class="pers" data-faces="....D.DD.DD.D.."></canvas>
+                  <canvas class="pers" data-faces=".D.DDDDD.DD.D.."></canvas>
+                  <canvas class="pers" data-faces="DDD...DDD.DD..."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D.......DDD..D.DD.DD"></canvas></td>
+                <td class="oll_oll">OLL44</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="..DDDD..D"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="DD......DDDD..D"></canvas>
+                  <canvas class="pers" data-faces="....DD.D..D.DDD"></canvas>
+                  <canvas class="pers" data-faces=".DD...D..DDDD.."></canvas>
+                  <canvas class="pers" data-faces="...DD.DDD.D..D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="DD.....DD.....DDDD..D"></canvas></td>
+                <td class="oll_oll">OLL33</td>
+                <td>ペアがある。</td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D......DDDD..D"></canvas>
+                  <canvas class="pers" data-faces="....D..D..D.DDD"></canvas>
+                  <canvas class="pers" data-faces=".D.D.DD..DDDD.."></canvas>
+                  <canvas class="pers" data-faces="D.D.D.DDD.D..D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D.....D.D.D..DDDD..D"></canvas></td>
+                <td class="oll_oll">OLL45</td>
+                <td>ペアが無い。</td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="D.DDDD..."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D.D..D.DDDD..."></canvas>
+                  <canvas class="pers" data-faces="D...D..DD.D..DD"></canvas>
+                  <canvas class="pers" data-faces=".D...D...DDDD.D"></canvas>
+                  <canvas class="pers" data-faces="..D.D.DD..D.DD."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D...D.D.D..D.DDDD..."></canvas></td>
+                <td class="oll_oll">OLL34</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="DDD...D.DDDD..."></canvas>
+                  <canvas class="pers" data-faces="....D..DD.D..DD"></canvas>
+                  <canvas class="pers" data-faces=".D.......DDDD.D"></canvas>
+                  <canvas class="pers" data-faces="...DDDDD..D.DD."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D....DDD...D.DDDD..."></canvas></td>
+                <td class="oll_oll">OLL46</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="D...DD.DD"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="D....DD...DD.DD"></canvas>
+                  <canvas class="pers" data-faces="..D.D...DDD.DD."></canvas>
+                  <canvas class="pers" data-faces=".D..D.DD.DD...D"></canvas>
+                  <canvas class="pers" data-faces=".D.D...DD.DDD.."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D.D....D.D.D...DD.DD"></canvas></td>
+                <td class="oll_oll">OLL35</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="......D...DD.DD"></canvas>
+                  <canvas class="pers" data-faces="...DD...DDD.DD."></canvas>
+                  <canvas class="pers" data-faces="DD..DDDD.DD...D"></canvas>
+                  <canvas class="pers" data-faces=".DD....DD.DDD.."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".DD......DD.D...DD.DD"></canvas></td>
+                <td class="oll_oll">OLL37</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="D..DD..DD"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="D...DDD..DD..DD"></canvas>
+                  <canvas class="pers" data-faces=".DD.D..DDDD.D.."></canvas>
+                  <canvas class="pers" data-faces=".D....DD..DD..D"></canvas>
+                  <canvas class="pers" data-faces="...D....D.DDDD."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D.DD...D...D..DD..DD"></canvas></td>
+                <td class="oll_oll">OLL36</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="....D.D..DD..DD"></canvas>
+                  <canvas class="pers" data-faces=".D.DD..DDDD.D.."></canvas>
+                  <canvas class="pers" data-faces="DD...DDD..DD..D"></canvas>
+                  <canvas class="pers" data-faces="..D.....D.DDDD."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".DD.D....D..D..DD..DD"></canvas></td>
+                <td class="oll_oll">OLL38</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><canvas class="top" data-faces="DD..D..DD"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="....D.DD..D..DD"></canvas>
+                  <canvas class="pers" data-faces=".D.D....DDDDD.."></canvas>
+                  <canvas class="pers" data-faces="D...DDDD..D..DD"></canvas>
+                  <canvas class="pers" data-faces=".DD.....DDDDD.."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="..D.D....DD.DD..D..DD"></canvas></td>
+                <td class="oll_oll">OLL39</td>
+                <td>U面がこの形になるのはOLL39のみ。</td>
+              </tr>
+              <tr>
+                <td><canvas class="top" data-faces=".DD.D.DD."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="..D.D..DD.D.DD."></canvas>
+                  <canvas class="pers" data-faces=".D....D..DDD..D"></canvas>
+                  <canvas class="pers" data-faces="...DD..DD.D.DD."></canvas>
+                  <canvas class="pers" data-faces="DD...DD..DDD..D"></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="....D.D...DD.DD.D.DD."></canvas></td>
+                <td class="oll_oll">OLL40</td>
+                <td>U面がこの形になるのはOLL40のみ。</td>
+              </tr>
+              <tr>
+                <td rowspan="6"><canvas class="top" data-faces=".D..DD..."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="DD.D.D.D..DD..."></canvas>
+                  <canvas class="pers" data-faces="D.D..D....DD.D."></canvas>
+                  <canvas class="pers" data-faces="..D.D....DD..D."></canvas>
+                  <canvas class="pers" data-faces=".D.DD..D.DD...."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="D..D.D.DD.D..D..DD..."></canvas></td>
+                <td class="oll_oll">OLL47</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D.D...D..DD..."></canvas>
+                  <canvas class="pers" data-faces="D..D.D....DD.D."></canvas>
+                  <canvas class="pers" data-faces="D.D.DD...DD..D."></canvas>
+                  <canvas class="pers" data-faces=".DD.D..D.DD...."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="D.D..D.D.DD..D..DD..."></canvas></td>
+                <td class="oll_oll">OLL48</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".DD....D..DD..."></canvas>
+                  <canvas class="pers" data-faces="...D......DD.D."></canvas>
+                  <canvas class="pers" data-faces="D..DDD...DD..D."></canvas>
+                  <canvas class="pers" data-faces="DDD.DD.D.DD...."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="..D...DD.DDD.D..DD..."></canvas></td>
+                <td class="oll_oll">OLL49</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="DDD..D.D..DD..."></canvas>
+                  <canvas class="pers" data-faces="..D.......DD.D."></canvas>
+                  <canvas class="pers" data-faces="...DD....DD..D."></canvas>
+                  <canvas class="pers" data-faces="DD.DDD.D.DD...."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="...D..DDD.DD.D..DD..."></canvas></td>
+                <td class="oll_oll">OLL50</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="DDD....D..DD..."></canvas>
+                  <canvas class="pers" data-faces="...D.D....DD.D."></canvas>
+                  <canvas class="pers" data-faces="D.D.D....DD..D."></canvas>
+                  <canvas class="pers" data-faces=".D.DDD.D.DD...."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="D.D...DDD.D..D..DD..."></canvas></td>
+                <td class="oll_oll">OLL53</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D.D.D.D..DD..."></canvas>
+                  <canvas class="pers" data-faces="D.D.......DD.D."></canvas>
+                  <canvas class="pers" data-faces="...DDD...DD..D."></canvas>
+                  <canvas class="pers" data-faces="DDD.D..D.DD...."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="...D.D.D.DDD.D..DD..."></canvas></td>
+                <td class="oll_oll">OLL54</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td rowspan="4"><canvas class="top" data-faces="...DDD..."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".DD......DDD..."></canvas>
+                  <canvas class="pers" data-faces="...DD..D..D..D."></canvas>
+                  <canvas class="pers" data-faces="DD.D.D...DDD..."></canvas>
+                  <canvas class="pers" data-faces="D.D.DD.D..D..D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".DD...DD.D.D...DDD..."></canvas></td>
+                <td class="oll_oll">OLL51</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D.D.....DDD..."></canvas>
+                  <canvas class="pers" data-faces="D..DDD.D..D..D."></canvas>
+                  <canvas class="pers" data-faces="DDD..D...DDD..."></canvas>
+                  <canvas class="pers" data-faces="..D.D..D..D..D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="DDD..D.D.D.....DDD..."></canvas></td>
+                <td class="oll_oll">OLL52</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="DDD......DDD..."></canvas>
+                  <canvas class="pers" data-faces="...DDD.D..D..D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="DDD...DDD......DDD..."></canvas></td>
+                <td class="oll_oll">OLL55</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D.D.D...DDD..."></canvas>
+                  <canvas class="pers" data-faces="D.D.D..D..D..D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D.D.D.D.D.D...DDD..."></canvas></td>
+                <td class="oll_oll">OLL56</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><canvas class="top" data-faces="D.DDDDD.D"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D....D.DDDDD.D"></canvas>
+                  <canvas class="pers" data-faces="....D.DDD.D.DDD"></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D.....D....D.DDDDD.D"></canvas></td>
+                <td class="oll_oll">OLL57</td>
+                <td>U面がこの形になるのはOLL57のみ。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <canvas class="top" data-faces="RLBFBRRBFF.B....D...."></canvas>
+        <canvas class="pers" data-faces="FFRRRLDDBDDDDDD"></canvas>
+        <hr>
+        <address class="mb-6 has-text-right">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+    <script>
+const colors = {
+  "F": "#08f808",
+  "B": "#0808f8",
+  "R": "#f80808",
+  "L": "#f8a008",
+  "D": "#f8f840",
+  ".": "#c0c0c0",
+};
+
+for (let canvas of document.querySelectorAll(".top")) {
+  const C = 20;
+
+  const W = C*4;
+  const H = C*4;
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio;
+  canvas.width = W*dpr;
+  canvas.height = H*dpr;
+  ctx.scale(dpr, dpr);
+  canvas.style.width = `${W}px`;
+  canvas.style.height = `${H}px`;
+
+  const faces = canvas.dataset.faces;
+
+  ctx.lineWidth = 0.5;
+  ctx.strokeStyle = "#303030";
+
+  for (let y=0; y<3; y++) {
+    for (let x=0; x<3; x++) {
+      ctx.beginPath();
+      ctx.rect((x+.5)*C, (y+.5)*C, C, C);
+      ctx.fillStyle = colors[faces[y*3+x]];
+      ctx.fill();
+      ctx.stroke();
+    }
+  }
+
+  ctx.beginPath();
+  ctx.rect(.5*C, .5*C, 3*C, 3*C);
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+}
+
+for (let canvas of document.querySelectorAll(".top_side")) {
+  const C = 16;
+
+  const W = C*5;
+  const H = C*5;
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio;
+  canvas.width = W*dpr;
+  canvas.height = H*dpr;
+  ctx.scale(dpr, dpr);
+  canvas.style.width = `${W}px`;
+  canvas.style.height = `${H}px`;
+
+  const faces = canvas.dataset.faces;
+
+  ctx.lineWidth = 0.5;
+  ctx.strokeStyle = "#303030";
+
+  function s(p) {
+    return (p-C*2.5)*.8+C*2.5;
+  }
+
+  for (let x=0; x<3; x++) {
+    ctx.beginPath();
+    ctx.moveTo(s((x+1)*C), C/3);
+    ctx.lineTo(s((x+2)*C), C/3);
+    ctx.lineTo((x+2)*C, C);
+    ctx.lineTo((x+1)*C, C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[x]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let y=0; y<3; y++) {
+    ctx.beginPath();
+    ctx.moveTo((5-1/3)*C, s((y+1)*C));
+    ctx.lineTo((5-1/3)*C, s((y+2)*C));
+    ctx.lineTo(4*C, (y+2)*C);
+    ctx.lineTo(4*C, (y+1)*C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[3+y]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let x=0; x<3; x++) {
+    ctx.beginPath();
+    ctx.moveTo(s((3-x)*C), (5-1/3)*C);
+    ctx.lineTo(s((4-x)*C), (5-1/3)*C);
+    ctx.lineTo((4-x)*C, 4*C);
+    ctx.lineTo((3-x)*C, 4*C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[6+x]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let y=0; y<3; y++) {
+    ctx.beginPath();
+    ctx.moveTo(1/3*C, s((3-y)*C));
+    ctx.lineTo(1/3*C, s((4-y)*C));
+    ctx.lineTo(C, (4-y)*C);
+    ctx.lineTo(C, (3-y)*C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[9+y]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let y=0; y<3; y++) {
+    for (let x=0; x<3; x++) {
+      ctx.beginPath();
+      ctx.rect((x+1)*C, (y+1)*C, C, C);
+      ctx.fillStyle = colors[faces[12+y*3+x]];
+      ctx.fill();
+      ctx.stroke();
+    }
+  }
+
+  ctx.beginPath();
+  ctx.rect(C, C, 3*C, 3*C);
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+}
+
+for (let canvas of document.querySelectorAll(".pers")) {
+  const S = 80;
+
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio;
+  canvas.width = S*dpr;
+  canvas.height = (S*.6)*dpr;
+  ctx.scale(dpr, dpr);
+  canvas.style.width = `${S}px`;
+  canvas.style.height = `${S*.6}px`;
+
+  const faces = canvas.dataset.faces;
+
+  function rotate(x, y, z) {
+    const th2 = -0.6;
+    const x2 = x*Math.cos(th2)-y*Math.sin(th2);
+    const y2 = x*Math.sin(th2)+y*Math.cos(th2);
+    const z2 = z;
+
+    const th3 = 0.4;
+    const x3 = x2;
+    const y3 = y2*Math.cos(th3)-z2*Math.sin(th3);
+    const z3 = y2*Math.sin(th3)+z2*Math.cos(th3);
+
+    const p = 0.1;
+    const x4 = x3*(1-y3*p);
+    const z4 = z3*(1-y3*p);
+
+    return [x4*S*.3+S*.5, -z4*S*.3+S*.45];
+  }
+
+  ctx.lineWidth = 0.5;
+  ctx.strokeStyle = "#303030";
+
+  // F.
+  for (let y=0; y<3; y++) {
+    for (let x=0; x<3; x++) {
+      ctx.beginPath();
+      ctx.moveTo(...rotate(x    *2/3-1, -1, -y    *2/3+1));
+      ctx.lineTo(...rotate((x+1)*2/3-1, -1, -y    *2/3+1));
+      ctx.lineTo(...rotate((x+1)*2/3-1, -1, -(y+1)*2/3+1));
+      ctx.lineTo(...rotate(x    *2/3-1, -1, -(y+1)*2/3+1));
+      ctx.closePath();
+      ctx.fillStyle = colors[y==0?faces[x]:"."];
+      ctx.fill();
+      ctx.stroke();
+    }
+  }
+
+  // R.
+  for (let y=0; y<3; y++) {
+    for (let x=0; x<3; x++) {
+      ctx.beginPath();
+      ctx.moveTo(...rotate(1, x    *2/3-1, -y    *2/3+1));
+      ctx.lineTo(...rotate(1, (x+1)*2/3-1, -y    *2/3+1));
+      ctx.lineTo(...rotate(1, (x+1)*2/3-1, -(y+1)*2/3+1));
+      ctx.lineTo(...rotate(1, x    *2/3-1, -(y+1)*2/3+1));
+      ctx.closePath();
+      ctx.fillStyle = colors[y==0?faces[3+x]:"."];
+      ctx.fill();
+      ctx.stroke();
+    }
+  }
+
+  // U.
+  for (let y=0; y<3; y++) {
+    for (let x=0; x<3; x++) {
+      ctx.beginPath();
+      ctx.moveTo(...rotate(x    *2/3-1, -y    *2/3+1, 1));
+      ctx.lineTo(...rotate((x+1)*2/3-1, -y    *2/3+1, 1));
+      ctx.lineTo(...rotate((x+1)*2/3-1, -(y+1)*2/3+1, 1));
+      ctx.lineTo(...rotate(x    *2/3-1, -(y+1)*2/3+1, 1));
+      ctx.closePath();
+      ctx.fillStyle = colors[faces.length>6?faces[6+y*3+x]:"D"];
+      ctx.fill();
+      ctx.stroke();
+    }
+  }
+
+  ctx.lineWidth = 1.5;
+
+  ctx.beginPath();
+  ctx.moveTo(...rotate(-1, -1, -1));
+  ctx.lineTo(...rotate(-1, -1,  1));
+  ctx.lineTo(...rotate( 1, -1,  1));
+  ctx.lineTo(...rotate( 1, -1, -1));
+  ctx.closePath();
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(...rotate(1, -1, -1));
+  ctx.lineTo(...rotate(1, -1,  1));
+  ctx.lineTo(...rotate(1,  1,  1));
+  ctx.lineTo(...rotate(1,  1, -1));
+  ctx.closePath();
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(...rotate(-1, -1, 1));
+  ctx.lineTo(...rotate(-1,  1, 1));
+  ctx.lineTo(...rotate( 1,  1, 1));
+  ctx.lineTo(...rotate( 1, -1, 1));
+  ctx.closePath();
+  ctx.stroke();
+}
+    </script>
+  </body>
+</html>
