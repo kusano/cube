@@ -57,14 +57,37 @@
           <li><a href="#oll">OLL</a>
             <ul style="margin-top: 0.25em">
               <li><a href="#oll_logic">理論</a></li>
-              <li><a href="#oll_recog">判断</a></li>
+              <li><a href="#oll_recog">判断</a>
+                <ul style="margin-top: 0.25em">
+                  <li><a href="#oll_dot">ドット</a></li>
+                  <li><a href="#oll_i">I</a></li>
+                  <li><a href="#oll_l">L</a></li>
+                  <li><a href="#oll_cross">十字</a></li>
+                </ul>
+              </li>
             </ul>
           </li>
           <li><a href="#pll">PLL</a>
             <ul style="margin-top: 0.25em">
               <li><a href="#pll_notation">用語</a></li>
               <li><a href="#pll_logic">理論</a></li>
-              <li><a href="#pll_recog">判断</a></li>
+              <li><a href="#pll_recog">判断</a>
+                <ul style="margin-top: 0.25em">
+                  <li><a href="#pll_2bars">バーが2個ある</a></li>
+                  <li><a href="#pll_bar_light">バーとヘッドライトがある</a></li>
+                  <li><a href="#pll_bar_pair">バーとペアがある</a></li>
+                  <li><a href="#pll_bar">バーが1個ある</a></li>
+                  <li><a href="#pll_2lights">ヘッドライトが2個ある</a></li>
+                  <li><a href="#pll_light_pair">ヘッドライトとペアがある</a></li>
+                  <li><a href="#pll_light">ヘッドライトが1個ある</a></li>
+                  <li><a href="#pll_2pairs_bookend">ペアが2個とブックエンドがある</a></li>
+                  <li><a href="#pll_2pairs">ペアが2個ある</a></li>
+                  <li><a href="#pll_pair_bookend">ペアが1個とブックエンドがある</a></li>
+                  <li><a href="#pll_pair">ペアが1個ある</a></li>
+                  <li><a href="#pll_bookend">ブックエンドがある</a></li>
+                  <li><a href="#pll_none">バー、ヘッドライト、ペア、ブックエンドが無い</a></li>
+                </ul>
+              </li>
             </ul>
           </li>
         </ul>
@@ -84,6 +107,7 @@
           普通に（3側面以上を見て）OLLの判断ができている時点で2側面でもだいたいは判断でき、判断に使っている部分が見えない面にある場合を追加で覚えるだけで良いはず。
         </p>
         <h3 id="oll_recog">判断</h3>
+        <h4 id="oll_dot">ドット</h4>
         <div class="table-container">
           <table class="table">
             <thead>
@@ -95,6 +119,9 @@
                 <th style="min-width: 10em">コメント</th>
               </tr>
             </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            </tfoot>
             <tbody>
               <tr>
                 <td rowspan="2"><canvas class="top" data-faces="....D...."></canvas></td>
@@ -140,6 +167,255 @@
                 <td class="oll_oll">OLL4</td>
                 <td></td>
               </tr>
+              <tr>
+                <td><canvas class="top" data-faces="D...D...D"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D..D.D...D...D"></canvas>
+                  <canvas class="pers" data-faces=".D.DD...D.D.D.."></canvas>
+                  <canvas class="pers" data-faces="DD..DDD...D...D"></canvas>
+                  <canvas class="pers" data-faces=".DD.D...D.D.D.."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".DD.D..D.DD.D...D...D"></canvas></td>
+                <td class="oll_oll">OLL17</td>
+                <td>U面がこの形になるのはOLL17のみ。</td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="D.D.D...."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="DDD.D.D.D.D...."></canvas>
+                  <canvas class="pers" data-faces=".D..D...D.D...D"></canvas>
+                  <canvas class="pers" data-faces=".D..D.....D.D.D"></canvas>
+                  <canvas class="pers" data-faces=".D.DDDD...D.D.."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D..D.DDD.D.D.D.D...."></canvas></td>
+                <td class="oll_oll">OLL18</td>
+                <td>上から見た図での左右の側面が、エッジのみU面色ならOLL18、ペアならOLL19。</td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D.DD.D.D.D...."></canvas>
+                  <canvas class="pers" data-faces="DD..D...D.D...D"></canvas>
+                  <canvas class="pers" data-faces=".D..DD....D.D.D"></canvas>
+                  <canvas class="pers" data-faces=".DD.D.D...D.D.."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D..DD.D.DD.D.D.D...."></canvas></td>
+                <td class="oll_oll">OLL19</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><canvas class="top" data-faces="D.D.D.D.D"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D..D.D.D.D.D.D"></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D..D..D..D.D.D.D.D.D"></canvas></td>
+                <td class="oll_oll">OLL20</td>
+                <td>U面がこの形になるのはOLL20のみ。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h4 id="oll_i">I</h4>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width: 90px">U面</th>
+                <th style="width: 360px">側面</th>
+                <th style="width: 90px">OLL</th>
+                <th style="width: 5em"></th>
+                <th style="min-width: 10em">コメント</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="...DDDD.."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".DD..D...DDDD.."></canvas>
+                  <canvas class="pers" data-faces="..D.DDDD..D..D."></canvas>
+                  <canvas class="pers" data-faces=".DD.....DDDD..."></canvas>
+                  <canvas class="pers" data-faces="....DD.D..D..DD"></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="DD.D..DD.......DDDD.."></canvas></td>
+                <td class="oll_oll">OLL13</td>
+                <td>U面のL字型で囲われた部分の側面がペアならOLL13。見えない向きでは、反対側の側面のペアがL字型の棒のほうにあればOLL13。</td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D.D.....DDDD.."></canvas>
+                  <canvas class="pers" data-faces="D..DD.DD..D..D."></canvas>
+                  <canvas class="pers" data-faces="DD.D....DDDD..."></canvas>
+                  <canvas class="pers" data-faces="D...D..D..D..DD"></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".DD..D.D...D...DDDD.."></canvas></td>
+                <td class="oll_oll">OLL16</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="...DDD..D"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="DD.......DDD..D"></canvas>
+                  <canvas class="pers" data-faces="...DD..D..D.DD."></canvas>
+                  <canvas class="pers" data-faces="DD.D..D..DDD..."></canvas>
+                  <canvas class="pers" data-faces="D..DD..DD.D..D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".DD....DD..D...DDD..D"></canvas></td>
+                <td class="oll_oll">OLL14</td>
+                <td>OLL13/OLL16と同様。</td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D...D...DDD..D"></canvas>
+                  <canvas class="pers" data-faces="..D.DD.D..D.DD."></canvas>
+                  <canvas class="pers" data-faces=".DD..DD..DDD..."></canvas>
+                  <canvas class="pers" data-faces="..D.D..DD.D..D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="DD.D...D.D.....DDD..D"></canvas></td>
+                <td class="oll_oll">OLL15</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="..DDDD..D"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="DD......DDDD..D"></canvas>
+                  <canvas class="pers" data-faces="....DD.D..D.DDD"></canvas>
+                  <canvas class="pers" data-faces=".DD...D..DDDD.."></canvas>
+                  <canvas class="pers" data-faces="...DD.DDD.D..D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="DD.....DD.....DDDD..D"></canvas></td>
+                <td class="oll_oll">OLL33</td>
+                <td>ペアがある。</td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D......DDDD..D"></canvas>
+                  <canvas class="pers" data-faces="....D..D..D.DDD"></canvas>
+                  <canvas class="pers" data-faces=".D.D.DD..DDDD.."></canvas>
+                  <canvas class="pers" data-faces="D.D.D.DDD.D..D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D.....D.D.D..DDDD..D"></canvas></td>
+                <td class="oll_oll">OLL45</td>
+                <td>ペアが無い。</td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="D.DDDD..."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D.D..D.DDDD..."></canvas>
+                  <canvas class="pers" data-faces="D...D..DD.D..DD"></canvas>
+                  <canvas class="pers" data-faces=".D...D...DDDD.D"></canvas>
+                  <canvas class="pers" data-faces="..D.D.DD..D.DD."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D...D.D.D..D.DDDD..."></canvas></td>
+                <td class="oll_oll">OLL34</td>
+                <td>上から見た図での下側面が全てU面色ならOLL46。見えない向きのときは、左右の側面にU面色が無ければOLL46。</td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="DDD...D.DDDD..."></canvas>
+                  <canvas class="pers" data-faces="....D..DD.D..DD"></canvas>
+                  <canvas class="pers" data-faces=".D.......DDDD.D"></canvas>
+                  <canvas class="pers" data-faces="...DDDDD..D.DD."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D....DDD...D.DDDD..."></canvas></td>
+                <td class="oll_oll">OLL46</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><canvas class="top" data-faces="DD..D..DD"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="....D.DD..D..DD"></canvas>
+                  <canvas class="pers" data-faces=".D.D....DDDDD.."></canvas>
+                  <canvas class="pers" data-faces="D...DDDD..D..DD"></canvas>
+                  <canvas class="pers" data-faces=".DD.....DDDDD.."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="..D.D....DD.DD..D..DD"></canvas></td>
+                <td class="oll_oll">OLL39</td>
+                <td>U面がこの形になるのはOLL39のみ。</td>
+              </tr>
+              <tr>
+                <td><canvas class="top" data-faces=".DD.D.DD."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="..D.D..DD.D.DD."></canvas>
+                  <canvas class="pers" data-faces=".D....D..DDD..D"></canvas>
+                  <canvas class="pers" data-faces="...DD..DD.D.DD."></canvas>
+                  <canvas class="pers" data-faces="DD...DD..DDD..D"></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="....D.D...DD.DD.D.DD."></canvas></td>
+                <td class="oll_oll">OLL40</td>
+                <td>U面がこの形になるのはOLL40のみ。</td>
+              </tr>
+              <tr>
+                <td rowspan="4"><canvas class="top" data-faces="...DDD..."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".DD......DDD..."></canvas>
+                  <canvas class="pers" data-faces="...DD..D..D..D."></canvas>
+                  <canvas class="pers" data-faces="DD.D.D...DDD..."></canvas>
+                  <canvas class="pers" data-faces="D.D.DD.D..D..D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".DD...DD.D.D...DDD..."></canvas></td>
+                <td class="oll_oll">OLL51</td>
+                <td>ペアがある。</td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D.D.....DDD..."></canvas>
+                  <canvas class="pers" data-faces="D..DDD.D..D..D."></canvas>
+                  <canvas class="pers" data-faces="DDD..D...DDD..."></canvas>
+                  <canvas class="pers" data-faces="..D.D..D..D..D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="DDD..D.D.D.....DDD..."></canvas></td>
+                <td class="oll_oll">OLL52</td>
+                <td>コーナー1個のみがU面色の側面がある。</td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="DDD......DDD..."></canvas>
+                  <canvas class="pers" data-faces="...DDD.D..D..D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="DDD...DDD......DDD..."></canvas></td>
+                <td class="oll_oll">OLL55</td>
+                <td>全てU面色の側面と、U面色が無い側面。</td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D.D.D...DDD..."></canvas>
+                  <canvas class="pers" data-faces="D.D.D..D..D..D."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D.D.D.D.D.D...DDD..."></canvas></td>
+                <td class="oll_oll">OLL56</td>
+                <td>U面色とU面色以外の色が交互になっている。</td>
+              </tr>
+              <tr>
+                <td><canvas class="top" data-faces="D.DDDDD.D"></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces=".D....D.DDDDD.D"></canvas>
+                  <canvas class="pers" data-faces="....D.DDD.D.DDD"></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces=".D.....D....D.DDDDD.D"></canvas></td>
+                <td class="oll_oll">OLL57</td>
+                <td>U面がこの形になるのはOLL57のみ。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h4 id="oll_l">L</h4>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width: 90px">U面</th>
+                <th style="width: 360px">側面</th>
+                <th style="width: 90px">OLL</th>
+                <th style="width: 5em"></th>
+                <th style="min-width: 10em">コメント</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
               <tr>
                 <td rowspan="2"><canvas class="top" data-faces="....DD.DD"></canvas></td>
                 <td class="oll_side">
@@ -231,175 +507,6 @@
                 <td><canvas class="top_side" data-faces="DD..D.D..D....DDD..D."></canvas></td>
                 <td class="oll_oll">OLL10</td>
                 <td></td>
-              </tr>
-              <tr>
-                <td rowspan="2"><canvas class="top" data-faces="...DDDD.."></canvas></td>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces=".DD..D...DDDD.."></canvas>
-                  <canvas class="pers" data-faces="..D.DDDD..D..D."></canvas>
-                  <canvas class="pers" data-faces=".DD.....DDDD..."></canvas>
-                  <canvas class="pers" data-faces="....DD.D..D..DD"></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces="DD.D..DD.......DDDD.."></canvas></td>
-                <td class="oll_oll">OLL13</td>
-                <td>U面のL字型で囲われた部分の側面がペアならOLL13。見えない向きでは、反対側の側面のペアがL字型の棒のほうにあればOLL13。</td>
-              </tr>
-              <tr>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces=".D.D.....DDDD.."></canvas>
-                  <canvas class="pers" data-faces="D..DD.DD..D..D."></canvas>
-                  <canvas class="pers" data-faces="DD.D....DDDD..."></canvas>
-                  <canvas class="pers" data-faces="D...D..D..D..DD"></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces=".DD..D.D...D...DDDD.."></canvas></td>
-                <td class="oll_oll">OLL16</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td rowspan="2"><canvas class="top" data-faces="...DDD..D"></canvas></td>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces="DD.......DDD..D"></canvas>
-                  <canvas class="pers" data-faces="...DD..D..D.DD."></canvas>
-                  <canvas class="pers" data-faces="DD.D..D..DDD..."></canvas>
-                  <canvas class="pers" data-faces="D..DD..DD.D..D."></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces=".DD....DD..D...DDD..D"></canvas></td>
-                <td class="oll_oll">OLL14</td>
-                <td>OLL13/OLL16と同様。</td>
-              </tr>
-              <tr>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces=".D...D...DDD..D"></canvas>
-                  <canvas class="pers" data-faces="..D.DD.D..D.DD."></canvas>
-                  <canvas class="pers" data-faces=".DD..DD..DDD..."></canvas>
-                  <canvas class="pers" data-faces="..D.D..DD.D..D."></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces="DD.D...D.D.....DDD..D"></canvas></td>
-                <td class="oll_oll">OLL15</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td><canvas class="top" data-faces="D...D...D"></canvas></td>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces=".D..D.D...D...D"></canvas>
-                  <canvas class="pers" data-faces=".D.DD...D.D.D.."></canvas>
-                  <canvas class="pers" data-faces="DD..DDD...D...D"></canvas>
-                  <canvas class="pers" data-faces=".DD.D...D.D.D.."></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces=".DD.D..D.DD.D...D...D"></canvas></td>
-                <td class="oll_oll">OLL17</td>
-                <td>U面がこの形になるのはOLL17のみ。</td>
-              </tr>
-              <tr>
-                <td rowspan="2"><canvas class="top" data-faces="D.D.D...."></canvas></td>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces="DDD.D.D.D.D...."></canvas>
-                  <canvas class="pers" data-faces=".D..D...D.D...D"></canvas>
-                  <canvas class="pers" data-faces=".D..D.....D.D.D"></canvas>
-                  <canvas class="pers" data-faces=".D.DDDD...D.D.."></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces=".D..D.DDD.D.D.D.D...."></canvas></td>
-                <td class="oll_oll">OLL18</td>
-                <td>上から見た図での左右の側面が、エッジのみU面色ならOLL18、ペアならOLL19。</td>
-              </tr>
-              <tr>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces=".D.DD.D.D.D...."></canvas>
-                  <canvas class="pers" data-faces="DD..D...D.D...D"></canvas>
-                  <canvas class="pers" data-faces=".D..DD....D.D.D"></canvas>
-                  <canvas class="pers" data-faces=".DD.D.D...D.D.."></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces=".D..DD.D.DD.D.D.D...."></canvas></td>
-                <td class="oll_oll">OLL19</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td><canvas class="top" data-faces="D.D.D.D.D"></canvas></td>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces=".D..D.D.D.D.D.D"></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces=".D..D..D..D.D.D.D.D.D"></canvas></td>
-                <td class="oll_oll">OLL20</td>
-                <td>U面がこの形になるのはOLL20のみ。</td>
-              </tr>
-              <tr>
-                <td rowspan="2"><canvas class="top" data-faces=".D.DDD.D."></canvas></td>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces="...D.D.D.DDD.D."></canvas>
-                  <canvas class="pers" data-faces="D.D....D.DDD.D."></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces="...D.D...D.D.D.DDD.D."></canvas></td>
-                <td class="oll_oll">OLL21</td>
-                <td>コーナー1個のみがU面色の側面が無い。</td>
-              </tr>
-              <tr>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces="..D....D.DDD.D."></canvas>
-                  <canvas class="pers" data-faces="...D...D.DDD.D."></canvas>
-                  <canvas class="pers" data-faces="D..D.D.D.DDD.D."></canvas>
-                  <canvas class="pers" data-faces="D.D..D.D.DDD.D."></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces="..D...D..D.D.D.DDD.D."></canvas></td>
-                <td class="oll_oll">OLL22</td>
-                <td>コーナー1個のみがU面色の側面がある。</td>
-              </tr>
-              <tr>
-                <td rowspan="2"><canvas class="top" data-faces="DDDDDD.D."></canvas></td>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces="D.D...DDDDDD.D."></canvas>
-                  <canvas class="pers" data-faces=".......DDDDD.DD"></canvas>
-                  <canvas class="pers" data-faces=".......D.DDDDDD"></canvas>
-                  <canvas class="pers" data-faces="...D.DDD.DDDDD."></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces="......D.D...DDDDDD.D."></canvas></td>
-                <td class="oll_oll">OLL23</td>
-                <td>コーナー1個のみが面色の側面が無い。</td>
-              </tr>
-              <tr>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces="...D..DDDDDD.D."></canvas>
-                  <canvas class="pers" data-faces="D......DDDDD.DD"></canvas>
-                  <canvas class="pers" data-faces=".....D.D.DDDDDD"></canvas>
-                  <canvas class="pers" data-faces="..D...DD.DDDDD."></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces=".....D...D..DDDDDD.D."></canvas></td>
-                <td class="oll_oll">OLL24</td>
-                <td>コーナー1個のみがU面色の側面がある。</td>
-              </tr>
-              <tr>
-                <td><canvas class="top" data-faces="DD.DDD.DD"></canvas></td>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces="D....DDD.DDD.DD"></canvas>
-                  <canvas class="pers" data-faces="..D....DDDDDDD."></canvas>
-                  <canvas class="pers" data-faces="......DD.DDD.DD"></canvas>
-                  <canvas class="pers" data-faces="...D...DDDDDDD."></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces="...D....D...DD.DDD.DD"></canvas></td>
-                <td class="oll_oll">OLL25</td>
-                <td>U面がこの形になるのはOLL25のみ。</td>
-              </tr>
-              <tr>
-                <td rowspan="2"><canvas class="top" data-faces="DD.DDD.D."></canvas></td>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces="D..D..DD.DDD.D."></canvas>
-                  <canvas class="pers" data-faces="D..D...DDDDD.D."></canvas>
-                  <canvas class="pers" data-faces="D......D.DDD.DD"></canvas>
-                  <canvas class="pers" data-faces="...D...D.DDDDD."></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces="..D..D..D...DD.DDD.D."></canvas></td>
-                <td class="oll_oll">OLL26</td>
-                <td>UFLコーナーのU面色がF面にあればOLL26。もしくは、URFコーナーの向きが合っていなくて、U面色をF面に向けていなければOLL26。</td>
-              </tr>
-              <tr>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces="..D..DDD.DDD.D."></canvas>
-                  <canvas class="pers" data-faces="..D....DDDDD.D."></canvas>
-                  <canvas class="pers" data-faces=".....D.D.DDD.DD"></canvas>
-                  <canvas class="pers" data-faces="..D..D.D.DDDDD."></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces="...D..D..D..DD.DDD.D."></canvas></td>
-                <td class="oll_oll">OLL27</td>
-                <td>URFコーナーのU面色がF面にあればOLL27。もしくは、UFLコーナーの向きが合っていなくて、U面色をF面に向けていなければOLL27。</td>
               </tr>
               <tr>
                 <td><canvas class="top" data-faces="DDDDD.D.D"></canvas></td>
@@ -506,52 +613,6 @@
                 <td></td>
               </tr>
               <tr>
-                <td rowspan="2"><canvas class="top" data-faces="..DDDD..D"></canvas></td>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces="DD......DDDD..D"></canvas>
-                  <canvas class="pers" data-faces="....DD.D..D.DDD"></canvas>
-                  <canvas class="pers" data-faces=".DD...D..DDDD.."></canvas>
-                  <canvas class="pers" data-faces="...DD.DDD.D..D."></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces="DD.....DD.....DDDD..D"></canvas></td>
-                <td class="oll_oll">OLL33</td>
-                <td>ペアがある。</td>
-              </tr>
-              <tr>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces=".D......DDDD..D"></canvas>
-                  <canvas class="pers" data-faces="....D..D..D.DDD"></canvas>
-                  <canvas class="pers" data-faces=".D.D.DD..DDDD.."></canvas>
-                  <canvas class="pers" data-faces="D.D.D.DDD.D..D."></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces=".D.....D.D.D..DDDD..D"></canvas></td>
-                <td class="oll_oll">OLL45</td>
-                <td>ペアが無い。</td>
-              </tr>
-              <tr>
-                <td rowspan="2"><canvas class="top" data-faces="D.DDDD..."></canvas></td>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces=".D.D..D.DDDD..."></canvas>
-                  <canvas class="pers" data-faces="D...D..DD.D..DD"></canvas>
-                  <canvas class="pers" data-faces=".D...D...DDDD.D"></canvas>
-                  <canvas class="pers" data-faces="..D.D.DD..D.DD."></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces=".D...D.D.D..D.DDDD..."></canvas></td>
-                <td class="oll_oll">OLL34</td>
-                <td>上から見た図での下側面が全てU面色ならOLL46。見えない向きのときは、左右の側面にU面色が無ければOLL46。</td>
-              </tr>
-              <tr>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces="DDD...D.DDDD..."></canvas>
-                  <canvas class="pers" data-faces="....D..DD.D..DD"></canvas>
-                  <canvas class="pers" data-faces=".D.......DDDD.D"></canvas>
-                  <canvas class="pers" data-faces="...DDDDD..D.DD."></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces=".D....DDD...D.DDDD..."></canvas></td>
-                <td class="oll_oll">OLL46</td>
-                <td></td>
-              </tr>
-              <tr>
                 <td rowspan="2"><canvas class="top" data-faces="D...DD.DD"></canvas></td>
                 <td class="oll_side">
                   <canvas class="pers" data-faces="D....DD...DD.DD"></canvas>
@@ -596,30 +657,6 @@
                 <td><canvas class="top_side" data-faces=".DD.D....D..D..DD..DD"></canvas></td>
                 <td class="oll_oll">OLL38</td>
                 <td></td>
-              </tr>
-              <tr>
-                <td><canvas class="top" data-faces="DD..D..DD"></canvas></td>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces="....D.DD..D..DD"></canvas>
-                  <canvas class="pers" data-faces=".D.D....DDDDD.."></canvas>
-                  <canvas class="pers" data-faces="D...DDDD..D..DD"></canvas>
-                  <canvas class="pers" data-faces=".DD.....DDDDD.."></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces="..D.D....DD.DD..D..DD"></canvas></td>
-                <td class="oll_oll">OLL39</td>
-                <td>U面がこの形になるのはOLL39のみ。</td>
-              </tr>
-              <tr>
-                <td><canvas class="top" data-faces=".DD.D.DD."></canvas></td>
-                <td class="oll_side">
-                  <canvas class="pers" data-faces="..D.D..DD.D.DD."></canvas>
-                  <canvas class="pers" data-faces=".D....D..DDD..D"></canvas>
-                  <canvas class="pers" data-faces="...DD..DD.D.DD."></canvas>
-                  <canvas class="pers" data-faces="DD...DD..DDD..D"></canvas>
-                </td>
-                <td><canvas class="top_side" data-faces="....D.D...DD.DD.D.DD."></canvas></td>
-                <td class="oll_oll">OLL40</td>
-                <td>U面がこの形になるのはOLL40のみ。</td>
               </tr>
               <tr>
                 <td rowspan="6"><canvas class="top" data-faces=".D..DD..."></canvas></td>
@@ -688,62 +725,109 @@
                 <td><canvas class="top_side" data-faces="...D.D.D.DDD.D..DD..."></canvas></td>
                 <td class="oll_oll">OLL54</td>
               </tr>
+            </tbody>
+          </table>
+        </div>
+        <h4 id="oll_cross">十字</h4>
+        <div class="table-container">
+          <table class="table">
+            <thead>
               <tr>
-                <td rowspan="4"><canvas class="top" data-faces="...DDD..."></canvas></td>
+                <th style="width: 90px">U面</th>
+                <th style="width: 360px">側面</th>
+                <th style="width: 90px">OLL</th>
+                <th style="width: 5em"></th>
+                <th style="min-width: 10em">コメント</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces=".D.DDD.D."></canvas></td>
                 <td class="oll_side">
-                  <canvas class="pers" data-faces=".DD......DDD..."></canvas>
-                  <canvas class="pers" data-faces="...DD..D..D..D."></canvas>
-                  <canvas class="pers" data-faces="DD.D.D...DDD..."></canvas>
-                  <canvas class="pers" data-faces="D.D.DD.D..D..D."></canvas>
+                  <canvas class="pers" data-faces="...D.D.D.DDD.D."></canvas>
+                  <canvas class="pers" data-faces="D.D....D.DDD.D."></canvas>
                 </td>
-                <td><canvas class="top_side" data-faces=".DD...DD.D.D...DDD..."></canvas></td>
-                <td class="oll_oll">OLL51</td>
-                <td>ペアがある。</td>
+                <td><canvas class="top_side" data-faces="...D.D...D.D.D.DDD.D."></canvas></td>
+                <td class="oll_oll">OLL21</td>
+                <td>コーナー1個のみがU面色の側面が無い。</td>
               </tr>
               <tr>
                 <td class="oll_side">
-                  <canvas class="pers" data-faces=".D.D.....DDD..."></canvas>
-                  <canvas class="pers" data-faces="D..DDD.D..D..D."></canvas>
-                  <canvas class="pers" data-faces="DDD..D...DDD..."></canvas>
-                  <canvas class="pers" data-faces="..D.D..D..D..D."></canvas>
+                  <canvas class="pers" data-faces="..D....D.DDD.D."></canvas>
+                  <canvas class="pers" data-faces="...D...D.DDD.D."></canvas>
+                  <canvas class="pers" data-faces="D..D.D.D.DDD.D."></canvas>
+                  <canvas class="pers" data-faces="D.D..D.D.DDD.D."></canvas>
                 </td>
-                <td><canvas class="top_side" data-faces="DDD..D.D.D.....DDD..."></canvas></td>
-                <td class="oll_oll">OLL52</td>
+                <td><canvas class="top_side" data-faces="..D...D..D.D.D.DDD.D."></canvas></td>
+                <td class="oll_oll">OLL22</td>
                 <td>コーナー1個のみがU面色の側面がある。</td>
               </tr>
               <tr>
+                <td rowspan="2"><canvas class="top" data-faces="DDDDDD.D."></canvas></td>
                 <td class="oll_side">
-                  <canvas class="pers" data-faces="DDD......DDD..."></canvas>
-                  <canvas class="pers" data-faces="...DDD.D..D..D."></canvas>
+                  <canvas class="pers" data-faces="D.D...DDDDDD.D."></canvas>
+                  <canvas class="pers" data-faces=".......DDDDD.DD"></canvas>
+                  <canvas class="pers" data-faces=".......D.DDDDDD"></canvas>
+                  <canvas class="pers" data-faces="...D.DDD.DDDDD."></canvas>
                 </td>
-                <td><canvas class="top_side" data-faces="DDD...DDD......DDD..."></canvas></td>
-                <td class="oll_oll">OLL55</td>
-                <td>全てU面色の側面と、U面色が無い側面。</td>
+                <td><canvas class="top_side" data-faces="......D.D...DDDDDD.D."></canvas></td>
+                <td class="oll_oll">OLL23</td>
+                <td>コーナー1個のみが面色の側面が無い。</td>
               </tr>
               <tr>
                 <td class="oll_side">
-                  <canvas class="pers" data-faces=".D.D.D...DDD..."></canvas>
-                  <canvas class="pers" data-faces="D.D.D..D..D..D."></canvas>
+                  <canvas class="pers" data-faces="...D..DDDDDD.D."></canvas>
+                  <canvas class="pers" data-faces="D......DDDDD.DD"></canvas>
+                  <canvas class="pers" data-faces=".....D.D.DDDDDD"></canvas>
+                  <canvas class="pers" data-faces="..D...DD.DDDDD."></canvas>
                 </td>
-                <td><canvas class="top_side" data-faces=".D.D.D.D.D.D...DDD..."></canvas></td>
-                <td class="oll_oll">OLL56</td>
-                <td>U面色とU面色以外の色が交互になっている。</td>
+                <td><canvas class="top_side" data-faces=".....D...D..DDDDDD.D."></canvas></td>
+                <td class="oll_oll">OLL24</td>
+                <td>コーナー1個のみがU面色の側面がある。</td>
               </tr>
               <tr>
-                <td><canvas class="top" data-faces="D.DDDDD.D"></canvas></td>
+                <td><canvas class="top" data-faces="DD.DDD.DD"></canvas></td>
                 <td class="oll_side">
-                  <canvas class="pers" data-faces=".D....D.DDDDD.D"></canvas>
-                  <canvas class="pers" data-faces="....D.DDD.D.DDD"></canvas>
+                  <canvas class="pers" data-faces="D....DDD.DDD.DD"></canvas>
+                  <canvas class="pers" data-faces="..D....DDDDDDD."></canvas>
+                  <canvas class="pers" data-faces="......DD.DDD.DD"></canvas>
+                  <canvas class="pers" data-faces="...D...DDDDDDD."></canvas>
                 </td>
-                <td><canvas class="top_side" data-faces=".D.....D....D.DDDDD.D"></canvas></td>
-                <td class="oll_oll">OLL57</td>
-                <td>U面がこの形になるのはOLL57のみ。</td>
+                <td><canvas class="top_side" data-faces="...D....D...DD.DDD.DD"></canvas></td>
+                <td class="oll_oll">OLL25</td>
+                <td>U面がこの形になるのはOLL25のみ。</td>
+              </tr>
+              <tr>
+                <td rowspan="2"><canvas class="top" data-faces="DD.DDD.D."></canvas></td>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="D..D..DD.DDD.D."></canvas>
+                  <canvas class="pers" data-faces="D..D...DDDDD.D."></canvas>
+                  <canvas class="pers" data-faces="D......D.DDD.DD"></canvas>
+                  <canvas class="pers" data-faces="...D...D.DDDDD."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="..D..D..D...DD.DDD.D."></canvas></td>
+                <td class="oll_oll">OLL26</td>
+                <td>UFLコーナーのU面色がF面にあればOLL26。もしくは、URFコーナーの向きが合っていなくて、U面色をF面に向けていなければOLL26。</td>
+              </tr>
+              <tr>
+                <td class="oll_side">
+                  <canvas class="pers" data-faces="..D..DDD.DDD.D."></canvas>
+                  <canvas class="pers" data-faces="..D....DDDDD.D."></canvas>
+                  <canvas class="pers" data-faces=".....D.D.DDD.DD"></canvas>
+                  <canvas class="pers" data-faces="..D..D.D.DDDDD."></canvas>
+                </td>
+                <td><canvas class="top_side" data-faces="...D..D..D..DD.DDD.D."></canvas></td>
+                <td class="oll_oll">OLL27</td>
+                <td>URFコーナーのU面色がF面にあればOLL27。もしくは、UFLコーナーの向きが合っていなくて、U面色をF面に向けていなければOLL27。</td>
               </tr>
             </tbody>
           </table>
         </div>
         <h2 id="pll">PLL</h2>
-        <h2 id="pll_notation">用語</h2>
+        <h3 id="pll_notation">用語</h3>
         <p>
           このページでは次のように定める。
         </p>
@@ -757,7 +841,7 @@
           <dt>ブックエンド</dt>
           <dd>両端のピースが同色。<canvas class="pers" data-faces="F....F"></canvas></dd>
         </dl>
-        <h2 id="pll_logic">理論</h2>
+        <h3 id="pll_logic">理論</h3>
         <p>
           コーナーについて、コーナーは次の完成状態、隣接交換、対角交換のいずれかになる。
         </p>
@@ -778,277 +862,262 @@
           これによって、見えない側面の配色を全て推測することはできる。
           できるが、時間が掛かるので、実際にはバーやヘッドライトの有無などから判断する。
         </p>
-        <h2 id="pll_recog">判断</h2>
+        <h3 id="pll_recog">判断</h3>
+        <h4 id="pll_2bars">バーが2個ある <canvas class="pers" data-faces="FFFLLL"></canvas></h4>
         <ul id="pll_list">
-          <li>バーが2個ある。<canvas class="pers" data-faces="FFFLLL"></canvas>
+          <li><canvas class="pers" data-faces="FFFLLL"></canvas> → <canvas class="top_side" data-faces="BBBLLLFFFRRR"></canvas><span class="pll">Solved</span></li>
+        </ul>
+        <h4 id="pll_bar_light">バーとヘッドライトがある <canvas class="pers" data-faces="FFFL.L"></canvas></h4>
+        <ul id="pll_list">
+          <li><canvas class="pers" data-faces="FFFLBL"></canvas> <canvas class="pers" data-faces="RLRFFF"></canvas> → <canvas class="top_side" data-faces="BRBLBLFFFRLR"></canvas> <canvas class="top_side" data-faces="LBLFFFRLRBRB"></canvas><span class="pll">Ua</span></li>
+          <li><canvas class="pers" data-faces="FFFLRL"></canvas> <canvas class="pers" data-faces="RBRFFF"></canvas> → <canvas class="top_side" data-faces="BLBLRLFFFRBR"></canvas> <canvas class="top_side" data-faces="LRLFFFRBRBLB"></canvas><span class="pll">Ub</span></li>
+        </ul>
+        <h4 id="pll_bar_pair">バーとペアがある <canvas class="pers" data-faces="FFF.BB"></canvas></h4>
+        <ul id="pll_list">
+          <li><canvas class="pers" data-faces="FFFLLB"></canvas> <canvas class="pers" data-faces="BBRFFF"></canvas> → <canvas class="top_side" data-faces="LRRBLLFFFRBB"></canvas> <canvas class="top_side" data-faces="BLLFFFRBBLRR"></canvas><span class="pll">Ja</span></li>
+          <li><canvas class="pers" data-faces="FFFLBB"></canvas> <canvas class="pers" data-faces="BRRFFF"></canvas> → <canvas class="top_side" data-faces="LLRBBLFFFRRB"></canvas> <canvas class="top_side" data-faces="BBLFFFRRBLLR"></canvas><span class="pll">Jb</span></li>
+        </ul>
+        <h4 id="pll_bar">バーが1個ある <canvas class="pers" data-faces="FFF..."></canvas></h4>
+        <ul id="pll_list">
+          <li><canvas class="pers" data-faces="FFFLRB"></canvas> <canvas class="pers" data-faces="BLRFFF"></canvas> → <canvas class="top_side" data-faces="LBRBRLFFFRLB"></canvas> <canvas class="top_side" data-faces="BRLFFFRLBLBR"></canvas><span class="pll">F</span></li>
+        </ul>
+        <h4 id="pll_2lights">ヘッドライトが2個ある <canvas class="pers" data-faces="F.FL.L"></canvas></h4>
+        <ul id="pll_list">
+          <li>色が2色 <canvas class="pers" data-faces="FLFLFL"></canvas>
             <ul>
-              <li><canvas class="pers" data-faces="FFFLLL"></canvas> → <canvas class="top_side" data-faces="BBBLLLFFFRRR"></canvas><span class="pll">Solved</span></li>
+              <li><canvas class="pers" data-faces="FLFLFL"></canvas> → <canvas class="top_side" data-faces="BRBLFLFLFRBR"></canvas><span class="pll">Z</span></li>
             </ul>
           </li>
-          <li>バーとヘッドライトがある。<canvas class="pers" data-faces="FFFL.L"></canvas>
+          <li>色が3色 <canvas class="pers" data-faces="FLFLBL"></canvas>
             <ul>
-              <li><canvas class="pers" data-faces="FFFLBL"></canvas> <canvas class="pers" data-faces="RLRFFF"></canvas> → <canvas class="top_side" data-faces="BRBLBLFFFRLR"></canvas> <canvas class="top_side" data-faces="LBLFFFRLRBRB"></canvas><span class="pll">Ua</span></li>
-              <li><canvas class="pers" data-faces="FFFLRL"></canvas> <canvas class="pers" data-faces="RBRFFF"></canvas> → <canvas class="top_side" data-faces="BLBLRLFFFRBR"></canvas> <canvas class="top_side" data-faces="LRLFFFRBRBLB"></canvas><span class="pll">Ub</span></li>
+              <li><canvas class="pers" data-faces="FLFLBL"></canvas> <canvas class="pers" data-faces="FLFLRL"></canvas> → <canvas class="top_side" data-faces="BFBLBLFLFRRR"></canvas> <canvas class="top_side" data-faces="BBBLRLFLFRFR"></canvas><span class="pll">Ua</span></li>
+              <li><canvas class="pers" data-faces="FBFLFL"></canvas> <canvas class="pers" data-faces="FRFLFL"></canvas> → <canvas class="top_side" data-faces="BLBLFLFBFRRR"></canvas> <canvas class="top_side" data-faces="BBBLFLFRFRLR"></canvas><span class="pll">Ub</span></li>
+              <li>いずれか一方のヘッドライトは、ヘッドライトの色が3個ある。そのヘッドライトと間のエッジが対面色であれば、バーはそのヘッドライトに隣接している。隣接色であれば、バーはそのヘッドライトの対面にある。</li>
             </ul>
           </li>
-          <li>バーとペアがある。<canvas class="pers" data-faces="FFF.BB"></canvas>
+          <li>色が4色 <canvas class="pers" data-faces="FRFLBL"></canvas>
             <ul>
-              <li><canvas class="pers" data-faces="FFFLLB"></canvas> <canvas class="pers" data-faces="BBRFFF"></canvas> → <canvas class="top_side" data-faces="LRRBLLFFFRBB"></canvas> <canvas class="top_side" data-faces="BLLFFFRBBLRR"></canvas><span class="pll">Ja</span></li>
-              <li><canvas class="pers" data-faces="FFFLBB"></canvas> <canvas class="pers" data-faces="BRRFFF"></canvas> → <canvas class="top_side" data-faces="LLRBBLFFFRRB"></canvas> <canvas class="top_side" data-faces="BBLFFFRRBLLR"></canvas><span class="pll">Jb</span></li>
-            </ul>
-          </li>
-          <li>バーが1個ある。<canvas class="pers" data-faces="FFF..."></canvas>
-            <ul>
-              <li><canvas class="pers" data-faces="FFFLRB"></canvas> <canvas class="pers" data-faces="BLRFFF"></canvas> → <canvas class="top_side" data-faces="LBRBRLFFFRLB"></canvas> <canvas class="top_side" data-faces="BRLFFFRLBLBR"></canvas><span class="pll">F</span></li>
-            </ul>
-          </li>
-          <li>ヘッドライトが2個ある。<canvas class="pers" data-faces="F.FL.L"></canvas>
-            <ul>
-              <li>色が2色。<canvas class="pers" data-faces="FLFLFL"></canvas>
+              <li>ヘッドライトと間のエッジが隣接色 <canvas class="pers" data-faces="FRFLBL"></canvas>
                 <ul>
-                  <li><canvas class="pers" data-faces="FLFLFL"></canvas> → <canvas class="top_side" data-faces="BRBLFLFLFRBR"></canvas><span class="pll">Z</span></li>
+                  <li><canvas class="pers" data-faces="FRFLBL"></canvas> → <canvas class="top_side" data-faces="BLBLBLFRFRFR"></canvas><span class="pll">Z</span></li>
                 </ul>
               </li>
-              <li>色が3色。<canvas class="pers" data-faces="FLFLBL"></canvas>
+              <li>ヘッドライトと間のエッジが対面色 <canvas class="pers" data-faces="FBFLRL"></canvas>
                 <ul>
-                  <li><canvas class="pers" data-faces="FLFLBL"></canvas> <canvas class="pers" data-faces="FLFLRL"></canvas> → <canvas class="top_side" data-faces="BFBLBLFLFRRR"></canvas> <canvas class="top_side" data-faces="BBBLRLFLFRFR"></canvas><span class="pll">Ua</span></li>
-                  <li><canvas class="pers" data-faces="FBFLFL"></canvas> <canvas class="pers" data-faces="FRFLFL"></canvas> → <canvas class="top_side" data-faces="BLBLFLFBFRRR"></canvas> <canvas class="top_side" data-faces="BBBLFLFRFRLR"></canvas><span class="pll">Ub</span></li>
-                  <li>いずれか一方のヘッドライトは、ヘッドライトの色が3個ある。そのヘッドライトと間のエッジが対面色であれば、バーはそのヘッドライトに隣接している。隣接色であれば、バーはそのヘッドライトの対面にある。</li>
-                </ul>
-              </li>
-              <li>色が4色。<canvas class="pers" data-faces="FRFLBL"></canvas>
-                <ul>
-                  <li>ヘッドライトと間のエッジが隣接色。<canvas class="pers" data-faces="FRFLBL"></canvas>
-                    <ul>
-                      <li><canvas class="pers" data-faces="FRFLBL"></canvas> → <canvas class="top_side" data-faces="BLBLBLFRFRFR"></canvas><span class="pll">Z</span></li>
-                    </ul>
-                  </li>
-                  <li>ヘッドライトと間のエッジが対面色。<canvas class="pers" data-faces="FBFLRL"></canvas>
-                    <ul>
-                      <li><canvas class="pers" data-faces="FBFLRL"></canvas> → <canvas class="top_side" data-faces="BFBLRLFBFRLR"></canvas><span class="pll">H</span></li>
-                    </ul>
-                  </li>
+                  <li><canvas class="pers" data-faces="FBFLRL"></canvas> → <canvas class="top_side" data-faces="BFBLRLFBFRLR"></canvas><span class="pll">H</span></li>
                 </ul>
               </li>
             </ul>
           </li>
-          <li>ヘッドライトとペアがある。<canvas class="pers" data-faces="F.FLL."></canvas>
+        </ul>
+        <h4 id="pll_light_pair">ヘッドライトとペアがある <canvas class="pers" data-faces="F.FLL."></canvas></h4>
+        <ul id="pll_list">
+          <li>ペアが内側にある <canvas class="pers" data-faces="F.FLL."></canvas>
             <ul>
-              <li>ペアが内側にある。<canvas class="pers" data-faces="F.FLL."></canvas>
+              <li>色が3色 <canvas class="pers" data-faces="FBFLLB"></canvas>
                 <ul>
-                  <li>色が3色。<canvas class="pers" data-faces="FBFLLB"></canvas>
-                    <ul>
-                      <li><canvas class="pers" data-faces="FBFLLB"></canvas> <canvas class="pers" data-faces="BRRFBF"></canvas> → <canvas class="top_side" data-faces="LFRBLLFBFRRB"></canvas> <canvas class="top_side" data-faces="BLLFBFRRBLFR"></canvas><span class="pll">T</span></li>
-                    </ul>
-                  </li>
-                  <li>色が4色。<canvas class="pers" data-faces="FRFLLB"></canvas>
-                    <ul>
-                      <li><canvas class="pers" data-faces="FRFLLB"></canvas> → <canvas class="top_side" data-faces="LBRBLLFRFRFB"></canvas><span class="pll">Ra</span></li>
-                      <li><canvas class="pers" data-faces="BRRFLF"></canvas> → <canvas class="top_side" data-faces="BFLFLFRRBLBR"></canvas><span class="pll">Rb</span></li>
-                    </ul>
-                  </li>
+                  <li><canvas class="pers" data-faces="FBFLLB"></canvas> <canvas class="pers" data-faces="BRRFBF"></canvas> → <canvas class="top_side" data-faces="LFRBLLFBFRRB"></canvas> <canvas class="top_side" data-faces="BLLFBFRRBLFR"></canvas><span class="pll">T</span></li>
                 </ul>
               </li>
-              <li>ペアが外側にある。<canvas class="pers" data-faces="F.F.BB"></canvas>
+              <li>色が4色 <canvas class="pers" data-faces="FRFLLB"></canvas>
                 <ul>
-                  <li>色が3色。<canvas class="pers" data-faces="FLFLBB"></canvas>
-                    <ul>
-                      <li><canvas class="pers" data-faces="FLFLBB"></canvas> → <canvas class="top_side" data-faces="LRRBBLFLFRFB"></canvas><span class="pll">Aa</span></li>
-                      <li><canvas class="pers" data-faces="BBRFRF"></canvas> → <canvas class="top_side" data-faces="BFLFRFRBBLLR"></canvas><span class="pll">Ab</span></li>
-                    </ul>
-                  </li>
-                  <li>色が4色。<canvas class="pers" data-faces="FRFLBB"></canvas>
-                    <ul>
-                      <li><canvas class="pers" data-faces="FRFLBB"></canvas> → <canvas class="top_side" data-faces="LFRBBLFRFRLB"></canvas><span class="pll">Ga</span></li>
-                      <li><canvas class="pers" data-faces="BBRFLF"></canvas> → <canvas class="top_side" data-faces="BRLFLFRBBLFR"></canvas><span class="pll">Gc</span></li>
-                    </ul>
-                  </li>
+                  <li><canvas class="pers" data-faces="FRFLLB"></canvas> → <canvas class="top_side" data-faces="LBRBLLFRFRFB"></canvas><span class="pll">Ra</span></li>
+                  <li><canvas class="pers" data-faces="BRRFLF"></canvas> → <canvas class="top_side" data-faces="BFLFLFRRBLBR"></canvas><span class="pll">Rb</span></li>
                 </ul>
               </li>
             </ul>
           </li>
-          <li>ヘッドライトが1個ある。
+          <li>ペアが外側にある <canvas class="pers" data-faces="F.F.BB"></canvas>
             <ul>
-              <li>色が交互に5個並んでいる。<canvas class="pers" data-faces="FLFLF."></canvas>
+              <li>色が3色 <canvas class="pers" data-faces="FLFLBB"></canvas>
                 <ul>
-                  <li><canvas class="pers" data-faces="BFRFRF"></canvas> → <canvas class="top_side" data-faces="BLLFRFRFBLBR"></canvas><span class="pll">Ra</span></li>
-                  <li><canvas class="pers" data-faces="FLFLFB"></canvas> → <canvas class="top_side" data-faces="LBRBFLFLFRRB"></canvas><span class="pll">Rb</span></li>
+                  <li><canvas class="pers" data-faces="FLFLBB"></canvas> → <canvas class="top_side" data-faces="LRRBBLFLFRFB"></canvas><span class="pll">Aa</span></li>
+                  <li><canvas class="pers" data-faces="BBRFRF"></canvas> → <canvas class="top_side" data-faces="BFLFRFRBBLLR"></canvas><span class="pll">Ab</span></li>
                 </ul>
               </li>
-              <li>色が交互に4個並んでいる。<canvas class="pers" data-faces="FLFL.."></canvas>
+              <li>色が4色 <canvas class="pers" data-faces="FRFLBB"></canvas>
                 <ul>
-                  <li><canvas class="pers" data-faces="BLRFRF"></canvas> → <canvas class="top_side" data-faces="BBLFRFRLBLFR"></canvas><span class="pll">Ga</span></li>
-                  <li><canvas class="pers" data-faces="FLFLRB"></canvas> → <canvas class="top_side" data-faces="LFRBRLFLFRBB"></canvas><span class="pll">Gc</span></li>
-                </ul>
-              </li>
-              <li>色が交互に3個並んでいる。<canvas class="pers" data-faces="FLF..."></canvas>
-                <ul>
-                  <li>ヘッドライトと間のエッジが隣接色。<canvas class="pers" data-faces="FLF..."></canvas>
-                    <ul>
-                      <li><canvas class="pers" data-faces="BFRFLF"></canvas> → <canvas class="top_side" data-faces="BBLFLFRFBLRR"></canvas><span class="pll">Aa</span></li>
-                      <li><canvas class="pers" data-faces="FRFLFB"></canvas> → <canvas class="top_side" data-faces="LLRBFLFRFRBB"></canvas><span class="pll">Ab</span></li>
-                    </ul>
-                  </li>
-                  <li>ヘッドライトと間のエッジが対面色。<canvas class="pers" data-faces="FBF..."></canvas>
-                    <ul>
-                      <li><canvas class="pers" data-faces="FBFLRB"></canvas> <canvas class="pers" data-faces="BFRFBF"></canvas> → <canvas class="top_side" data-faces="LLRBRLFBFRFB"></canvas> <canvas class="top_side" data-faces="BRLFBFRFBLLR"></canvas><span class="pll">Gb</span></li>
-                      <li><canvas class="pers" data-faces="FBFLFB"></canvas> <canvas class="pers" data-faces="BLRFBF"></canvas> → <canvas class="top_side" data-faces="LRRBFLFBFRLB"></canvas> <canvas class="top_side" data-faces="BFLFBFRLBLRR"></canvas><span class="pll">Gd</span></li>
-                      <li>ペアはヘッドライトの対面にあり、ヘッドライトの色のエッジがあるほうに寄っている。</li>
-                    </ul>
-                  </li>
+                  <li><canvas class="pers" data-faces="FRFLBB"></canvas> → <canvas class="top_side" data-faces="LFRBBLFRFRLB"></canvas><span class="pll">Ga</span></li>
+                  <li><canvas class="pers" data-faces="BBRFLF"></canvas> → <canvas class="top_side" data-faces="BRLFLFRBBLFR"></canvas><span class="pll">Gc</span></li>
                 </ul>
               </li>
             </ul>
           </li>
-          <li>ペアが2個とブックエンドがある。<canvas class="pers" data-faces="FF.BBF"></canvas>
+        </ul>
+        <h4 id="pll_light">ヘッドライトが1個ある <canvas class="pers" data-faces="F.F..."></canvas></h4>
+        <ul id="pll_list">
+          <li>色が交互に5個並んでいる <canvas class="pers" data-faces="FLFLF."></canvas>
             <ul>
-              <li>ペアがどちらも内側にある。<canvas class="pers" data-faces="RFFLLR"></canvas>
+              <li><canvas class="pers" data-faces="BFRFRF"></canvas> → <canvas class="top_side" data-faces="BLLFRFRFBLBR"></canvas><span class="pll">Ra</span></li>
+              <li><canvas class="pers" data-faces="FLFLFB"></canvas> → <canvas class="top_side" data-faces="LBRBFLFLFRRB"></canvas><span class="pll">Rb</span></li>
+            </ul>
+          </li>
+          <li>色が交互に4個並んでいる <canvas class="pers" data-faces="FLFL.."></canvas>
+            <ul>
+              <li><canvas class="pers" data-faces="BLRFRF"></canvas> → <canvas class="top_side" data-faces="BBLFRFRLBLFR"></canvas><span class="pll">Ga</span></li>
+              <li><canvas class="pers" data-faces="FLFLRB"></canvas> → <canvas class="top_side" data-faces="LFRBRLFLFRBB"></canvas><span class="pll">Gc</span></li>
+            </ul>
+          </li>
+          <li>色が交互に3個並んでいる <canvas class="pers" data-faces="FLF..."></canvas>
+            <ul>
+              <li>ヘッドライトと間のエッジが隣接色 <canvas class="pers" data-faces="FLF..."></canvas>
                 <ul>
-                  <li><canvas class="pers" data-faces="RFFLLR"></canvas> → <canvas class="top_side" data-faces="LBFRLLFFRBRB"></canvas><span class="pll">Aa</span></li>
-                  <li><canvas class="pers" data-faces="BFFLLB"></canvas> → <canvas class="top_side" data-faces="RBRBLLFFBLRF"></canvas><span class="pll">Ab</span></li>
-                  <li>ペアともう1個のコーナーが対面色になっている側面の、対面にヘッドライトがある。</li>
+                  <li><canvas class="pers" data-faces="BFRFLF"></canvas> → <canvas class="top_side" data-faces="BBLFLFRFBLRR"></canvas><span class="pll">Aa</span></li>
+                  <li><canvas class="pers" data-faces="FRFLFB"></canvas> → <canvas class="top_side" data-faces="LLRBFLFRFRBB"></canvas><span class="pll">Ab</span></li>
                 </ul>
               </li>
-              <li>ペアが内側と外側にある。<canvas class="pers" data-faces="FF.BB."></canvas>
+              <li>ヘッドライトと間のエッジが対面色 <canvas class="pers" data-faces="FBF..."></canvas>
                 <ul>
-                  <li><canvas class="pers" data-faces="FFLBBF"></canvas> <canvas class="pers" data-faces="FFBRRF"></canvas> → <canvas class="top_side" data-faces="BLLFBBLFFRRR"></canvas> <canvas class="top_side" data-faces="LLLFRRBFFRBB"></canvas><span class="pll">Ja</span></li>
-                  <li><canvas class="pers" data-faces="RFFLRR"></canvas> <canvas class="pers" data-faces="BFFLBB"></canvas> → <canvas class="top_side" data-faces="LLFRRLFFRBBB"></canvas> <canvas class="top_side" data-faces="RRRBBLFFBLLF"></canvas><span class="pll">Jb</span></li>
-                  <li>ペアともう1個のコーナーが対面色になっている側面の、対面にバーがある。</li>
+                  <li><canvas class="pers" data-faces="FBFLRB"></canvas> <canvas class="pers" data-faces="BFRFBF"></canvas> → <canvas class="top_side" data-faces="LLRBRLFBFRFB"></canvas> <canvas class="top_side" data-faces="BRLFBFRFBLLR"></canvas><span class="pll">Gb</span></li>
+                  <li><canvas class="pers" data-faces="FBFLFB"></canvas> <canvas class="pers" data-faces="BLRFBF"></canvas> → <canvas class="top_side" data-faces="LRRBFLFBFRLB"></canvas> <canvas class="top_side" data-faces="BFLFBFRLBLRR"></canvas><span class="pll">Gd</span></li>
+                  <li>ペアはヘッドライトの対面にあり、ヘッドライトの色のエッジがあるほうに寄っている。</li>
                 </ul>
               </li>
             </ul>
           </li>
-          <li>ペアが2個ある。<canvas class="pers" data-faces=".FFLL."></canvas>
+        </ul>
+        <h4 id="pll_2pairs_bookend">ペアが2個とブックエンドがある <canvas class="pers" data-faces="FF.BBF"></canvas></h4>
+        <ul id="pll_list">
+          <li>ペアがどちらも内側にある <canvas class="pers" data-faces="RFFLLR"></canvas>
             <ul>
-              <li>ペアがどちらも内側にある。<canvas class="pers" data-faces=".FFLL."></canvas>
+              <li><canvas class="pers" data-faces="RFFLLR"></canvas> → <canvas class="top_side" data-faces="LBFRLLFFRBRB"></canvas><span class="pll">Aa</span></li>
+              <li><canvas class="pers" data-faces="BFFLLB"></canvas> → <canvas class="top_side" data-faces="RBRBLLFFBLRF"></canvas><span class="pll">Ab</span></li>
+              <li>ペアともう1個のコーナーが対面色になっている側面の、対面にヘッドライトがある。</li>
+            </ul>
+          </li>
+          <li>ペアが内側と外側にある <canvas class="pers" data-faces="FF.BB."></canvas>
+            <ul>
+              <li><canvas class="pers" data-faces="FFLBBF"></canvas> <canvas class="pers" data-faces="FFBRRF"></canvas> → <canvas class="top_side" data-faces="BLLFBBLFFRRR"></canvas> <canvas class="top_side" data-faces="LLLFRRBFFRBB"></canvas><span class="pll">Ja</span></li>
+              <li><canvas class="pers" data-faces="RFFLRR"></canvas> <canvas class="pers" data-faces="BFFLBB"></canvas> → <canvas class="top_side" data-faces="LLFRRLFFRBBB"></canvas> <canvas class="top_side" data-faces="RRRBBLFFBLLF"></canvas><span class="pll">Jb</span></li>
+              <li>ペアともう1個のコーナーが対面色になっている側面の、対面にバーがある。</li>
+            </ul>
+          </li>
+        </ul>
+        <h4 id="pll_2pairs">ペアが2個ある <canvas class="pers" data-faces=".FFLL."></canvas></h4>
+        <ul id="pll_list">
+          <li>ペアがどちらも内側にある <canvas class="pers" data-faces=".FFLL."></canvas>
+            <ul>
+              <li><canvas class="pers" data-faces="BFFLLR"></canvas> → <canvas class="top_side" data-faces="BRFRLLFFBLBR"></canvas><span class="pll">V</span></li>
+            </ul>
+          </li>
+          <li>ペアがどちらも外側にある <canvas class="pers" data-faces="FF..LL"></canvas>
+            <ul>
+              <li><canvas class="pers" data-faces="FFBRLL"></canvas> → <canvas class="top_side" data-faces="FRBLLRBFFRBL"></canvas><span class="pll">Y</span></li>
+            </ul>
+          </li>
+          <li>ペアが内側と外側にある <canvas class="pers" data-faces=".FF.RR"></canvas>
+            <ul>
+              <li><canvas class="pers" data-faces="BFFLRR"></canvas> → <canvas class="top_side" data-faces="BBFRRLFFBLLR"></canvas><span class="pll">Na</span></li>
+              <li><canvas class="pers" data-faces="FFBRRL"></canvas> → <canvas class="top_side" data-faces="FBBLRRBFFRLL"></canvas><span class="pll">Nb</span></li>
+            </ul>
+          </li>
+        </ul>
+        <h4 id="pll_pair_bookend">ペアが1個とブックエンドがある <canvas class="pers" data-faces="RFF..R"></canvas></h4>
+        <ul id="pll_list">
+          <li>ペアが内側にある <canvas class="pers" data-faces="RFF..R"></canvas>
+            <ul>
+              <li>ペアとブックエンドが隣接色 <canvas class="pers" data-faces="RFF..R"></canvas>
                 <ul>
-                  <li><canvas class="pers" data-faces="BFFLLR"></canvas> → <canvas class="top_side" data-faces="BRFRLLFFBLBR"></canvas><span class="pll">V</span></li>
+                  <li><canvas class="pers" data-faces="RFFLBR"></canvas> → <canvas class="top_side" data-faces="LRFRBLFFRBLB"></canvas><span class="pll">Ga</span></li>
+                  <li><canvas class="pers" data-faces="LBRFFL"></canvas> → <canvas class="top_side" data-faces="BRBLFFRBLFLR"></canvas><span class="pll">Gc</span></li>
                 </ul>
               </li>
-              <li>ペアがどちらも外側にある。<canvas class="pers" data-faces="FF..LL"></canvas>
+              <li>ペアとブックエンドが対面色 <canvas class="pers" data-faces="BFF..B"></canvas>
                 <ul>
-                  <li><canvas class="pers" data-faces="FFBRLL"></canvas> → <canvas class="top_side" data-faces="FRBLLRBFFRBL"></canvas><span class="pll">Y</span></li>
-                </ul>
-              </li>
-              <li>ペアが内側と外側にある。<canvas class="pers" data-faces=".FF.RR"></canvas>
-                <ul>
-                  <li><canvas class="pers" data-faces="BFFLRR"></canvas> → <canvas class="top_side" data-faces="BBFRRLFFBLLR"></canvas><span class="pll">Na</span></li>
-                  <li><canvas class="pers" data-faces="FFBRRL"></canvas> → <canvas class="top_side" data-faces="FBBLRRBFFRLL"></canvas><span class="pll">Nb</span></li>
+                  <li><canvas class="pers" data-faces="BFFLRB"></canvas> → <canvas class="top_side" data-faces="RLRBRLFFBLBF"></canvas><span class="pll">Gb</span></li>
+                  <li><canvas class="pers" data-faces="BLRFFB"></canvas> → <canvas class="top_side" data-faces="FBRBFFRLBLRL"></canvas><span class="pll">Gd</span></li>
                 </ul>
               </li>
             </ul>
           </li>
-          <li>ペアが1個とブックエンドがある。<canvas class="pers" data-faces="RFF..R"></canvas>
+          <li>ペアが外側にある <canvas class="pers" data-faces="FF...F"></canvas>
             <ul>
-              <li>ペアが内側にある。<canvas class="pers" data-faces="RFF..R"></canvas>
+              <li>色が3色 <canvas class="pers" data-faces="FFLBLF"></canvas>
                 <ul>
-                  <li>ペアとブックエンドが隣接色。<canvas class="pers" data-faces="RFF..R"></canvas>
+                  <li>ペアともう1個のコーナーが隣接色 <canvas class="pers" data-faces="FFL..."></canvas>
                     <ul>
-                      <li><canvas class="pers" data-faces="RFFLBR"></canvas> → <canvas class="top_side" data-faces="LRFRBLFFRBLB"></canvas><span class="pll">Ga</span></li>
-                      <li><canvas class="pers" data-faces="LBRFFL"></canvas> → <canvas class="top_side" data-faces="BRBLFFRBLFLR"></canvas><span class="pll">Gc</span></li>
+                      <li><canvas class="pers" data-faces="FFLBLF"></canvas> → <canvas class="top_side" data-faces="BRLFLBLFFRBR"></canvas><span class="pll">Ra</span></li>
+                      <li><canvas class="pers" data-faces="FRBRFF"></canvas> → <canvas class="top_side" data-faces="LBLFFRBRFRLB"></canvas><span class="pll">Rb</span></li>
+                      <li>ヘッドライトはペアに隣接している。</li>
                     </ul>
                   </li>
-                  <li>ペアとブックエンドが対面色。<canvas class="pers" data-faces="BFF..B"></canvas>
+                  <li>ペアともう1個のコーナーが対面色 <canvas class="pers" data-faces="FFB..."></canvas>
                     <ul>
-                      <li><canvas class="pers" data-faces="BFFLRB"></canvas> → <canvas class="top_side" data-faces="RLRBRLFFBLBF"></canvas><span class="pll">Gb</span></li>
-                      <li><canvas class="pers" data-faces="BLRFFB"></canvas> → <canvas class="top_side" data-faces="FBRBFFRLBLRL"></canvas><span class="pll">Gd</span></li>
+                      <li><canvas class="pers" data-faces="FBLBFF"></canvas> → <canvas class="top_side" data-faces="BRLFFBLBFRLR"></canvas><span class="pll">Gb</span></li>
+                      <li><canvas class="pers" data-faces="FFBRBF"></canvas> → <canvas class="top_side" data-faces="LRLFBRBFFRLB"></canvas><span class="pll">Gd</span></li>
                     </ul>
                   </li>
                 </ul>
               </li>
-              <li>ペアが外側にある。<canvas class="pers" data-faces="FF...F"></canvas>
+              <li>色が4色 <canvas class="pers" data-faces="FFLBRF"></canvas>
                 <ul>
-                  <li>色が3色。<canvas class="pers" data-faces="FFLBLF"></canvas>
+                  <li>ペアともう1個のコーナーが隣接色 <canvas class="pers" data-faces="FFL..."></canvas>
                     <ul>
-                      <li>ペアともう1個のコーナーが隣接色。<canvas class="pers" data-faces="FFL..."></canvas>
-                        <ul>
-                          <li><canvas class="pers" data-faces="FFLBLF"></canvas> → <canvas class="top_side" data-faces="BRLFLBLFFRBR"></canvas><span class="pll">Ra</span></li>
-                          <li><canvas class="pers" data-faces="FRBRFF"></canvas> → <canvas class="top_side" data-faces="LBLFFRBRFRLB"></canvas><span class="pll">Rb</span></li>
-                          <li>ヘッドライトはペアに隣接している。</li>
-                        </ul>
-                      </li>
-                      <li>ペアともう1個のコーナーが対面色。<canvas class="pers" data-faces="FFB..."></canvas>
-                        <ul>
-                          <li><canvas class="pers" data-faces="FBLBFF"></canvas> → <canvas class="top_side" data-faces="BRLFFBLBFRLR"></canvas><span class="pll">Gb</span></li>
-                          <li><canvas class="pers" data-faces="FFBRBF"></canvas> → <canvas class="top_side" data-faces="LRLFBRBFFRLB"></canvas><span class="pll">Gd</span></li>
-                        </ul>
-                      </li>
+                      <li><canvas class="pers" data-faces="FFLBRF"></canvas> <canvas class="pers" data-faces="FLBRFF"></canvas> → <canvas class="top_side" data-faces="BBLFRBLFFRLR"></canvas> <canvas class="top_side" data-faces="LRLFFRBLF"></canvas><span class="pll">T</span></li>
                     </ul>
                   </li>
-                  <li>色が4色。<canvas class="pers" data-faces="FFLBRF"></canvas>
+                  <li>ペアともう1個のコーナーが対面色 <canvas class="pers" data-faces="FFB..."></canvas>
                     <ul>
-                      <li>ペアともう1個のコーナーが隣接色。<canvas class="pers" data-faces="FFL..."></canvas>
-                        <ul>
-                          <li><canvas class="pers" data-faces="FFLBRF"></canvas> <canvas class="pers" data-faces="FLBRFF"></canvas> → <canvas class="top_side" data-faces="BBLFRBLFFRLR"></canvas> <canvas class="top_side" data-faces="LRLFFRBLF"></canvas><span class="pll">T</span></li>
-                        </ul>
-                      </li>
-                      <li>ペアともう1個のコーナーが対面色。<canvas class="pers" data-faces="FFB..."></canvas>
-                        <ul>
-                          <li><canvas class="pers" data-faces="FFBRLF"></canvas> → <canvas class="top_side" data-faces="LBLFLRBFFRRB"></canvas><span class="pll">Aa</span></li>
-                          <li><canvas class="pers" data-faces="FRLBFF"></canvas> → <canvas class="top_side" data-faces="BLLFFBLRFRBR"></canvas><span class="pll">Ab</span></li>
-                        </ul>
-                      </li>
+                      <li><canvas class="pers" data-faces="FFBRLF"></canvas> → <canvas class="top_side" data-faces="LBLFLRBFFRRB"></canvas><span class="pll">Aa</span></li>
+                      <li><canvas class="pers" data-faces="FRLBFF"></canvas> → <canvas class="top_side" data-faces="BLLFFBLRFRBR"></canvas><span class="pll">Ab</span></li>
                     </ul>
                   </li>
                 </ul>
               </li>
             </ul>
           </li>
-          <li>ペアが1個。<canvas class="pers" data-faces=".FF..."></canvas>
+        </ul>
+        <h4 id="pll_pair">ペアが1個ある <canvas class="pers" data-faces=".FF..."></canvas></h4>
+        <ul id="pll_list">
+          <li>ペアが内側にある <canvas class="pers" data-faces=".FF..."></canvas>
             <ul>
-              <li>ペアが内側にある。<canvas class="pers" data-faces=".FF..."></canvas>
-                <ul>
-                  <li><canvas class="pers" data-faces="BFFLBR"></canvas> <canvas class="pers" data-faces="LBRFFB"></canvas> → <canvas class="top_side" data-faces="BLFRBLFFBLRR"></canvas><canvas class="top_side" data-faces="LLRBFFRBLFRB"></canvas><span class="pll">Y</span></li>
-                </ul>
-              </li>
-              <li>ペアが外側にある。<canvas class="pers" data-faces="FF...."></canvas>
-                <ul>
-                  <li><canvas class="pers" data-faces="FFBRBL"></canvas> <canvas class="pers" data-faces="RBLBFF"></canvas> → <canvas class="top_side" data-faces="FLBLBRBFFRRL"></canvas><canvas class="top_side" data-faces="RLLFFBLBRBRF"></canvas><span class="pll">V</span></li>
-                </ul>
-              </li>
+              <li><canvas class="pers" data-faces="BFFLBR"></canvas> <canvas class="pers" data-faces="LBRFFB"></canvas> → <canvas class="top_side" data-faces="BLFRBLFFBLRR"></canvas><canvas class="top_side" data-faces="LLRBFFRBLFRB"></canvas><span class="pll">Y</span></li>
             </ul>
           </li>
-          <li>ブックエンドがある。<canvas class="pers" data-faces="F....F"></canvas>
+          <li>ペアが外側にある <canvas class="pers" data-faces="FF...."></canvas>
             <ul>
-              <li>中央4個の色が交互になっている。<canvas class="pers" data-faces=".BLBL."></canvas>
-                <ul>
-                  <li><canvas class="pers" data-faces="FBLBLF"></canvas> <canvas class="pers" data-faces="FRBRBF"></canvas> → <canvas class="top_side" data-faces="BFLFLBLBFRRR"></canvas><canvas class="top_side" data-faces="LLLFBRBRFRFB"></canvas><span class="pll">F</span></li>
-                  <li>バーは、ブックエンドとエッジが対面色の側面に隣接している。</li>
-                </ul>
-              </li>
-              <li>中央4個に2回出現する色がブックエンドと隣接色。<canvas class="pers" data-faces="FR.R.F"></canvas>
-                <ul>
-                  <li><canvas class="pers" data-faces="FRBRLF"></canvas> → <canvas class="top_side" data-faces="LFLFLRBRFRBB"></canvas><span class="pll">Ra</span></li>
-                  <li><canvas class="pers" data-faces="FRLBLF"></canvas> → <canvas class="top_side" data-faces="BBLFLBLRFRFR"></canvas><span class="pll">Rb</span></li>
-                  <li>2回出現する色のエッジの、対面にヘッドライトがある。</li>
-                </ul>
-              </li>
-              <li>中央4個に2回出現する色がブックエンドと対面色。<canvas class="pers" data-faces="FB.B.F"></canvas>
-                <ul>
-                  <li><canvas class="pers" data-faces="FLBRBF"></canvas> → <canvas class="top_side" data-faces="LFLFBRBLFRRB"></canvas><span class="pll">Ga</span></li>
-                  <li><canvas class="pers" data-faces="FBLBRF"></canvas> → <canvas class="top_side" data-faces="BLLFRBLBFRFR"></canvas><span class="pll">Gc</span></li>
-                  <li>2回出現する色のエッジの、対面にペアがある。</li>
-                </ul>
-              </li>
+              <li><canvas class="pers" data-faces="FFBRBL"></canvas> <canvas class="pers" data-faces="RBLBFF"></canvas> → <canvas class="top_side" data-faces="FLBLBRBFFRRL"></canvas><canvas class="top_side" data-faces="RLLFFBLBRBRF"></canvas><span class="pll">V</span></li>
             </ul>
           </li>
-          <li>バー、ヘッドライト、ペア、ブックエンドが無い。<canvas class="pers" data-faces="......"></canvas>
+        </ul>
+        <h4 id="pll_bookend">ブックエンドがある <canvas class="pers" data-faces="F....F"></canvas></h4>
+        <ul id="pll_list">
+          <li>中央4個の色が交互になっている <canvas class="pers" data-faces=".BLBL."></canvas>
             <ul>
-              <li>中央4個の色が交互になっている。<canvas class="pers" data-faces=".FRFR."></canvas>
-                <ul>
-                  <li><canvas class="pers" data-faces="LFRFRB"></canvas> → <canvas class="top_side" data-faces="LLRBRFRFLFBB"></canvas><span class="pll">V</span></li>
-                </ul>
-              </li>
-              <li>外側4個の色が交互になっている。<canvas class="pers" data-faces="FL..FL"></canvas>
-                <ul>
-                  <li><canvas class="pers" data-faces="FLBRFL"></canvas> → <canvas class="top_side" data-faces="FBBLFRBLFRRL"></canvas><span class="pll">Y</span></li>
-                </ul>
-              </li>
-              <li>5個の色が回文のようになっている。<canvas class="pers" data-faces="FRBRF."></canvas>
-                <ul>
-                  <li><canvas class="pers" data-faces="FRBRFL"></canvas> <canvas class="pers" data-faces="RFLBLF"></canvas> → <canvas class="top_side" data-faces="FLBLFRBRFRBL"></canvas> <canvas class="top_side" data-faces="RBLFLBLFRBRF"></canvas><span class="pll">E</span></li>
-                </ul>
-              </li>
+              <li><canvas class="pers" data-faces="FBLBLF"></canvas> <canvas class="pers" data-faces="FRBRBF"></canvas> → <canvas class="top_side" data-faces="BFLFLBLBFRRR"></canvas><canvas class="top_side" data-faces="LLLFBRBRFRFB"></canvas><span class="pll">F</span></li>
+              <li>バーは、ブックエンドとエッジが対面色の側面に隣接している。</li>
+            </ul>
+          </li>
+          <li>中央4個に2回出現する色がブックエンドと隣接色 <canvas class="pers" data-faces="FR.R.F"></canvas>
+            <ul>
+              <li><canvas class="pers" data-faces="FRBRLF"></canvas> → <canvas class="top_side" data-faces="LFLFLRBRFRBB"></canvas><span class="pll">Ra</span></li>
+              <li><canvas class="pers" data-faces="FRLBLF"></canvas> → <canvas class="top_side" data-faces="BBLFLBLRFRFR"></canvas><span class="pll">Rb</span></li>
+              <li>2回出現する色のエッジの、対面にヘッドライトがある。</li>
+            </ul>
+          </li>
+          <li>中央4個に2回出現する色がブックエンドと対面色 <canvas class="pers" data-faces="FB.B.F"></canvas>
+            <ul>
+              <li><canvas class="pers" data-faces="FLBRBF"></canvas> → <canvas class="top_side" data-faces="LFLFBRBLFRRB"></canvas><span class="pll">Ga</span></li>
+              <li><canvas class="pers" data-faces="FBLBRF"></canvas> → <canvas class="top_side" data-faces="BLLFRBLBFRFR"></canvas><span class="pll">Gc</span></li>
+              <li>2回出現する色のエッジの、対面にペアがある。</li>
+            </ul>
+          </li>
+        </ul>
+        <h4 id="pll_none">バー、ヘッドライト、ペア、ブックエンドが無い <canvas class="pers" data-faces="......"></canvas></h4>
+        <ul id="pll_list">
+          <li>中央4個の色が交互になっている <canvas class="pers" data-faces=".FRFR."></canvas>
+            <ul>
+              <li><canvas class="pers" data-faces="LFRFRB"></canvas> → <canvas class="top_side" data-faces="LLRBRFRFLFBB"></canvas><span class="pll">V</span></li>
+            </ul>
+          </li>
+          <li>外側4個の色が交互になっている <canvas class="pers" data-faces="FL..FL"></canvas>
+            <ul>
+              <li><canvas class="pers" data-faces="FLBRFL"></canvas> → <canvas class="top_side" data-faces="FBBLFRBLFRRL"></canvas><span class="pll">Y</span></li>
+            </ul>
+          </li>
+          <li>5個の色が回文のようになっている <canvas class="pers" data-faces="FRBRF."></canvas>
+            <ul>
+              <li><canvas class="pers" data-faces="FRBRFL"></canvas> <canvas class="pers" data-faces="RFLBLF"></canvas> → <canvas class="top_side" data-faces="FLBLFRBRFRBL"></canvas> <canvas class="top_side" data-faces="RBLFLBLFRBRF"></canvas><span class="pll">E</span></li>
             </ul>
           </li>
         </ul>
