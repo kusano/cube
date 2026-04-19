@@ -880,6 +880,16 @@
           <dt>ブックエンド</dt>
           <dd>両端のピースが同色。<canvas class="pers" data-faces="F....F"></canvas></dd>
         </dl>
+        <p>
+          ヘッドライトとペアについて、ペッドライトやペアの色と残りのピースの色が隣接色であれば、そのヘッドライトやペアも隣接色と呼ぶことにする。
+          対面色の場合も同様。
+        </p>
+        <p>
+          隣接色: <canvas class="pers" data-faces="FRF..."></canvas> <canvas class="pers" data-faces="FFR..."></canvas>
+        </p>
+        <p>
+          対面色: <canvas class="pers" data-faces="FBF..."></canvas> <canvas class="pers" data-faces="FFB..."></canvas>
+        </p>
         <h3 id="pll_logic">理論</h3>
         <p>
           コーナーについて、コーナーは次の完成状態、対角交換、隣接交換のいずれかになる。
@@ -936,9 +946,7 @@
           できるが、時間が掛かるので、実際にはバーやヘッドライトの有無などから判断する。
         </p>
         <p>
-          PLLごとの、バーなどの個数は次表の通り。
-          「隣接色ヘッドライト」はヘッドライトと間のエッジが隣接色ということ。
-          対面色ヘッドライトやペアも同様。
+          PLLごとのバーなどの個数は次表の通り。
         </p>
         <div class="table-container">
           <table class="table">
@@ -1034,17 +1042,20 @@
             <ul>
               <li><canvas class="pers" data-faces="FLFLBL"></canvas> <canvas class="pers" data-faces="FLFLRL"></canvas> → <canvas class="top_side" data-faces="BFBLBLFLFRRR"></canvas> <canvas class="top_side" data-faces="BBBLRLFLFRFR"></canvas><span class="pll">Ua</span></li>
               <li><canvas class="pers" data-faces="FBFLFL"></canvas> <canvas class="pers" data-faces="FRFLFL"></canvas> → <canvas class="top_side" data-faces="BLBLFLFBFRRR"></canvas> <canvas class="top_side" data-faces="BBBLFLFRFRLR"></canvas><span class="pll">Ub</span></li>
-              <li>いずれか一方のヘッドライトは、ヘッドライトの色が3個ある。そのヘッドライトと間のエッジが対面色であれば、バーはそのヘッドライトに隣接している。隣接色であれば、バーはそのヘッドライトの対面にある。</li>
+              <li>
+                バーは対面色ヘッドライトに隣接している。
+                どちらのヘッドライトも隣接色のとき、3個見える色がエッジになっている側面に隣接している。
+              </li>
             </ul>
           </li>
           <li>色が4色 <canvas class="pers" data-faces="FRFLBL"></canvas>
             <ul>
-              <li>ヘッドライトと間のエッジが隣接色 <canvas class="pers" data-faces="FRFLBL"></canvas>
+              <li>ヘッドライトが隣接色 <canvas class="pers" data-faces="FRFLBL"></canvas>
                 <ul>
                   <li><canvas class="pers" data-faces="FRFLBL"></canvas> → <canvas class="top_side" data-faces="BLBLBLFRFRFR"></canvas><span class="pll">Z</span></li>
                 </ul>
               </li>
-              <li>ヘッドライトと間のエッジが対面色 <canvas class="pers" data-faces="FBFLRL"></canvas>
+              <li>ヘッドライトが対面色 <canvas class="pers" data-faces="FBFLRL"></canvas>
                 <ul>
                   <li><canvas class="pers" data-faces="FBFLRL"></canvas> → <canvas class="top_side" data-faces="BFBLRLFBFRLR"></canvas><span class="pll">H</span></li>
                 </ul>
@@ -1056,15 +1067,15 @@
         <ul id="pll_list">
           <li>ペアが内側にある <canvas class="pers" data-faces="F.FLL."></canvas>
             <ul>
-              <li>色が3色 <canvas class="pers" data-faces="FBFLLB"></canvas>
-                <ul>
-                  <li><canvas class="pers" data-faces="FBFLLB"></canvas> <canvas class="pers" data-faces="BRRFBF"></canvas> → <canvas class="top_side" data-faces="LFRBLLFBFRRB"></canvas> <canvas class="top_side" data-faces="BLLFBFRRBLFR"></canvas><span class="pll">T</span></li>
-                </ul>
-              </li>
-              <li>色が4色 <canvas class="pers" data-faces="FRFLLB"></canvas>
+              <li>ヘッドライトが隣接色 <canvas class="pers" data-faces="FRF..."></canvas>
                 <ul>
                   <li><canvas class="pers" data-faces="FRFLLB"></canvas> → <canvas class="top_side" data-faces="LBRBLLFRFRFB"></canvas><span class="pll">Ra</span></li>
                   <li><canvas class="pers" data-faces="BRRFLF"></canvas> → <canvas class="top_side" data-faces="BFLFLFRRBLBR"></canvas><span class="pll">Rb</span></li>
+                </ul>
+              </li>
+              <li>ヘッドライトが対面色 <canvas class="pers" data-faces="FBF..."></canvas>
+                <ul>
+                  <li><canvas class="pers" data-faces="FBFLLB"></canvas> <canvas class="pers" data-faces="BRRFBF"></canvas> → <canvas class="top_side" data-faces="LFRBLLFBFRRB"></canvas> <canvas class="top_side" data-faces="BLLFBFRRBLFR"></canvas><span class="pll">T</span></li>
                 </ul>
               </li>
             </ul>
@@ -1102,13 +1113,13 @@
           </li>
           <li>色が交互に3個並んでいる <canvas class="pers" data-faces="FLF..."></canvas>
             <ul>
-              <li>ヘッドライトと間のエッジが隣接色 <canvas class="pers" data-faces="FLF..."></canvas>
+              <li>ヘッドライトが隣接色 <canvas class="pers" data-faces="FLF..."></canvas>
                 <ul>
                   <li><canvas class="pers" data-faces="BFRFLF"></canvas> → <canvas class="top_side" data-faces="BBLFLFRFBLRR"></canvas><span class="pll">Aa</span></li>
                   <li><canvas class="pers" data-faces="FRFLFB"></canvas> → <canvas class="top_side" data-faces="LLRBFLFRFRBB"></canvas><span class="pll">Ab</span></li>
                 </ul>
               </li>
-              <li>ヘッドライトと間のエッジが対面色 <canvas class="pers" data-faces="FBF..."></canvas>
+              <li>ヘッドライトが対面色 <canvas class="pers" data-faces="FBF..."></canvas>
                 <ul>
                   <li><canvas class="pers" data-faces="FBFLRB"></canvas> <canvas class="pers" data-faces="BFRFBF"></canvas> → <canvas class="top_side" data-faces="LLRBRLFBFRFB"></canvas> <canvas class="top_side" data-faces="BRLFBFRFBLLR"></canvas><span class="pll">Gb</span></li>
                   <li><canvas class="pers" data-faces="FBFLFB"></canvas> <canvas class="pers" data-faces="BLRFBF"></canvas> → <canvas class="top_side" data-faces="LRRBFLFBFRLB"></canvas> <canvas class="top_side" data-faces="BFLFBFRLBLRR"></canvas><span class="pll">Gd</span></li>
@@ -1124,14 +1135,14 @@
             <ul>
               <li><canvas class="pers" data-faces="RFFLLR"></canvas> → <canvas class="top_side" data-faces="LBFRLLFFRBRB"></canvas><span class="pll">Aa</span></li>
               <li><canvas class="pers" data-faces="BFFLLB"></canvas> → <canvas class="top_side" data-faces="RBRBLLFFBLRF"></canvas><span class="pll">Ab</span></li>
-              <li>ペアともう1個のコーナーが対面色になっている側面の、対面にヘッドライトがある。</li>
+              <li>対面色ペアの対面にヘッドライトがある。</li>
             </ul>
           </li>
           <li>ペアが内側と外側にある <canvas class="pers" data-faces="FF.BB."></canvas>
             <ul>
               <li><canvas class="pers" data-faces="FFLBBF"></canvas> <canvas class="pers" data-faces="FFBRRF"></canvas> → <canvas class="top_side" data-faces="BLLFBBLFFRRR"></canvas> <canvas class="top_side" data-faces="LLLFRRBFFRBB"></canvas><span class="pll">Ja</span></li>
               <li><canvas class="pers" data-faces="RFFLRR"></canvas> <canvas class="pers" data-faces="BFFLBB"></canvas> → <canvas class="top_side" data-faces="LLFRRLFFRBBB"></canvas> <canvas class="top_side" data-faces="RRRBBLFFBLLF"></canvas><span class="pll">Jb</span></li>
-              <li>ペアともう1個のコーナーが対面色になっている側面の、対面にバーがある。</li>
+              <li>対面色ペアの対面にバーがある。</li>
             </ul>
           </li>
         </ul>
@@ -1158,13 +1169,13 @@
         <ul id="pll_list">
           <li>ペアが内側にある <canvas class="pers" data-faces="RFF..R"></canvas>
             <ul>
-              <li>ペアとブックエンドが隣接色 <canvas class="pers" data-faces="RFF..R"></canvas>
+              <li>ペアが隣接色 <canvas class="pers" data-faces="RFF..."></canvas>
                 <ul>
                   <li><canvas class="pers" data-faces="RFFLBR"></canvas> → <canvas class="top_side" data-faces="LRFRBLFFRBLB"></canvas><span class="pll">Ga</span></li>
                   <li><canvas class="pers" data-faces="LBRFFL"></canvas> → <canvas class="top_side" data-faces="BRBLFFRBLFLR"></canvas><span class="pll">Gc</span></li>
                 </ul>
               </li>
-              <li>ペアとブックエンドが対面色 <canvas class="pers" data-faces="BFF..B"></canvas>
+              <li>ペアが対面色 <canvas class="pers" data-faces="BFF..."></canvas>
                 <ul>
                   <li><canvas class="pers" data-faces="BFFLRB"></canvas> → <canvas class="top_side" data-faces="RLRBRLFFBLBF"></canvas><span class="pll">Gb</span></li>
                   <li><canvas class="pers" data-faces="BLRFFB"></canvas> → <canvas class="top_side" data-faces="FBRBFFRLBLRL"></canvas><span class="pll">Gd</span></li>
@@ -1174,31 +1185,31 @@
           </li>
           <li>ペアが外側にある <canvas class="pers" data-faces="FF...F"></canvas>
             <ul>
-              <li>色が3色 <canvas class="pers" data-faces="FFLBLF"></canvas>
+              <li>ペアが隣接色 <canvas class="pers" data-faces="FFL..."></canvas>
                 <ul>
-                  <li>ペアともう1個のコーナーが隣接色 <canvas class="pers" data-faces="FFL..."></canvas>
+                  <li>色が3色 <canvas class="pers" data-faces="FFLBLF"></canvas>
                     <ul>
                       <li><canvas class="pers" data-faces="FFLBLF"></canvas> → <canvas class="top_side" data-faces="BRLFLBLFFRBR"></canvas><span class="pll">Ra</span></li>
                       <li><canvas class="pers" data-faces="FRBRFF"></canvas> → <canvas class="top_side" data-faces="LBLFFRBRFRLB"></canvas><span class="pll">Rb</span></li>
                       <li>ヘッドライトはペアに隣接している。</li>
                     </ul>
                   </li>
-                  <li>ペアともう1個のコーナーが対面色 <canvas class="pers" data-faces="FFB..."></canvas>
+                  <li>色が4色 <canvas class="pers" data-faces="FFLBRF"></canvas>
+                    <ul>
+                      <li><canvas class="pers" data-faces="FFLBRF"></canvas> <canvas class="pers" data-faces="FLBRFF"></canvas> → <canvas class="top_side" data-faces="BBLFRBLFFRLR"></canvas> <canvas class="top_side" data-faces="LRLFFRBLF"></canvas><span class="pll">T</span></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>ペアが対面色 <canvas class="pers" data-faces="FFB..."></canvas>
+                <ul>
+                  <li>色が3色 <canvas class="pers" data-faces="FFBRBF"></canvas>
                     <ul>
                       <li><canvas class="pers" data-faces="FBLBFF"></canvas> → <canvas class="top_side" data-faces="BRLFFBLBFRLR"></canvas><span class="pll">Gb</span></li>
                       <li><canvas class="pers" data-faces="FFBRBF"></canvas> → <canvas class="top_side" data-faces="LRLFBRBFFRLB"></canvas><span class="pll">Gd</span></li>
                     </ul>
                   </li>
-                </ul>
-              </li>
-              <li>色が4色 <canvas class="pers" data-faces="FFLBRF"></canvas>
-                <ul>
-                  <li>ペアともう1個のコーナーが隣接色 <canvas class="pers" data-faces="FFL..."></canvas>
-                    <ul>
-                      <li><canvas class="pers" data-faces="FFLBRF"></canvas> <canvas class="pers" data-faces="FLBRFF"></canvas> → <canvas class="top_side" data-faces="BBLFRBLFFRLR"></canvas> <canvas class="top_side" data-faces="LRLFFRBLF"></canvas><span class="pll">T</span></li>
-                    </ul>
-                  </li>
-                  <li>ペアともう1個のコーナーが対面色 <canvas class="pers" data-faces="FFB..."></canvas>
+                  <li>色が4色 <canvas class="pers" data-faces="FFLBRF"></canvas>
                     <ul>
                       <li><canvas class="pers" data-faces="FFBRLF"></canvas> → <canvas class="top_side" data-faces="LBLFLRBFFRRB"></canvas><span class="pll">Aa</span></li>
                       <li><canvas class="pers" data-faces="FRLBFF"></canvas> → <canvas class="top_side" data-faces="BLLFFBLRFRBR"></canvas><span class="pll">Ab</span></li>
@@ -1224,24 +1235,24 @@
         </ul>
         <h4 id="pll_bookend">ブックエンドがある <canvas class="pers" data-faces="F....F"></canvas></h4>
         <ul id="pll_list">
-          <li>中央4個の色が交互になっている <canvas class="pers" data-faces=".BLBL."></canvas>
+          <li>中央4個に2色が2個ずつある <canvas class="pers" data-faces=".BLBL."></canvas>
             <ul>
               <li><canvas class="pers" data-faces="FBLBLF"></canvas> <canvas class="pers" data-faces="FRBRBF"></canvas> → <canvas class="top_side" data-faces="BFLFLBLBFRRR"></canvas><canvas class="top_side" data-faces="LLLFBRBRFRFB"></canvas><span class="pll">F</span></li>
-              <li>バーは、ブックエンドとエッジが対面色の側面に隣接している。</li>
+              <li>2個のコーナーが対面色の側面の対面にバーがある。</li>
             </ul>
           </li>
-          <li>中央4個に2回出現する色がブックエンドと隣接色 <canvas class="pers" data-faces="FR.R.F"></canvas>
+          <li>中央4個に2個ある色がブックエンドと隣接色 <canvas class="pers" data-faces="FR.R.F"></canvas>
             <ul>
               <li><canvas class="pers" data-faces="FRBRLF"></canvas> → <canvas class="top_side" data-faces="LFLFLRBRFRBB"></canvas><span class="pll">Ra</span></li>
               <li><canvas class="pers" data-faces="FRLBLF"></canvas> → <canvas class="top_side" data-faces="BBLFLBLRFRFR"></canvas><span class="pll">Rb</span></li>
-              <li>2回出現する色のエッジの、対面にヘッドライトがある。</li>
+              <li>2個のコーナーが対面色の側面の対面にヘッドライトがある。</li>
             </ul>
           </li>
-          <li>中央4個に2回出現する色がブックエンドと対面色 <canvas class="pers" data-faces="FB.B.F"></canvas>
+          <li>中央4個に2個ある色がブックエンドと対面色 <canvas class="pers" data-faces="FB.B.F"></canvas>
             <ul>
               <li><canvas class="pers" data-faces="FLBRBF"></canvas> → <canvas class="top_side" data-faces="LFLFBRBLFRRB"></canvas><span class="pll">Ga</span></li>
               <li><canvas class="pers" data-faces="FBLBRF"></canvas> → <canvas class="top_side" data-faces="BLLFRBLBFRFR"></canvas><span class="pll">Gc</span></li>
-              <li>2回出現する色のエッジの、対面にペアがある。</li>
+              <li>2個のコーナーが対面色の側面の対面にヘッドライトある。</li>
             </ul>
           </li>
         </ul>
