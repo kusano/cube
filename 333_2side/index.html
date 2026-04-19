@@ -71,26 +71,56 @@
             <ul style="margin-top: 0.25em">
               <li><a href="#pll_notation">用語</a></li>
               <li><a href="#pll_logic">理論</a></li>
-              <li><a href="#pll_recog">判断</a>
-                <ul style="margin-top: 0.25em">
-                  <li><a href="#pll_2bars">バーが2個ある</a></li>
-                  <li><a href="#pll_bar_light">バーとヘッドライトがある</a></li>
-                  <li><a href="#pll_bar_pair">バーとペアがある</a></li>
-                  <li><a href="#pll_bar">バーが1個ある</a></li>
-                  <li><a href="#pll_2lights">ヘッドライトが2個ある</a></li>
-                  <li><a href="#pll_light_pair">ヘッドライトとペアがある</a></li>
-                  <li><a href="#pll_light">ヘッドライトが1個ある</a></li>
-                  <li><a href="#pll_2pairs_bookend">ペアが2個とブックエンドがある</a></li>
-                  <li><a href="#pll_2pairs">ペアが2個ある</a></li>
-                  <li><a href="#pll_pair_bookend">ペアが1個とブックエンドがある</a></li>
-                  <li><a href="#pll_pair">ペアが1個ある</a></li>
-                  <li><a href="#pll_bookend">ブックエンドがある</a></li>
-                  <li><a href="#pll_none">バー、ヘッドライト、ペア、ブックエンドが無い</a></li>
-                </ul>
-              </li>
+              <li><a href="#pll_recog">判断</a></li>
             </ul>
           </li>
         </ul>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width: 9em">1個目＼2個目</th>
+                <th style="width: 10em">バー</th>
+                <th style="width: 10em">ヘッドライト</th>
+                <th style="width: 10em">ペア</th>
+                <th style="width: 10em">無し</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>バー</th>
+                <td><a href="#pll_2bars">バー2個</a></td>
+                <td><a href="#pll_bar_light">バー＋ライト</a></td>
+                <td><a href="#pll_bar_pair">バー＋ペア</a></td>
+                <td><a href="#pll_bar">バー1個</a></td>
+              </tr>
+              <tr>
+                <th>ヘッドライト</th>
+                <td>-</td>
+                <td><a href="#pll_2lights">ライト2個</a></td>
+                <td><a href="#pll_light_pair">ライト＋ペア</a></td>
+                <td><a href="#pll_light">ライト1個</a></td>
+              </tr>
+              <tr>
+                <th>ペア</th>
+                <td>-</td>
+                <td>-</td>
+                <td><a href="#pll_2pairs_bookend">ペア2個＋エンド</a><br><a href="#pll_2pairs">ペア2個</a></td>
+                <td><a href="#pll_pair_bookend">ペア1個＋エンド</a><br><a href="#pll_pair">ペア1個</a></td>
+              </tr>
+              <tr>
+                <th>無し</th>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td><a href="#pll_bookend">エンド</a><br><a href="#pll_none">無し</a></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            </tfoot>
+          </table>
+        </div>
         <h2 id="oll">OLL</h2>
         <h3 id="oll_logic">理論</h3>
         <p>
@@ -98,10 +128,19 @@
           コーナーは、1個は3面が見えている。
           2個は2面が見えているので、U面色がどの面にあるのかが分かる。
           残りの1個のコーナーは、コーナーの回転の合計が3の倍数になるというキューブの性質から分かる。
-          向きの合っていないコーナーが1個になることはない。
-          向きの合っていないコーナーが2個のとき、その2個は時計回りと反時計回りに回転している。
-          3個のときは、全てが時計回りか、全てが反時計回り。
-          4個のときは、時計回りと反時計回りが2個ずつある。
+          コーナーは、次のいずれかの配置を回転させたものになる。
+        </p>
+        <p>
+          <canvas class="top_side" data-faces="D..D.D..D.......D...."></canvas> <canvas class="top_side" data-faces="D.D...D.D.......D...."></canvas>
+        </p>
+        <p>
+          <canvas class="top_side" data-faces="D..D..D.........D.D.."></canvas> <canvas class="top_side" data-faces="..D..D.....D....D.D.."></canvas>
+        </p>
+        <p>
+          <canvas class="top_side" data-faces="..D......D..D...D...D"></canvas> <canvas class="top_side" data-faces="......D.D...D.D.D...."></canvas> <canvas class="top_side" data-faces=".....D...D..D.D.D...."></canvas>
+        </p>
+        <p>
+          <canvas class="top_side" data-faces="............D.D.D.D.D"></canvas></canvas>
         </p>
         <p>
           普通に（3側面以上を見て）OLLの判断ができている時点で2側面でもだいたいは判断でき、判断に使っている部分が見えない面にある場合を追加で覚えるだけで良いはず。
@@ -843,17 +882,51 @@
         </dl>
         <h3 id="pll_logic">理論</h3>
         <p>
-          コーナーについて、コーナーは次の完成状態、隣接交換、対角交換のいずれかになる。
+          コーナーについて、コーナーは次の完成状態、対角交換、隣接交換のいずれかになる。
+          どの方向から見ても、2側面を見れば、どの状態かが分かる。
         </p>
         <p>
           <canvas class="top_side" data-faces="B.BL.LF.FR.RDDDDDDDDD"></canvas>
-          <canvas class="top_side" data-faces="B.LF.BL.FR.RDDDDDDDDD"></canvas>
           <canvas class="top_side" data-faces="B.FR.LF.BL.RDDDDDDDDD"></canvas>
+          <canvas class="top_side" data-faces="B.LF.BL.FR.RDDDDDDDDD"></canvas>
         </p>
         <p>
-          どの方向から見ても、2側面を見れば、どの状態かが分かる。
-          なお、隣接交換について、2個のコーナーが同色の側面と、対面色の側面は、対面の位置関係になる。
+          完成状態は、どの側面もコーナーの色が揃っている。
+          すなわち、2側面のどちらもバーかヘッドライトになる。
         </p>
+        <p>
+          対角交換は、どの側面もコーナーの色は対面色の組み合わせになっている。
+        </p>
+        <p>
+          隣接交換は、どの方向から見てもコーナーが隣接色の組み合わせになっている側面がある。
+          もう一方の側面は、色が揃っているか、対面色の組み合わせになっているかのどちらか。
+          対面色の組み合わせになっている方向から見たときにはブックエンドがある。
+          また、色が揃っている側面は、対面色の組み合わせの側面の対面にある。
+        </p>
+        <p>
+          Eパームのような隣接交換2回は、対角交換から <b>U</b> もしくは <b>U'</b> した状態である。
+          隣接交換から <b>U</b> もしくは <b>U'</b> するとAパームのような3点交換になる。
+        </p>
+        <p>
+          コーナーの状態について、どのPLLがありえるかを分類すると次の表になる。
+          この表を意識しておくと、判断の内容が頭に入ってきやすいかもしれない。
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>コーナー</th>
+              <th>PLL</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr><td></td><td></td></tr>
+          </tfoot>
+          <tbody>
+            <tr><th>完成状態</th><td>H, U, Z</td></tr>
+            <tr><th>対角交換</th><td>E, N, V, Y</td></tr>
+            <tr><th>隣接交換</th><td>A, F, G, J, R, T</td></tr>
+          </tbody>
+        </table>
         <p>
           エッジは、2個のエッジが見え、2個のエッジは見えない。
           コーナーとエッジの置換の偶奇は一致するというキューブの性質から、見えない2個のエッジの配置が推測できる。
@@ -863,6 +936,52 @@
           できるが、時間が掛かるので、実際にはバーやヘッドライトの有無などから判断する。
         </p>
         <h3 id="pll_recog">判断</h3>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width: 9em">1個目＼2個目</th>
+                <th style="width: 10em">バー</th>
+                <th style="width: 10em">ヘッドライト</th>
+                <th style="width: 10em">ペア</th>
+                <th style="width: 10em">無し</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>バー</th>
+                <td><a href="#pll_2bars">バー2個</a></td>
+                <td><a href="#pll_bar_light">バー＋ライト</a></td>
+                <td><a href="#pll_bar_pair">バー＋ペア</a></td>
+                <td><a href="#pll_bar">バー1個</a></td>
+              </tr>
+              <tr>
+                <th>ヘッドライト</th>
+                <td>-</td>
+                <td><a href="#pll_2lights">ライト2個</a></td>
+                <td><a href="#pll_light_pair">ライト＋ペア</a></td>
+                <td><a href="#pll_light">ライト1個</a></td>
+              </tr>
+              <tr>
+                <th>ペア</th>
+                <td>-</td>
+                <td>-</td>
+                <td><a href="#pll_2pairs_bookend">ペア2個＋エンド</a><br><a href="#pll_2pairs">ペア2個</a></td>
+                <td><a href="#pll_pair_bookend">ペア1個＋エンド</a><br><a href="#pll_pair">ペア1個</a></td>
+              </tr>
+              <tr>
+                <th>無し</th>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td><a href="#pll_bookend">エンド</a><br><a href="#pll_none">無し</a></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            </tfoot>
+          </table>
+        </div>
         <h4 id="pll_2bars">バーが2個ある <canvas class="pers" data-faces="FFFLLL"></canvas></h4>
         <ul id="pll_list">
           <li><canvas class="pers" data-faces="FFFLLL"></canvas> → <canvas class="top_side" data-faces="BBBLLLFFFRRR"></canvas><span class="pll">Solved</span></li>
