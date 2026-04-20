@@ -1082,18 +1082,19 @@
           </li>
           <li>ペアが外側にある <canvas class="pers" data-faces="F.F.BB"></canvas>
             <ul>
-              <li>色が3色 <canvas class="pers" data-faces="FLFLBB"></canvas>
+              <li>ヘッドライトがある側面のエッジと、ペアがある側面のペアになっていないコーナーが同色 <canvas class="pers" data-faces="FLFLBB"></canvas>
                 <ul>
                   <li><canvas class="pers" data-faces="FLFLBB"></canvas> → <canvas class="top_side" data-faces="LRRBBLFLFRFB"></canvas><span class="pll">Aa</span></li>
                   <li><canvas class="pers" data-faces="BBRFRF"></canvas> → <canvas class="top_side" data-faces="BFLFRFRBBLLR"></canvas><span class="pll">Ab</span></li>
                 </ul>
               </li>
-              <li>色が4色 <canvas class="pers" data-faces="FRFLBB"></canvas>
+              <li>ヘッドライトがある側面エッジと、ペアがある側面のペアになっていないコーナーが異色 <canvas class="pers" data-faces="FRFLBB"></canvas>
                 <ul>
                   <li><canvas class="pers" data-faces="FRFLBB"></canvas> → <canvas class="top_side" data-faces="LFRBBLFRFRLB"></canvas><span class="pll">Ga</span></li>
                   <li><canvas class="pers" data-faces="BBRFLF"></canvas> → <canvas class="top_side" data-faces="BRLFLFRBBLFR"></canvas><span class="pll">Gc</span></li>
                 </ul>
               </li>
+              <li>ヘッドライトに隣接する見えていない側面のコーナーはここで注目したコーナーの対面色なので、下の「ヘッドライトが1個ある」では、エッジとコーナーが同色かどうかとAa/bとGa/cの対応関係が逆になる。</li>
             </ul>
           </li>
         </ul>
@@ -1169,6 +1170,7 @@
         <ul id="pll_list">
           <li>ペアが内側にある <canvas class="pers" data-faces="RFF..R"></canvas>
             <ul>
+              <li>この時点でGパームであることは確定する。</li>
               <li>ペアが隣接色 <canvas class="pers" data-faces="RFF..."></canvas>
                 <ul>
                   <li><canvas class="pers" data-faces="RFFLBR"></canvas> → <canvas class="top_side" data-faces="LRFRBLFFRBLB"></canvas><span class="pll">Ga</span></li>
@@ -1187,34 +1189,36 @@
             <ul>
               <li>ペアが隣接色 <canvas class="pers" data-faces="FFL..."></canvas>
                 <ul>
-                  <li>色が3色 <canvas class="pers" data-faces="FFLBLF"></canvas>
+                  <li>ペアがある側面のペアになっていないコーナーと、ペアではない側面のエッジが同色 <canvas class="pers" data-faces="FFLBLF"></canvas>
                     <ul>
                       <li><canvas class="pers" data-faces="FFLBLF"></canvas> → <canvas class="top_side" data-faces="BRLFLBLFFRBR"></canvas><span class="pll">Ra</span></li>
                       <li><canvas class="pers" data-faces="FRBRFF"></canvas> → <canvas class="top_side" data-faces="LBLFFRBRFRLB"></canvas><span class="pll">Rb</span></li>
                       <li>ヘッドライトはペアに隣接している。</li>
                     </ul>
                   </li>
-                  <li>色が4色 <canvas class="pers" data-faces="FFLBRF"></canvas>
+                  <li>ペアがある側面のペアになっていないコーナーと、ペアではない側面のエッジが異色 <canvas class="pers" data-faces="FFLBRF"></canvas>
                     <ul>
                       <li><canvas class="pers" data-faces="FFLBRF"></canvas> <canvas class="pers" data-faces="FLBRFF"></canvas> → <canvas class="top_side" data-faces="BBLFRBLFFRLR"></canvas> <canvas class="top_side" data-faces="LRLFFRBLF"></canvas><span class="pll">T</span></li>
                     </ul>
                   </li>
+                  <li>色が多くて側面が複雑に見えるほうが、簡単なTパームになる。</li>
                 </ul>
               </li>
               <li>ペアが対面色 <canvas class="pers" data-faces="FFB..."></canvas>
                 <ul>
-                  <li>色が3色 <canvas class="pers" data-faces="FFBRBF"></canvas>
+                  <li>ペアがある側面のペアになっていないコーナーと、ペアではない側面のエッジが同色 <canvas class="pers" data-faces="FFBRBF"></canvas>
                     <ul>
                       <li><canvas class="pers" data-faces="FBLBFF"></canvas> → <canvas class="top_side" data-faces="BRLFFBLBFRLR"></canvas><span class="pll">Gb</span></li>
                       <li><canvas class="pers" data-faces="FFBRBF"></canvas> → <canvas class="top_side" data-faces="LRLFBRBFFRLB"></canvas><span class="pll">Gd</span></li>
                     </ul>
                   </li>
-                  <li>色が4色 <canvas class="pers" data-faces="FFLBRF"></canvas>
+                  <li>ペアがある側面のペアになっていないコーナーと、ペアではない側面のエッジが異色 <canvas class="pers" data-faces="FFLBRF"></canvas>
                     <ul>
                       <li><canvas class="pers" data-faces="FFBRLF"></canvas> → <canvas class="top_side" data-faces="LBLFLRBFFRRB"></canvas><span class="pll">Aa</span></li>
                       <li><canvas class="pers" data-faces="FRLBFF"></canvas> → <canvas class="top_side" data-faces="BLLFFBLRFRBR"></canvas><span class="pll">Ab</span></li>
                     </ul>
                   </li>
+                  <li>色が多くて側面が複雑に見えるほうが、簡単なAパームになる。</li>
                 </ul>
               </li>
             </ul>
@@ -1261,16 +1265,19 @@
           <li>中央4個の色が交互になっている <canvas class="pers" data-faces=".FRFR."></canvas>
             <ul>
               <li><canvas class="pers" data-faces="LFRFRB"></canvas> → <canvas class="top_side" data-faces="LLRBRFRFLFBB"></canvas><span class="pll">V</span></li>
+              <li>反対側の中央4個がペアになっている。</li>
             </ul>
           </li>
           <li>外側4個の色が交互になっている <canvas class="pers" data-faces="FL..FL"></canvas>
             <ul>
               <li><canvas class="pers" data-faces="FLBRFL"></canvas> → <canvas class="top_side" data-faces="FBBLFRBLFRRL"></canvas><span class="pll">Y</span></li>
+              <li>反対側の外側4個がペアになっている。</li>
             </ul>
           </li>
           <li>5個の色が回文のようになっている <canvas class="pers" data-faces="FRBRF."></canvas>
             <ul>
               <li><canvas class="pers" data-faces="FRBRFL"></canvas> <canvas class="pers" data-faces="RFLBLF"></canvas> → <canvas class="top_side" data-faces="FLBLFRBRFRBL"></canvas> <canvas class="top_side" data-faces="RBLFLBLFRBRF"></canvas><span class="pll">E</span></li>
+              <li>Eパームはどこから見てもこの状態であり、条件分岐のここにしか出てこない。</li>
             </ul>
           </li>
         </ul>
