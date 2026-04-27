@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="Inspection Timer">
+    <title>Inspection Timer</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>Inspection Timer</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; Inspection Timer
+        </p>
+        <hr>
+        <details>
+          <summary>説明／設定</summary>
+          <p>
+            スタックタイマーを使って練習するときに、インスペクションタイムを計測するためのタイマーです。
+            「Start」ボタンを押してから8秒後と12秒後に音声が、15秒後と17秒後にビープ音が流れます。
+            カバーを外すのと同時に「Start」ボタンを押し、ソルブ開始後にビープ音が聞こえたかどうかを判断することで、ジャッジがいるかのように練習をすることができます。
+          </p>
+          <div class="field">
+            <label class="label">Voice Language</label>
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="language" value="japanese" checked>Japanese
+              </label>
+              <label class="radio">
+                <input type="radio" name="language" value="english">English
+              </label>
+            </div>
+          </div>
+        </details>
+        <div style="max-width: 480px">
+          <p>
+            <div id="time" class="has-text-right is-family-monospace"></div>
+            <div>
+              <canvas id="bar" style="width: 100%; height: 16px;"></canvas>
+            </div>
+          </p>
+          <div class="columns">
+            <div class="column"><button id="start" class="button is-fullwidth is-large is-primary is-loading" disabled>Start</button></div>
+          </div>
+          <div class="columns">
+            <div class="column"><button id="ready" class="button is-fullwidth is-primary is-loading" disabled>Ready?</button></div>
+            <div class="column"><button id="stop" class="button is-fullwidth is-danger" disabled>Stop</button></div>
+          </div>
+        </div>
+        <hr>
+        <address class="mb-6 has-text-right">
+          <p>Voice：さとうささら（CeVIO）</p>
+          <p><a href="https://twitter.com/kusano_k">@kusano_k</a></p>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>
