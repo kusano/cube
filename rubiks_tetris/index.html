@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="ルービックキューブテトリスの解一覧">
+    <title>ルービックキューブテトリスの解一覧</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>ルービックキューブテトリスの解一覧</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; ルービックキューブテトリスの解一覧
+        </p>
+        <hr>
+        <p>
+          <strong>ネタバレ注意。</strong>
+        </p>
+        <p>
+          <a href="https://www.megahouse.co.jp/megatoy/products/item/5554/">ルービックキューブテトリス｜商品情報｜メガトイ｜メガハウスのおもちゃ情報サイト</a>
+        </p>
+        <p>
+          ルービックキューブテトリスは2026年に発売された、ルービックキューブとテトリスがコラボしたパズルである。
+          ルービックキューブの各ピースが単色でできていて、I型以外の6種類のテトリミノを作ることが目的である。
+        </p>
+        <p>
+          各ピースをどこに配置するかが決まれば、ルービックキューブを解ける人ならば後は難しくない。
+          解が何通りあるのか気になり、プログラムで探索したので、結果を載せておく。
+          なお、同色のコーナーが2個あり、ルービックキューブにおけるPLLパリティは存在しないので、（センター以外を）分解して作れる配置は、全て作ることができる。
+        </p>
+        <p>
+          プログラム: <a href="solve.py">solve.py</a>
+        </p>
+        <h2>結果</h2>
+        <p>
+          テトリスの各形のピースの色は、O型が水色、S型が緑色、Z型が赤色、J型が青色、L型が橙色、T型が紫色とガイドラインで定められている。
+          この色を満たす解は、購入時の1通りだけだった。
+        </p>
+        <p><canvas class="net" data-faces="BRPOPPGWPBOGBOGBOOGWPGGYOGYPPPYYRYYRPRBRRBRBBOGYOKYBBR"></canvas></p>
+        <p>
+          色の割り当てを自由にすると、色が正しいものも含めて48通りの解がある。
+          本質的には、色が正しい1個と次の5個の配置である。
+        </p>
+        <p>
+          ルービックキューブはセンターとエッジやエッジとコーナーなどを入れ替えることができないので、各色について、センターやエッジ、コーナーが何個あるかが重要になる。
+          紫色と青色は他の色とは個数が異なり、残りの緑色、赤色、青色、橙色は同じである。
+          そして、紫色のセンターと黒色のセンターは向かい合っているので、紫色を上面にしたとき、側面の色については回転したものと鏡像反転した8通りの配置があって、6×8=48通りになる。
+        </p>
+        <p><canvas class="net" data-faces="RRPOPPOGPROOBOOBBBOGPOGYBGGPPPYYRGYYPRRRRBYWBBGGBKYBWY"></canvas></p>
+        <p><canvas class="net" data-faces="ORPWPPGGPOWGOOBROBGGPBGGBBBPPPGYYBYYPROYROYRRBBBOKYRRY"></canvas></p>
+        <p><canvas class="net" data-faces="BRPBPPBGPBBBBOOOOGBGPOGYGGYPPPYYRYYRPRBRRBRWOGGYOKYOWR"></canvas></p>
+        <p><canvas class="net" data-faces="BRPOPPGGPBOGBOOBWOGGPOGYOGYPPPYYRYYRPRBRRBRBBOGYWKYBBR"></canvas></p>
+        <p><canvas class="net" data-faces="RRPOPPOGPROOBOGBOGOGPGGYGWYPPPYYRYYBPRRRRBBBBGWYOKYBBB"></canvas></p>
+        <p>
+          残りの42通りは次の通り。
+        </p>
+        <p><canvas class="net" data-faces="ORPOPPGGPOOGOOBBBBGGPBGGBWYPPPGYYYYRPROYRORRBBWYBKYBRR"></canvas></p>
+        <p><canvas class="net" data-faces="RRPOPPBGPROBOOBOWBBGPBGGBBGPPPGYYGYYPRRYROYROBBGWKYORY"></canvas></p>
+        <p><canvas class="net" data-faces="BRPBPPBGPBBBOOBROOBGPBGGOWGPPPGYYGYYPRBYROYRROWGOKYRRY"></canvas></p>
+        <p><canvas class="net" data-faces="RRPWPPOGPRWOBOOBOGOGPOGYGGYPPPYYRYYBPRRRRBBBBGGYOKYBBB"></canvas></p>
+        <p><canvas class="net" data-faces="RWPOPPBGPROBROBOOBBGPBGGBBGPPPGYYGYYPWRYRRYROBBGOKYORY"></canvas></p>
+        <p><canvas class="net" data-faces="ORPOPPGGPOOGROBROBGGPBGGBBBPPPGYYBYYPROYRRYWRBBBOKYRWY"></canvas></p>
+        <p><canvas class="net" data-faces="PPPOPYGGYPOGROORWOGGYOGBOGBYYPBYYBBBPPPYRRBRROGBWKBRRB"></canvas></p>
+        <p><canvas class="net" data-faces="PPPOPYOGGPOOOOBRWBOGGBGGBBBGYPGYRBYYPPPRROYRRBBBWKYRRY"></canvas></p>
+        <p><canvas class="net" data-faces="PPPOPYOWGPOOOOBBBBOWGBGGBGYGYPGYRYYRPPPRRORRBBGYBKYBRR"></canvas></p>
+        <p><canvas class="net" data-faces="PPPOPYOGGPOOOOBBBBOGGBGYBGYGYPYYRYWRPPPRRORRBBGYBKWBRR"></canvas></p>
+        <p><canvas class="net" data-faces="PPPOPYBBBPOBOOBOWGBBBBGGGGYBYPGYRYYRPPPRRORROGGYWKYORR"></canvas></p>
+        <p><canvas class="net" data-faces="PPPOPYBGYPOBOOBOBBBGYBGGBWGYYPGYRGYRPPPRRORROBWGBKYORR"></canvas></p>
+        <p><canvas class="net" data-faces="PPPOPWBGYPOBOOBOBBBGYBGYBGGYWPYYRGYRPPPRRORROBGGBKYORR"></canvas></p>
+        <p><canvas class="net" data-faces="PPPWPYOGBPWOROOROGOGBOGBGGBBYPBYYBBYPPPYRRYRRGGBOKBRRY"></canvas></p>
+        <p><canvas class="net" data-faces="PPPOPYGGYPOGROGOOBGGYGGBBBBYYPBYYBWRPPPYRRRROBBBOKWORR"></canvas></p>
+        <p><canvas class="net" data-faces="PPPOPYOGBPOOROGROGOGBGGBGWBBYPBYYBBYPPPYRRYRRGWBOKBRRY"></canvas></p>
+        <p><canvas class="net" data-faces="PPPOPYGWYPOGROGROOGWYGGBOGBYYPBYYBBBPPPYRRBRROGBOKBRRB"></canvas></p>
+        <p><canvas class="net" data-faces="PPPOPYBBBPOBROGROOBBBGGBOGGBYPBYYGWYPPPYRRYRROGGOKWRRY"></canvas></p>
+        <p><canvas class="net" data-faces="PRYPPWPGGPPPOOGOOBPGGGGBBBBGWYBYYBYRYRPYRORROBBBOKYORR"></canvas></p>
+        <p><canvas class="net" data-faces="PRYPPYPGGPPPOOGOOBPGGGGBBBBGYYBYRBYRYRPRRORWOBBBOKYOWR"></canvas></p>
+        <p><canvas class="net" data-faces="PRBPPBPGBPPPOOGOOGPGBGGBGWYBBBBYYYYRBRPYRORROGWYOKYORR"></canvas></p>
+        <p><canvas class="net" data-faces="PRRPPYPGBPPPOOGOOGPGBGGBGBBBYRBYYBWYRRPYROYROGBBOKWORY"></canvas></p>
+        <p><canvas class="net" data-faces="PWRPPYPGBPPPOOGOOGPGBGGBGBBBYRBYRBYYRWPRROYROGBBOKYORY"></canvas></p>
+        <p><canvas class="net" data-faces="PRRPPYPGYPPPROOBOOPGYOGGOWGYYRGYBGYBRRPBRRBBBOWGOKYBBB"></canvas></p>
+        <p><canvas class="net" data-faces="PRBPPYPWGPPPROOROOPWGOGGOGYGYBGYBYYBBRPBRRBBROGYOKYRBB"></canvas></p>
+        <p><canvas class="net" data-faces="PRBPPYPGGPPPROOROOPGGOGYOGYGYBYYBYWBBRPBRRBBROGYOKWRBB"></canvas></p>
+        <p><canvas class="net" data-faces="PRRPPWPGYPPPROOBOOPGYOGYOGGYWRYYBGYBRRPBRRBBBOGGOKYBBB"></canvas></p>
+        <p><canvas class="net" data-faces="PRBPPBPGBPPPROOROOPGBOGYOGGBBBYYBGYYBRPBRRYWROGGOKYRWY"></canvas></p>
+        <p><canvas class="net" data-faces="PRRPPYPGYPPPROOOOGPGYOGYGGBYYRYYBBBBRRPBRRBWOGGBOKBOWB"></canvas></p>
+        <p><canvas class="net" data-faces="PRYPPYPGGPPPOOGROOPGGGGBOWBGYYBYYBBBYRPYROBRROWBOKBRRB"></canvas></p>
+        <p><canvas class="net" data-faces="ORBWPYPPPOWPOOGROGPPPGGYGGYPYBYYBYBBBROBROBRRGGYOKBRRB"></canvas></p>
+        <p><canvas class="net" data-faces="BRYOPWPPPBOPBOOBBOPPPOGGOGGPWYGYYGYRYRBYRBRRBOGGBKYBRR"></canvas></p>
+        <p><canvas class="net" data-faces="BRYOPYPPPBOPBOOBBOPPPOGGOGGPYYGYRGYRYRBRRBRWBOGGBKYBWR"></canvas></p>
+        <p><canvas class="net" data-faces="BBBOPYPPPBOPBOORWOPPPOGGOGGPYBGYRGYYBBBRRBYRROGGWKYRRY"></canvas></p>
+        <p><canvas class="net" data-faces="RRYOPYPPPROPOOGOWGPPPGGYGGBPYYYYBBBBYRRBROBROGGBWKBORB"></canvas></p>
+        <p><canvas class="net" data-faces="ORROPYPPPOOPBOOBBBPPPOGGBGGPYRGYYGWYRROYRBYRBBGGBKWBRY"></canvas></p>
+        <p><canvas class="net" data-faces="OWROPYPPPOOPBOOBBBPPPOGGBGGPYRGYRGYYRWORRBYRBBGGBKYBRY"></canvas></p>
+        <p><canvas class="net" data-faces="ORROPYPPPOOPBOOBWGPPPOGGGGYPYRGYRYYBRRORRBBBBGGYWKYBBB"></canvas></p>
+        <p><canvas class="net" data-faces="RWYOPYPPPROPROGOOGPPPGGYGGBPYYYYBBBBYWRBRRBROGGBOKBORB"></canvas></p>
+        <p><canvas class="net" data-faces="BBBOPYPPPBOPROGOOGPPPGGYGGYPYBYYBYWRBBBBRRRROGGYOKWORR"></canvas></p>
+        <p><canvas class="net" data-faces="ORBOPYPPPOOPROGROGPPPGGYGGYPYBYYBYBBBROBRRBWRGGYOKBRWB"></canvas></p>
+        <p><canvas class="net" data-faces="RRYOPYPPPROPROGBOOPPPGGYOGGPYYYYBGWBYRRBRRBBBOGGOKWBBB"></canvas></p>
+        <hr>
+        <address class="mb-6 has-text-right">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+    <script>
+const colors = {
+  "P": "#c000c0",
+  "G": "#40f040",
+  "R": "#f80808",
+  "Y": "#f8f840",
+  "B": "#0808f0",
+  "O": "#f8a008",
+  "K": "#404040",
+  "W": "#ffffff",
+};
+
+for (let canvas of document.querySelectorAll(".net")) {
+  const C = 20;
+
+  const W = C*14.5;
+  const H = C*11;
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio;
+  canvas.width = W*dpr;
+  canvas.height = H*dpr;
+  ctx.scale(dpr, dpr);
+  canvas.style.width = `${W}px`;
+  canvas.style.height = `${H}px`;
+
+  const faces = canvas.dataset.faces;
+
+  ctx.lineWidth = 0.5;
+  ctx.strokeStyle = "#303030";
+
+  for (let f=0; f<6; f++) {
+    const fx = [4.0, 0.5, 4.0, 7.5, 11.0, 4.0][f];
+    const fy = [0.5, 4.0, 4.0, 4.0, 4.0, 7.5][f];
+    for (let y=0; y<3; y++) {
+      for (let x=0; x<3; x++) {
+        ctx.beginPath();
+        ctx.rect((fx+x)*C, (fy+y)*C, C, C);
+        ctx.fillStyle = colors[faces[f*9+y*3+x]];
+        ctx.fill();
+        ctx.stroke();
+      }
+    }
+  }
+}
+    </script>
+  </body>
+</html>
