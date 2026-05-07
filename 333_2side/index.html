@@ -1239,24 +1239,31 @@
         </ul>
         <h4 id="pll_bookend">ブックエンドがある <canvas class="pers" data-faces="F....F"></canvas></h4>
         <ul id="pll_list">
-          <li>中央4個に2色が2個ずつある <canvas class="pers" data-faces=".BLBL."></canvas>
+          <li>中央4個が2色 <canvas class="pers" data-faces=".BLBL."></canvas>
             <ul>
               <li><canvas class="pers" data-faces="FBLBLF"></canvas> <canvas class="pers" data-faces="FRBRBF"></canvas> → <canvas class="top_side" data-faces="BFLFLBLBFRRR"></canvas><canvas class="top_side" data-faces="LLLFBRBRFRFB"></canvas><span class="pll">F</span></li>
               <li>2個のコーナーが対面色の側面の対面にバーがある。</li>
             </ul>
           </li>
-          <li>中央4個に2個ある色がブックエンドと隣接色 <canvas class="pers" data-faces="FR.R.F"></canvas>
+          <li>中央4個が3色 <canvas class="pers" data-faces=".RBRL."></canvas>
             <ul>
-              <li><canvas class="pers" data-faces="FRBRLF"></canvas> → <canvas class="top_side" data-faces="LFLFLRBRFRBB"></canvas><span class="pll">Ra</span></li>
-              <li><canvas class="pers" data-faces="FRLBLF"></canvas> → <canvas class="top_side" data-faces="BBLFLBLRFRFR"></canvas><span class="pll">Rb</span></li>
-              <li>2個のコーナーが対面色の側面の対面にヘッドライトがある。</li>
-            </ul>
-          </li>
-          <li>中央4個に2個ある色がブックエンドと対面色 <canvas class="pers" data-faces="FB.B.F"></canvas>
-            <ul>
-              <li><canvas class="pers" data-faces="FLBRBF"></canvas> → <canvas class="top_side" data-faces="LFLFBRBLFRRB"></canvas><span class="pll">Ga</span></li>
-              <li><canvas class="pers" data-faces="FBLBRF"></canvas> → <canvas class="top_side" data-faces="BLLFRBLBFRFR"></canvas><span class="pll">Gc</span></li>
-              <li>2個のコーナーが対面色の側面の対面にヘッドライトある。</li>
+              <li>内側のコーナーと隣接するエッジが対面色 <canvas class="pers" data-faces="...RL."></canvas>
+                <ul>
+                  <li><canvas class="pers" data-faces="FRBRLF"></canvas> → <canvas class="top_side" data-faces="LFLFLRBRFRBB"></canvas><span class="pll">Ra</span></li>
+                  <li><canvas class="pers" data-faces="FRLBLF"></canvas> → <canvas class="top_side" data-faces="BBLFLBLRFRFR"></canvas><span class="pll">Rb</span></li>
+                </ul>
+              </li>
+              <li>外側のコーナーと隣接するエッジが対面色 <canvas class="pers" data-faces="....BF"></canvas>
+                <ul>
+                  <li><canvas class="pers" data-faces="FLBRBF"></canvas> → <canvas class="top_side" data-faces="LFLFBRBLFRRB"></canvas><span class="pll">Ga</span></li>
+                  <li><canvas class="pers" data-faces="FBLBRF"></canvas> → <canvas class="top_side" data-faces="BLLFRBLBFRFR"></canvas><span class="pll">Gc</span></li>
+                </ul>
+              </li>
+              <li>どちらも注目したコーナーとエッジを180度回転した位置にペアがある。
+                <ul>
+                  <li><canvas class="top_side" data-faces="....LR....BB"></canvas> <canvas class="top_side" data-faces="BB....LR...."></canvas> <canvas class="top_side" data-faces="...FB....RR."></canvas> <canvas class="top_side" data-faces=".LL....BF..."></canvas></li>
+                </ul>
+              </li>
             </ul>
           </li>
         </ul>
