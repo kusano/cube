@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="Linear FMC">
+    <title>Linear FMC</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+    <style>
+      @font-face {
+        font-family: "7seg";
+        src:
+          url("DSEG7Classic-Bold.woff2") format("woff2"),
+          url("DSEG7Classic-Bold.woff") format("woff");
+      }
+      #timer {
+        font-family: "7seg";
+        font-size: 32pt;
+      }
+    </style>
+    <script src="cube.js"></script>
+    <script type="module" src="script.js"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>Linear FMC</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; Linear FMC
+        </p>
+        <hr>
+        <div class="field">
+          <label class="label">Mac Address</label>
+          <div class="control">
+            <input id="mac" class="input" type="text" placeholder="00:00:5E:00:53:00">
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <button id="connect" class="button is-primary">Connect</button>
+          </div>
+        </div>
+        <p id="error">
+        </p>
+        <p>
+          <canvas id="net"></canvas>
+          <canvas id="cube"></canvas>
+        </p>
+        <div class="field">
+          <label class="label">Scramble</label>
+          <div class="control">
+            <input id="scramble" class="input" type="text" placeholder="R' U' F D' L D L' B2 D' F' U R2 U2 F2 L2 B2 L' D2 L' D2 R2 F2 U' R' U' F">
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <button id="reset" class="button is-primary">Reset to Scramble</button>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <button id="start" class="button is-primary">Start</button>
+            <button id="stop" class="button is-danger">Stop</button>
+          </div>
+        </div>
+        <p id="timer">2:00.000</p>
+        <p style="font-size: 24pt">
+          <span id="solution" style="font-weight: bold"></span> <span id="solution_count"></span>
+        </p>
+        <hr>
+        <address class="mb-6 has-text-right">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a><br>
+          Font: <a href="DSEG-LICENSE.txt">DSEG</a>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>
