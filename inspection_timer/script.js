@@ -29,8 +29,12 @@ document.addEventListener("DOMContentLoaded", () => {
         render();
     }
 
-    function start() {
+    async function start() {
         stop();
+
+        if (context.state=="interrupted") {
+            await context.resume();
+        }
 
         startTime = context.currentTime;
 
@@ -187,18 +191,22 @@ document.addEventListener("DOMContentLoaded", () => {
         animateID = requestAnimationFrame(animate);
     }
 
-    document.getElementById("start").addEventListener("click", () => {
-        start();
+    document.getElementById("start").addEventListener("click", async () => {
+        await start();
     });
 
-    document.body.addEventListener("keyup", e => {
+    document.body.addEventListener("keyup", async e => {
         if (e.key==" " && e.target==document.body) {
-            start();
+            await start();
         }
     });
 
-    document.getElementById("ready").addEventListener("click", () => {
+    document.getElementById("ready").addEventListener("click", async () => {
         stop();
+
+        if (context.state=="interrupted") {
+            await context.resume();
+        }
 
         const source = new AudioBufferSourceNode(context, {buffer});
         source.connect(context.destination);
