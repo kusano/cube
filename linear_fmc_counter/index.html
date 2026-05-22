@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="Linear FMC Counter">
+    <title>Linear FMC Counter</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>Linear FMC Counter</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; Linear FMC Counter
+        </p>
+        <hr>
+        <p>
+          スマートキューブを使って<a href="https://cstimer.net/">csTimer</a>で記録した手順を、<a href="https://cubingcontests.com/rules">3x3x3 Linear Fewest Moves（Linear FMC）のルール</a>に従って数えます。
+        </p>
+        <details class="mb-4">
+          <summary>詳細</summary>
+          <p>
+            スマートキューブを<a href="https://cstimer.net/">csTimer</a>に接続し、キューブを解いてください。
+            解いた後、画面右端の手数をクリックして仮想キューブを開き、（share linkではなく）⏯Algのリンクをコピーして貼り付けてください。
+            <code>L D R' ...</code> のような手順を貼り付けることもできます。
+          </p>
+          <p>
+            Linear FMCのルールでは、<code>R R R</code> → <code>R'</code> のように、同じ面を回す連続した手順を一つにまとめます。
+            まとめた結果が0となった場合は、<code>R R'</code> → <code>R0</code> のように残します。
+            この動きは持ち替えと同様に手数としてカウントはされませんが、この <code>R0</code> などを跨いだ動きを一つにまとめることはしません。
+            <code>F R R' F</code> は、<code>F R0 F</code> になり、2手としてカウントします。
+          </p>
+          <p>
+            <img src="figure.png" width="480" height="270">
+          </p>
+        </details>
+        <div class="field">
+          <label class="label">Alg link or moves</label>
+          <div class="control">
+            <input id="input" class="input" type="text" placeholder="https://alg.cubing.net/?alg=... or L D R' ...">
+          </div>
+        </div>
+        <h4>Log</h4>
+        <p>
+          <div id="log" class="is-family-monospace has-text-grey" style="font-size: 0.5rem"></div>
+        </p>
+        <h4>Time</h4>
+        <p>
+          <span id="time" class="is-size-4"></span>
+        <p>
+        <h4>Result</h4>
+        <p>
+          <span id="result" class="is-size-4"></span>
+        </p>
+        <h4>Solution</h4>
+        <p>
+          <span id="solution" class="is-size-4"></span>
+        </p>
+        <div class="field">
+          <div class="control">
+            <button id="copy" class="button is-primary">Copy</button>
+          </div>
+        </div>
+        <hr>
+        <address class="mb-6 has-text-right">
+          <p><a href="https://twitter.com/kusano_k">@kusano_k</a></p>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>
