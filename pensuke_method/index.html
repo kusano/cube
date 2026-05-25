@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="FMC Pensuke Method Analyzer">
+    <title>FMC Pensuke Method Analyzer</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+    <style>
+      html {
+        overflow-x: auto;
+      }
+      .ls {
+        position: relative;
+        height: 6.5lh;
+      }
+      .move {
+        position: absolute;
+        text-align: center;
+        font-weight: bold;
+      }
+      .ls_title {
+        position: absolute;
+        font-weight: bold;
+      }
+      .subset {
+        position: absolute;
+        border: solid 1px #888;
+        padding-left: 0.5em;
+        font-weight: bold;
+      }
+      .subset.d-0 {
+        background-color: #bfb;
+      }
+      .subset.d-1 {
+        background-color: #ceb;
+      }
+      .subset.d-2 {
+        background-color: #ddb;
+      }
+      .subset.d-3 {
+        background-color: #ecb;
+      }
+      .subset.d-4 {
+        background-color: #fbb;
+      }
+    </style>
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>FMC Pensuke Method Analyzer</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; Pensuke Method
+        </p>
+        <hr>
+        <p>
+          FMCのHTRの状態に対し、LS（Leave Slice）までの最短の手順を求め、各手ごとにぺんすけ法（Bars Reduction）とFR（Floppy Reduction）の状態を表示します。
+        </p>
+        <details class="mb-5">
+          <summary>詳細</summary>
+          <p>
+            ぺんすけ法（Bars Reduction）とは、FMCのHTRからLSを求める手法の一つである。
+            U/D軸のLSを求めるのであれば、F/B面とR/B面のそれぞれについて、3x1のバーや2x1のペアの個数などから、LSまでに必要なR2/L2やF2/B2の回数の下限を求め、それを手がかりにLSまでの手順を探索する。
+            他の軸のLSも同様。
+          </p>
+          <p>
+            参考:
+          </p>
+          <ul>
+            <li><a href="https://pensuke-cube.hatenablog.com/entry/2025/02/01/082237">HTR後FRを使わずにLeave Sliceを作る方法の解説 - ぺんすけのぶろぐ</a></li>
+            <li><a href="https://x.com/zonsan531/status/1950086720503808304">https://x.com/zonsan531/status/1950086720503808304</a></li>
+            <li><a href="https://x.com/MegaDBL/status/1951644902577824192">https://x.com/MegaDBL/status/1951644902577824192</a></li>
+          </ul>
+          <p>
+            ぺんすけ法における状態は、4B0、2B3、1B4、4P1、4P4、2P2、2P3、HL2、HL3、0P3、0P4の11個。
+            先頭の2文字は主にバーなどの個数を、末尾の1文字が必要なR2/L2などの個数を表している。
+            各状態の説明と判別方法は次の通り。
+            F/B面について説明しているが、他の面についても同様である。
+          </p>
+          <h5>4B0</h5>
+          <p>
+            4辺とも、エッジとその両端の2個のエッジのF/B面とU/D面が一致したバー（<b>B</b>ar）になっている。
+            完成状態。
+          </p>
+          <p>
+            <canvas class="cube" data-faces="UUU...UUU.........FFF...FFF.........BBB...BBBDDD...DDD"></canvas>
+          </p>
+          <h5>2B3</h5>
+          <p>
+            バーが2個。
+            このとき、他の2辺は後述するヘッドライトになっているが、バーが2個の2Bとする。
+          </p>
+          <p>
+            <canvas class="cube" data-faces="......UUU.........FFF...FFF..................DDD......"></canvas>
+          </p>
+          <h5>1B4</h5>
+          <p>
+            バーが1個。
+            このとき、他の3辺はヘッドライトになっているが、バーが1個の1Bとする。
+          </p>
+          <p>
+            <canvas class="cube" data-faces="......UUU.........FFF................................."></canvas>
+          </p>
+          <h5>4P1</h5>
+          <p>
+            エッジと一方のコーナーのみが一致したペア（<b>P</b>air）が4個。
+            かつ、ペアが下図のいずれかの位置にある。
+            前述のブログ記事のグッドペアペア。
+          </p>
+          <p>
+            <canvas class="cube" data-faces="UU....UU..........FF....FF...........BB....BBDD....DD."></canvas>
+            <canvas class="cube" data-faces=".UU....UU..........FF....FF.........BB....BB..DD....DD"></canvas>
+          </p>
+          <h5>4P4</h5>
+          <p>
+            エッジとペアが4個。
+            かつ、ペアが下図のいずれかの位置にある。
+            前述のブログ記事のバッドペアペア。
+          </p>
+          <p>
+            <canvas class="cube" data-faces="UU.....UU..........FF...FF...........BB...BB.DD.....DD"></canvas>
+            <canvas class="cube" data-faces=".UU...UU..........FF.....FF.........BB.....BB.DD...DD."></canvas>
+          </p>
+          <h5>2P2</h5>
+          <p>
+            エッジとペアが2個。
+            かつ、ペアが下図の赤色の4個の位置の中の2個にある。
+          </p>
+          <p>
+            <canvas class="cube" data-faces="RR....RR..........RR....RR...........RR....RRRR....RR."></canvas>
+            <canvas class="cube" data-faces=".RR....RR..........RR....RR.........RR....RR..RR....RR"></canvas>
+          </p>
+          <h5>2P4</h5>
+          <p>
+            エッジとペアが2個。
+            かつ、ペアが下図の赤色の4個の位置の中の2個にある。
+          </p>
+          <p>
+            <canvas class="cube" data-faces="RR.....RR..........RR...RR...........RR...RR.RR.....RR"></canvas>
+            <canvas class="cube" data-faces=".RR...RR..........RR.....RR.........RR.....RR.RR...RR."></canvas>
+          </p>
+          <h5>HL2</h5>
+          <p>
+            4辺とも、2個のコーナーの色は一致し、コーナーとエッジの色は一致しないヘッドライト（<b>H</b>ead <b>L</b>ight）になっている。
+            HL3との見分け方は、エッジの2点交換でコーナーとエッジを一致させようと思ったとき、2回の2点交換で一致させられるかどうか。
+            4辺ともエッジとコーナーはしていないので、PLLのHパームやZパームのようになる。
+          </p>
+          <p>
+            <canvas class="cube" data-faces="UDU...UDU.........FBF...FBF.........BFB...BFBDUD...DUD"></canvas>
+          </p>
+          <h5>HL3</h5>
+          <p>
+            4辺とも、ヘッドライトになっている。
+            HL2との見分け方は、エッジの2点交換でコーナーとエッジを一致させようと思ったとき、3回の2点交換で一致させられるかどうか。
+            3x3x3のPLLとしては存在しない形になる。
+          </p>
+          <p>
+            <canvas class="cube" data-faces="UUU...UDU.........FFF...FBF.........BFB...BBBDDD...DUD"></canvas>
+          </p>
+          <h5>0P3</h5>
+          <p>
+            4辺とも、バーもペアもヘッドライトも無い。
+            ペア以外も無いが、0Pとする。
+            0Pは、R2を回すと4個のヘッドライトか2個のペアのどちらかになる。
+            HL2か2P2になるのであれば、0P3。
+          </p>
+          <p>
+            <canvas class="cube" data-faces="......................................................"></canvas>
+          </p>
+          <h5>0P4</h5>
+          <p>
+            4辺とも、バーもペアもヘッドライトも無い。
+            R2を回してHL3か2P3になるのであれば、0P4。
+          </p>
+          <p>
+            <canvas class="cube" data-faces="......................................................"></canvas>
+          </p>
+          <p>
+            状態の遷移は下図の通り。
+          </p>
+          <p>
+            <img src="diagram.png" width="500" height="250">
+          </p>
+          <p>
+            FRは次のブログ記事を参照。
+            ぺんすけ法の状態名は末尾の数字がR2/L2の回数の下限を表すが、FRの状態名は先頭の1文字がU2の回数の下限であることに注意。
+          </p>
+          <ul>
+            <li><a href="https://note.com/squid_sushi/n/nf2e3a1c1a114">FR（Floppy Reduction）解説｜いかのおすし(いかおす)</a>
+          </ul>
+        </details>
+        <div class="mb-2" style="display: flex; justify-content: space-between">
+          <div class="cell">Scramble and your solution to HTR:</div>
+          <div class="cell has-text-right"><button id="example" class="button is-small is-primary">Example</button></div>
+        </div>
+        <p>
+          <textarea id="input" class="textarea" placeholder="R' U' F D' U R2 D2 L2 D' B2 D2 U' F2 U' L2 F' D' U L' B' F2 D' L2 B R' U' F
+
+D2 R2 B // EO (3/3)
+(R) // RZP (1/4)
+R2 D' R2 D R // DR (5/9)
+B2 U2 R2 U' B2 U' F2 U // HTR (8/17)" rows="6"></textarea>
+        </p>
+        <p>
+          <details>
+            <summary>Keyboard</summary>
+            <div class="mt-4" style="box-sizing: border-box">
+              <div class="mb-2">
+                <button class="key button is-small is-primary">F</button>
+                <button class="key button is-small is-primary">B</button>
+                <button class="key button is-small is-primary">R</button>
+                <button class="key button is-small is-primary">L</button>
+                <button class="key button is-small is-primary">U</button>
+                <button class="key button is-small is-primary">D</button>
+              </div>
+              <div class="mb-2">
+                <button class="key button is-small is-primary">F2</button>
+                <button class="key button is-small is-primary">B2</button>
+                <button class="key button is-small is-primary">R2</button>
+                <button class="key button is-small is-primary">L2</button>
+                <button class="key button is-small is-primary">U2</button>
+                <button class="key button is-small is-primary">D2</button>
+              </div>
+              <div class="mb-2">
+                <button class="key button is-small is-primary">F'</button>
+                <button class="key button is-small is-primary">B'</button>
+                <button class="key button is-small is-primary">R'</button>
+                <button class="key button is-small is-primary">L'</button>
+                <button class="key button is-small is-primary">U'</button>
+                <button class="key button is-small is-primary">D'</button>
+              </div>
+              <div class="mb-2">
+                <button class="key button is-small is-primary">(</button>
+                <button class="key button is-small is-primary">)</button>
+                <button class="key button is-small is-primary">//</button>
+                <button class="key button is-small is-primary">←</button>
+              </div>
+            </div>
+          </details>
+        </p>
+        <p>
+          <button id="start" class="button is-primary">Start</button>
+          <button id="stop" class="button is-danger" style="display: none">Stop</button>
+        </p>
+        <p id="parse" style="display: none">
+          Scramble: <span id="scramble" class="has-text-weight-bold"></span><br>
+          Normal: <span id="normal" class="has-text-weight-bold"></span><br>
+          Inverse: <span id="inverse" class="has-text-weight-bold"></span><br>
+          DR axis: <span id="dr_axis"></span><br>
+          Last direction: <span id="last_direction"></span>
+        </p>
+        <p id="visualize" style="display: none">
+          <canvas id="canvas" width="350" height="150"></canvas>
+        </p>
+        <p id="progress" style="display: none">
+          <progress class="progress is-primary is-small" max="100"></progress>
+        </p>
+        <p id="error" class="has-text-danger" style="display: none">
+          Error
+        </p>
+        <p>
+          <div id="depth" style="display: none">
+            Depth: <span id="depth_text"></span>
+          </div>
+          <div id="number" style="display: none">
+            Number: <span id="number_text"></span>
+          </div>
+        </p>
+        <div id="result"></div>
+        <hr>
+        <address class="mb-6">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>
