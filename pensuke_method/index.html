@@ -72,10 +72,11 @@
             <li><a href="https://pensuke-cube.hatenablog.com/entry/2025/02/01/082237">HTR後FRを使わずにLeave Sliceを作る方法の解説 - ぺんすけのぶろぐ</a></li>
             <li><a href="https://x.com/zonsan531/status/1950086720503808304">https://x.com/zonsan531/status/1950086720503808304</a></li>
             <li><a href="https://x.com/MegaDBL/status/1951644902577824192">https://x.com/MegaDBL/status/1951644902577824192</a></li>
+            <li><a href="https://x.com/MegaDBL/status/2059079383995080937">https://x.com/MegaDBL/status/2059079383995080937</a></li>
           </ul>
           <p>
             ぺんすけ法における状態は、4B0、2B3、1B4、4P1、4P4、2P2、2P3、HL2、HL3、0P3、0P4の11個。
-            先頭の2文字は主にバーなどの個数を、末尾の1文字が必要なR2/L2などの個数を表している。
+            先頭の2文字は主にバーなどの個数を、末尾の1文字が必要なR2/L2などの回数を表している。
             各状態の説明と判別方法は次の通り。
             F/B面について説明しているが、他の面についても同様である。
           </p>
@@ -112,6 +113,10 @@
           <p>
             <canvas class="cube" data-faces="UU....UU..........FF....FF...........BB....BBDD....DD."></canvas>
             <canvas class="cube" data-faces=".UU....UU..........FF....FF.........BB....BB..DD....DD"></canvas>
+            <canvas class="cube" data-faces=".UU....UU..........FF...FF..........BB.....BBDD....DD."></canvas>
+            <canvas class="cube" data-faces="UU....UU..........FF.....FF..........BB...BB..DD....DD"></canvas>
+            <canvas class="cube" data-faces="UU.....UU..........FF....FF..........BB....BB.DD...DD."></canvas>
+            <canvas class="cube" data-faces=".UU...UU..........FF....FF..........BB....BB.DD.....DD"></canvas>
           </p>
           <h5>4P4</h5>
           <p>
@@ -131,6 +136,10 @@
           <p>
             <canvas class="cube" data-faces="RR....RR..........RR....RR...........RR....RRRR....RR."></canvas>
             <canvas class="cube" data-faces=".RR....RR..........RR....RR.........RR....RR..RR....RR"></canvas>
+            <canvas class="cube" data-faces=".RR....RR..........RR...RR..........RR.....RRRR....RR."></canvas>
+            <canvas class="cube" data-faces="RR....RR..........RR.....RR..........RR...RR..RR....RR"></canvas>
+            <canvas class="cube" data-faces="RR.....RR..........RR....RR..........RR....RR.RR...RR."></canvas>
+            <canvas class="cube" data-faces=".RR...RR..........RR....RR..........RR....RR.RR.....RR"></canvas>
           </p>
           <h5>2P4</h5>
           <p>
@@ -144,38 +153,50 @@
           <h5>HL2</h5>
           <p>
             4辺とも、2個のコーナーの色は一致し、コーナーとエッジの色は一致しないヘッドライト（<b>H</b>ead <b>L</b>ight）になっている。
-            HL3との見分け方は、エッジの2点交換でコーナーとエッジを一致させようと思ったとき、2回の2点交換で一致させられるかどうか。
-            4辺ともエッジとコーナーはしていないので、PLLのHパームやZパームのようになる。
           </p>
           <p>
             <canvas class="cube" data-faces="UDU...UDU.........FBF...FBF.........BFB...BFBDUD...DUD"></canvas>
           </p>
+          <p>
+            かつ、F/B面のみを見てU/D面を無視するか、U/D面のみを見てF/B面を無視するかのどちらかで、バーが4個ある、もしくはどちらでもバーが無い。
+          </p>
+          <p>
+            <canvas class="cube" data-faces="UUU...UUU....................................DDD...DDD"></canvas>
+            <canvas class="cube" data-faces="..................FFF...FFF.........BBB...BBB........."></canvas>
+          </p>
           <h5>HL3</h5>
           <p>
             4辺とも、ヘッドライトになっている。
-            HL2との見分け方は、エッジの2点交換でコーナーとエッジを一致させようと思ったとき、3回の2点交換で一致させられるかどうか。
-            3x3x3のPLLとしては存在しない形になる。
           </p>
           <p>
             <canvas class="cube" data-faces="UUU...UDU.........FFF...FBF.........BFB...BBBDDD...DUD"></canvas>
+          </p>
+          <p>
+            かつ、F/B面のみを見てU/D面を無視するか、U/D面のみを見てF/B面を無視するかの少なくともどちらか一方で、バーが2個ある。
+          </p>
+          <p>
+            <canvas class="cube" data-faces="UUU...UUU............................................."></canvas>
+            <canvas class="cube" data-faces="..................FFF.....................BBB........."></canvas>
           </p>
           <h5>0P3</h5>
           <p>
             4辺とも、バーもペアもヘッドライトも無い。
             ペア以外も無いが、0Pとする。
-            0Pは、R2を回すと4個のヘッドライトか2個のペアのどちらかになる。
-            HL2か2P2になるのであれば、0P3。
+            0P3と0P4は、F/B面のみを見てU/D面を無視するか、U/D面のみを見てF/B面を無視するかの少なくともどちらか一方で、ペアが4個ある。
+            これらのペアが4P1と同じ位置にあれば、0P3。
           </p>
           <p>
-            <canvas class="cube" data-faces="......................................................"></canvas>
+            <canvas class="cube" data-faces="UU....UU.....................................DD....DD."></canvas>
+            <canvas class="cube" data-faces="..................FF....FF..........BB....BB.........."></canvas>
           </p>
           <h5>0P4</h5>
           <p>
             4辺とも、バーもペアもヘッドライトも無い。
-            R2を回してHL3か2P3になるのであれば、0P4。
+            F/B面のみを見てU/D面を無視するか、U/D面のみを見てF/B面を無視するかの少なくともどちらか一方で、ペアが4個あり、これらのペアが4P4と同じ位置にあれば、0P4。
           </p>
           <p>
-            <canvas class="cube" data-faces="......................................................"></canvas>
+            <canvas class="cube" data-faces="UU.....UU....................................DD.....DD"></canvas>
+            <canvas class="cube" data-faces="..................FF.....FF.........BB.....BB........."></canvas>
           </p>
           <p>
             状態の遷移は下図の通り。
