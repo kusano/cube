@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>見積もりと実際の手数</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>見積もりと実際の手数</h1>
+        <hr>
+        <p>
+          ぺんすけ法により、HTRからLSまでに必要なR2/L2やF2/B2の回数が分かる。
+          また、FRの状態から必要なU2/D2の回数も分かる。
+          これらの合計は、HTRからLSまでに少なくとも必要な手数となる。
+          この合計と実際の最短手数との間にどのくらいの差があるのか気になって調べた。
+        </p>
+        <p>
+          スクリプト: <a href="subset_to_optimal.js">subset_to_optimal.js</a>
+        </p>
+        <p>
+          ぺんすけ法とFRによる見積もりと、実際の最短手数。
+        </p>
+        <table class="table" style="text-align: right">
+          <thead>
+            <tr><th>FB+RL+FR＼optimal</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>total</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>0</th><td>1</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>1</td></tr>
+            <tr><th>1</th><td style="color: #ccc">0</td><td>6</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>2</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>8</td></tr>
+            <tr><th>2</th><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>27</td><td style="color: #ccc">0</td><td>2</td><td style="color: #ccc">0</td><td>2</td><td style="color: #ccc">0</td><td>16</td><td style="color: #ccc">0</td><td>2</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>49</td></tr>
+            <tr><th>3</th><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>108</td><td style="color: #ccc">0</td><td>32</td><td style="color: #ccc">0</td><td>88</td><td style="color: #ccc">0</td><td>16</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>244</td></tr>
+            <tr><th>4</th><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>385</td><td style="color: #ccc">0</td><td>364</td><td style="color: #ccc">0</td><td>126</td><td style="color: #ccc">0</td><td>8</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>883</td></tr>
+            <tr><th>5</th><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>1,168</td><td style="color: #ccc">0</td><td>1,376</td><td style="color: #ccc">0</td><td>216</td><td style="color: #ccc">0</td><td>72</td><td style="color: #ccc">0</td><td>2,832</td></tr>
+            <tr><th>6</th><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>2,852</td><td style="color: #ccc">0</td><td>3,599</td><td style="color: #ccc">0</td><td>752</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>7,203</td></tr>
+            <tr><th>7</th><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>5,556</td><td style="color: #ccc">0</td><td>6,096</td><td style="color: #ccc">0</td><td>896</td><td style="color: #ccc">0</td><td>12,548</td></tr>
+            <tr><th>8</th><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>8,160</td><td style="color: #ccc">0</td><td>6,200</td><td style="color: #ccc">0</td><td>160</td><td>14,520</td></tr>
+            <tr><th>9</th><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>8,008</td><td style="color: #ccc">0</td><td>2,984</td><td style="color: #ccc">0</td><td>10,992</td></tr>
+            <tr><th>10</th><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>4,480</td><td style="color: #ccc">0</td><td>512</td><td>4,992</td></tr>
+            <tr><th>11</th><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>1,024</td><td style="color: #ccc">0</td><td>1,024</td></tr>
+            <tr><th>12</th><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><th>total</th><th>1</th><th>6</th><th>27</th><th>108</th><th>387</th><th>1,200</th><th>3,218</th><th>7,020</th><th>11,901</th><th>14,338</th><th>11,442</th><th>4,976</th><th>672</th><th>55,296</th></tr>
+          </tfoot>
+        </table>
+        <p>
+          実際の最短手数ではなく、見積もりから何手増えるかを横軸に取った表。
+        </p>
+        <table class="table" style="text-align: right">
+          <thead>
+            <tr><th>FB+RL+FR＼diff</th><th>+0</th><th>+2</th><th>+4</th><th>+6</th><th>+8</th><th>total</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>0</th><td>1</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>1</td></tr>
+            <tr><th>1</th><td>6</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>2</td><td>8</td></tr>
+            <tr><th>2</th><td>27</td><td>2</td><td>2</td><td>16</td><td>2</td><td>49</td></tr>
+            <tr><th>3</th><td>108</td><td>32</td><td>88</td><td>16</td><td style="color: #ccc">0</td><td>244</td></tr>
+            <tr><th>4</th><td>385</td><td>364</td><td>126</td><td>8</td><td style="color: #ccc">0</td><td>883</td></tr>
+            <tr><th>5</th><td>1,168</td><td>1,376</td><td>216</td><td>72</td><td style="color: #ccc">0</td><td>2,832</td></tr>
+            <tr><th>6</th><td>2,852</td><td>3,599</td><td>752</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>7,203</td></tr>
+            <tr><th>7</th><td>5,556</td><td>6,096</td><td>896</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>12,548</td></tr>
+            <tr><th>8</th><td>8,160</td><td>6,200</td><td>160</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>14,520</td></tr>
+            <tr><th>9</th><td>8,008</td><td>2,984</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>10,992</td></tr>
+            <tr><th>10</th><td>4,480</td><td>512</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>4,992</td></tr>
+            <tr><th>11</th><td>1,024</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td>1,024</td></tr>
+            <tr><th>12</th><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td><td style="color: #ccc">0</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><th>total</th><th>31,775</th><th>21,165</th><th>2,240</th><th>112</th><th>4</th><th>55,296</th></tr>
+          </tfoot>
+        </table>
+        <p>
+          割合。
+        </p>
+        <table class="table" style="text-align: right">
+          <thead>
+            <tr><th>FB+RL+FR＼diff</th><th>+0</th><th>+2</th><th>+4</th><th>+6</th><th>+8</th><th>total</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>0</th><td>100.0%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td>100.0%</td></tr>
+            <tr><th>1</th><td>75.0%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td>25.0%</td><td>100.0%</td></tr>
+            <tr><th>2</th><td>55.1%</td><td>4.1%</td><td>4.1%</td><td>32.7%</td><td>4.1%</td><td>100.0%</td></tr>
+            <tr><th>3</th><td>44.3%</td><td>13.1%</td><td>36.1%</td><td>6.6%</td><td style="color: #ccc">0.0%</td><td>100.0%</td></tr>
+            <tr><th>4</th><td>43.6%</td><td>41.2%</td><td>14.3%</td><td>0.9%</td><td style="color: #ccc">0.0%</td><td>100.0%</td></tr>
+            <tr><th>5</th><td>41.2%</td><td>48.6%</td><td>7.6%</td><td>2.5%</td><td style="color: #ccc">0.0%</td><td>100.0%</td></tr>
+            <tr><th>6</th><td>39.6%</td><td>50.0%</td><td>10.4%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td>100.0%</td></tr>
+            <tr><th>7</th><td>44.3%</td><td>48.6%</td><td>7.1%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td>100.0%</td></tr>
+            <tr><th>8</th><td>56.2%</td><td>42.7%</td><td>1.1%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td>100.0%</td></tr>
+            <tr><th>9</th><td>72.9%</td><td>27.1%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td>100.0%</td></tr>
+            <tr><th>10</th><td>89.7%</td><td>10.3%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td>100.0%</td></tr>
+            <tr><th>11</th><td>100.0%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td>100.0%</td></tr>
+            <tr><th>12</th><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td><td style="color: #ccc">0.0%</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><th>total</th><th>57.5%</th><th>38.3%</th><th>4.1%</th><th>0.2%</th><th>0.0%</th><th>100.0%</th></tr>
+          </tfoot>
+        </table>
+        <p>
+          見積もりが3手以内で、見積もりよりも実際の最短数が多い状態の一覧。
+        </p>
+        <p>
+          全てのHTR: <a href="subset_to_optimal.tsv">subset_to_optimal.tsv</a>
+        </p>
+        <table class="table">
+          <thead>
+            <tr><th>生成手順</th><th>BR (F/B)</th><th>BR (R/L)</th><th>FR</th><th>見積もり</th><th>最短手数</th><th>展開図</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>F2 B2 R2 F2 B2 L2 U2 F2 B2</td><td>0</td><td>0</td><td>1</td><td>1</td><td>9</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 L2 U2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 L2 D2 F2 B2</td><td>0</td><td>0</td><td>1</td><td>1</td><td>9</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 L2 D2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 L2 U2 F2 B2 U2</td><td>0</td><td>0</td><td>2</td><td>2</td><td>10</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 L2 U2 F2 B2 U2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 L2 U2 F2 B2 D2</td><td>0</td><td>0</td><td>2</td><td>2</td><td>10</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 L2 U2 F2 B2 D2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 L2 U2 F2</td><td>0</td><td>1</td><td>1</td><td>2</td><td>8</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 L2 U2 F2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 L2 U2 B2</td><td>0</td><td>1</td><td>1</td><td>2</td><td>8</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 L2 U2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 L2 D2 F2</td><td>0</td><td>1</td><td>1</td><td>2</td><td>8</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 L2 D2 F2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 L2 D2 B2</td><td>0</td><td>1</td><td>1</td><td>2</td><td>8</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 L2 D2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 U2 F2 B2</td><td>1</td><td>0</td><td>1</td><td>2</td><td>8</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 U2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 D2 F2 B2</td><td>1</td><td>0</td><td>1</td><td>2</td><td>8</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 D2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 L2 F2 B2 U2 F2 B2</td><td>1</td><td>0</td><td>1</td><td>2</td><td>8</td><td><canvas class="net" data-gen="F2 B2 L2 F2 B2 U2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 L2 F2 B2 D2 F2 B2</td><td>1</td><td>0</td><td>1</td><td>2</td><td>8</td><td><canvas class="net" data-gen="F2 B2 L2 F2 B2 D2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 U2 F2 B2 R2 F2 B2</td><td>1</td><td>0</td><td>1</td><td>2</td><td>8</td><td><canvas class="net" data-gen="F2 B2 U2 F2 B2 R2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 U2 F2 B2 L2 F2 B2</td><td>1</td><td>0</td><td>1</td><td>2</td><td>8</td><td><canvas class="net" data-gen="F2 B2 U2 F2 B2 L2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 D2 F2 B2 R2 F2 B2</td><td>1</td><td>0</td><td>1</td><td>2</td><td>8</td><td><canvas class="net" data-gen="F2 B2 D2 F2 B2 R2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 D2 F2 B2 L2 F2 B2</td><td>1</td><td>0</td><td>1</td><td>2</td><td>8</td><td><canvas class="net" data-gen="F2 B2 D2 F2 B2 L2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 R2 F2 B2 L2 U2 F2 B2</td><td>0</td><td>1</td><td>1</td><td>2</td><td>8</td><td><canvas class="net" data-gen="F2 R2 F2 B2 L2 U2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 R2 F2 B2 L2 D2 F2 B2</td><td>0</td><td>1</td><td>1</td><td>2</td><td>8</td><td><canvas class="net" data-gen="F2 R2 F2 B2 L2 D2 F2 B2"></canvas></td></tr>
+            <tr><td>B2 R2 F2 B2 L2 U2 F2 B2</td><td>0</td><td>1</td><td>1</td><td>2</td><td>8</td><td><canvas class="net" data-gen="B2 R2 F2 B2 L2 U2 F2 B2"></canvas></td></tr>
+            <tr><td>B2 R2 F2 B2 L2 D2 F2 B2</td><td>0</td><td>1</td><td>1</td><td>2</td><td>8</td><td><canvas class="net" data-gen="B2 R2 F2 B2 L2 D2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 L2</td><td>0</td><td>2</td><td>0</td><td>2</td><td>6</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 L2"></canvas></td></tr>
+            <tr><td>F2 R2 L2 B2 R2 L2</td><td>2</td><td>0</td><td>0</td><td>2</td><td>6</td><td><canvas class="net" data-gen="F2 R2 L2 B2 R2 L2"></canvas></td></tr>
+            <tr><td>F2 R2 L2 B2</td><td>2</td><td>0</td><td>0</td><td>2</td><td>4</td><td><canvas class="net" data-gen="F2 R2 L2 B2"></canvas></td></tr>
+            <tr><td>R2 F2 B2 L2</td><td>0</td><td>2</td><td>0</td><td>2</td><td>4</td><td><canvas class="net" data-gen="R2 F2 B2 L2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 L2 U2 F2 U2</td><td>0</td><td>1</td><td>2</td><td>3</td><td>9</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 L2 U2 F2 U2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 L2 U2 F2 D2</td><td>0</td><td>1</td><td>2</td><td>3</td><td>9</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 L2 U2 F2 D2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 L2 U2 B2 U2</td><td>0</td><td>1</td><td>2</td><td>3</td><td>9</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 L2 U2 B2 U2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 L2 U2 B2 D2</td><td>0</td><td>1</td><td>2</td><td>3</td><td>9</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 L2 U2 B2 D2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 U2 F2 B2 U2</td><td>1</td><td>0</td><td>2</td><td>3</td><td>9</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 U2 F2 B2 U2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 U2 F2 B2 D2</td><td>1</td><td>0</td><td>2</td><td>3</td><td>9</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 U2 F2 B2 D2"></canvas></td></tr>
+            <tr><td>F2 B2 L2 F2 B2 U2 F2 B2 U2</td><td>1</td><td>0</td><td>2</td><td>3</td><td>9</td><td><canvas class="net" data-gen="F2 B2 L2 F2 B2 U2 F2 B2 U2"></canvas></td></tr>
+            <tr><td>F2 B2 L2 F2 B2 U2 F2 B2 D2</td><td>1</td><td>0</td><td>2</td><td>3</td><td>9</td><td><canvas class="net" data-gen="F2 B2 L2 F2 B2 U2 F2 B2 D2"></canvas></td></tr>
+            <tr><td>F2 B2 U2 F2 B2 R2 F2 B2 U2</td><td>1</td><td>0</td><td>2</td><td>3</td><td>9</td><td><canvas class="net" data-gen="F2 B2 U2 F2 B2 R2 F2 B2 U2"></canvas></td></tr>
+            <tr><td>F2 B2 U2 F2 B2 R2 F2 B2 D2</td><td>1</td><td>0</td><td>2</td><td>3</td><td>9</td><td><canvas class="net" data-gen="F2 B2 U2 F2 B2 R2 F2 B2 D2"></canvas></td></tr>
+            <tr><td>F2 B2 U2 F2 B2 L2 F2 B2 U2</td><td>1</td><td>0</td><td>2</td><td>3</td><td>9</td><td><canvas class="net" data-gen="F2 B2 U2 F2 B2 L2 F2 B2 U2"></canvas></td></tr>
+            <tr><td>F2 B2 U2 F2 B2 L2 F2 B2 D2</td><td>1</td><td>0</td><td>2</td><td>3</td><td>9</td><td><canvas class="net" data-gen="F2 B2 U2 F2 B2 L2 F2 B2 D2"></canvas></td></tr>
+            <tr><td>F2 R2 F2 B2 L2 U2 F2 B2 U2</td><td>0</td><td>1</td><td>2</td><td>3</td><td>9</td><td><canvas class="net" data-gen="F2 R2 F2 B2 L2 U2 F2 B2 U2"></canvas></td></tr>
+            <tr><td>F2 R2 F2 B2 L2 U2 F2 B2 D2</td><td>0</td><td>1</td><td>2</td><td>3</td><td>9</td><td><canvas class="net" data-gen="F2 R2 F2 B2 L2 U2 F2 B2 D2"></canvas></td></tr>
+            <tr><td>B2 R2 F2 B2 L2 U2 F2 B2 U2</td><td>0</td><td>1</td><td>2</td><td>3</td><td>9</td><td><canvas class="net" data-gen="B2 R2 F2 B2 L2 U2 F2 B2 U2"></canvas></td></tr>
+            <tr><td>B2 R2 F2 B2 L2 U2 F2 B2 D2</td><td>0</td><td>1</td><td>2</td><td>3</td><td>9</td><td><canvas class="net" data-gen="B2 R2 F2 B2 L2 U2 F2 B2 D2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 L2 U2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 L2 U2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 L2 D2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 L2 D2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 U2 F2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 U2 F2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 U2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 U2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 D2 F2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 D2 F2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2 D2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2 D2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 U2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 R2 F2 U2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 U2 F2 R2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 R2 F2 U2 F2 R2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 U2 B2 L2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 R2 F2 U2 B2 L2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 D2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 R2 F2 D2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 D2 F2 R2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 R2 F2 D2 F2 R2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 D2 B2 L2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 R2 F2 D2 B2 L2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 B2 U2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 R2 B2 U2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 B2 U2 F2 L2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 R2 B2 U2 F2 L2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 B2 U2 B2 R2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 R2 B2 U2 B2 R2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 B2 D2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 R2 B2 D2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 B2 D2 F2 L2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 R2 B2 D2 F2 L2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 B2 D2 B2 R2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 R2 B2 D2 B2 R2"></canvas></td></tr>
+            <tr><td>F2 B2 L2 F2 B2 U2 F2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 L2 F2 B2 U2 F2"></canvas></td></tr>
+            <tr><td>F2 B2 L2 F2 B2 U2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 L2 F2 B2 U2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 L2 F2 B2 D2 F2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 L2 F2 B2 D2 F2"></canvas></td></tr>
+            <tr><td>F2 B2 L2 F2 B2 D2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 L2 F2 B2 D2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 L2 F2 U2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 L2 F2 U2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 L2 F2 D2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 L2 F2 D2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 L2 B2 U2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 L2 B2 U2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 L2 B2 D2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 L2 B2 D2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 U2 F2 B2 R2 F2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 U2 F2 B2 R2 F2"></canvas></td></tr>
+            <tr><td>F2 B2 U2 F2 B2 R2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 U2 F2 B2 R2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 U2 F2 B2 L2 F2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 U2 F2 B2 L2 F2"></canvas></td></tr>
+            <tr><td>F2 B2 U2 F2 B2 L2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 U2 F2 B2 L2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 U2 F2 R2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 U2 F2 R2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 U2 F2 L2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 U2 F2 L2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 U2 B2 R2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 U2 B2 R2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 U2 B2 L2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 U2 B2 L2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 D2 F2 B2 R2 F2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 D2 F2 B2 R2 F2"></canvas></td></tr>
+            <tr><td>F2 B2 D2 F2 B2 R2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 D2 F2 B2 R2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 D2 F2 B2 L2 F2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 D2 F2 B2 L2 F2"></canvas></td></tr>
+            <tr><td>F2 B2 D2 F2 B2 L2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 D2 F2 B2 L2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 D2 F2 R2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 D2 F2 R2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 D2 F2 L2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 D2 F2 L2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 D2 B2 R2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 D2 B2 R2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 D2 B2 L2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 B2 D2 B2 L2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 R2 F2 B2 L2 U2 F2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 F2 B2 L2 U2 F2"></canvas></td></tr>
+            <tr><td>F2 R2 F2 B2 L2 U2 B2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 F2 B2 L2 U2 B2"></canvas></td></tr>
+            <tr><td>F2 R2 F2 B2 L2 D2 F2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 F2 B2 L2 D2 F2"></canvas></td></tr>
+            <tr><td>F2 R2 F2 B2 L2 D2 B2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 F2 B2 L2 D2 B2"></canvas></td></tr>
+            <tr><td>F2 R2 F2 B2 U2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 F2 B2 U2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 R2 F2 B2 D2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 F2 B2 D2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 R2 L2 B2 R2 L2 U2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 L2 B2 R2 L2 U2"></canvas></td></tr>
+            <tr><td>F2 R2 L2 B2 R2 L2 D2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 L2 B2 R2 L2 D2"></canvas></td></tr>
+            <tr><td>F2 R2 L2 B2 R2 U2 R2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 L2 B2 R2 U2 R2"></canvas></td></tr>
+            <tr><td>F2 R2 L2 B2 R2 U2 L2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 L2 B2 R2 U2 L2"></canvas></td></tr>
+            <tr><td>F2 R2 L2 B2 R2 D2 R2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 L2 B2 R2 D2 R2"></canvas></td></tr>
+            <tr><td>F2 R2 L2 B2 R2 D2 L2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 L2 B2 R2 D2 L2"></canvas></td></tr>
+            <tr><td>F2 R2 L2 B2 L2 U2 R2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 L2 B2 L2 U2 R2"></canvas></td></tr>
+            <tr><td>F2 R2 L2 B2 L2 U2 L2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 L2 B2 L2 U2 L2"></canvas></td></tr>
+            <tr><td>F2 R2 L2 B2 L2 D2 R2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 L2 B2 L2 D2 R2"></canvas></td></tr>
+            <tr><td>F2 R2 L2 B2 L2 D2 L2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 L2 B2 L2 D2 L2"></canvas></td></tr>
+            <tr><td>F2 R2 L2 B2 U2 R2 L2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 L2 B2 U2 R2 L2"></canvas></td></tr>
+            <tr><td>F2 R2 L2 B2 D2 R2 L2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 L2 B2 D2 R2 L2"></canvas></td></tr>
+            <tr><td>F2 R2 U2 R2 F2 R2 L2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 U2 R2 F2 R2 L2"></canvas></td></tr>
+            <tr><td>F2 R2 U2 L2 B2 R2 L2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 U2 L2 B2 R2 L2"></canvas></td></tr>
+            <tr><td>F2 R2 D2 R2 F2 R2 L2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 D2 R2 F2 R2 L2"></canvas></td></tr>
+            <tr><td>F2 R2 D2 L2 B2 R2 L2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 R2 D2 L2 B2 R2 L2"></canvas></td></tr>
+            <tr><td>F2 L2 F2 B2 U2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 L2 F2 B2 U2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 L2 F2 B2 D2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 L2 F2 B2 D2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 L2 U2 R2 B2 R2 L2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 L2 U2 R2 B2 R2 L2"></canvas></td></tr>
+            <tr><td>F2 L2 U2 L2 F2 R2 L2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 L2 U2 L2 F2 R2 L2"></canvas></td></tr>
+            <tr><td>F2 L2 D2 R2 B2 R2 L2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 L2 D2 R2 B2 R2 L2"></canvas></td></tr>
+            <tr><td>F2 L2 D2 L2 F2 R2 L2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 L2 D2 L2 F2 R2 L2"></canvas></td></tr>
+            <tr><td>F2 U2 F2 B2 R2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 U2 F2 B2 R2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 U2 F2 B2 L2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 U2 F2 B2 L2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 D2 F2 B2 R2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 D2 F2 B2 R2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 D2 F2 B2 L2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="F2 D2 F2 B2 L2 F2 B2"></canvas></td></tr>
+            <tr><td>B2 R2 F2 B2 L2 U2 F2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="B2 R2 F2 B2 L2 U2 F2"></canvas></td></tr>
+            <tr><td>B2 R2 F2 B2 L2 U2 B2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="B2 R2 F2 B2 L2 U2 B2"></canvas></td></tr>
+            <tr><td>B2 R2 F2 B2 L2 D2 F2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="B2 R2 F2 B2 L2 D2 F2"></canvas></td></tr>
+            <tr><td>B2 R2 F2 B2 L2 D2 B2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="B2 R2 F2 B2 L2 D2 B2"></canvas></td></tr>
+            <tr><td>B2 R2 F2 B2 U2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="B2 R2 F2 B2 U2 F2 B2"></canvas></td></tr>
+            <tr><td>B2 R2 F2 B2 D2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="B2 R2 F2 B2 D2 F2 B2"></canvas></td></tr>
+            <tr><td>B2 L2 F2 B2 U2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="B2 L2 F2 B2 U2 F2 B2"></canvas></td></tr>
+            <tr><td>B2 L2 F2 B2 D2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="B2 L2 F2 B2 D2 F2 B2"></canvas></td></tr>
+            <tr><td>B2 U2 F2 B2 R2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="B2 U2 F2 B2 R2 F2 B2"></canvas></td></tr>
+            <tr><td>B2 U2 F2 B2 L2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="B2 U2 F2 B2 L2 F2 B2"></canvas></td></tr>
+            <tr><td>B2 D2 F2 B2 R2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="B2 D2 F2 B2 R2 F2 B2"></canvas></td></tr>
+            <tr><td>B2 D2 F2 B2 L2 F2 B2</td><td>1</td><td>1</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="B2 D2 F2 B2 L2 F2 B2"></canvas></td></tr>
+            <tr><td>R2 F2 B2 L2 U2 F2 B2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="R2 F2 B2 L2 U2 F2 B2"></canvas></td></tr>
+            <tr><td>R2 F2 B2 L2 D2 F2 B2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>7</td><td><canvas class="net" data-gen="R2 F2 B2 L2 D2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 R2 F2 B2</td><td>1</td><td>2</td><td>0</td><td>3</td><td>5</td><td><canvas class="net" data-gen="F2 B2 R2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 L2 F2 B2</td><td>1</td><td>2</td><td>0</td><td>3</td><td>5</td><td><canvas class="net" data-gen="F2 B2 L2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 U2 F2 B2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="F2 B2 U2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 B2 D2 F2 B2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="F2 B2 D2 F2 B2"></canvas></td></tr>
+            <tr><td>F2 R2 F2 B2 L2</td><td>0</td><td>3</td><td>0</td><td>3</td><td>5</td><td><canvas class="net" data-gen="F2 R2 F2 B2 L2"></canvas></td></tr>
+            <tr><td>F2 R2 L2 B2 R2</td><td>3</td><td>0</td><td>0</td><td>3</td><td>5</td><td><canvas class="net" data-gen="F2 R2 L2 B2 R2"></canvas></td></tr>
+            <tr><td>F2 R2 L2 B2 L2</td><td>3</td><td>0</td><td>0</td><td>3</td><td>5</td><td><canvas class="net" data-gen="F2 R2 L2 B2 L2"></canvas></td></tr>
+            <tr><td>F2 R2 L2 B2 U2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="F2 R2 L2 B2 U2"></canvas></td></tr>
+            <tr><td>F2 R2 L2 B2 D2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="F2 R2 L2 B2 D2"></canvas></td></tr>
+            <tr><td>F2 R2 U2 R2 F2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="F2 R2 U2 R2 F2"></canvas></td></tr>
+            <tr><td>F2 R2 U2 L2 B2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="F2 R2 U2 L2 B2"></canvas></td></tr>
+            <tr><td>F2 R2 D2 R2 F2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="F2 R2 D2 R2 F2"></canvas></td></tr>
+            <tr><td>F2 R2 D2 L2 B2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="F2 R2 D2 L2 B2"></canvas></td></tr>
+            <tr><td>F2 L2 U2 R2 B2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="F2 L2 U2 R2 B2"></canvas></td></tr>
+            <tr><td>F2 L2 U2 L2 F2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="F2 L2 U2 L2 F2"></canvas></td></tr>
+            <tr><td>F2 L2 D2 R2 B2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="F2 L2 D2 R2 B2"></canvas></td></tr>
+            <tr><td>F2 L2 D2 L2 F2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="F2 L2 D2 L2 F2"></canvas></td></tr>
+            <tr><td>B2 R2 F2 B2 L2</td><td>0</td><td>3</td><td>0</td><td>3</td><td>5</td><td><canvas class="net" data-gen="B2 R2 F2 B2 L2"></canvas></td></tr>
+            <tr><td>R2 F2 B2 L2 U2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="R2 F2 B2 L2 U2"></canvas></td></tr>
+            <tr><td>R2 F2 B2 L2 D2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="R2 F2 B2 L2 D2"></canvas></td></tr>
+            <tr><td>R2 F2 U2 F2 R2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="R2 F2 U2 F2 R2"></canvas></td></tr>
+            <tr><td>R2 F2 U2 B2 L2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="R2 F2 U2 B2 L2"></canvas></td></tr>
+            <tr><td>R2 F2 D2 F2 R2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="R2 F2 D2 F2 R2"></canvas></td></tr>
+            <tr><td>R2 F2 D2 B2 L2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="R2 F2 D2 B2 L2"></canvas></td></tr>
+            <tr><td>R2 B2 U2 F2 L2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="R2 B2 U2 F2 L2"></canvas></td></tr>
+            <tr><td>R2 B2 U2 B2 R2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="R2 B2 U2 B2 R2"></canvas></td></tr>
+            <tr><td>R2 B2 D2 F2 L2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="R2 B2 D2 F2 L2"></canvas></td></tr>
+            <tr><td>R2 B2 D2 B2 R2</td><td>0</td><td>2</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="R2 B2 D2 B2 R2"></canvas></td></tr>
+            <tr><td>R2 L2 F2 R2 L2</td><td>2</td><td>1</td><td>0</td><td>3</td><td>5</td><td><canvas class="net" data-gen="R2 L2 F2 R2 L2"></canvas></td></tr>
+            <tr><td>R2 L2 B2 R2 L2</td><td>2</td><td>1</td><td>0</td><td>3</td><td>5</td><td><canvas class="net" data-gen="R2 L2 B2 R2 L2"></canvas></td></tr>
+            <tr><td>R2 L2 U2 R2 L2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="R2 L2 U2 R2 L2"></canvas></td></tr>
+            <tr><td>R2 L2 D2 R2 L2</td><td>2</td><td>0</td><td>1</td><td>3</td><td>5</td><td><canvas class="net" data-gen="R2 L2 D2 R2 L2"></canvas></td></tr>
+          </tbody>
+        </table>
+        <hr>
+        <address class="mb-6">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+    <script>
+class Cube {
+/*
+          0  1  2
+          3  4  5
+          6  7  8
+ 9 10 11 18 19 20 27 28 29 36 37 38
+12 13 14 21 22 23 30 31 32 39 40 41
+15 16 17 24 25 26 33 34 35 42 43 44
+         45 46 47
+         48 49 50
+         51 52 53
+*/
+    constructor() {
+        this.F = [];
+        for (let i=0; i<9; i++) {
+            this.F.push("U");
+        }
+        for (let i=0; i<9; i++) {
+            this.F.push("L");
+        }
+        for (let i=0; i<9; i++) {
+            this.F.push("F");
+        }
+        for (let i=0; i<9; i++) {
+            this.F.push("R");
+        }
+        for (let i=0; i<9; i++) {
+            this.F.push("B");
+        }
+        for (let i=0; i<9; i++) {
+            this.F.push("D");
+        }
+    }
+
+    move(m) {
+        if (Array.isArray(m)) {
+            for (let c of m) {
+                this.move(c);
+            }
+            return;
+        }
+
+        if (m.length>=2) {
+            if (m[1]=="2") {
+                for (let i=0; i<2; i++) {
+                    this.move(m[0]);
+                }
+            }
+            if (m[1]=="'") {
+                for (let i=0; i<3; i++) {
+                    this.move(m[0]);
+                }
+            }
+            return;
+        }
+
+        const rotate = (a, b, c, d) => {
+            let t = this.F[d];
+            this.F[d] = this.F[c];
+            this.F[c] = this.F[b];
+            this.F[b] = this.F[a];
+            this.F[a] = t;
+        }
+
+        if (m=="F") {
+            rotate(19, 23, 25, 21);
+            rotate( 7, 30, 46, 14);
+            rotate(18, 20, 26, 24);
+            rotate( 6, 27, 47, 17);
+            rotate(11,  8, 33, 45);
+        }
+        if (m=="B") {
+            rotate(37, 41, 43, 39);
+            rotate( 1, 12, 52, 32);
+            rotate(36, 38, 44, 42);
+            rotate( 2,  9, 51, 35);
+            rotate(29,  0, 15, 53);
+        }
+        if (m=="R") {
+            rotate(28, 32, 34, 30);
+            rotate( 5, 39, 50, 23);
+            rotate(27, 29, 35, 33);
+            rotate( 8, 36, 53, 26);
+            rotate(20,  2, 42, 47);
+        }
+        if (m=="L") {
+            rotate(10, 14, 16, 12);
+            rotate( 3, 21, 48, 41);
+            rotate( 9, 11, 17, 15);
+            rotate( 0, 18, 45, 44);
+            rotate( 38, 6, 24, 51);
+        }
+        if (m=="U") {
+            rotate( 1,  5,  7,  3);
+            rotate(37, 28, 19, 10);
+            rotate( 0,  2,  8,  6);
+            rotate(38, 29, 20, 11);
+            rotate( 9, 36, 27, 18);
+        }
+        if (m=="D") {
+            rotate(46, 50, 52, 48);
+            rotate(25, 34, 43, 16);
+            rotate(45, 47, 53, 51);
+            rotate(24, 33, 42, 15);
+            rotate(17, 26, 35, 44);
+        }
+        if (m=="M") {
+            rotate( 4, 22, 49, 40);
+            rotate( 1, 19, 46, 43);
+            rotate( 7, 25, 52, 37);
+        }
+        if (m=="S") {
+            rotate( 4, 31, 49, 13);
+            rotate( 3, 28, 50, 16);
+            rotate( 5, 34, 48, 10);
+        }
+        if (m=="E") {
+            rotate(13, 22, 31, 40);
+            rotate(12, 21, 30, 39);
+            rotate(14, 23, 32, 41);
+        }
+    }
+}
+
+for (const canvas of document.querySelectorAll(".net")) {
+    const cube = new Cube();
+    for (let f=1; f<5; f++) {
+        cube.F[f*9+3] = cube.F[f*9+5] = ".";
+    }
+
+    for (const move of canvas.dataset.gen.split(" ")) {
+        cube.move(move);
+    }
+
+    const S = 12;
+
+    const ctx = canvas.getContext("2d");
+    const dpr = window.devicePixelRatio;
+    canvas.width = S*14.5*dpr;
+    canvas.height = S*11*dpr;
+    ctx.scale(dpr, dpr);
+    canvas.style.width = `${S*14.5}px`;
+    canvas.style.height = `${S*11}px`;
+
+    for (let f=0; f<6; f++)
+    {
+        let ox, oy;
+        switch (f) {
+            case 0:
+                ox = 4;
+                oy = 0.5;
+                break;
+            case 1:
+                ox = 0.5;
+                oy = 4;
+                break;
+            case 2:
+                ox = 4;
+                oy = 4;
+                break;
+            case 3:
+                ox = 7.5;
+                oy = 4;
+                break;
+            case 4:
+                ox = 11;
+                oy = 4;
+                break;
+            case 5:
+                ox = 4;
+                oy = 7.5;
+                break;
+        }
+
+        for (let y=0; y<3; y++) {
+            for (let x=0; x<3; x++) {
+                ctx.beginPath();
+                ctx.rect((ox+x)*S, (oy+y)*S, S, S);
+
+                ctx.fillStyle = {
+                    "F": "#4f4",
+                    "B": "#44f",
+                    "U": "#fff",
+                    "D": "#ee2",
+                    "R": "#f44",
+                    "L": "#f82",
+                    ".": "#ccc",
+                }[cube.F[f*9+y*3+x]];
+                ctx.fill();
+                ctx.strokeStyle = "#222";
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+            }
+        }
+    }
+}
+    </script>
+  </body>
+</html>
