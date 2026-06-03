@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="3x3x3キューブの不完全1面の解法">
+    <title>3x3x3不完全1面</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+    <style>
+
+    </style>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>3x3x3不完全1面</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; 3x3x3不完全1面
+        </p>
+        <hr>
+        <p>
+          Speedcubing Japanが公認する<a href="https://speedcubing.or.jp/?page_id=45#toc2">スピードキュービング段級位認定</a>で、1級を取りたい。
+          条件は、3x3x3キューブの不完全1面を10秒未満で揃えることである。
+          普通に解くのが速い人ならばF2Lまでを10秒未満で解けば良いが、遅いので解法をまとめる。
+        </p>
+        <h2>解法</h2>
+        <p>
+          側面を揃える必要が無いということを利用したCFOPをベースの解法以外もありえる気はする。
+          しかし、別に不完全1面を極めたいわけではなく、10秒を切りたいだけならば、慣れているCFOPベースの解法のほうが楽だろう。
+        </p>
+        <h2>クロス</h2>
+        <p>
+          側面色を気にせずにCFOPのクロスを揃える以外に特に思いつくことが無い。
+          クロスを読むのが余裕ならば、コーナーも同時に揃えるとか、U面に出しておくとか、せめてコーナーの位置を把握しておくとかできると良さそう。
+        </p>
+        <h2>コーナー</h2>
+        <p>
+          エッジは揃えないのでEOの概念は無い。
+          また、各スロットとコーナーピースは同じように扱える。
+          どのコーナーを揃えるのか選びはせずに、DFRコーナーにピースを入れる → <b>y</b> → DFRコーナーにピースを入れる → <b>y</b> → …と繰り返すのが楽そう。
+          間違った向きでコーナーが入っているスロットがあるとき、他のスロットより先に、そのスロットにU面にあるピースを入れれば総手数としては減る可能性が高い。
+          しかし、スロットを選んだり、どのスロットが揃っているのかを把握したりするタイムロスのほうが大きそう。
+        </p>
+        <p>
+          手順は次の通り。
+          それぞれの状態とコーナーピースの位置と向きが同じF2Lの手順のうち、速そうなものを選択した。
+        </p>
+        <table class="table">
+          <thead>
+            <tr><th>状態</th><th>手順</th></tr>
+          </thead>
+          <tfoot>
+            <tr><td></td><td></td></tr>
+          </tfoot>
+          <tbody>
+            <tr>
+              <td>
+                <canvas class="cube" data-faces="...........R..................................R.RRR.R."></canvas>
+                <canvas class="cube" data-faces="......................................R.......R.RRR.R."></canvas>
+                <canvas class="cube" data-faces=".............................R................R.RRR.R."></canvas>
+                <canvas class="cube" data-faces="....................R.........................R.RRR.R."></canvas>
+              </td>
+              <td>1個目の向きから <b>R U' R'</b><br>または、<br>2個目の向きから <b>R U2' R'</b></td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="cube" data-faces="...........................R..................R.RRR.R."></canvas>
+                <canvas class="cube" data-faces="..................R...........................R.RRR.R."></canvas>
+                <canvas class="cube" data-faces=".........R....................................R.RRR.R."></canvas>
+                <canvas class="cube" data-faces="....................................R.........R.RRR.R."></canvas>
+              </td>
+              <td>1個目の向きから <b>R U R'</b></td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="cube" data-faces="R.............................................R.RRR.R."></canvas>
+                <canvas class="cube" data-faces="..R...........................................R.RRR.R."></canvas>
+                <canvas class="cube" data-faces="........R.....................................R.RRR.R."></canvas>
+                <canvas class="cube" data-faces="......R.......................................R.RRR.R."></canvas>
+              </td>
+              <td>1個目の向きから <b>(R U R') U (R U' R')</b></td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="cube" data-faces="..........................R...................R.RRR.R."></canvas>
+              </td>
+              <td><b>(R U' R') U (R U' R')</b></td>
+            </tr>
+            <tr>
+              <td>
+                <canvas class="cube" data-faces=".................................R............R.RRR.R."></canvas>
+              </td>
+              <td><b>(R U R') U' (R U R')</b></td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+        <address class="mb-6">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+    <script>
+for (const canvas of document.querySelectorAll(".cube")) {
+  const faces = canvas.dataset.faces;
+
+  const S = 96;
+
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio;
+  canvas.width = S*dpr;
+  canvas.height = S*dpr;
+  ctx.scale(dpr, dpr);
+  canvas.style.width = `${S}px`;
+  canvas.style.height = `${S}px`;
+
+  function rotate(x, y, z) {
+    const th1 = 0.4;
+    const x2 = x*Math.cos(th1)-z*Math.sin(th1);
+    const y2 = y;
+    const z2 = x*Math.sin(th1)+z*Math.cos(th1);
+
+    const th2 = 0.3;
+    const x3 = x2;
+    const y3 = y2*Math.cos(th2)-z2*Math.sin(th2);
+    const z3 = y2*Math.sin(th2)+z2*Math.cos(th2);
+
+    const w = S/3;
+    const s = 0.1;
+    const x4 = x3*(z3*s/2+1)*w+S/2;
+    const y4 = -y3*(z3*s/2+1)*w+S/2;
+
+    return [x4, y4];
+  }
+
+  const FP = [
+    [[-1,  1, -1], [ 1,  1, -1], [ 1,  1,  1], [-1,  1,  1]],
+    [[-1,  1, -1], [-1,  1,  1], [-1, -1,  1], [-1, -1, -1]],
+    [[-1,  1,  1], [ 1,  1,  1], [ 1, -1,  1], [-1, -1,  1]],
+    [[ 1,  1,  1], [ 1,  1, -1], [ 1, -1, -1], [ 1, -1,  1]],
+    [[ 1,  1, -1], [-1,  1, -1], [-1, -1, -1], [ 1, -1, -1]],
+    [[-1, -1,  1], [ 1, -1,  1], [ 1, -1, -1], [-1, -1, -1]],
+  ];
+
+  // B, L, D, F, R, Uの順に描画。
+  const I = [];
+  for (let f of [36, 9, 45, 18, 27, 0]) {
+    for (let i=0; i<9; i++) {
+      I.push(f+i);
+    }
+  }
+
+  for (let i of I) {
+    const fp = FP[i/9|0];
+    const fx = i%9%3;
+    const fy = i%9/3|0;
+
+    ctx.beginPath();
+    ctx.moveTo(...rotate(
+      (fp[1][0]-fp[0][0])*fx/3+(fp[3][0]-fp[0][0])*fy/3+fp[0][0],
+      (fp[1][1]-fp[0][1])*fx/3+(fp[3][1]-fp[0][1])*fy/3+fp[0][1],
+      (fp[1][2]-fp[0][2])*fx/3+(fp[3][2]-fp[0][2])*fy/3+fp[0][2]));
+    ctx.lineTo(...rotate(
+      (fp[1][0]-fp[0][0])*(fx+1)/3+(fp[3][0]-fp[0][0])*fy/3+fp[0][0],
+      (fp[1][1]-fp[0][1])*(fx+1)/3+(fp[3][1]-fp[0][1])*fy/3+fp[0][1],
+      (fp[1][2]-fp[0][2])*(fx+1)/3+(fp[3][2]-fp[0][2])*fy/3+fp[0][2]));
+    ctx.lineTo(...rotate(
+      (fp[1][0]-fp[0][0])*(fx+1)/3+(fp[3][0]-fp[0][0])*(fy+1)/3+fp[0][0],
+      (fp[1][1]-fp[0][1])*(fx+1)/3+(fp[3][1]-fp[0][1])*(fy+1)/3+fp[0][1],
+      (fp[1][2]-fp[0][2])*(fx+1)/3+(fp[3][2]-fp[0][2])*(fy+1)/3+fp[0][2]));
+    ctx.lineTo(...rotate(
+      (fp[1][0]-fp[0][0])*fx/3+(fp[3][0]-fp[0][0])*(fy+1)/3+fp[0][0],
+      (fp[1][1]-fp[0][1])*fx/3+(fp[3][1]-fp[0][1])*(fy+1)/3+fp[0][1],
+      (fp[1][2]-fp[0][2])*fx/3+(fp[3][2]-fp[0][2])*(fy+1)/3+fp[0][2]));
+    ctx.closePath();
+
+    if (faces[i]!=".") {
+      const rgb = {
+        "F": "8 250 8",
+        "B": "8 8 250",
+        "R": "250 8 8",
+        "L": "250 128 8",
+        "U": "255 255 255",
+        "D": "250 250 0",
+      }[faces[i]];
+      ctx.fillStyle = `rgb(${rgb} / 90%)`;
+    } else {
+      ctx.fillStyle = "rgb(192 192 192 / 60%)";
+    }
+    ctx.fill();
+    ctx.lineWidth = .5;
+    ctx.stroke();
+  }
+}
+    </script>
+  </body>
+</html>
