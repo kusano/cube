@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="Roux CMLL">
+    <title>Roux CMLL</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+    <style>
+      * {
+        text-autospace: normal;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>Roux CMLL</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; Roux CMLL
+        </p>
+        <hr>
+        <h2>参考</h2>
+        <ul>
+          <li><a href="https://sites.google.com/view/kianroux/oh-cmll">Roux Method Guide by Kian - OH CMLL</a></li>
+          <!-- <li><a href="https://www.youtube.com/playlist?list=PLJs8jsrCNDZuTSX5uJLWmXtMy1QUN46iN">cmllとか - YouTube</a></li> -->
+          <li><a href="https://www.youtube.com/watch?v=tDG5LcGOOWQ">【最新版】片手用CMLL 手順&指使い【Roux Method】 - YouTube</a></li>
+        </ul>
+        <h2>目次</h2>
+        <ul>
+          <li><a href="#o">O</a></li>
+          <li><a href="#h">H</a></li>
+          <li><a href="#pi">Pi</a></li>
+          <li><a href="#u">U</a></li>
+          <li><a href="#t">T</a></li>
+          <li><a href="#s">S</a></li>
+          <li><a href="#as">As</a></li>
+          <li><a href="#l">L</a></li>
+        </ul>
+        <h2>手順</h2>
+        <p>
+          キューブの画像について、「判断」は判断に使う向きで判断に使うステッカーを抜き出したもの。
+          「画像」は回し始める向き。
+        </p>
+        <h3 id="o">O</h3>
+        <p>
+          完成、Adjacent Swap、Diagonal Swapのどれであるかと、Adjacent Swapの向きは、2側面を見ると判断できる。
+        </p>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="min-width: 11em">名前</th>
+                <th>画像</th>
+                <th style="min-width: 24em">手順</th>
+                <th style="min-width: 20em">メモ</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td>Adjacent Swap</td>
+                <td><canvas class="cube" data-faces="F.RB.FR.BL.LD.D...D.D"></canvas></td>
+                <td><b>(R U2' R') U' R U2' (L' U R' U' L)</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Diagonal Swap</td>
+                <td><canvas class="cube" data-faces="B.FR.LF.BL.RD.D...D.D"></canvas></td>
+                <td><b>(F R U' R' U' R U R' F') (R U R' U' R' F R F')</b></td>
+                <!-- <td><b>R U R' U R' F R F' R U2' R2 U' R U' R' U2 R</b></td> -->
+                <td>Y-perm。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="h">H</h3>
+        <p>
+          下図の赤のステッカーを見る。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="D.D...D.D...R.R...R.R"></canvas>
+        </p>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="min-width: 11em">名前</th>
+                <th>判断</th>
+                <th>画像</th>
+                <th style="min-width: 24em">手順</th>
+                <th style="min-width: 20em">メモ</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td>Columns</td>
+                <td><canvas class="cube" data-faces="D.D...D.D...L.R...L.R"></canvas></td>
+                <td><canvas class="cube" data-faces="D.DF.BD.DB.FL.R...L.R"></canvas></td>
+                <td><b>(R U2 R') U' (R U R') U' (R U' R')</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Rows</td>
+                <td><canvas class="cube" data-faces="D.D...D.D...F.F...B.B"></canvas></td>
+                <td><canvas class="cube" data-faces="D.DL.LD.DR.RF.F...B.B"></canvas></td>
+                <td><b>F (R U R' U')x3 F'</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Column</td>
+                <td><canvas class="cube" data-faces="D.D...D.D...B.R...F.R"></canvas></td>
+                <td><canvas class="cube" data-faces="L.LD.DF.BD.DF.B...R.R"></canvas></td>
+                <td><b>F (R U' R') U (R U2' R') U' (R U R') U' F'</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Row</td>
+                <td><canvas class="cube" data-faces="D.D...D.D...B.F...R.R"></canvas></td>
+                <td><canvas class="cube" data-faces="L.BD.DF.LD.DF.R...B.R"></canvas></td>
+                <td><b>(R' U' R) U' R' U' (L U' R U L')</b></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="pi">Pi</h3>
+        <p>
+          下図の赤のステッカーを見る。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="..D...D..D.DR.R...R.R"></canvas>
+        </p>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="min-width: 11em">名前</th>
+                <th>判断</th>
+                <th>画像</th>
+                <th style="min-width: 24em">手順</th>
+                <th style="min-width: 20em">メモ</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td>Left Bar</td>
+                <td><canvas class="cube" data-faces="..D...D..D.DF.L...F.R"></canvas></td>
+                <td><canvas class="cube" data-faces="D.RD.DL.DB.BR.F...L.F"></canvas></td>
+                <td><b>(R' U' R) U' R' U (F' U F) R</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Right Bar</td>
+                <td><canvas class="cube" data-faces="..D...D..D.DB.L...F.L"></canvas></td>
+                <td><canvas class="cube" data-faces="R.DB.FD.RD.DB.L...F.L"></canvas></td>
+                <td><b>F (R U R' U')x2 F'</b></td>
+                <!-- <td><b>R U2 R2 U' R2 U' R2 U2' R</b></td> -->
+                <td></td>
+              </tr>
+              <tr>
+                <td>Columns</td>
+                <td><canvas class="cube" data-faces="..D...D..D.DL.R...L.R"></canvas></td>
+                <td><canvas class="cube" data-faces="D.FD.DB.DF.BR.L...R.L"></canvas></td>
+                <td><b>(R' F R F') (Rw U' R') U' (R U' Rw')</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Forward Slash</td>
+                <td><canvas class="cube" data-faces="..D...D..D.DL.F...F.R"></canvas></td>
+                <td><canvas class="cube" data-faces="B.DL.BD.RD.DL.F...F.R"></canvas></td>
+                <td><b>(R U2' R') U' (R U R') U2' (R' F R F')</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Back Slash</td>
+                <td><canvas class="cube" data-faces="..D...D..D.DB.R...L.B"></canvas></td>
+                <td><canvas class="cube" data-faces="D.DR.DF.LD.FL.B...B.R"></canvas></td>
+                <td><b>(F R' F' R) U2 (R U' R') U (R U2' R')</b></td>
+                <!-- <td><b>R' U2' R U R' U' R U2' R Fw' R Fw</b></td>-->
+                <td>Forward Slashの逆手順。</td>
+              </tr>
+              <tr>
+                <td>X Checkerboard</td>
+                <td><canvas class="cube" data-faces="..D...D..D.DL.R...R.L"></canvas></td>
+                <td><canvas class="cube" data-faces="F.FD.BD.DB.DR.L...L.R"></canvas></td>
+                <td><b>F (R U' R') U' (R U R') U (R U' R') F'</b></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="u">U</h3>
+        <p>
+          下図の赤のステッカーを見る。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="D.D...R.R...R.R...D.D"></canvas>
+        </p>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="min-width: 11em">名前</th>
+                <th>判断</th>
+                <th>画像</th>
+                <th style="min-width: 24em">手順</th>
+                <th style="min-width: 20em">メモ</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td>Back Row</td>
+                <td><canvas class="cube" data-faces="D.D...R.L...B.B...D.D"></canvas></td>
+                <td><canvas class="cube" data-faces="R.FR.LF.LD.DB.D...B.D"></canvas></td>
+                <td><b>F (R U R' U') F'</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Front Row</td>
+                <td><canvas class="cube" data-faces="D.D...B.B...L.R...D.D"></canvas></td>
+                <td><canvas class="cube" data-faces="D.DF.RB.BL.FL.R...D.D"></canvas></td>
+                <td><b>(R' U' R) U' (R' U2' R2) U (R' U R) U2' R'</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Rows</td>
+                <td><canvas class="cube" data-faces="D.D...B.B...F.F...D.D"></canvas></td>
+                <td><canvas class="cube" data-faces="B.BL.RD.DL.RD.D...F.F"></canvas></td>
+                <td><b>F (R U R' U') (R' U R U') F' (U R' U' R)</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Forward Slash</td>
+                <td><canvas class="cube" data-faces="D.D...F.R...B.R...D.D"></canvas></td>
+                <td><canvas class="cube" data-faces="D.DF.LF.RB.LB.R...D.D"></canvas></td>
+                <td><b>(Rw U' Rw' U')x2 (F' U2 F)</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Back Slash</td>
+                <td><canvas class="cube" data-faces="D.D...R.B...R.F...D.D"></canvas></td>
+                <td><canvas class="cube" data-faces="D.DL.FR.BL.BR.F...D.D"></canvas></td>
+                <td><b>(R' U R) U2' (R U2 R') U' R U' (Fw' U' Fw)</b></td>
+                <td><b>Fw</b>は左手人差し指でRUエッジを押す。</td>
+              </tr>
+              <tr>
+                <td>X Checkerboard</td>
+                <td><canvas class="cube" data-faces="D.D...R.L...R.L...D.D"></canvas></td>
+                <td><canvas class="cube" data-faces="D.DB.FR.LF.BR.L...D.D"></canvas></td>
+                <td><b>F (R U' R') U (R U R') U (R U' R') F'</b></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="t">T</h3>
+        <p>
+          下図の赤のステッカーを見る。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="...D..R.R..DR.R...D.D"></canvas>
+        </p>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="min-width: 11em">名前</th>
+                <th>判断</th>
+                <th>画像</th>
+                <th style="min-width: 24em">手順</th>
+                <th style="min-width: 20em">メモ</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td>Left Bar</td>
+                <td><canvas class="cube" data-faces="...D..R.B..DB.L...D.D"></canvas></td>
+                <td><canvas class="cube" data-faces="D.FR.BL.DR.FL.D...B.D"></canvas></td>
+                <td><b>(R U R' U') (R' F R F')</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Right Bar</td>
+                <td><canvas class="cube" data-faces="...D..B.L..DR.B...D.D"></canvas></td>
+                <td><canvas class="cube" data-faces="D.RB.LF.DF.LB.D...R.D"></canvas></td>
+                <td><b>F (R U' R') U (R U R') F'</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Columns</td>
+                <td><canvas class="cube" data-faces="...D..L.R..DR.L...D.D"></canvas></td>
+                <td><canvas class="cube" data-faces="F.FD.BL.RB.DR.L...D.D"></canvas></td>
+                <td><b>(R' U' R) U' (R' U R) U' R' U (F' U F) R</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Back Row</td>
+                <td><canvas class="cube" data-faces="...D..F.B..DR.R...D.D"></canvas></td>
+                <td><canvas class="cube" data-faces="F.BL.DF.BD.LD.D...R.R"></canvas></td>
+                <td><b>F (R U R') U' (R U' R') U' (R U R') F'</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Front Row</td>
+                <td><canvas class="cube" data-faces="...D..F.F..DL.R...D.D"></canvas></td>
+                <td><canvas class="cube" data-faces="B.BD.LF.FR.DL.R...D.D"></canvas></td>
+                <td><b>(Rw' U Rw) U2' R2 (F R F' R)</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Rows</td>
+                <td><canvas class="cube" data-faces="...D..B.B..DF.F...D.D"></canvas></td>
+                <td><canvas class="cube" data-faces="L.RD.RB.BL.DF.F...D.D"></canvas></td>
+                <td><b>(R U2 R') (U' R U') R2 U2' (R U R') U R</b></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="s">S</h3>
+        <p>
+          下図の赤のステッカーを見る。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="D..D..R.RD..R.R.....D"></canvas>
+        </p>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="min-width: 11em">名前</th>
+                <th>判断</th>
+                <th>画像</th>
+                <th style="min-width: 24em">手順</th>
+                <th style="min-width: 20em">メモ</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td>Left Bar</td>
+                <td><canvas class="cube" data-faces="D..D..F.RD..R.B.....D"></canvas></td>
+                <td><canvas class="cube" data-faces="D.BD.LD.LF.RF.R...D.B"></canvas></td>
+                <td><b>(R U R') U (R U2' R')</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Right Bar</td>
+                <td><canvas class="cube" data-faces="D..D..R.FD..B.R.....D"></canvas></td>
+                <td><canvas class="cube" data-faces="D.FR.FD.LD.BR.D...B.L"></canvas></td>
+                <td><b>(R U R') U (R' F R F') (R U2' R')</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Columns</td>
+                <td><canvas class="cube" data-faces="D..D..B.FD..F.B.....D"></canvas></td>
+                <td><canvas class="cube" data-faces="B.FD.RD.LD.RD.L...B.F"></canvas></td>
+                <td><b>(R' U' R) U' R' U2 (F R F') (Rw U Rw')</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Forward Slash</td>
+                <td><canvas class="cube" data-faces="D..D..R.BD..L.B.....D"></canvas></td>
+                <td><canvas class="cube" data-faces="D.FD.LD.FR.BR.L...D.B"></canvas></td>
+                <td><b>(F R' F' R) U2 (R U2' R')</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Back Slash</td>
+                <td><canvas class="cube" data-faces="D..D..R.FD..R.B.....D"></canvas></td>
+                <td><canvas class="cube" data-faces="D.BD.LD.FR.FL.R...D.B"></canvas></td>
+                <td><b>(R U' Rw') (F R' F' Rw)</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>X Checkerboard</td>
+                <td><canvas class="cube" data-faces="D..D..R.LD..R.L.....D"></canvas></td>
+                <td><canvas class="cube" data-faces="D.FR.LD.BD.FL.D...R.B"></canvas></td>
+                <td><b>(R' U2' R) U2 R (Fw' U' Fw)</b></td>
+                <td><b>Fw</b>は左手人差し指でRUエッジを押す。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="as">As</h3>
+        <p>
+          下図の赤のステッカーを見る。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="..D..DR.R..DR.R...D.."></canvas>
+        </p>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="min-width: 11em">名前</th>
+                <th>判断</th>
+                <th>画像</th>
+                <th style="min-width: 24em">手順</th>
+                <th style="min-width: 20em">メモ</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td>Left Bar</td>
+                <td><canvas class="cube" data-faces="..D..DF.L..DL.B...D.."></canvas></td>
+                <td><canvas class="cube" data-faces="B.DR.DF.LF.DL.B...D.R"></canvas></td>
+                <td><b>(R' U' R) U' (R' U R') (F R F') U R</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Right Bar</td>
+                <td><canvas class="cube" data-faces="..D..DL.F..DB.L...D.."></canvas></td>
+                <td><canvas class="cube" data-faces="R.DR.DB.DL.FD.B...F.L"></canvas></td>
+                <td><b>(R' U' R) U' (R' U2' R)</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Columns</td>
+                <td><canvas class="cube" data-faces="..D..DF.B..DB.F...D.."></canvas></td>
+                <td><canvas class="cube" data-faces="R.DL.DF.BL.DB.F...D.R"></canvas></td>
+                <td><b>(Rw U' Rw') (F R' F') U2' (R U R') U R</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Forward Slash</td>
+                <td><canvas class="cube" data-faces="..D..DF.L..DB.L...D.."></canvas></td>
+                <td><canvas class="cube" data-faces="B.DF.LF.DR.DL.R...B.D"></canvas></td>
+                <td><b>(Rw' F R F') (Rw U R')</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Back Slash</td>
+                <td><canvas class="cube" data-faces="..D..DB.L..DB.R...D.."></canvas></td>
+                <td><canvas class="cube" data-faces="F.DR.DF.DB.LD.B...L.R"></canvas></td>
+                <td><b>(Fw' U Fw) (R' U2' R' U2 R)</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>X Checkerboard</td>
+                <td><canvas class="cube" data-faces="..D..DR.L..DR.L...D.."></canvas></td>
+                <td><canvas class="cube" data-faces="B.DR.LF.DF.DL.B...R.D"></canvas></td>
+                <td><b>(R U2' R') U2' (R' F R F')</b></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="l">L</h3>
+        <p>
+          下図の赤のステッカーを見る。
+          どのステッカーが同色かだけではなく、対面色や隣接色といった色の関係も使用する。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="...D..R.D...D.R...R.D"></canvas>
+        </p>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="min-width: 11em">名前</th>
+                <th>判断</th>
+                <th>画像</th>
+                <th style="min-width: 24em">手順</th>
+                <th style="min-width: 20em">メモ</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td>Pure</td>
+                <td><canvas class="cube" data-faces="...D..B.D...D.F...L.D"></canvas></td>
+                <td><canvas class="cube" data-faces="B.DB.LF.RD.RD.L...F.D"></canvas></td>
+                <td><b>(R U2 R') U' (R U R' U')x2 (R U' R')</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Diag</td>
+                <td><canvas class="cube" data-faces="...D..L.D...D.L...B.D"></canvas></td>
+                <td><canvas class="cube" data-faces="L.DR.FR.FD.BD.B...L.D"></canvas></td>
+                <td><b>(R' U' R) U' F U' (R' U' R) U F'</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Front Commutator</td>
+                <td><canvas class="cube" data-faces="...D..L.D...D.F...F.D"></canvas></td>
+                <td><canvas class="cube" data-faces="L.RB.RD.BL.DF.D...D.F"></canvas></td>
+                <td><b>(F U' R' U' R U F') U2 (R' U2' R)</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Inverse</td>
+                <td><canvas class="cube" data-faces="...D..F.D...D.F...B.D"></canvas></td>
+                <td><canvas class="cube" data-faces="L.RD.LF.DR.BD.F...B.D"></canvas></td>
+                <td><b>(F R' F') (R U R U' R')</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Back Commutator</td>
+                <td><canvas class="cube" data-faces="...D..R.D...D.L...L.D"></canvas></td>
+                <td><canvas class="cube" data-faces="B.RB.FD.FR.DL.D...D.L"></canvas></td>
+                <td><b>(R' U' R) U' (R U R') U R U2' (Fw' U' Fw)</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Mirror</td>
+                <td><canvas class="cube" data-faces="...D..F.D...D.R...L.D"></canvas></td>
+                <td><canvas class="cube" data-faces="R.BD.LF.DB.FD.R...L.D"></canvas></td>
+                <td><b>F (R U' R') U' (R U R') F'</b></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <hr>
+        <address class="mb-6 has-text-right">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+    <script>
+const colors = {
+  "F": "#08f808",
+  "B": "#0808f8",
+  "R": "#f80808",
+  "L": "#f8a008",
+  "D": "#f8f840",
+  ".": "#a0a0a0",
+};
+
+for (let canvas of document.querySelectorAll(".cube")) {
+  const faces = canvas.dataset.faces;
+
+  const C = 16;
+
+  const W = C*5;
+  const H = C*5;
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio;
+  canvas.width = W*dpr;
+  canvas.height = H*dpr;
+  ctx.scale(dpr, dpr);
+  canvas.style.width = `${W}px`;
+  canvas.style.height = `${H}px`;
+
+  ctx.lineWidth = 0.5;
+  ctx.strokeStyle = "#303030";
+
+  function s(p) {
+    return (p-C*2.5)*.8+C*2.5;
+  }
+
+  for (let x=0; x<3; x++) {
+    ctx.beginPath();
+    ctx.moveTo(s((x+1)*C), C/3);
+    ctx.lineTo(s((x+2)*C), C/3);
+    ctx.lineTo((x+2)*C, C);
+    ctx.lineTo((x+1)*C, C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[x]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let y=0; y<3; y++) {
+    ctx.beginPath();
+    ctx.moveTo((5-1/3)*C, s((y+1)*C));
+    ctx.lineTo((5-1/3)*C, s((y+2)*C));
+    ctx.lineTo(4*C, (y+2)*C);
+    ctx.lineTo(4*C, (y+1)*C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[3+y]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let x=0; x<3; x++) {
+    ctx.beginPath();
+    ctx.moveTo(s((3-x)*C), (5-1/3)*C);
+    ctx.lineTo(s((4-x)*C), (5-1/3)*C);
+    ctx.lineTo((4-x)*C, 4*C);
+    ctx.lineTo((3-x)*C, 4*C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[6+x]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let y=0; y<3; y++) {
+    ctx.beginPath();
+    ctx.moveTo(1/3*C, s((3-y)*C));
+    ctx.lineTo(1/3*C, s((4-y)*C));
+    ctx.lineTo(C, (4-y)*C);
+    ctx.lineTo(C, (3-y)*C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[9+y]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let y=0; y<3; y++) {
+    for (let x=0; x<3; x++) {
+      ctx.beginPath();
+      ctx.rect((x+1)*C, (y+1)*C, C, C);
+      ctx.fillStyle = colors[faces.length>12?faces[12+y*3+x]:"D"];
+      ctx.fill();
+      ctx.stroke();
+    }
+  }
+
+  ctx.beginPath();
+  ctx.rect(C, C, 3*C, 3*C);
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+}
+    </script>
+  </body>
+</html>
