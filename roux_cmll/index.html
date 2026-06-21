@@ -42,6 +42,10 @@
           キューブの画像について、「判断」は判断に使う向きで判断に使うステッカーを抜き出したもの。
           「画像」は回し始める向き。
         </p>
+        <p>
+          「交換」は、ステッカーが「判断」の状態のとき、コーナーの位置がどのように入れ替わっているか（手順はどのピースを入れ替えるか）を表している。
+          F, B, R, Lは、隣接交換でそれぞれの面にあるコーナーが入れ替わっているう。
+        </p>
         <h3 id="o">O</h3>
         <p>
           完成、Adjacent Swap、Diagonal Swapのどれであるかと、Adjacent Swapの向きは、2側面を見ると判断できる。
@@ -89,18 +93,20 @@
               <tr>
                 <th style="min-width: 11em">名前</th>
                 <th>判断</th>
+                <th>交換</th>
                 <th>画像</th>
                 <th style="min-width: 24em">手順</th>
                 <th style="min-width: 20em">メモ</th>
               </tr>
             </thead>
             <tfoot>
-              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
             </tfoot>
             <tbody>
               <tr>
                 <td>Columns</td>
                 <td><canvas class="cube" data-faces="D.D...D.D...L.R...L.R"></canvas></td>
+                <td>無</td>
                 <td><canvas class="cube" data-faces="D.DF.BD.DB.FL.R...L.R"></canvas></td>
                 <td><b>(R U2 R') U' (R U R') U' (R U' R')</b></td>
                 <td></td>
@@ -108,22 +114,25 @@
               <tr>
                 <td>Rows</td>
                 <td><canvas class="cube" data-faces="D.D...D.D...F.F...B.B"></canvas></td>
+                <td>対角</td>
                 <td><canvas class="cube" data-faces="D.DL.LD.DR.RF.F...B.B"></canvas></td>
                 <td><b>F (R U R' U')x3 F'</b></td>
                 <td></td>
               </tr>
               <tr>
-                <td>Column</td>
-                <td><canvas class="cube" data-faces="D.D...D.D...B.R...F.R"></canvas></td>
-                <td><canvas class="cube" data-faces="L.LD.DF.BD.DF.B...R.R"></canvas></td>
-                <td><b>F (R U' R') U (R U2' R') U' (R U R' U') F'</b></td>
+                <td>Row</td>
+                <td><canvas class="cube" data-faces="D.D...D.D...B.F...R.R"></canvas></td>
+                <td>F</td>
+                <td><canvas class="cube" data-faces="L.BD.DF.LD.DF.R...B.R"></canvas></td>
+                <td><b>(R' U' R) U' R' U' (L U' R U L')</b></td>
                 <td></td>
               </tr>
               <tr>
-                <td>Row</td>
-                <td><canvas class="cube" data-faces="D.D...D.D...B.F...R.R"></canvas></td>
-                <td><canvas class="cube" data-faces="L.BD.DF.LD.DF.R...B.R"></canvas></td>
-                <td><b>(R' U' R) U' R' U' (L U' R U L')</b></td>
+                <td>Column</td>
+                <td><canvas class="cube" data-faces="D.D...D.D...B.R...F.R"></canvas></td>
+                <td>L</td>
+                <td><canvas class="cube" data-faces="L.LD.DF.BD.DF.B...R.R"></canvas></td>
+                <td><b>F (R U' R') U (R U2' R') U' (R U R' U') F'</b></td>
                 <td></td>
               </tr>
             </tbody>
@@ -142,40 +151,37 @@
               <tr>
                 <th style="min-width: 11em">名前</th>
                 <th>判断</th>
+                <th>交換</th>
                 <th>画像</th>
                 <th style="min-width: 24em">手順</th>
                 <th style="min-width: 20em">メモ</th>
               </tr>
             </thead>
             <tfoot>
-              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
             </tfoot>
             <tbody>
               <tr>
-                <td>Left Bar</td>
-                <td><canvas class="cube" data-faces="..D...D..D.DF.L...F.R"></canvas></td>
-                <td><canvas class="cube" data-faces="D.RD.DL.DB.BR.F...L.F"></canvas></td>
-                <td><b>(R' U' R) (U' R' U) (F' U F) R</b></td>
-                <td></td>
-              </tr>
-              <tr>
                 <td>Right Bar</td>
                 <td><canvas class="cube" data-faces="..D...D..D.DB.L...F.L"></canvas></td>
+                <td>無</td>
                 <td><canvas class="cube" data-faces="R.DB.FD.RD.DB.L...F.L"></canvas></td>
                 <td><b>F (R U R' U')x2 F'</b></td>
                 <!-- <td><b>R U2 R2 U' R2 U' R2 U2' R</b></td> -->
                 <td></td>
               </tr>
               <tr>
-                <td>Columns</td>
-                <td><canvas class="cube" data-faces="..D...D..D.DL.R...L.R"></canvas></td>
-                <td><canvas class="cube" data-faces="D.FD.DB.DF.BR.L...R.L"></canvas></td>
-                <td><b>(R' F R F') (Rw U' R') U' (R U' Rw')</b></td>
+                <td>Left Bar</td>
+                <td><canvas class="cube" data-faces="..D...D..D.DF.L...F.R"></canvas></td>
+                <td>対角</td>
+                <td><canvas class="cube" data-faces="D.RD.DL.DB.BR.F...L.F"></canvas></td>
+                <td><b>(R' U' R) (U' R' U) (F' U F) R</b></td>
                 <td></td>
               </tr>
               <tr>
                 <td>Forward Slash</td>
                 <td><canvas class="cube" data-faces="..D...D..D.DL.F...F.R"></canvas></td>
+                <td>F</td>
                 <td><canvas class="cube" data-faces="B.DL.BD.RD.DL.F...F.R"></canvas></td>
                 <td><b>(R U2' R') U' (R U R') U2' (R' F R F')</b></td>
                 <td></td>
@@ -183,6 +189,7 @@
               <tr>
                 <td>Back Slash</td>
                 <td><canvas class="cube" data-faces="..D...D..D.DB.R...L.B"></canvas></td>
+                <td>B</td>
                 <td><canvas class="cube" data-faces="D.DR.DF.LD.FL.B...B.R"></canvas></td>
                 <td><b>(F R' F' R) U2 (R U' R') U (R U2' R')</b></td>
                 <!-- <td><b>R' U2' R U R' U' R U2' R Fw' R Fw</b></td>-->
@@ -191,8 +198,17 @@
               <tr>
                 <td>X Checkerboard</td>
                 <td><canvas class="cube" data-faces="..D...D..D.DL.R...R.L"></canvas></td>
+                <td>R</td>
                 <td><canvas class="cube" data-faces="F.FD.BD.DB.DR.L...L.R"></canvas></td>
                 <td><b>F (R U' R') U' (R U R') U (R U' R') F'</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Columns</td>
+                <td><canvas class="cube" data-faces="..D...D..D.DL.R...L.R"></canvas></td>
+                <td>L</td>
+                <td><canvas class="cube" data-faces="D.FD.DB.DF.BR.L...R.L"></canvas></td>
+                <td><b>(R' F R F') (Rw U' Rw') U' (R U' R')</b></td>
                 <td></td>
               </tr>
             </tbody>
@@ -211,32 +227,44 @@
               <tr>
                 <th style="min-width: 11em">名前</th>
                 <th>判断</th>
+                <th>交換</th>
                 <th>画像</th>
                 <th style="min-width: 24em">手順</th>
                 <th style="min-width: 20em">メモ</th>
               </tr>
             </thead>
             <tfoot>
-              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
             </tfoot>
             <tbody>
               <tr>
-                <td>Back Row</td>
-                <td><canvas class="cube" data-faces="D.D...R.L...B.B...D.D"></canvas></td>
-                <td><canvas class="cube" data-faces="R.FR.LF.LD.DB.D...B.D"></canvas></td>
-                <td><b>F (R U R' U') F'</b></td>
-                <td></td>
-              </tr>
-              <tr>
                 <td>Front Row</td>
                 <td><canvas class="cube" data-faces="D.D...B.B...L.R...D.D"></canvas></td>
+                <td>無</td>
                 <td><canvas class="cube" data-faces="D.DF.RB.BL.FL.R...D.D"></canvas></td>
                 <td><b>(R' U' R) U' (R' U2' R2) U (R' U R) U2' R'</b></td>
                 <td>前後反転のsune＋sune。</td>
               </tr>
               <tr>
+                <td>Back Row</td>
+                <td><canvas class="cube" data-faces="D.D...R.L...B.B...D.D"></canvas></td>
+                <td>対角</td>
+                <td><canvas class="cube" data-faces="R.FR.LF.LD.DB.D...B.D"></canvas></td>
+                <td><b>F (R U R' U') F'</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>X Checkerboard</td>
+                <td><canvas class="cube" data-faces="D.D...R.L...R.L...D.D"></canvas></td>
+                <td>F</td>
+                <td><canvas class="cube" data-faces="D.DB.FR.LF.BR.L...D.D"></canvas></td>
+                <td><b>F (R U' R') U (R U R') U (R U' R') F'</b></td>
+                <td></td>
+              </tr>
+              <tr>
                 <td>Rows</td>
                 <td><canvas class="cube" data-faces="D.D...B.B...F.F...D.D"></canvas></td>
+                <td>B</td>
                 <td><canvas class="cube" data-faces="B.BL.RD.DL.RD.D...F.F"></canvas></td>
                 <td><b>F (R U R' U') (R' U R U') F' U (R' U' R)</b></td>
                 <td></td>
@@ -244,6 +272,7 @@
               <tr>
                 <td>Forward Slash</td>
                 <td><canvas class="cube" data-faces="D.D...F.R...B.R...D.D"></canvas></td>
+                <td>R</td>
                 <td><canvas class="cube" data-faces="D.DF.LF.RB.LB.R...D.D"></canvas></td>
                 <td><b>(Rw U' Rw' U')x2 (F' U2 F)</b></td>
                 <td></td>
@@ -251,15 +280,9 @@
               <tr>
                 <td>Back Slash</td>
                 <td><canvas class="cube" data-faces="D.D...R.B...R.F...D.D"></canvas></td>
+                <td>L</td>
                 <td><canvas class="cube" data-faces="D.DL.FR.BL.BR.F...D.D"></canvas></td>
                 <td><b>(R' U R) U2' (R U2 R') U' R U' (Fw' U' Fw)</b></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>X Checkerboard</td>
-                <td><canvas class="cube" data-faces="D.D...R.L...R.L...D.D"></canvas></td>
-                <td><canvas class="cube" data-faces="D.DB.FR.LF.BR.L...D.D"></canvas></td>
-                <td><b>F (R U' R') U (R U R') U (R U' R') F'</b></td>
                 <td></td>
               </tr>
             </tbody>
@@ -278,32 +301,28 @@
               <tr>
                 <th style="min-width: 11em">名前</th>
                 <th>判断</th>
+                <th>交換</th>
                 <th>画像</th>
                 <th style="min-width: 24em">手順</th>
                 <th style="min-width: 20em">メモ</th>
               </tr>
             </thead>
             <tfoot>
-              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
             </tfoot>
             <tbody>
               <tr>
-                <td>Left Bar</td>
-                <td><canvas class="cube" data-faces="...D..R.B..DB.L...D.D"></canvas></td>
-                <td><canvas class="cube" data-faces="D.FR.BL.DR.FL.D...B.D"></canvas></td>
-                <td><b>(R U R' U') (R' F R F')</b></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Right Bar</td>
-                <td><canvas class="cube" data-faces="...D..B.L..DR.B...D.D"></canvas></td>
-                <td><canvas class="cube" data-faces="D.RB.LF.DF.LB.D...R.D"></canvas></td>
-                <td><b>F (R U' R') U (R U R') F'</b></td>
-                <td></td>
+                <td>Rows</td>
+                <td><canvas class="cube" data-faces="...D..B.B..DF.F...D.D"></canvas></td>
+                <td>無</td>
+                <td><canvas class="cube" data-faces="L.RD.RB.BL.DF.F...D.D"></canvas></td>
+                <td><b>(R U2 R') U' (R U' R2) U2' R U (R' U R)</b></td>
+                <td>Anti sune＋前後反転のanti sune。</td>
               </tr>
               <tr>
                 <td>Columns</td>
                 <td><canvas class="cube" data-faces="...D..L.R..DR.L...D.D"></canvas></td>
+                <td>対角</td>
                 <td><canvas class="cube" data-faces="F.FD.BL.RB.DR.L...D.D"></canvas></td>
                 <td><b>(R' U' R) U' (R' U R) U' R' U (F' U F) R</b></td>
                 <td></td>
@@ -311,6 +330,7 @@
               <tr>
                 <td>Back Row</td>
                 <td><canvas class="cube" data-faces="...D..F.B..DR.R...D.D"></canvas></td>
+                <td>F</td>
                 <td><canvas class="cube" data-faces="F.BL.DF.BD.LD.D...R.R"></canvas></td>
                 <td><b>F (R U R') U' (R U' R') U' (R U R') F'</b></td>
                 <td></td>
@@ -318,16 +338,26 @@
               <tr>
                 <td>Front Row</td>
                 <td><canvas class="cube" data-faces="...D..F.F..DL.R...D.D"></canvas></td>
+                <td>B</td>
                 <td><canvas class="cube" data-faces="B.BD.LF.FR.DL.R...D.D"></canvas></td>
                 <td><b>(Rw' U Rw) U2' R2 (F R F' R)</b></td>
                 <td></td>
               </tr>
               <tr>
-                <td>Rows</td>
-                <td><canvas class="cube" data-faces="...D..B.B..DF.F...D.D"></canvas></td>
-                <td><canvas class="cube" data-faces="L.RD.RB.BL.DF.F...D.D"></canvas></td>
-                <td><b>(R U2 R') U' (R U' R2) U2' R U (R' U R)</b></td>
-                <td>Anti sune＋前後反転のanti sune。</td>
+                <td>Right Bar</td>
+                <td><canvas class="cube" data-faces="...D..B.L..DR.B...D.D"></canvas></td>
+                <td>R</td>
+                <td><canvas class="cube" data-faces="D.RB.LF.DF.LB.D...R.D"></canvas></td>
+                <td><b>F (R U' R') U (R U R') F'</b></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Left Bar</td>
+                <td><canvas class="cube" data-faces="...D..R.B..DB.L...D.D"></canvas></td>
+                <td>L</td>
+                <td><canvas class="cube" data-faces="D.FR.BL.DR.FL.D...B.D"></canvas></td>
+                <td><b>(R U R' U') (R' F R F')</b></td>
+                <td></td>
               </tr>
             </tbody>
           </table>
@@ -345,18 +375,20 @@
               <tr>
                 <th style="min-width: 11em">名前</th>
                 <th>判断</th>
+                <th>交換</th>
                 <th>画像</th>
                 <th style="min-width: 24em">手順</th>
                 <th style="min-width: 20em">メモ</th>
               </tr>
             </thead>
             <tfoot>
-              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
             </tfoot>
             <tbody>
               <tr>
                 <td>Left Bar</td>
                 <td><canvas class="cube" data-faces="D..D..F.RD..R.B.....D"></canvas></td>
+                <td>無</td>
                 <td><canvas class="cube" data-faces="D.BD.LD.LF.RF.R...D.B"></canvas></td>
                 <td><b>(R U R') U (R U2' R')</b></td>
                 <td></td>
@@ -364,34 +396,39 @@
               <tr>
                 <td>Right Bar</td>
                 <td><canvas class="cube" data-faces="D..D..R.FD..B.R.....D"></canvas></td>
+                <td>対角</td>
                 <td><canvas class="cube" data-faces="D.FR.FD.LD.BR.D...B.L"></canvas></td>
                 <td><b>(R U R') U (R' F R F') (R U2' R')</b></td>
                 <td></td>
               </tr>
               <tr>
-                <td>Columns</td>
-                <td><canvas class="cube" data-faces="D..D..B.FD..F.B.....D"></canvas></td>
-                <td><canvas class="cube" data-faces="B.FD.RD.LD.RD.L...B.F"></canvas></td>
-                <td><b>(R' U' R) U' R' U2 (F R F') (Rw U Rw')</b></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Forward Slash</td>
-                <td><canvas class="cube" data-faces="D..D..R.BD..L.B.....D"></canvas></td>
-                <td><canvas class="cube" data-faces="D.FD.LD.FR.BR.L...D.B"></canvas></td>
-                <td><b>(F R' F' R) U2 (R U2' R')</b></td>
-                <td>L Inverseの手順の<b>U</b>と<b>U'</b>を<b>U2</b>変えた手順。</td>
-              </tr>
-              <tr>
                 <td>Back Slash</td>
                 <td><canvas class="cube" data-faces="D..D..R.FD..R.B.....D"></canvas></td>
+                <td>F</td>
                 <td><canvas class="cube" data-faces="D.BD.LD.FR.FL.R...D.B"></canvas></td>
                 <td><b>(Rw U' Rw') (F R' F' R)</b></td>
                 <td></td>
               </tr>
               <tr>
+                <td>Forward Slash</td>
+                <td><canvas class="cube" data-faces="D..D..R.BD..L.B.....D"></canvas></td>
+                <td>B</td>
+                <td><canvas class="cube" data-faces="D.FD.LD.FR.BR.L...D.B"></canvas></td>
+                <td><b>(F R' F' R) U2 (R U2' R')</b></td>
+                <td>L Inverseの手順の<b>U</b>と<b>U'</b>を<b>U2</b>に変えた手順。</td>
+              </tr>
+              <tr>
+                <td>Columns</td>
+                <td><canvas class="cube" data-faces="D..D..B.FD..F.B.....D"></canvas></td>
+                <td>R</td>
+                <td><canvas class="cube" data-faces="B.FD.RD.LD.RD.L...B.F"></canvas></td>
+                <td><b>(R' U' R) U' R' U2 (F R F') (Rw U Rw')</b></td>
+                <td></td>
+              </tr>
+              <tr>
                 <td>X Checkerboard</td>
                 <td><canvas class="cube" data-faces="D..D..R.LD..R.L.....D"></canvas></td>
+                <td>L</td>
                 <td><canvas class="cube" data-faces="D.FR.LD.BD.FL.D...R.B"></canvas></td>
                 <td><b>(R' U2' R) U2 R (Fw' U' Fw)</b></td>
                 <td></td>
@@ -412,39 +449,36 @@
               <tr>
                 <th style="min-width: 11em">名前</th>
                 <th>判断</th>
+                <th>交換</th>
                 <th>画像</th>
                 <th style="min-width: 24em">手順</th>
                 <th style="min-width: 20em">メモ</th>
               </tr>
             </thead>
             <tfoot>
-              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
             </tfoot>
             <tbody>
               <tr>
-                <td>Left Bar</td>
-                <td><canvas class="cube" data-faces="..D..DF.L..DL.B...D.."></canvas></td>
-                <td><canvas class="cube" data-faces="B.DR.DF.LF.DL.B...D.R"></canvas></td>
-                <td><b>(R' U' R) U' (R' U R') (F R F') U R</b></td>
-                <td></td>
-              </tr>
-              <tr>
                 <td>Right Bar</td>
                 <td><canvas class="cube" data-faces="..D..DL.F..DB.L...D.."></canvas></td>
+                <td>無</td>
                 <td><canvas class="cube" data-faces="R.DR.DB.DL.FD.B...F.L"></canvas></td>
                 <td><b>(R' U' R) U' (R' U2' R)</b></td>
                 <td></td>
               </tr>
               <tr>
-                <td>Columns</td>
-                <td><canvas class="cube" data-faces="..D..DF.B..DB.F...D.."></canvas></td>
-                <td><canvas class="cube" data-faces="R.DL.DF.BL.DB.F...D.R"></canvas></td>
-                <td><b>(Rw U' Rw') (F R' F') U2' R U (R' U R)</b></td>
-                <td>S Back Slash＋前後反転のanti suneのキャンセル。</td>
+                <td>Left Bar</td>
+                <td><canvas class="cube" data-faces="..D..DF.L..DL.B...D.."></canvas></td>
+                <td>対角</td>
+                <td><canvas class="cube" data-faces="B.DR.DF.LF.DL.B...D.R"></canvas></td>
+                <td><b>(R' U' R) U' (R' U R') (F R F') U R</b></td>
+                <td></td>
               </tr>
               <tr>
                 <td>Forward Slash</td>
                 <td><canvas class="cube" data-faces="..D..DF.L..DB.L...D.."></canvas></td>
+                <td>F</td>
                 <td><canvas class="cube" data-faces="B.DF.LF.DR.DL.R...B.D"></canvas></td>
                 <td><b>(R' F R F') (Rw U Rw')</b></td>
                 <td>S Back Slashの逆手順。</td>
@@ -452,6 +486,7 @@
               <tr>
                 <td>Back Slash</td>
                 <td><canvas class="cube" data-faces="..D..DB.L..DB.R...D.."></canvas></td>
+                <td>B</td>
                 <td><canvas class="cube" data-faces="F.DR.DF.DB.LD.B...L.R"></canvas></td>
                 <td><b>(Fw' U Fw) (R' U2' R' U2 R)</b></td>
                 <td></td>
@@ -459,9 +494,18 @@
               <tr>
                 <td>X Checkerboard</td>
                 <td><canvas class="cube" data-faces="..D..DR.L..DR.L...D.."></canvas></td>
+                <td>R</td>
                 <td><canvas class="cube" data-faces="B.DR.LF.DF.DL.B...R.D"></canvas></td>
                 <td><b>(R U2' R') U2' (R' F R F')</b></td>
                 <td></td>
+              </tr>
+              <tr>
+                <td>Columns</td>
+                <td><canvas class="cube" data-faces="..D..DF.B..DB.F...D.."></canvas></td>
+                <td>L</td>
+                <td><canvas class="cube" data-faces="R.DL.DF.BL.DB.F...D.R"></canvas></td>
+                <td><b>(Rw U' Rw') (F R' F') U2' R U (R' U R)</b></td>
+                <td>S Back Slash＋前後反転のanti suneのキャンセル。</td>
               </tr>
             </tbody>
           </table>
@@ -480,18 +524,20 @@
               <tr>
                 <th style="min-width: 11em">名前</th>
                 <th>判断</th>
+                <th>対角</th>
                 <th>画像</th>
                 <th style="min-width: 24em">手順</th>
                 <th style="min-width: 20em">メモ</th>
               </tr>
             </thead>
             <tfoot>
-              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
             </tfoot>
             <tbody>
               <tr>
                 <td>Pure</td>
                 <td><canvas class="cube" data-faces="...D..B.D...D.F...L.D"></canvas></td>
+                <td>無</td>
                 <td><canvas class="cube" data-faces="B.DB.LF.RD.RD.L...F.D"></canvas></td>
                 <td><b>(R U2 R') U' (R U R' U')x2 (R U' R')</b></td>
                 <td></td>
@@ -499,13 +545,23 @@
               <tr>
                 <td>Diag</td>
                 <td><canvas class="cube" data-faces="...D..L.D...D.L...B.D"></canvas></td>
+                <td>対角</td>
                 <td><canvas class="cube" data-faces="L.DR.FR.FD.BD.B...L.D"></canvas></td>
                 <td><b>(R' U' R U') (F U' R' U' R U F')</b></td>
                 <td></td>
               </tr>
               <tr>
+                <td>Mirror</td>
+                <td><canvas class="cube" data-faces="...D..F.D...D.R...L.D"></canvas></td>
+                <td>F</td>
+                <td><canvas class="cube" data-faces="R.BD.LF.DB.FD.R...L.D"></canvas></td>
+                <td><b>F (R U' R') U' (R U R') F'</b></td>
+                <td></td>
+              </tr>
+              <tr>
                 <td>Front Commutator</td>
                 <td><canvas class="cube" data-faces="...D..L.D...D.F...F.D"></canvas></td>
+                <td>B</td>
                 <td><canvas class="cube" data-faces="L.RB.RD.BL.DF.D...D.F"></canvas></td>
                 <td><b>(F U' R' U' R U F') U2 (R' U2' R)</b></td>
                 <td></td>
@@ -513,6 +569,7 @@
               <tr>
                 <td>Inverse</td>
                 <td><canvas class="cube" data-faces="...D..F.D...D.F...B.D"></canvas></td>
+                <td>R</td>
                 <td><canvas class="cube" data-faces="L.RD.LF.DR.BD.F...B.D"></canvas></td>
                 <td><b>(F R' F') (R U R U' R')</b></td>
                 <td></td>
@@ -520,15 +577,9 @@
               <tr>
                 <td>Back Commutator</td>
                 <td><canvas class="cube" data-faces="...D..R.D...D.L...L.D"></canvas></td>
+                <td>L</td>
                 <td><canvas class="cube" data-faces="B.RB.FD.FR.DL.D...D.L"></canvas></td>
                 <td><b>(R' U' R) U' (R U R') U R U2' (Fw' U' Fw)</b></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Mirror</td>
-                <td><canvas class="cube" data-faces="...D..F.D...D.R...L.D"></canvas></td>
-                <td><canvas class="cube" data-faces="R.BD.LF.DB.FD.R...L.D"></canvas></td>
-                <td><b>F (R U' R') U' (R U R') F'</b></td>
                 <td></td>
               </tr>
             </tbody>
