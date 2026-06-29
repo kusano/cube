@@ -28,16 +28,18 @@
         </ul>
         <h2>目次</h2>
         <ul>
-          <li><a href="#o">O</a></li>
-          <li><a href="#h">H</a></li>
-          <li><a href="#pi">Pi</a></li>
-          <li><a href="#u">U</a></li>
-          <li><a href="#t">T</a></li>
-          <li><a href="#s">S</a></li>
-          <li><a href="#as">As</a></li>
-          <li><a href="#l">L</a></li>
+          <li><a href="#cmll">CMLL手順</a>
+            <ul style="margin-top: .25em">
+              <li><a href="#o">O</a>, <a href="#h">H</a>, <a href="#pi">Pi</a>, <a href="#u">U</a>, <a href="#t">T</a>, <a href="#s">S</a>, <a href="#as">As</a>, <a href="#l">L</a></li>
+            </ul>
+          </li>
+          <li><a href="#oll">OLL変換手順</a>
+            <ul style="margin-top: .25em">
+              <li><a href="#oll_o">O</a>, <a href="#oll_h">H</a>, <a href="#oll_pi">Pi</a>, <a href="#oll_u">U</a>, <a href="#oll_t">T</a>, <a href="#oll_s">S</a>, <a href="#oll_as">As</a>, <a href="#oll_l">L</a></li>
+            </ul>
+          </li>
         </ul>
-        <h2>手順</h2>
+        <h2 id="cmll">CMLL手順</h2>
         <p>
           キューブの画像について、「判断」は判断に使う向きで判断に使うステッカーを抜き出したもの。
           「画像」は回し始める向き。
@@ -251,7 +253,7 @@
                 <td>無</td>
                 <td><canvas class="cube" data-faces="D.DF.RB.BL.FL.R...D.D"></canvas></td>
                 <td><b>(R' U' R U' R' U2 R2) (U R' U R U2' R')</b></td>
-                <td>Back Sune（<b>R' U' R U' R' U2' R）</b>＋Sune（<b>R U R' U R U2' R'</b>）。T Rowsの逆手順。</td>
+                <td>Back Sune（<b>R' U' R U' R' U2 R）</b>＋Sune（<b>R U R' U R U2' R'</b>）。T Rowsの逆手順。</td>
               </tr>
               <tr>
                 <td>Back Row</td>
@@ -484,7 +486,7 @@
                 <td><canvas class="cube" data-faces="..D..DL.F..DB.L...D.."></canvas></td>
                 <td>無</td>
                 <td><canvas class="cube" data-faces="R.DR.DB.DL.FD.B...F.L"></canvas></td>
-                <td><b>(R' U' R) U' (R' U2' R)</b></td>
+                <td><b>(R' U' R) U' (R' U2 R)</b></td>
                 <td>Back Sune。Suneを前後反転させた手順。</td>
               </tr>
               <tr>
@@ -611,6 +613,460 @@
                   同色のステッカーがU面にあり、もう1個のステッカーが対面色。
                   一般的に、OLLは1個のF2Lペアを出して再度スロットインするが、この手順はFRとBRの2個のF2Lペアを出す。
                 </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h2 id="oll">OLL変換手順</h2>
+        <p>
+          いきなり全部のCMLL手順を覚えるのは大変。
+          しかし、実際に使っていかないとなかなか記憶が定着しない。
+          そこで、普通の2 look CMLLではまずはOケースにするところ、覚えようとしているOLLケースにするのはどうだろうか。
+        </p>
+        <p>
+          あるOLLケースから別のOLLケースにする手順を載せる。
+          画像の向きから手順を回すと、タイトルのOLLケースになる。
+          例えば、Hケースの手順を覚えようとしているなら、以下のHケースのところを開いておき、SBを終えたときに、手順を見てHケースに変換すれば良い。
+        </p>
+        <h3 id="oll_o">O</h3>
+        <p>
+          Oケースにする。普通の2 look CMLLで使う手順。
+        </p>
+        <p>
+          <canvas class="cube" data-faces="............D.D...D.D"></canvas>
+        </p>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="min-width: 3em">名前</th>
+                <th>画像</th>
+                <th style="min-width: 24em">手順</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td>H</td>
+                <td><canvas class="cube" data-faces="D.D...D.D............"></canvas></td>
+                <td><b>R U2 R' U' R U R' U' R U' R'</b></td>
+              </tr>
+              <tr>
+                <td>Pi</td>
+                <td><canvas class="cube" data-faces="..D...D..D.D........."></canvas></td>
+                <td><b>F R U R' U' R U R' U' F'</b></td>
+              </tr>
+              <tr>
+                <td>U</td>
+                <td><canvas class="cube" data-faces=".........D.D..D.....D"></canvas></td>
+                <td><b>F R U R' U' F'</b></td>
+              </tr>
+              <tr>
+                <td>T</td>
+                <td><canvas class="cube" data-faces="D.......D.....D.....D"></canvas></td>
+                <td><b>R U R' U' R' F R F'</b></td>
+              </tr>
+              <tr>
+                <td>S</td>
+                <td><canvas class="cube" data-faces="D..D..D...........D.."></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+              <tr>
+                <td>As</td>
+                <td><canvas class="cube" data-faces="..D..D..D...D........"></canvas></td>
+                <td><b>R' U' R U' R' U2 R</b></td>
+              </tr>
+              <tr>
+                <td>L</td>
+                <td><canvas class="cube" data-faces="...D....D...D.......D"></canvas></td>
+                <td><b>F R' F' R U R U' R'</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="oll_h">H</h3>
+        <p>
+          <canvas class="cube" data-faces="D.D...D.D............"></canvas>
+        </p>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="min-width: 3em">名前</th>
+                <th>画像</th>
+                <th style="min-width: 24em">手順</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td>O</td>
+                <td><canvas class="cube" data-faces="............D.D...D.D"></canvas></td>
+                <td><b>R U2 R' U' R U R' U' R U' R'</b></td>
+              </tr>
+              <tr>
+                <td>Pi</td>
+                <td><canvas class="cube" data-faces="D..D.D..D............"></canvas></td>
+                <td><b>F R U R' U' F'</b></td>
+              </tr>
+              <tr>
+                <td>U</td>
+                <td><canvas class="cube" data-faces="...D.D......D.....D.."></canvas></td>
+                <td><b>F R U R' U' R U R' U' F'</b></td>
+              </tr>
+              <tr>
+                <td>T</td>
+                <td><canvas class="cube" data-faces="D.......D.....D.....D"></canvas></td>
+                <td><b>F R U R' U' R U R' U' F'</b></td>
+              </tr>
+              <tr>
+                <td>S</td>
+                <td><canvas class="cube" data-faces="D..D.....D..........D"></canvas></td>
+                <td><b>R' U' R U' R' U2 R</b></td>
+              </tr>
+              <tr>
+                <td>As</td>
+                <td><canvas class="cube" data-faces=".....D..D..D..D......"></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+              <tr>
+                <td>L</td>
+                <td><canvas class="cube" data-faces="..D......D..D.......D"></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="oll_pi">Pi</h3>
+        <p>
+          <canvas class="cube" data-faces="..D...D..D.D........."></canvas>
+        </p>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="min-width: 3em">名前</th>
+                <th>画像</th>
+                <th style="min-width: 24em">手順</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td>O</td>
+                <td><canvas class="cube" data-faces="............D.D...D.D"></canvas></td>
+                <td><b>F R U R' U' R U R' U' F'</b></td>
+              </tr>
+              <tr>
+                <td>H</td>
+                <td><canvas class="cube" data-faces="D.D...D.D............"></canvas></td>
+                <td><b>F R U R' U' F'</b></td>
+              </tr>
+              <tr>
+                <td>U</td>
+                <td><canvas class="cube" data-faces="...D.D......D.....D.."></canvas></td>
+                <td><b>F R U R' U' F'</b></td>
+              </tr>
+              <tr>
+                <td>T</td>
+                <td><canvas class="cube" data-faces=".....D...D..D.D......"></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+              <tr>
+                <td>S</td>
+                <td><canvas class="cube" data-faces="D.....D..D....D......"></canvas></td>
+                <td><b>R' U' R U' R' U2 R</b></td>
+              </tr>
+              <tr>
+                <td>As</td>
+                <td><canvas class="cube" data-faces="..D.....D..D........D"></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+              <tr>
+                <td>L</td>
+                <td><canvas class="cube" data-faces="D....D........D...D.."></canvas></td>
+                <td><b>F R' F' R U R U' R'</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="oll_u">U</h3>
+        <p>
+          <canvas class="cube" data-faces="D.D...............D.D"></canvas>
+        </p>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="min-width: 3em">名前</th>
+                <th>画像</th>
+                <th style="min-width: 24em">手順</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td>O</td>
+                <td><canvas class="cube" data-faces="............D.D...D.D"></canvas></td>
+                <td><b>F R U R' U' F'</b></td>
+              </tr>
+              <tr>
+                <td>H</td>
+                <td><canvas class="cube" data-faces="D.D...D.D............"></canvas></td>
+                <td><b>F R U R' U' R U R' U' F'</b></td>
+              </tr>
+              <tr>
+                <td>Pi</td>
+                <td><canvas class="cube" data-faces="D..D.D..D............"></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+              <tr>
+                <td>T</td>
+                <td><canvas class="cube" data-faces="D.......D.....D.....D"></canvas></td>
+                <td><b>R U2 R' U' R U R' U' R U' R'</b></td>
+              </tr>
+              <tr>
+                <td>S</td>
+                <td><canvas class="cube" data-faces="...D..D..D..D........"></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+              <tr>
+                <td>As</td>
+                <td><canvas class="cube" data-faces="..D..D.....D......D.."></canvas></td>
+                <td><b>R' U' R U' R' U2 R</b></td>
+              </tr>
+              <tr>
+                <td>L</td>
+                <td><canvas class="cube" data-faces="......D....D..D...D.."></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="oll_t">T</h3>
+        <p>
+          <canvas class="cube" data-faces="...D.......D......D.D"></canvas>
+        </p>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="min-width: 3em">名前</th>
+                <th>画像</th>
+                <th style="min-width: 24em">手順</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td>O</td>
+                <td><canvas class="cube" data-faces="............D.D...D.D"></canvas></td>
+                <td><b>F R' F' R U R U' R'</b></td>
+              </tr>
+              <tr>
+                <td>H</td>
+                <td><canvas class="cube" data-faces="...D.D...D.D........."></canvas></td>
+                <td><b>F R U R' U' F'</b></td>
+              </tr>
+              <tr>
+                <td>Pi</td>
+                <td><canvas class="cube" data-faces="...D..D.D..D........."></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+              <tr>
+                <td>U</td>
+                <td><canvas class="cube" data-faces="D.D...............D.D"></canvas></td>
+                <td><b>R U2 R' U' R U R' U' R U' R'</b></td>
+              </tr>
+              <tr>
+                <td>S</td>
+                <td><canvas class="cube" data-faces="D..D.....D..........D"></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+              <tr>
+                <td>As</td>
+                <td><canvas class="cube" data-faces=".....D..D..D..D......"></canvas></td>
+                <td><b>R' U' R U' R' U2 R</b></td>
+              </tr>
+              <tr>
+                <td>L</td>
+                <td><canvas class="cube" data-faces="...D....D...D.......D"></canvas></td>
+                <td><b>R U R' U' R' F R F'</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="oll_s">S</h3>
+        <p>
+          <canvas class="cube" data-faces="D..D.....D..........D"></canvas>
+        </p>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="min-width: 3em">名前</th>
+                <th>画像</th>
+                <th style="min-width: 24em">手順</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td>O</td>
+                <td><canvas class="cube" data-faces="............D.D...D.D"></canvas></td>
+                <td><b>R' U' R U' R' U2 R</b></td>
+              </tr>
+              <tr>
+                <td>H</td>
+                <td><canvas class="cube" data-faces="...D.D...D.D........."></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+              <tr>
+                <td>Pi</td>
+                <td><canvas class="cube" data-faces="..D...D..D.D........."></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+              <tr>
+                <td>U</td>
+                <td><canvas class="cube" data-faces="D.D...............D.D"></canvas></td>
+                <td><b>R' U' R U' R' U2 R</b></td>
+              </tr>
+              <tr>
+                <td>T</td>
+                <td><canvas class="cube" data-faces="D.......D.....D.....D"></canvas></td>
+                <td><b>R' U' R U' R' U2 R</b></td>
+              </tr>
+              <tr>
+                <td>As</td>
+                <td><canvas class="cube" data-faces="..D..D.....D......D.."></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+              <tr>
+                <td>L</td>
+                <td><canvas class="cube" data-faces="D....D........D...D.."></canvas></td>
+                <td><b>R' U' R U' R' U2 R</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="oll_as">As</h3>
+        <p>
+          <canvas class="cube" data-faces="..D..D.....D......D.."></canvas>
+        </p>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="min-width: 3em">名前</th>
+                <th>画像</th>
+                <th style="min-width: 24em">手順</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td>O</td>
+                <td><canvas class="cube" data-faces="............D.D...D.D"></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+              <tr>
+                <td>H</td>
+                <td><canvas class="cube" data-faces="...D.D...D.D........."></canvas></td>
+                <td><b>R' U' R U' R' U2 R</b></td>
+              </tr>
+              <tr>
+                <td>Pi</td>
+                <td><canvas class="cube" data-faces="..D...D..D.D........."></canvas></td>
+                <td><b>R' U' R U' R' U2 R</b></td>
+              </tr>
+              <tr>
+                <td>U</td>
+                <td><canvas class="cube" data-faces="......D.D...D.D......"></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+              <tr>
+                <td>T</td>
+                <td><canvas class="cube" data-faces="D.......D.....D.....D"></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+              <tr>
+                <td>S</td>
+                <td><canvas class="cube" data-faces="...D..D..D..D........"></canvas></td>
+                <td><b>R' U' R U' R' U2 R</b></td>
+              </tr>
+              <tr>
+                <td>L</td>
+                <td><canvas class="cube" data-faces="...D....D...D.......D"></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="oll_l">L</h3>
+        <p>
+          <canvas class="cube" data-faces="...D....D...D.......D"></canvas>
+        </p>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="min-width: 3em">名前</th>
+                <th>画像</th>
+                <th style="min-width: 24em">手順</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td>O</td>
+                <td><canvas class="cube" data-faces="............D.D...D.D"></canvas></td>
+                <td><b>R U R' U' R' F R F'</b></td>
+              </tr>
+              <tr>
+                <td>H</td>
+                <td><canvas class="cube" data-faces="D.D...D.D............"></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+              <tr>
+                <td>Pi</td>
+                <td><canvas class="cube" data-faces="D..D.D..D............"></canvas></td>
+                <td><b>R U R' U' R' F R F'</b></td>
+              </tr>
+              <tr>
+                <td>U</td>
+                <td><canvas class="cube" data-faces="...D.D......D.....D.."></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+              <tr>
+                <td>T</td>
+                <td><canvas class="cube" data-faces="...D.......D......D.D"></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+              <tr>
+                <td>S</td>
+                <td><canvas class="cube" data-faces="D.....D..D....D......"></canvas></td>
+                <td><b>R U R' U R U2' R'</b></td>
+              </tr>
+              <tr>
+                <td>As</td>
+                <td><canvas class="cube" data-faces="..D.....D..D........D"></canvas></td>
+                <td><b>R' U' R U' R' U2 R</b></td>
               </tr>
             </tbody>
           </table>
