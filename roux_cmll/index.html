@@ -48,8 +48,12 @@
           「交換」は、ステッカーが「判断」の状態のとき、コーナーの位置がどのように入れ替わっているか（手順はどのピースを入れ替えるか）を表している。
           「無」は無交換。
           F, B, R, Lは、隣接交換で、それぞれの面にあるコーナーが入れ替わっている。
-          なお、Sune系の手順はコーナーの位置を変えない。
-          コーナー無交換のケースではSune系の手順の組み合わせが多い。
+        </p>
+        <p>
+          CMLLの手順はいくつかの手順の組み合わせが多い。
+          当然、コーナーの回転や交換は組み合わせた手順のものを合わせたものになる。
+          例えば、Anti Sune（<b>R U2 R' U' R U' R'</b>）はコーナーの位置を変えずに3個のコーナーを反時計回りに回転させ、Niklas（<b>R U' L' U R' U' L</b>）はコーナーを隣接交換しつつ3個のコーナーを時計回りに回転させる。
+          これを組み合わせると、コーナーの向きはそのままで隣接交換するO Adjacent Swapの手順（<b>(R U2' R' U' R U2') (L' U R' U' L)</b>）になる。
         </p>
         <p>
           トリガーについて、Anti ○○は○○の逆手順を、Back ○○は○○を前後反転させた手順のこと。
@@ -83,7 +87,7 @@
                 <td><canvas class="cube" data-faces="B.FR.LF.BL.RD.D...D.D"></canvas></td>
                 <td><b>(F R U' R' U' R U R' F') (R U R' U' R' F R F')</b></td>
                 <!-- <td><b>R U R' U R' F R F' R U2' R2 U' R U' R' U2 R</b></td> -->
-                <td>Y-perm。L Mirror（<b>F R U' R' U' R U R' F'</b>）＋T Left Bar（<b>R U R' U' R' F R F'</b>）。隣接交換が2回で、対角交換になる。</td>
+                <td>Y-perm。L Mirror（<b>F R U' R' U' R U R' F'</b>）＋T Left Bar（<b>R U R' U' R' F R F'</b>）。</td>
               </tr>
             </tbody>
           </table>
@@ -117,7 +121,11 @@
                 <td>無</td>
                 <td><canvas class="cube" data-faces="D.DF.BD.DB.FL.R...L.R"></canvas></td>
                 <td><b>(R U2 R' U' R) (U R' U' R U' R')</b></td>
-                <td>Anti Sune（<b>R U2 R' U' R U' R'</b>）2回。</td>
+                <td>
+                  Anti Sune（<b>R U2 R' U' R U' R'</b>）2回。
+                  3回だとL Pureになる。
+                  Hケースの手順は、回し始める向きで同色が縦に並んでいるならば<b>R</b>か<b>R'</b>から、横に並んでいるならば<b>F</b>から始まる。
+                </td>
               </tr>
               <tr>
                 <td>Rows</td>
@@ -125,7 +133,10 @@
                 <td>対角</td>
                 <td><canvas class="cube" data-faces="D.DL.LD.DR.RF.F...B.B"></canvas></td>
                 <td><b>F (R U R' U')x3 F'</b></td>
-                <td>U Back Row（<b>F R U R' U' F'</b>）3回。</td>
+                <td>
+                  U Back Row（<b>F R U R' U' F'</b>）3回。
+                  2回だとPi Right Barになる。
+                </td>
               </tr>
               <tr>
                 <td>Row</td>
@@ -176,7 +187,10 @@
                 <td><canvas class="cube" data-faces="R.DB.FD.RD.DB.L...F.L"></canvas></td>
                 <td><b>F (R U R' U')x2 F'</b></td>
                 <!-- <td><b>R U2 R2 U' R2 U' R2 U2' R</b></td> -->
-                <td>U Back Row（<b>F R U R' U' F'</b>）2回。</td>
+                <td>
+                  U Back Row（<b>F R U R' U' F'</b>）2回。
+                  3回だとH Rowsになる。
+                </td>
               </tr>
               <tr>
                 <td>Left Bar</td>
@@ -184,7 +198,10 @@
                 <td>対角</td>
                 <td><canvas class="cube" data-faces="D.RD.DL.DB.BR.F...L.F"></canvas></td>
                 <td><b>(R' U' R U' R' U) (F' U F R)</b></td>
-                <td>Back Sune（<b>R' U' R U' R' U2 R</b>）＋U Back Rowを<b>U'</b>した位置から揃える手順（<b>R' U' F' U F R</b>）。</td>
+                <td>
+                  Back Sune（<b>R' U' R U' R' U2 R</b>）＋U Back Rowを<b>U'</b>した位置から揃える手順（<b>R' U' F' U F R</b>）。
+                  Back Suneが2回だとT Columns。
+                </td>
               </tr>
               <tr>
                 <td>Forward Slash</td>
@@ -202,8 +219,10 @@
                 <td><b>(F R' F' R U2 R U') (R' U R U2' R')</b></td>
                 <!-- <td><b>R' U2' R U R' U' R U2' R Fw' R Fw</b></td>-->
                 <td>
+                  S Forward Slash（<b>F R' F' R U2 R U2' R'</b>）＋Sune（<b>R U R' U R U2 R'</b>）。
                   Forward Slashの逆手順。
-                  S Forward Slash（<b>F R' F' R U2 R U2' R'</b>）＋Sune（<b>R U R' U R U2 R'</b>）。</td>
+                  開始の向きで、同色のピースの位置はForward Slashと同じ。
+                </td>
               </tr>
               <tr>
                 <td>X Checkerboard</td>
@@ -211,7 +230,10 @@
                 <td>R</td>
                 <td><canvas class="cube" data-faces="F.FD.BD.DB.DR.L...L.R"></canvas></td>
                 <td><b>(F R U' R' U' R U R') (U R U' R' F')</b></td>
-                <td>L Mirror（<b>F R U' R' U' R U R' F'</b>）＋U Back Rowの逆手順（<b>F U R U' R' F'</b>）。</td>
+                <td>
+                  L Mirror（<b>F R U' R' U' R U R' F'</b>）＋U Back Rowの逆手順（<b>F U R U' R' F'</b>）。
+                  U X Checkerboard（<b>F R U' R' U R U R' U R U' R' F'</b>）と5手目だけ異なる。
+                </td>
               </tr>
               <tr>
                 <td>Columns</td>
@@ -219,7 +241,10 @@
                 <td>L</td>
                 <td><canvas class="cube" data-faces="D.FD.DB.DF.BR.L...R.L"></canvas></td>
                 <td><b>(R' F R F' Rw U') (Rw' U' R U' R')</b></td>
-                <td>このページでは別の手順を選択しているが、<b>R' F R F' Rw U Rw'</b>はAs Forward Slash。これとAnti Suneの<b>Rw U2 Rw' U' R U' R'</b>。</td>
+                <td>
+                  このページでは別の手順を選択しているが、<b>R' F R F' Rw U Rw'</b>はAs Forward Slash。
+                  これとAnti Suneの<b>Rw U2 Rw' U' R U' R'</b>。
+                </td>
               </tr>
             </tbody>
           </table>
@@ -253,7 +278,11 @@
                 <td>無</td>
                 <td><canvas class="cube" data-faces="D.DF.RB.BL.FL.R...D.D"></canvas></td>
                 <td><b>(R' U' R U' R' U2 R2) (U R' U R U2' R')</b></td>
-                <td>Back Sune（<b>R' U' R U' R' U2 R）</b>＋Sune（<b>R U R' U R U2' R'</b>）。T Rowsの逆手順。</td>
+                <td>
+                  Back Sune（<b>R' U' R U' R' U2 R）</b>＋Sune（<b>R U R' U R U2' R'</b>）。
+                  T Rowsの逆手順。
+                  1手目の<b>R'</b>で、BFUコーナーが正しい向きになる。
+                </td>
               </tr>
               <tr>
                 <td>Back Row</td>
@@ -270,8 +299,9 @@
                 <td><canvas class="cube" data-faces="D.DB.FR.LF.BR.L...D.D"></canvas></td>
                 <td><b>(F R U' R' U R U R') (U R U' R' F')</b></td>
                 <td>
-                  T Right Bar（<b>F R U' R' U R U R' F'</b>）＋Back Rowの逆手順（<b>F U R U' R' F'</b>）。
+                  T Right Bar（<b>F R U' R' U R U R' F'</b>）＋U Back Rowの逆手順（<b>F U R U' R' F'</b>）。
                   T Back Rowの逆手順。
+                  Pi X Checkerboard（<b>F R U' R' U' R U R' U R U' R' F'</b>）と5手目だけ異なる。
                 </td>
               </tr>
               <tr>
@@ -338,7 +368,10 @@
                 <td>対角</td>
                 <td><canvas class="cube" data-faces="F.FD.BL.RB.DR.L...D.D"></canvas></td>
                 <td><b>(R' U' R U' R' U) (R U' R' U) (F' U F R)</b></td>
-                <td>Back Sune（<b>R' U' R U' R' U2 R</b>）2回＋U Back Rowを<b>U'</b>した位置から揃える手順（<b>R' U' F' U F R</b>）。</td>
+                <td>
+                  Back Sune（<b>R' U' R U' R' U2 R</b>）2回＋U Back Rowを<b>U'</b>した位置から揃える手順（<b>R' U' F' U F R</b>）。
+                  Back Sune 1回はPi Left Bar。
+                </td>
               </tr>
               <tr>
                 <td>Back Row</td>
@@ -357,7 +390,9 @@
                 <td>B</td>
                 <td><canvas class="cube" data-faces="B.BD.LF.FR.DL.R...D.D"></canvas></td>
                 <td><b>(Rw' U Rw) U2' (R2 F R F' R)</b></td>
-                <td></td>
+                <td>
+                  最後の<b>R2 F R F' R</b>が特徴的な動き。
+                </td>
               </tr>
               <tr>
                 <td>Right Bar</td>
@@ -390,6 +425,10 @@
         </p>
         <p>
           <canvas class="cube" data-faces="D..D..R.RD..R.R.....D"></canvas>
+        </p>
+        <p>
+          SとAsは線対称であり、コーナーの回転方向が逆。
+          手順は、前後を反転させたものや、逆手順になっているものが多い。
         </p>
         <div class="table-container">
           <table class="table">
@@ -437,7 +476,10 @@
                 <td>B</td>
                 <td><canvas class="cube" data-faces="D.FD.LD.FR.BR.L...D.B"></canvas></td>
                 <td><b>(F R' F' R) (U2 R U2' R')</b></td>
-                <td>L Inverse（<b>F R' F' R U R U' R'</b>）の<b>U</b>と<b>U'</b>を<b>U2</b>に変えた手順。</td>
+                <td>
+                  L Inverse（<b>F R' F' R U R U' R'</b>）の<b>U</b>と<b>U'</b>を<b>U2</b>に変えた手順。
+                  As X Checkerboard（<b>R U2' R' U2' R' F R F'</b>）の逆手順。
+                </td>
               </tr>
               <tr>
                 <td>Columns</td>
@@ -445,7 +487,11 @@
                 <td>R</td>
                 <td><canvas class="cube" data-faces="B.FD.RD.LD.RD.L...B.F"></canvas></td>
                 <td><b>(R' U' R U' R' U2) (F R F' Rw U Rw')</b></td>
-                <td>Back Sune（<b>R' U' R U' R' U2 R</b>）＋<b>R' F R F' Rw U Rw'</b>。<b>R' F R F' Rw U Rw'</b>はAs Forward Slashを揃える手順。</td>
+                <td>
+                  Back Sune（<b>R' U' R U' R' U2 R</b>）＋<b>R' F R F' Rw U Rw'</b>。
+                  <b>R' F R F' Rw U Rw'</b>はAs Forward Slashを揃える手順。
+                  As X Columns（<b>Rw U' Rw' F R' F' U2' R U R' U R</b>）の逆手順。</b>
+                </td>
               </tr>
               <tr>
                 <td>X Checkerboard</td>
@@ -453,7 +499,8 @@
                 <td>L</td>
                 <td><canvas class="cube" data-faces="D.FR.LD.BD.FL.D...R.B"></canvas></td>
                 <td><b>(R' U2' R U2) (R Fw' U' Fw)</b></td>
-                <td>As X Checkerboard（<b>R U2' R' U2' R' F R F'</b>）の前後を反転した手順。<b>R' F R F'</b>を前後反転すると、<b>R B' R' B</b>となり、これはキューブの向きを無視すると<b>R Fw' U' Fw</b>。</td>
+                <td>
+                  As X Checkerboard（<b>R U2' R' U2' R' F R F'</b>）の前後を反転した手順。<b>R' F R F'</b>を前後反転すると、<b>R B' R' B</b>となり、これはキューブの向きを無視すると<b>R Fw' U' Fw</b>。</td>
               </tr>
             </tbody>
           </table>
@@ -487,7 +534,7 @@
                 <td>無</td>
                 <td><canvas class="cube" data-faces="R.DR.DB.DL.FD.B...F.L"></canvas></td>
                 <td><b>(R' U' R) U' (R' U2 R)</b></td>
-                <td>Back Sune。Suneを前後反転させた手順。</td>
+                <td>Back Sune。</td>
               </tr>
               <tr>
                 <td>Left Bar</td>
@@ -527,7 +574,11 @@
                 <td>L</td>
                 <td><canvas class="cube" data-faces="R.DL.DF.BL.DB.F...D.R"></canvas></td>
                 <td><b>(Rw U' Rw' F R' F') (U2' R U R' U R)</b></td>
-                <td><b>Rw U' Rw' F R' F' R</b>＋Back Anti Sune（<b>R' U2' R U R' U R</b>）。<b>Rw U' Rw' F R' F' R</b>はS Back Slashを揃える手順。</td>
+                <td>
+                  <b>Rw U' Rw' F R' F' R</b>＋Back Anti Sune（<b>R' U2' R U R' U R</b>）。
+                  <b>Rw U' Rw' F R' F' R</b>はS Back Slashを揃える手順。
+                  S Columns（<b>R' U' R U' R' U2 F R F' Rw U Rw'</b>）の逆手順。
+                </td>
               </tr>
             </tbody>
           </table>
@@ -562,7 +613,11 @@
                 <td>無</td>
                 <td><canvas class="cube" data-faces="B.DB.LF.RD.RD.L...F.D"></canvas></td>
                 <td><b>(R U2 R' U') (R U R' U')x2 (R U' R')</b></td>
-                <td>3個のステッカーの色が全て異なり、対面色が縦に並んでいる。Anti Sune（<b>R U2 R' U' R U' R'</b>）3回。</td>
+                <td>
+                  3個のステッカーの色が全て異なり、対面色が縦に並んでいる。
+                  Anti Sune（<b>R U2 R' U' R U' R'</b>）3回。
+                  2回だとH Columnsになる。
+                </td>
               </tr>
               <tr>
                 <td>Diag</td>
@@ -627,6 +682,12 @@
           あるOLLケースから別のOLLケースにする手順を載せる。
           画像の向きから手順を回すと、タイトルのOLLケースになる。
           例えば、Hケースの手順を覚えようとしているなら、以下のHケースのところを開いておき、SBを終えたときに、手順を見てHケースに変換すれば良い。
+        </p>
+        <p>
+          ……とまとめてみたが、結局Trainerを使って練習した。
+        </p>
+        <p>
+          <a href="https://mihlefeld.github.io/Alg-Trainers/3x3-CMLL-Trainer/">3×3 CMLL Trainer</a>
         </p>
         <h3 id="oll_o">O</h3>
         <p>
