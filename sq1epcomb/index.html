@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="Square-1 EP Combinations Solver">
+    <title>Square-1 EP Combinations Solver</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+    <style>
+      * {
+        text-autospace: normal;
+      }
+    </style>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>Square-1 EP Combinations Solver</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; Square-1 EP Combinations Solver
+        </p>
+        <hr>
+        <p>
+          Square-1のEP（Edge Permutation）において、選択したEP手順の組み合わせによって、各EPを最少スライス数で解く方法を求めます。
+        </p>
+        <details>
+          <summary>詳細</summary>
+          <p>
+            詳細。
+          </p>
+        </details>
+        <details>
+          <summary>1 lookスライス数</summary>
+          <p>
+            1 lookスライス数。
+          </p>
+        </details>
+        <div>
+          <canvas id="test" style="border: solid 1px" data-ud="LFRBRFLB"></canvas>
+        </div>
+        <h3>使用する手順</h3>
+        <div class="table-container">
+          <table id="avail-ep" class="table is-bordered">
+            <thead>
+              <tr>
+                <th style="min-width: 6em">U＼D</th>
+                <th style="min-width: 6em">Skip</th>
+                <th style="min-width: 6em">cw U</th>
+                <th style="min-width: 6em">ccw U</th>
+                <th style="min-width: 6em">Z</th>
+                <th style="min-width: 6em">H</th>
+                <th style="min-width: 6em">Opp</th>
+                <th style="min-width: 6em">Adj</th>
+                <th style="min-width: 6em">cw O</th>
+                <th style="min-width: 6em">ccw O</th>
+                <th style="min-width: 6em">W</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+        <h3>EP</h3>
+        <div class="table-container">
+          <table id="ep" class="table">
+            <thead>
+              <tr>
+                <th style="min-width: 6em">U</th>
+                <th style="min-width: 6em">D</th>
+                <th style="min-width: 6em">Image</th>
+                <th style="min-width: 6em">Combination</th>
+                <th style="min-width: 6em">Looks</th>
+                <th style="min-width: 6em">Slices</th>
+                <th style="min-width: 6em">1 Look</th>
+                <th style="min-width: 6em">Diff.</th>
+                <th style="min-width: 6em">Prob. (/576)</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+        <hr>
+        <address class="mb-6 has-text-right">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>
