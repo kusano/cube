@@ -10,6 +10,12 @@
       * {
         text-autospace: normal;
       }
+      .parity-bg {
+        background: #fee !important;
+      }
+      .parity-text {
+        color: #c44;
+      }
     </style>
     <script src="script.js" defer></script>
   </head>
@@ -26,55 +32,171 @@
         </p>
         <details>
           <summary>詳細</summary>
-          <p>
-            詳細。
-          </p>
+          <ul>
+            <li>「使用する手順」にチェックを入れると、そのEPを用いて各EPを解く方法を求めます。</li>
+            <li>チェックボックス横の数値は、そのEPを1 lookで解くときのスライス数です。
+              <ul>
+                <li>スライス数は<a href="https://docs.google.com/spreadsheets/d/1zEU8_CiUbJBQwbee264OMG7_HslsWTCXM-fid8eUTkc/edit?usp=sharing">Brandon Linのスプレッドシート</a>を元にしています。</li>
+                <li>ただし、<b>Opp/Opp</b>は3スライス（<code>1,0/5,-1/-5,1/</code>）としています。</li>
+                <li>「Edit slice numbers」でスライス数を編集できます。</li>
+              </ul>
+            </li>
+            <li>解く組み合わせは複数あり、次の優先順位で選択しています。
+              <ol>
+                <li>スライス数の合計が少ない。</li>
+                <li>使用する手順の個数が少ない。</li>
+                <li>パリティ手順の位置。
+                  <ul>
+                    <li>「Parity EP Position」が「First preferred」なら先頭にあるもの、「Last preferred」なら末尾にあるもの。</li>
+                  </ul>
+                </li>
+              </ol>
+            </li>
+            <li>使用する手順によって変わるので、EP手順間のAUDF（Adjust U/D Face）は示していません。</li>
+            <li>EPの一覧の項目の意味は次の通りです。
+              <ul>
+                <li>Looks: 使用する手順の個数。</li>
+                <li>Slices: スライス数の合計。</li>
+                <li>1 Look: 1 lookの手順のスライス数。</li>
+                <li>Diff.: (Slices) - (1 Look)。</li>
+                <li>Prob.: 出現確率を576倍した値。
+                  <ul>
+                    <li>各EPは、対称性によって出現確率が異なります。</li>
+                    <li>CP手順のU/D面の向きを調整することで揃ったエッジの個数を増やすペア保存は考慮していません。</li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li>合計スライス数などについて、出現確率によって重み付けした期待値と、最大の値も求めています。</li>
+            <li>赤の背景や赤文字はパリティを表しています。</li>
+            <li>「JSON」は設定内容を反映しています。
+              <ul>
+                <li>スライス数や使用する手順の内容はブラウザのlocal storageに記録しており、消えることがあるので、スライス数などを編集した場合はJSONを保存しておくと良いでしょう。</li>
+              </ul>
+            </li>
+          </ul>
         </details>
-        <details>
-          <summary>1 lookスライス数</summary>
-          <p>
-            1 lookスライス数。
-          </p>
-        </details>
-        <div>
-          <canvas id="test" style="border: solid 1px" data-ud="LFRBRFLB"></canvas>
+        <h3>EPの名前</h3>
+        <p>
+          各EPは、画像のエッジの状態から完成状態にする動き。
+        </p>
+        <div class="table-container">
+          <table class="table is-bordered">
+            <thead>
+              <tr id="legend-name">
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="legend-image">
+                <th>U</th>
+              </tr>
+              <tr>
+                <th>D</th>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <h3>使用する手順</h3>
         <div class="table-container">
           <table id="avail-ep" class="table is-bordered">
             <thead>
               <tr>
-                <th style="min-width: 6em">U＼D</th>
-                <th style="min-width: 6em">Skip</th>
-                <th style="min-width: 6em">cw U</th>
-                <th style="min-width: 6em">ccw U</th>
-                <th style="min-width: 6em">Z</th>
-                <th style="min-width: 6em">H</th>
-                <th style="min-width: 6em">Opp</th>
-                <th style="min-width: 6em">Adj</th>
-                <th style="min-width: 6em">cw O</th>
-                <th style="min-width: 6em">ccw O</th>
-                <th style="min-width: 6em">W</th>
+                <th style="min-width: 5em">U＼D</th>
               </tr>
             </thead>
             <tbody>
             </tbody>
           </table>
         </div>
+        <div id="edit-slice-numbers-error" class="has-text-danger"></div>
+        <div class="field">
+          <div class="control">
+            <button id="edit-slice-numbers" class="button is-small">Edit slice numbers</button>
+            <button id="edit-slice-numbers-ok" class="button is-small is-primary" style="display: none">OK</button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Parity EP Position</label>
+          <div class="control">
+            <div class="select">
+              <select id="parity-ep-position">
+                <option value="first">First preferred</option>
+                <option value="last">Last preferred</option>
+                <option value="dont_care">Don't care</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <details>
+            <summary>JSON</summary>
+            <div class="control">
+              <textarea id="json" class="textarea" style="font-family: monospace;"></textarea>
+            </div>
+            <div id="json-error" class="has-text-danger"></div>
+          </details>
+        </div>
+        <div class="field">
+          <div class="control">
+            <button id="reset" class="button is-primary">Reset</button>
+          </div>
+        </div>
+        <div id="test"></div>
         <h3>EP</h3>
+        <div class="table-container">
+          <table id="avail-ep" class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Average</th>
+                <th>Max</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <th>Looks</th>
+                <td id="stats-looks-average" style="text-align: right;"></td>
+                <td id="stats-looks-max" style="text-align: right;"></td>
+                <td id="stats-looks-max-eps"></td>
+              </tr>
+              <tr>
+                <th>Slices</th>
+                <td id="stats-slices-average" style="text-align: right;"></td>
+                <td id="stats-slices-max" style="text-align: right;"></td>
+                <td id="stats-slices-max-eps"></td>
+              </tr>
+              <tr>
+                <th>Difference</th>
+                <td id="stats-diff-average" style="text-align: right;"></td>
+                <td id="stats-diff-max" style="text-align: right;"></td>
+                <td id="stats-diff-max-eps"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div class="table-container">
           <table id="ep" class="table">
             <thead>
               <tr>
-                <th style="min-width: 6em">U</th>
-                <th style="min-width: 6em">D</th>
-                <th style="min-width: 6em">Image</th>
-                <th style="min-width: 6em">Combination</th>
+                <th style="min-width: 5em">U</th>
+                <th style="min-width: 5em">D</th>
+                <th>Image</th>
+                <th style="min-width: 20em">Combination</th>
                 <th style="min-width: 6em">Looks</th>
                 <th style="min-width: 6em">Slices</th>
                 <th style="min-width: 6em">1 Look</th>
                 <th style="min-width: 6em">Diff.</th>
-                <th style="min-width: 6em">Prob. (/576)</th>
+                <th style="min-width: 8em">Prob. (/576)</th>
               </tr>
             </thead>
             <tbody>
