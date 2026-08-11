@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="Square-1 EP Transition">
+    <title>Square-1 EP Transition</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+    <style>
+      * {
+        text-autospace: normal;
+      }
+      .parity-bg {
+        background: #fee !important;
+      }
+      .parity-text {
+        color: #c44;
+      }
+    </style>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>Square-1 EP Transition</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; Square-1 EP Transition
+        </p>
+        <hr>
+        <p>
+          EPの手順でエッジがどの状態に遷移するかの表。
+          図のAのエッジを揃えるEPの手順を、Bの状態のエッジに適用すると、Cの状態（向きは同じとは限らない）になる。
+        </p>
+        <div class="block">
+          <details>
+            <summary>図</summary>
+            <div>
+              <img src="figure.png" width="300" height="300">
+            </div>
+          </details>
+        </div>
+        <div class="field is-grouped">
+          <div class="control">
+            <div class="select">
+              <select id="applying-ep">
+              </select>
+            </div>
+          </div>
+          <div class="control">
+            <div class="select">
+              <select id="applying-rotation">
+                <option value="0">-</option>
+                <option value="1">U</option>
+                <option value="2">U2</option>
+                <option value="3">U'</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <p>
+          <canvas id="applying-visual"></canvas>
+        </p>
+        <div class="columns is-multiline">
+          <div class="column is-12 is-6-widescreen">
+            <h4>Non-parity</h4>
+            <div class="table-container">
+              <table id="non-parity-table" class="table">
+                <thead>
+                  <tr></tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td></td><td></td><td></td><td></td><td></td><td></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+          <div class="column is-12 is-6-widescreen">
+            <h4>Parity</h4>
+            <div class="table-container">
+              <table id="parity-table" class="table">
+                <thead>
+                  <tr></tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td></td><td></td><td></td><td></td><td></td><td></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <address class="mb-6 has-text-right">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>
