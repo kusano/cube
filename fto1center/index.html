@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="FTO First Center Solver">
+    <title>FTO First Center Solver</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+    <style>
+      * {
+        text-autospace: normal;
+      }
+    </style>
+    <script type="module" defer src="script.js"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>FTO First Center Solver</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; FTO First Center Solver
+        </p>
+        <hr>
+        <p>
+          FTO（Face Turning Octahedron）の最初のセンター（エッジ＋トライアングル）を最短手数で解きます。
+          センターは、L面に、最後の1手が<b>U</b>か<b>U'</b>になるような向きで作ります。
+          <b>T</b>は、URFLコーナーを中心に90度回す持ち替えです。
+        </p>
+        <details>
+          <summary>おまけ: 手数の分布</summary>
+          <p class="mt-4">
+            センターを作る手数の分布は次表になり、平均手数は5.18手である。
+            持ち替えて一致するようなトライアングルとエッジの配置は区別し、任意の面にセンターを作るまでの手数を求めている。
+          </p>
+          <p>
+            求めるのに使用したプログラム: <a href="distribution.js">distribution.js</a>
+          </p>
+          <table class="table">
+            <thead>
+              <tr><th>手数</th><th>状態数</th><th>確率</th><th>累積状態数</th><th>累積確率</th></tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr><td style="text-align: right">0</td><td style="text-align: right">12</td><td style="text-align: right">0.00 %</td><td style="text-align: right">12</td><td style="text-align: right">0.00 %</tr>
+              <tr><td style="text-align: right">1</td><td style="text-align: right">72</td><td style="text-align: right">0.02 %</td><td style="text-align: right">84</td><td style="text-align: right">0.03 %</tr>
+              <tr><td style="text-align: right">2</td><td style="text-align: right">648</td><td style="text-align: right">0.22 %</td><td style="text-align: right">732</td><td style="text-align: right">0.25 %</tr>
+              <tr><td style="text-align: right">3</td><td style="text-align: right">5,868</td><td style="text-align: right">2.02 %</td><td style="text-align: right">6,600</td><td style="text-align: right">2.27 %</tr>
+              <tr><td style="text-align: right">4</td><td style="text-align: right">39,780</td><td style="text-align: right">13.70 %</td><td style="text-align: right">46,380</td><td style="text-align: right">15.97 %</tr>
+              <tr><td style="text-align: right">5</td><td style="text-align: right">139,368</td><td style="text-align: right">47.99 %</td><td style="text-align: right">185,748</td><td style="text-align: right">63.96 %</tr>
+              <tr><td style="text-align: right">6</td><td style="text-align: right">102,900</td><td style="text-align: right">35.43 %</td><td style="text-align: right">288,648</td><td style="text-align: right">99.40 %</tr>
+              <tr><td style="text-align: right">7</td><td style="text-align: right">1,752</td><td style="text-align: right">0.60 %</td><td style="text-align: right">290,400</td><td style="text-align: right">100.00 %</tr>
+            </tbody>
+          </table>
+        </details>
+        <h2>Scramble</h2>
+        <div class="columns">
+          <div class="column">
+            <div class="field">スクランブルを貼り付けてください。Nextボタンでランダムに生成することもできます。</div>
+            <div class="field">
+              <div class="control">
+                <input id="scramble" class="input has-text-weight-bold" type="text">
+              </div>
+              <p id="error" class="help is-danger" style="display: none">ERROR</p>
+            </div>
+            <div class="field is-grouped">
+              <div class="control">
+                <button id="previous" class="button is-primary" disabled>Previous</button>
+              </div>
+              <div class="control">
+                <button id="next" class="button is-primary">Next</button>
+              </div>
+            </div>
+          </div>
+          <div class="column is-narrow">
+            <canvas id="visual"></canvas>
+          </div>
+        </div>
+        <h2>Solutions</h2>
+        <div class="columns is-multiline">
+          <div class="column is-6 is-3-fullhd">
+            <div id="box_U" class="box">
+              <div class="has-text-weight-bold mb-2" style="color: #a0a0a0">
+                White
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_U"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div>
+                    <div id="rotation_U" class="has-text-grey-light has-text-weight-bold"></div>
+                    <div id="solution_U" class="has-text-weight-bold"></div>
+                    <div id="steps_U"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-6 is-3-fullhd">
+            <div id="box_R" class="box">
+              <div class="has-text-weight-bold mb-2" style="color: #f80808">
+                Red
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_R"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div>
+                    <div id="rotation_R" class="has-text-grey-light has-text-weight-bold"></div>
+                    <div id="solution_R" class="has-text-weight-bold"></div>
+                    <div id="steps_R"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-6 is-3-fullhd">
+            <div id="box_F" class="box">
+              <div class="has-text-weight-bold mb-2" style="color: #08a008">
+                Green
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_F"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div>
+                    <div id="rotation_F" class="has-text-grey-light has-text-weight-bold"></div>
+                    <div id="solution_F" class="has-text-weight-bold"></div>
+                    <div id="steps_F"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-6 is-3-fullhd">
+            <div id="box_L" class="box">
+              <div class="has-text-weight-bold mb-2" style="color: #800880">
+                Purple
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_L"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div>
+                    <div id="rotation_L" class="has-text-grey-light has-text-weight-bold"></div>
+                    <div id="solution_L" class="has-text-weight-bold"></div>
+                    <div id="steps_L"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-6 is-3-fullhd">
+            <div id="box_D" class="box">
+              <div class="has-text-weight-bold mb-2" style="color: #a0a008">
+                Yellow
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_D"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div>
+                    <div id="rotation_D" class="has-text-grey-light has-text-weight-bold"></div>
+                    <div id="solution_D" class="has-text-weight-bold"></div>
+                    <div id="steps_D"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-6 is-3-fullhd">
+            <div id="box_r" class="box">
+              <div class="has-text-weight-bold mb-2" style="color: #404040">
+                Gray
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_r"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div>
+                    <div id="rotation_r" class="has-text-grey-light has-text-weight-bold"></div>
+                    <div id="solution_r" class="has-text-weight-bold"></div>
+                    <div id="steps_r"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-6 is-3-fullhd">
+            <div id="box_B" class="box">
+              <div class="has-text-weight-bold mb-2" style="color: #0808f8">
+                Blue
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_B"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div>
+                    <div id="rotation_B" class="has-text-grey-light has-text-weight-bold"></div>
+                    <div id="solution_B" class="has-text-weight-bold"></div>
+                    <div id="steps_B"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-6 is-3-fullhd">
+            <div id="box_l" class="box">
+              <div class="has-text-weight-bold mb-2" style="color: #f88008">
+                Orange
+              </div>
+              <div style="display: flex">
+                <div>
+                  <canvas id="visual_l"></canvas>
+                </div>
+                <div class="ml-4">
+                  <div>
+                    <div id="rotation_l" class="has-text-grey-light has-text-weight-bold"></div>
+                    <div id="solution_l" class="has-text-weight-bold"></div>
+                    <div id="steps_l"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <address class="mb-6 has-text-right">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>
