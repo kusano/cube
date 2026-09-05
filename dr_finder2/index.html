@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="FMC DR Finder 2">
+    <title>FMC DR Finder 2</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+    <style>
+      * {
+        text-autospace: normal;
+      }
+      .finish {
+        border-bottom: solid 1px rgb(74, 74, 74);
+      }
+      .key {
+        width: 3em;
+        font-weight: bold;
+      }
+    </style>
+    <script defer src="script.js?v=20260905"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>FMC DR Finder 2</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; FMC DR Finder 2
+        </p>
+        <p>
+          This tool finds DRs using a simple brute-force approach (without using EO or RZP).
+          In 2026, top FMC players began using methods that do not rely on EO, such as DR-fe.
+          I wonder if humans can find these DR, or better solutions.
+        </p>
+        <hr>
+        <p>
+          <details>
+            <summary>Settings</summary>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">DR number</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select id="dr_max_number">
+                        <option value="1">1</option>
+                        <option value="10">10</option>
+                        <option value="100">100</option>
+                        <option value="1000">1,000</option>
+                        <option value="10000">10,000</option>
+                        <option value="100000">100,000</option>
+                        <option value="1000000">1,000,000</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label"></label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <button id="reset" class="button is-primary">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+        </p>
+        <div class="mb-2" style="display: flex; justify-content: space-between">
+          <div class="cell">Scramble:</div>
+          <div class="cell has-text-right"><button id="example" class="button is-small is-primary">Example</button></div>
+        </div>
+        <p>
+          <textarea id="input" class="textarea" placeholder="R' U' F R' D F2 D F2 L2 U R2 U' F2 R2 U' R2 F' D2 L2 U L2 R U2 B2 R' U' F" rows="3"></textarea>
+        </p>
+        <p>
+          <details>
+            <summary>Keyboard</summary>
+            <div class="mt-4" style="box-sizing: border-box">
+              <div class="mb-2">
+                <button class="key button is-small is-primary">F</button>
+                <button class="key button is-small is-primary">B</button>
+                <button class="key button is-small is-primary">R</button>
+                <button class="key button is-small is-primary">L</button>
+                <button class="key button is-small is-primary">U</button>
+                <button class="key button is-small is-primary">D</button>
+              </div>
+              <div class="mb-2">
+                <button class="key button is-small is-primary">F2</button>
+                <button class="key button is-small is-primary">B2</button>
+                <button class="key button is-small is-primary">R2</button>
+                <button class="key button is-small is-primary">L2</button>
+                <button class="key button is-small is-primary">U2</button>
+                <button class="key button is-small is-primary">D2</button>
+              </div>
+              <div class="mb-2">
+                <button class="key button is-small is-primary">F'</button>
+                <button class="key button is-small is-primary">B'</button>
+                <button class="key button is-small is-primary">R'</button>
+                <button class="key button is-small is-primary">L'</button>
+                <button class="key button is-small is-primary">U'</button>
+                <button class="key button is-small is-primary">D'</button>
+              </div>
+              <div class="mb-2">
+                <button class="key button is-small is-primary">(</button>
+                <button class="key button is-small is-primary">)</button>
+                <button class="key button is-small is-primary">//</button>
+                <button class="key button is-small is-primary">←</button>
+              </div>
+            </div>
+          </details>
+        </p>
+        <p>
+          <button id="start" class="button is-primary">Start</button>
+          <button id="stop" class="button is-danger" style="display: none">Stop</button>
+        </p>
+        <p id="parse" style="display: none">
+          Parsed scramble: <span id="scramble" class="has-text-weight-bold"></span><br>
+        </p>
+        <p id="visualize" style="display: none">
+          <canvas id="canvas" width="350" height="150"></canvas>
+        </p>
+        <p id="progress" style="display: none">
+          <progress class="progress is-primary is-small" max="100"></progress>
+        </p>
+        <p>
+          <div id="dr_depth" style="display: none">
+            DR depth: <span id="dr_depth_num"></span>
+          </div>
+          <div id="searched_nodes" style="display: none">
+            Searched nodes: (Phase 1: <span id="searched_nodes_phase1"></span>, Phase 2: <span id="searched_nodes_phase2"></span>)
+          </div>
+          <div id="dr_number" style="display: none">
+            DR number: <span id="dr_number_num"></span> (<span id="dr_number_subsets"></span>)
+          </div>
+        </p>
+        <p id="solution" style="display: none">
+          Best solution: <span id="solution_moves" class="has-text-weight-bold"></span> (<span id="solution_moves_num" class="has-text-weight-bold"></span>) (<span id="solution_nth"></span> DR)
+        </p>
+        <pre id="solution_pre" style="display: none"></pre>
+        <p id="drs_title" style="display: none">DRs:</p>
+        <ul id="drs" style="display: none">
+        </ul>
+        <hr>
+        <address class="mb-6 has-text-right">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+  </body>
+</html>
