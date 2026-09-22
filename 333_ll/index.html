@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta property="og:title" content="3x3x3 OLLとPLL">
+    <title>3x3x3 OLLとPLL</title>
+    <link rel="stylesheet" href="../bulma1.min.css">
+    <style>
+      * {
+        text-autospace: normal;
+      }
+      td.id {
+        font-weight: bold;
+      }
+      td.alg {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container content">
+        <h1>3x3x3 OLLとPLL</h1>
+        <p>
+          <a href="../">ルービックキューブ関連</a> &gt; 3x3x3 OLLとPLL
+        </p>
+        <p>
+          私の使っている手順。
+          <a href="https://store.tribox.com/products/detail.php?product_id=3973" target="_blank">tribox CFOP 手順表 B-1.0</a>がベース。
+          指使いは<a href="https://yubi-gui.vercel.app/" target="_blank">YUBI GUI</a>の自動探索。
+          いずれは吟味したい。
+        </p>
+        <hr>
+        <h2>目次</h2>
+        <ul>
+          <li><a href="#oll">OLL</a></li>
+          <li><a href="#pll">PLL</a></li>
+        </ul>
+        <h2 id="oll">OLL</h2>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width: 5em">ID</th>
+                <th style="width: 90px">画像</th>
+                <th style="width: 26em">手順</th>
+                <th style="width: 6em">指使い</th>
+                <th style="width: 24em">備考</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td id="oll1" class="id">1</td>
+                <td><canvas class="top_side" data-faces=".D.DDD.D.DDD....D...."></canvas></td>
+                <td class="alg">(R U2' R') (R' F R F') U2' (R' F R F')</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=E2SACYW8zwz1S8lQeHaqXkJAUiBVMicgUjInIEYgUiBGJyBVMicgUicgRiBSIEYn" target="_blank">Link</a></td>
+                <td>分かりやすさのために区切っているが、3手目と4手目はまとめて<b>R2'</b>。</td>
+              </tr>
+              <tr>
+                <td id="oll2" class="id">2</td>
+                <td><canvas class="top_side" data-faces="DD.DDD.DD.D.....D...."></canvas></td>
+                <td class="alg">Fw (U R U' R') S' (U R U' R') F'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMLeZ4Z6peSoPDtVLyEgBSIFUyJyBSMicgRiBSIEYnIFUyJyBSJyBGIFIgRic" target="_blank">Link</a></td>
+                <td><b>Fw</b>を<b>S'</b>と<b>F'</b>に分けて戻す。</td>
+              </tr>
+              <tr>
+                <td id="oll3" class="id">3</td>
+                <td><canvas class="top_side" data-faces="DD.DD.DD..D.....D.D.."></canvas></td>
+                <td class="alg">Rw' R2 U R' U Rw U2' Rw' U M'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMKiTRgLugEWPETgA6cicgUjIgVSBSJyBVIHIgVTInIHInIFUgTSc" target="_blank">Link</a></td>
+                <td><a href="#oll27">Sune</a>の前後に<b>M</b>と<b>U M'</b>を付け、一部を2層回しにした手順。<a href="#oll11">OLL11</a>とは、6手目と8手目が2層回しかどうかが異なる。</td>
+              </tr>
+              <tr>
+                <td id="oll4" class="id">4</td>
+                <td><canvas class="top_side" data-faces=".DD.D..DD.DD....D...D"></canvas></td>
+                <td class="alg">Lw L2' U' L U' Lw' U2 Lw U' M'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMKRhLPZoPSQfyNPQ6bCBMMicgVScgTCBVJyBsJyBVMiBsIFUnIE0n" target="_blank">Link</a></td>
+                <td><a href="#oll3">OLL3</a>の左右反転。</td>
+              </tr>
+              <tr>
+                <td id="oll5" class="id">5</td>
+                <td><canvas class="top_side" data-faces="...DD.DD.D..DD.DD...."></canvas></td>
+                <td class="alg">Lw' U2 L U L' U Lw</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIHSD-NEANsCRo" target="_blank">Link</a></td>
+                <td><a href="#oll6">OLL6</a>の左右反転。</td>
+              </tr>
+              <tr>
+                <td id="oll6" class="id">6</td>
+                <td><canvas class="top_side" data-faces=".....D.DD.DD.DD.DD..."></canvas></td>
+                <td class="alg">Rw U2' R' U' R U' Rw'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIDMHip4dp6eR6iQciBVMicgUicgVScgUiBVJyByJw" target="_blank">Link</a></td>
+                <td><a href="#oll27">Sune</a>の逆手順の最初と最後を2層回し。</td>
+              </tr>
+              <tr>
+                <td id="oll7" class="id">7</td>
+                <td><canvas class="top_side" data-faces="D..DD.DD.....D.DD.D.."></canvas></td>
+                <td class="alg">Rw U R' U R U2' Rw'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMHi0Bd0AeZ4iYciBVIFInIFUgUiBVMicgcic" target="_blank">Link</a></td>
+                <td><a href="#oll27">Sune</a>の最初と最後を2層回し。</td>
+              </tr>
+              <tr>
+                <td id="oll8" class="id">8</td>
+                <td><canvas class="top_side" data-faces="..D....DD.DD.D..DD..D"></canvas></td>
+                <td class="alg">Lw' U' L U' L' U2 Lw</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIHSD_NB6Nr-Ro" target="_blank">Link</a></td>
+                <td><a href="#oll7">OLL7</a>の左右反転。</td>
+              </tr>
+              <tr>
+                <td id="oll9" class="id">9</td>
+                <td><canvas class="top_side" data-faces="..D.D..DD..D.D.DD...D"></canvas></td>
+                <td class="alg">R U R' U' R' F R2 U R' U' F'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBILecBdx6dqpaMBdx6EgA" target="_blank">Link</a></td>
+                <td><a href="#oll13">OLL13</a>の逆手順。</td>
+              </tr>
+              <tr>
+                <td id="oll10" class="id">10</td>
+                <td><canvas class="top_side" data-faces="DD..D.D..D....DDD..D."></canvas></td>
+                <td class="alg">R U R' U (R' F R F') R U2' R'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMLecBd0CdqpeQkeZ4dwBSIFUgUicgVSBSJyBGIFIgRicgUiBVMicgUic" target="_blank">Link</a></td>
+                <td><a href="#oll27">Sune</a>の途中に<b>R' F R F'</b>。</td>
+              </tr>
+              <tr>
+                <td id="oll11" class="id">11</td>
+                <td><canvas class="top_side" data-faces="DD.D..D...D.....DDDD."></canvas></td>
+                <td class="alg">Rw' R2 U R' U R U2' R' U M'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMKiTRgLugDzPDugA6cicgUjIgVSBSJyBVIFIgVTInIFInIFUgTSc" target="_blank">Link</a></td>
+                <td><a href="#oll27">Sune</a>の前後に<b>M</b>と<b>U M'</b>を付けた手順。<a href="#oll3">OLL3</a>とは、6手目と8手目が2層回しかどうかが異なる。</td>
+              </tr>
+              <tr>
+                <td id="oll12" class="id">12</td>
+                <td><canvas class="top_side" data-faces=".DD.D...D..D...DD..DD"></canvas></td>
+                <td class="alg">Lw L2' U' L U' L' U2 L U' M'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMKiTRgLugDzPDugA6cicgUjIgVSBSJyBVIFIgVTInIFInIFUgTSc" target="_blank">Link</a></td>
+                <td><a href="#oll11">OLL11</a>の左右反転。</td>
+              </tr>
+              <tr>
+                <td id="oll13" class="id">13</td>
+                <td><canvas class="top_side" data-faces="DD.D..DD.......DDDD.."></canvas></td>
+                <td class="alg">F U R U' R2' F' R U R U' R'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMLVkAeZ6Z4keUAeZ6dwBGIFUgUiBVJyBSMicgRicgUiBVIFIgVScgUic" target="_blank">Link</a></td>
+                <td><a href="#oll9">OLL9</a>の逆手順。</td></td>
+              </tr>
+              <tr>
+                <td id="oll14" class="id">14</td>
+                <td><canvas class="top_side" data-faces=".DD....DD..D...DDD..D"></canvas></td>
+                <td class="alg">R' F R U R' F' R F U' F'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIKdqpeUAdokeSqPQk" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll15" class="id">15</td>
+                <td><canvas class="top_side" data-faces="DD.D...D.D.....DDD..D"></canvas></td>
+                <td class="alg">Rw' U' M' U' R U Rw' U Rw</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIJiR6HR8eUAiUDio" target="_blank">Link</a></td>
+                <td>最初の<b>Rw'</b>でB面のU面色ペアを崩す。</td>
+              </tr>
+              <tr>
+                <td id="oll16" class="id">16</td>
+                <td><canvas class="top_side" data-faces=".D...D.DD..D..DDDD..."></canvas></td>
+                <td class="alg">Rw U Rw' R U R' U' Rw U' Rw'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIJiR6HR8eUAiUDio" target="_blank">Link</a></td>
+                <td><a href="#oll15">OLL15</a>の前後反転。</td>
+              </tr>
+              <tr>
+                <td id="oll17" class="id">17</td>
+                <td><canvas class="top_side" data-faces=".D.DD..DD.D.D...D...D"></canvas></td>
+                <td class="alg">F R' F' R U S' R U' R' S</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIKVTtEjygB0eZ6dz6" target="_blank">Link</a></td>
+                <td><a href="#oll19">OLL19</a>の逆手順。</td>
+              </tr>
+              <tr>
+                <td id="oll18" class="id">18</td>
+                <td><canvas class="top_side" data-faces=".D..D..D.DDD..D.D...D"></canvas></td>
+                <td class="alg">Rw U' Rw' F U F U' R U R' U' F'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIDIMip6iSpgapPTygDtPQkA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll19" class="id">19</td>
+                <td><canvas class="top_side" data-faces="DD..D..DD.D...D.D...D"></canvas></td>
+                <td class="alg">S' R U R' S U' R' F R F'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIKOjzgLufR6dqpeQk" target="_blank">Link</a></td>
+                <td><a href="#oll17">OLL17</a>の逆手順。</td>
+              </tr>
+              <tr>
+                <td id="oll20" class="id">20</td>
+                <td><canvas class="top_side" data-faces=".D..D..D..D.D.D.D.D.D"></canvas></td>
+                <td class="alg">S R' U' R U R U R U' R' S'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBILfTtPTygDwgDzPTuOgA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll21" class="id">21</td>
+                <td><canvas class="top_side" data-faces="...D.D...D.D.D.DDD.D."></canvas></td>
+                <td class="alg">R U R' U R U' R' U R U2' R'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMLecBd0CeZ6d0AeZ4dwBSIFUgUicgVSBSIFUnIFInIFUgUiBVMicgUic" target="_blank">Link</a></td>
+                <td><a href="#oll27">Sune</a> 2回のキャンセル。</td>
+              </tr>
+              <tr>
+                <td id="oll22" class="id">22</td>
+                <td><canvas class="top_side" data-faces="..D...D..D.D.D.DDD.D."></canvas></td>
+                <td class="alg">R U2' R2' U' R2 U' R2' U2' R</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMJeZ4Z56aJ6Z54eRSIFUyJyBSMicgVScgUjIgVScgUjInIFUyJyBS" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll23" class="id">23</td>
+                <td><canvas class="top_side" data-faces="D.D..........D.DDDDDD"></canvas></td>
+                <td class="alg">R2' D' R U2 R' D R U2 R</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JICMJZ4WeT-doVeT-eZSMicgRCcgUiBVMiBSJyBEIFIgVTIgUg" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll24" class="id">24</td>
+                <td><canvas class="top_side" data-faces="D.......D....DDDDD.DD"></canvas></td>
+                <td class="alg">Rw U R' U' Rw' F R F'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIIi0Bdx6iSpeQkA" target="_blank">Link</a></td>
+                <td><a href="#oll33">OLL33</a>の1手目と5手目を2層回し。</td>
+              </tr>
+              <tr>
+                <td id="oll25" class="id">25</td>
+                <td><canvas class="top_side" data-faces="...D....D...DD.DDD.DD"></canvas></td>
+                <td class="alg">F R' F' Rw U R U' Rw'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIIVTtEkVgDzPUTA" target="_blank">Link</a></td>
+                <td><a href="#oll24">OLL24</a>の逆手順。</td>
+              </tr>
+              <tr>
+                <td id="oll26" class="id">26</td>
+                <td><canvas class="top_side" data-faces=".....D..D..D.DDDDD.D."></canvas></td>
+                <td class="alg">R U2' R' U' R U' R'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMHeZ4dx6eZ6dwUiBVMicgUicgVScgUiBVJyBSJw" target="_blank">Link</a></td>
+                <td><a href="#oll27">Sune</a>の逆手順。揃っていないコーナーがULFコーナーにあるとき、F面にU面ステッカーががある。URFコーナーにあるとき、F面にU面ステッカーが無い。</td>
+              </tr>
+              <tr>
+                <td id="oll27" class="id">27</td>
+                <td><canvas class="top_side" data-faces="D..D..D......D.DDDDD."></canvas></td>
+                <td class="alg">R U R' U R U2' R'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMHecBd0AeZ4dwUiBVIFInIFUgUiBVMicgUic" target="_blank">Link</a></td>
+                <td>Sune。揃っていないコーナーがULFコーナーにあるとき、F面にU面ステッカーがが無い。URFコーナーにあるとき、F面にU面ステッカーがある。</td>
+              </tr>
+              <tr>
+                <td id="oll28" id="oll28" class="id">28</td>
+                <td><canvas class="top_side" data-faces="....D..D....DDDDD.D.D"></canvas></td>
+                <td class="alg">Rw U R' U' Rw' R U R U' R'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIKi0Bdx6ecTgDzPTu" target="_blank">Link</a></td>
+                <td><a href="#oll57">OLL57</a>の逆手順。</td>
+              </tr>
+              <tr>
+                <td id="oll29" class="id">29</td>
+                <td><canvas class="top_side" data-faces="D...D..DD....DDDD...D"></canvas></td>
+                <td class="alg">(Lw D Lw') U (Lw D' Lw') R' F R U' R' F' R</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIORicR8ARibR7tVLyPTtEjyA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll30" class="id">30</td>
+                <td><canvas class="top_side" data-faces="...DD..D...D.D.DD.D.D"></canvas></td>
+                <td class="alg">F R' F R2 U' R' U' R U R' F2</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIMVTtVLRPTqdp6eUAdqiA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll31" class="id">31</td>
+                <td><canvas class="top_side" data-faces="D......DD.D..DD.DD..D"></canvas></td>
+                <td class="alg">R' U' F U R U' R' F' R</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIJdp6VMDeR6dokeQ" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll32" class="id">32</td>
+                <td><canvas class="top_side" data-faces="DD......D.D...D.DD.DD"></canvas></td>
+                <td class="alg">S R U R' U' R' F R Fw'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIJOLzgLuPTtVLyFg" target="_blank">Link</a></td>
+                <td><b>S</b> + <a href="#oll33">OLL33</a>+ <b>S'</b>。</td>
+              </tr>
+              <tr>
+                <td id="oll33" class="id">33</td>
+                <td><canvas class="top_side" data-faces="DD.....DD.....DDDD..D"></canvas></td>
+                <td class="alg">R U R' U' R' F R F'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIIecBdx6dqpeQkA" target="_blank">Link</a></td>
+                <td>セクシームーブでFRスロットのペアを出して、スレッジハンマーで入れる。</td>
+              </tr>
+              <tr>
+                <td id="oll34" class="id">34</td>
+                <td><canvas class="top_side" data-faces=".D.D...D...D...DDDD.D"></canvas></td>
+                <td class="alg">R U R2' U' R' F R U R U' F'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMMecBZ56cLtVLygDzPSmAUiBVIFIyJyBVJyBSJyBGIFIgVSBSIFUnIEYn" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll35" class="id">35</td>
+                <td><canvas class="top_side" data-faces=".D.D....D.D.D...DD.DD"></canvas></td>
+                <td class="alg">R U2' R2' F R F' R U2' R'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMJeZ4Z6peSoeZ4dxSIFUyJyBSMicgRiBSIEYnIFIgVTInIFIn" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll36" class="id">36</td>
+                <td><canvas class="top_side" data-faces="....D.DD...D.DDDD.D.."></canvas></td>
+                <td class="alg">R U R2' F' U' F U R2 U2' R'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMKecBZ6nPSpgbRPDuUiBVIFIyJyBGJyBVJyBGIFUgUjIgVTInIFIn" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll37" class="id">37</td>
+                <td><canvas class="top_side" data-faces="...DD..DD...DD.DD...D"></canvas></td>
+                <td class="alg">F R' F' R U R U' R'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIIVTtEjygDzPTuA" target="_blank">Link</a></td>
+                <td><a href="#oll33">OLL33</a>の逆手順。</td>
+              </tr>
+              <tr>
+                <td id="oll38" class="id">38</td>
+                <td><canvas class="top_side" data-faces="D...DD.D.....DDDD.D.."></canvas></td>
+                <td class="alg">R U R' U R U' R' U' R' F R F'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIMecBd0CeZ6dx6dqpeQkA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll39" class="id">39</td>
+                <td><canvas class="top_side" data-faces=".D....DD...D..DDDDD.."></canvas></td>
+                <td class="alg">Fw' L F L' U' L' U L S</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIJFhnVRsPRtgBofQ" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll40" class="id">40</td>
+                <td><canvas class="top_side" data-faces=".DD....D.D..D..DDD..D"></canvas></td>
+                <td class="alg">R' F R U R' U' F' U R</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIJdqpeUAdp6EkDeQ" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll41" class="id">41</td>
+                <td><canvas class="top_side" data-faces="D.D.D..D.....D.DD.D.D"></canvas></td>
+                <td class="alg">R U R' U R U2' R' F R U R' U' F'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMNecBd0AeZ4dyqecBdx6EgFIgVSBSJyBVIFIgVTInIFInIEYgUiBVIFInIFUnIEYn" target="_blank">Link</a></td>
+                <td><a href="#oll27">Sune</a> + <a href="#oll45">6手OLL</a>。</td>
+              </tr>
+              <tr>
+                <td id="oll42" class="id">42</td>
+                <td><canvas class="top_side" data-faces=".D..D.D.D...D.DDD..D."></canvas></td>
+                <td class="alg">R' U' R U' R' U2' R F R U R' U' F'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMNdp6eR6dp4eSqecBdx6EgFInIFUnIFIgVScgUicgVTInIFIgRiBSIFUgUicgVScgRic" target="_blank">Link</a></td>
+                <td><a href="#oll27">Sune</a>の前後反転 + <a href="#oll45">6手OLL</a>。</td>
+              </tr>
+              <tr>
+                <td id="oll43" class="id">43</td>
+                <td><canvas class="top_side" data-faces="....D.DDD...DDDDD...."></canvas></td>
+                <td class="alg">R' U' F' U F R</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIGdp6Uh5VLyA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll44" class="id">44</td>
+                <td><canvas class="top_side" data-faces="...DDD.D....DD.DD.D.."></canvas></td>
+                <td class="alg">F U R U' R' F'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIGVkAeZ6dwkA" target="_blank">Link</a></td>
+                <td><a href="#oll45">6手OLL</a>の逆手順。</td>
+              </tr>
+              <tr>
+                <td id="oll45" class="id">45</td>
+                <td><canvas class="top_side" data-faces=".D.....D.D.D..DDDD..D"></canvas></td>
+                <td class="alg">F R U R' U' F'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIGVTzgLuPQkA" target="_blank">Link</a></td>
+                <td>6手OLL。</td>
+              </tr>
+              <tr>
+                <td id="oll46" class="id">46</td>
+                <td><canvas class="top_side" data-faces="...DDD....D.DD..D.DD."></canvas></td>
+                <td class="alg">R' U' R' F R F' U R</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JICIIdx6dqpeQkgDzA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll47" class="id">47</td>
+                <td><canvas class="top_side" data-faces="D.D.DD.D.D...D.DD...."></canvas></td>
+                <td class="alg">F R' F' R U2 R U' R' U R U2' R'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMMVTtEjyfzzPTugDzPDuARiBSJyBGJyBSIFUyIFIgVScgUicgVSBSIFUyJyBSJw" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll48" class="id">48</td>
+                <td><canvas class="top_side" data-faces="..D.D.DD.D.D.D.DD...."></canvas></td>
+                <td class="alg">F R U R' U' R U R' U' F'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIKVTzgLuPTzgLuPQk" target="_blank">Link</a></td>
+                <td><a href="#oll45">6手OLL</a> 2回のキャンセル。</td>
+              </tr>
+              <tr>
+                <td id="oll49" class="id">49</td>
+                <td><canvas class="top_side" data-faces="DD.DDD..D......DD..D."></canvas></td>
+                <td class="alg">Lw U' Lw2' U Lw2 U Lw2' U' Lw</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMJRh9REAQ0ARB7RpsIFUnIGwyJyBVIGwyIFUgbDInIFUnIGw" target="_blank">Link</a></td>
+                <td><b>Lw2(')</b>の間に<b>U(')</b>を差し込むイメージ。<a href="#oll50">OLL50</a>の前後反転。</td>
+              </tr>
+              <tr>
+                <td id="oll50" class="id">50</td>
+                <td><canvas class="top_side" data-faces="D..DDD.DD....D.DD...."></canvas></td>
+                <td class="alg">Lw' U Lw2 U' Lw2' U' Lw2 U Lw'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMJSEAQx9RB7Q0AR5sJyBVIGwyIFUnIGwyJyBVJyBsMiBVIGwn" target="_blank">Link</a></td>
+                <td><a href="#oll49">OLL49</a>の前後反転。</td>
+              </tr>
+              <tr>
+                <td id="oll51" class="id">51</td>
+                <td><canvas class="top_side" data-faces="DD.D.D.DD......DDD..."></canvas></td>
+                <td class="alg">F U R U' R' U R U' R' F'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIKVkAeZ6d0AeZ6dwk" target="_blank">Link</a></td>
+                <td><a href="#oll44">OLL44</a> 2回のキャンセル。</td>
+              </tr>
+              <tr>
+                <td id="oll52" class="id">52</td>
+                <td><canvas class="top_side" data-faces="..D.D.D..DDD.D..D..D."></canvas></td>
+                <td class="alg">R' F' U' F U' R U R' U R</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIKdqkPSpPTygDtgby" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll53" class="id">53</td>
+                <td><canvas class="top_side" data-faces="...DDD.D.D.D.D.DD...."></canvas></td>
+                <td class="alg">Lw' U' L U' L' U L U' L' U2 Lw</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBILSD_NB6NsANB6Nr-RoA" target="_blank">Link</a></td>
+                <td><a href="#oll54">OLL54</a>の左右反転。</td>
+              </tr>
+              <tr>
+                <td id="oll54" class="id">54</td>
+                <td><canvas class="top_side" data-faces="...D.D.D.DDD.D..DD..."></canvas></td>
+                <td class="alg">Rw U R' U R U' R' U R U2' Rw'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMLi0Bd0CeZ6d0AeZ4iYByIFUgUicgVSBSIFUnIFInIFUgUiBVMicgcic" target="_blank">Link</a></td>
+                <td><a href="#oll21">OLL21</a>の最後と最後を2層回し。</td>
+              </tr>
+              <tr>
+                <td id="oll55" class="id">55</td>
+                <td><canvas class="top_side" data-faces="DDD...DDD......DDD..."></canvas></td>
+                <td class="alg">R' F R U R U' R2' F' R2 U' R' U R U R'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMPdqpeUAeZ6Z4kaJ6d0AecBdwUicgRiBSIFUgUiBVJyBSMicgRicgUjIgVScgUicgVSBSIFUgUic" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll56" class="id">56</td>
+                <td><canvas class="top_side" data-faces=".D.D.D.D.D.D...DDD..."></canvas></td>
+                <td class="alg">(Rw U Rw') (U R U' R') (U R U' R') (Rw U' Rw')</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIOi0BicCeZ6d0AeZ6d0WPUTA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td id="oll57" class="id">57</td>
+                <td><canvas class="top_side" data-faces=".D.....D....D.DDDDD.D"></canvas></td>
+                <td class="alg">R U R' U' M' U R U' Rw'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIJecBdx6HUAeZ6iY" target="_blank">Link</a></td>
+                <td><a href="#oll28">OLL28</a>の逆手順。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h2 id="pll">PLL</h2>
+        <p>
+          回し終えた後に次の図の配色になる。
+        </p>
+        <p>
+          <canvas class="top_side" data-faces="BBBLLLFFFRRR"></canvas>
+        </p>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width: 5em">ID</th>
+                <th style="width: 90px">画像</th>
+                <th style="width: 26em">手順</th>
+                <th style="width: 6em">指使い</th>
+                <th style="width: 24em">備考</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            </tfoot>
+            <tbody>
+              <tr>
+                <td class="id">Aa</td>
+                <td><canvas class="top_side" data-faces="LBLFLRBFFRRB"></canvas></td>
+                <td class="alg">x R' U R' D2 R U' R' D2 R2 x'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIMADugBkdoUeR6doUaIDA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">Ab</td>
+                <td><canvas class="top_side" data-faces="FBRBLBLFFRRL"></canvas></td>
+                <td class="alg">x R2' D2 R U R' D2 R U' R x'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBcLADPCjygDtCjyPTzAYB4IFIyJyBEMiBSIFUgUicgRDIgUiBVJyBSIHgn" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">E</td>
+                <td><canvas class="top_side" data-faces="RBLFLBLFRBRF"></canvas></td>
+                <td class="alg">R' U' R' D' R U' R' D R U R' D' R U R' D R2</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=E2SAEQi7j07Qs8j07Qq8oA7Qs8oA7Qq0QA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">F</td>
+                <td><canvas class="top_side" data-faces="BFLFLBLBFRRR"></canvas></td>
+                <td class="alg">R' U' F' R U R' U' R' F R2 U' R' U' R U R' U R</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=E2SAEQk7j0JHnAXcenaqWiencennAXdAHmA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">Ga</td>
+                <td><canvas class="top_side" data-faces="BFLFRBLLFRBR"></canvas></td>
+                <td class="alg">R2 U R' U R' U' R U' R2 U' D R' U R D'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIQcrRPLugDtPTyPTvPQVdsDeQWA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">Gb</td>
+                <td><canvas class="top_side" data-faces="BRLFFBLBFRLR"></canvas></td>
+                <td class="alg">R' U' R U D' R2 U R' U R U' R U' R2' D</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMPdp6eUACzvgDtgbyPTzPTPCoUicgVScgUiBVIEQnIFIyIFUgUicgVSBSIFUnIFIgVScgUjInIEQ" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">Gc</td>
+                <td><canvas class="top_side" data-faces="BLLFRBLBFRFR"></canvas></td>
+                <td class="alg">R2' U' R U' R U R' U R2 U D' R U' R' D</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMQczPPTyPTzgLugDvgCbeZ6dwVFIyJyBVJyBSIFUnIFIgVSBSJyBVIFIyIFUgRCcgUiBVJyBSJyBE" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">Gd</td>
+                <td><canvas class="top_side" data-faces="BFLFBBLRFRLR"></canvas></td>
+                <td class="alg">R U R' U' D R2 U' R U' R' U R' U R2 D'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIQecBdx6CrOPTZeZ6d0AdsDaIWA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">H</td>
+                <td><canvas class="top_side" data-faces="BFBLRLFBFRLR"></canvas></td>
+                <td class="alg">M2' U' M2' U2' M2' U' M2'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMHWp6Wp4Wp6F4TTInIFUnIE0yJyBVMicgTTInIFUnIE0yJw" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">Ja</td>
+                <td><canvas class="top_side" data-faces="BLLFBBLFFRRR"></canvas></td>
+                <td class="alg">Rw R2' F R F' R U2' Rw' U Rw U2' Rw'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMMizPVLyVDzPETgEWPETAciBSMicgRiBSIEYnIFIgVTInIHInIFUgciBVMicgcic" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">Jb</td>
+                <td><canvas class="top_side" data-faces="LLFRRLFFRBBB"></canvas></td>
+                <td class="alg">R U R' F' R U R' U' R' F R2 U' R'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBINecBdwkecBdx6dqpaJ6dwA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">Na</td>
+                <td><canvas class="top_side" data-faces="BBFRRLFFBLLR"></canvas></td>
+                <td class="alg">R U R' U R U R' F' R U R' U' R' F R2 U' R' U2 R U' R'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIVecBd0CecBdwkecBdx6dqpaJ6dz-eZ6dwA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">Nb</td>
+                <td><canvas class="top_side" data-faces="FBBLRRBFFRLL"></canvas></td>
+                <td class="alg">R' U R U' R' F' U' F R U R' U' R U' Fw R Fw'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIRdsDeR6dqnPSpeUAdp6eR6WTzFg" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">Ra</td>
+                <td><canvas class="top_side" data-faces="LBFRFLFRRBLB"></canvas></td>
+                <td class="alg">R U' R' U' R U R D R' U' R D' R' U2 R'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIPeB6dp6eUAeYVdx6eYWdz-do" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">Rb</td>
+                <td><canvas class="top_side" data-faces="FLBLRFRFRBBL"></canvas></td>
+                <td class="alg">R' U2 R' D' R U' R' D R U R U' R' U' R</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JICIPdz-doWeR6doVeUAeZ6dx6eY" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">T</td>
+                <td><canvas class="top_side" data-faces="BBLFRBLFFRLR"></canvas></td>
+                <td class="alg">R U R' U' R' F R2 U' R' U' R U R' F'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIOecBdx6dqpaJ6dx6ecBdwkA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">Ua</td>
+                <td><canvas class="top_side" data-faces="FLFRFRBBBLRL"></canvas></td>
+                <td class="alg">R U R' U R' U' R2 U' R' U R' U R</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBINecBd0Adp6aJ6d0AdsDeQA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">Ub</td>
+                <td><canvas class="top_side" data-faces="BLBLRLFFFRBR"></canvas></td>
+                <td class="alg">R' U R' U' R3 U' R' U R U R2'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMLdsDdh6ap6d0AecBZ4BSJyBVIFInIFUnIFIzIFUnIFInIFUgUiBVIFIyJw" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">V</td>
+                <td><canvas class="top_side" data-faces="FLBLBRBFFRRL"></canvas></td>
+                <td class="alg">R' U R U' R' Fw' U' R U2 R' U' R U' R' Fw R</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBIQdsDeR6dquPTyfztPTyPTtWbyA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">Z</td>
+                <td><canvas class="top_side" data-faces="BLBLBLFRFRFR"></canvas></td>
+                <td class="alg">R U S' R' U' R S M' R' U R U' Rw'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBINecBOjuPTzOI6d0AeZ6iYA" target="_blank">Link</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="id">Z</td>
+                <td><canvas class="top_side" data-faces="RFRBLBLBLFRF"></canvas></td>
+                <td class="alg">M' U' M2' U' M2' U' M' U2' M2'</td>
+                <td><a href="https://yubi-gui.vercel.app/#y=JIBMJYB6Wp6F56YB4WpNJyBVJyBNMicgVScgTTInIFUnIE0nIFUyJyBNMic" target="_blank">Link</a></td>
+                <td>多分割用。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <hr>
+        <address class="mb-6 has-text-right">
+          <a href="https://twitter.com/kusano_k">@kusano_k</a>
+        </address>
+      </div>
+    </section>
+    <script>
+const colors = {
+  "F": "#08f808",
+  "B": "#0808f8",
+  "R": "#f80808",
+  "L": "#f8a008",
+  "D": "#f8f840",
+  ".": "#a0a0a0",
+};
+
+for (let canvas of document.querySelectorAll(".top_side")) {
+  const faces = canvas.dataset.faces;
+
+  const C = 16;
+
+  const W = C*5;
+  const H = C*5;
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio;
+  canvas.width = W*dpr;
+  canvas.height = H*dpr;
+  ctx.scale(dpr, dpr);
+  canvas.style.width = `${W}px`;
+  canvas.style.height = `${H}px`;
+
+  ctx.lineWidth = 0.5;
+  ctx.strokeStyle = "#303030";
+
+  function s(p) {
+    return (p-C*2.5)*.8+C*2.5;
+  }
+
+  for (let x=0; x<3; x++) {
+    ctx.beginPath();
+    ctx.moveTo(s((x+1)*C), C/3);
+    ctx.lineTo(s((x+2)*C), C/3);
+    ctx.lineTo((x+2)*C, C);
+    ctx.lineTo((x+1)*C, C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[x]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let y=0; y<3; y++) {
+    ctx.beginPath();
+    ctx.moveTo((5-1/3)*C, s((y+1)*C));
+    ctx.lineTo((5-1/3)*C, s((y+2)*C));
+    ctx.lineTo(4*C, (y+2)*C);
+    ctx.lineTo(4*C, (y+1)*C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[3+y]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let x=0; x<3; x++) {
+    ctx.beginPath();
+    ctx.moveTo(s((3-x)*C), (5-1/3)*C);
+    ctx.lineTo(s((4-x)*C), (5-1/3)*C);
+    ctx.lineTo((4-x)*C, 4*C);
+    ctx.lineTo((3-x)*C, 4*C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[6+x]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let y=0; y<3; y++) {
+    ctx.beginPath();
+    ctx.moveTo(1/3*C, s((3-y)*C));
+    ctx.lineTo(1/3*C, s((4-y)*C));
+    ctx.lineTo(C, (4-y)*C);
+    ctx.lineTo(C, (3-y)*C);
+    ctx.closePath();
+    ctx.fillStyle = colors[faces[9+y]];
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  for (let y=0; y<3; y++) {
+    for (let x=0; x<3; x++) {
+      ctx.beginPath();
+      ctx.rect((x+1)*C, (y+1)*C, C, C);
+      ctx.fillStyle = colors[faces.length>12?faces[12+y*3+x]:"D"];
+      ctx.fill();
+      ctx.stroke();
+    }
+  }
+
+  ctx.beginPath();
+  ctx.rect(C, C, 3*C, 3*C);
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+}
+
+for (let canvas of document.querySelectorAll(".pers")) {
+  const S = 80;
+
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio;
+  canvas.width = S*dpr;
+  canvas.height = (S*.6)*dpr;
+  ctx.scale(dpr, dpr);
+  canvas.style.width = `${S}px`;
+  canvas.style.height = `${S*.6}px`;
+
+  const faces = canvas.dataset.faces;
+
+  function rotate(x, y, z) {
+    const th2 = -0.6;
+    const x2 = x*Math.cos(th2)-y*Math.sin(th2);
+    const y2 = x*Math.sin(th2)+y*Math.cos(th2);
+    const z2 = z;
+
+    const th3 = 0.4;
+    const x3 = x2;
+    const y3 = y2*Math.cos(th3)-z2*Math.sin(th3);
+    const z3 = y2*Math.sin(th3)+z2*Math.cos(th3);
+
+    const p = 0.1;
+    const x4 = x3*(1-y3*p);
+    const z4 = z3*(1-y3*p);
+
+    return [x4*S*.3+S*.5, -z4*S*.3+S*.45];
+  }
+
+  ctx.lineWidth = 0.5;
+  ctx.strokeStyle = "#303030";
+
+  // F.
+  for (let y=0; y<3; y++) {
+    for (let x=0; x<3; x++) {
+      ctx.beginPath();
+      ctx.moveTo(...rotate(x    *2/3-1, -1, -y    *2/3+1));
+      ctx.lineTo(...rotate((x+1)*2/3-1, -1, -y    *2/3+1));
+      ctx.lineTo(...rotate((x+1)*2/3-1, -1, -(y+1)*2/3+1));
+      ctx.lineTo(...rotate(x    *2/3-1, -1, -(y+1)*2/3+1));
+      ctx.closePath();
+      ctx.fillStyle = colors[y==0?faces[x]:"."];
+      ctx.fill();
+      ctx.stroke();
+    }
+  }
+
+  // R.
+  for (let y=0; y<3; y++) {
+    for (let x=0; x<3; x++) {
+      ctx.beginPath();
+      ctx.moveTo(...rotate(1, x    *2/3-1, -y    *2/3+1));
+      ctx.lineTo(...rotate(1, (x+1)*2/3-1, -y    *2/3+1));
+      ctx.lineTo(...rotate(1, (x+1)*2/3-1, -(y+1)*2/3+1));
+      ctx.lineTo(...rotate(1, x    *2/3-1, -(y+1)*2/3+1));
+      ctx.closePath();
+      ctx.fillStyle = colors[y==0?faces[3+x]:"."];
+      ctx.fill();
+      ctx.stroke();
+    }
+  }
+
+  // U.
+  for (let y=0; y<3; y++) {
+    for (let x=0; x<3; x++) {
+      ctx.beginPath();
+      ctx.moveTo(...rotate(x    *2/3-1, -y    *2/3+1, 1));
+      ctx.lineTo(...rotate((x+1)*2/3-1, -y    *2/3+1, 1));
+      ctx.lineTo(...rotate((x+1)*2/3-1, -(y+1)*2/3+1, 1));
+      ctx.lineTo(...rotate(x    *2/3-1, -(y+1)*2/3+1, 1));
+      ctx.closePath();
+      ctx.fillStyle = colors[faces.length>6?faces[6+y*3+x]:"D"];
+      ctx.fill();
+      ctx.stroke();
+    }
+  }
+
+  ctx.lineWidth = 1.5;
+
+  ctx.beginPath();
+  ctx.moveTo(...rotate(-1, -1, -1));
+  ctx.lineTo(...rotate(-1, -1,  1));
+  ctx.lineTo(...rotate( 1, -1,  1));
+  ctx.lineTo(...rotate( 1, -1, -1));
+  ctx.closePath();
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(...rotate(1, -1, -1));
+  ctx.lineTo(...rotate(1, -1,  1));
+  ctx.lineTo(...rotate(1,  1,  1));
+  ctx.lineTo(...rotate(1,  1, -1));
+  ctx.closePath();
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(...rotate(-1, -1, 1));
+  ctx.lineTo(...rotate(-1,  1, 1));
+  ctx.lineTo(...rotate( 1,  1, 1));
+  ctx.lineTo(...rotate( 1, -1, 1));
+  ctx.closePath();
+  ctx.stroke();
+}
+    </script>
+  </body>
+</html>
