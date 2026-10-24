@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" data-theme="light">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <meta property="og:title" content="Pyraminx V solver">
     <title>Pyraminx V solver</title>
-    <link rel="stylesheet" href="../bulma.min.css">
+    <link rel="stylesheet" href="../bulma1.min.css">
     <style>
       address {
         text-align: right;
@@ -24,6 +24,7 @@
           This tool computes V solves for each D and F faces.
           By looking V solves, you may learn how to make V.
           <span class="has-text-weight-bold">[U]</span>, <span class="has-text-weight-bold">[L]</span>, <span class="has-text-weight-bold">[R]</span> and <span class="has-text-weight-bold">[B]</span> are rotations.
+          Underlines represent moving DL or DR edges.
         </p>
         <hr>
         <h2>Scramble</h2>
@@ -58,7 +59,7 @@
               <span class="face_d"></span>, <span class="face_f"></span>
             </div>
             <div style="display: flex">
-              <div style="width: 140px">
+              <div style="width: 140px; margin-bottom: 1em;">
                 <canvas></canvas>
               </div>
               <div>

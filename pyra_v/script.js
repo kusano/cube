@@ -494,13 +494,16 @@ function makeScramble() {
     return scramble.join(" ");
 }
 
+// returns [rotations, [solve]]
+// rotations は持ち替え。
+// solve は、[動き, DLエッジが動いたら側面色, DRエッジが動いたら側面色] の配列。
 function solveV(scramble, df, maxNum) {
     const pyra = new Pyra();
     for (let m of scramble.split(" ")) {
         pyra.move(m);
     }
 
-    const rotate = {
+    const rotations = {
         "DF": [],
         "DR": ["Uw"],
         "DL": ["Uw'"],
@@ -514,13 +517,64 @@ function solveV(scramble, df, maxNum) {
         "LD": ["Bw", "Uw"],
         "LR": ["Bw", "Uw'"],
     }[df];
-    for (let m of rotate) {
+    for (let m of rotations) {
         pyra.move(m);
+    }
+
+    const sideColors = {
+        "DL": {
+            "DF": "L",
+            "DR": "F",
+            "DL": "R",
+            "RD": "L",
+            "RF": "D",
+            "RL": "F",
+            "FL": "D",
+            "FR": "L",
+            "FD": "R",
+            "LF": "R",
+            "LD": "F",
+            "LR": "D",
+        },
+        "DR": {
+            "DF": "R",
+            "DR": "L",
+            "DL": "F",
+            "RD": "F",
+            "RF": "L",
+            "RL": "D",
+            "FL": "R",
+            "FR": "D",
+            "FD": "L",
+            "LF": "D",
+            "LD": "R",
+            "LR": "F",
+        }
+    };
+
+    function getEdgePos(pyra, edge) {
+        const EF = [
+            [29, 15], // DF
+            [34, 25], // DR
+            [32,  5], // DL
+            [12, 23], // FR
+            [20,  2], // RL
+            [ 7, 10], // LF
+        ];
+
+        const side = sideColors[edge][df];
+
+        for (let e=0; e<EF.length; e++) {
+            if ((pyra.F[EF[e][0]]==df[0] || pyra.F[EF[e][1]]==df[0]) &&
+                (pyra.F[EF[e][0]]==side || pyra.F[EF[e][1]]==side)) {
+                return e;
+            }
+        }
     }
 
     for (let depth=0; ; depth++) {
         let solves = [];
-        const moves = [...rotate];
+        const moves = [];
 
         function f(d) {
             if (solves.length>=maxNum) {
@@ -535,7 +589,7 @@ function solveV(scramble, df, maxNum) {
                     pyra.F[ 5]==pyra.F[ 6] &&
                     pyra.F[21]==pyra.F[25]) {
                     if (solves.length<maxNum) {
-                        solves.push(moves.join(" "));
+                        solves.push([...moves]);
                     }
                 }
                 return;
@@ -551,9 +605,17 @@ function solveV(scramble, df, maxNum) {
             }
 
             for (let m of ["R", "R'", "L", "L'", "U", "U'", "B", "B'"]) {
+                const dl = getEdgePos(pyra, "DL");
+                const dr = getEdgePos(pyra, "DR");
                 pyra.move(m);
-                moves.push(m);
+                moves.push([
+                    m,
+                    getEdgePos(pyra, "DL")!=dl?sideColors["DL"][df]:"",
+                    getEdgePos(pyra, "DR")!=dr?sideColors["DR"][df]:"",
+                ]);
+
                 f(d+1);
+
                 pyra.undo();
                 moves.pop();
 
@@ -564,7 +626,7 @@ function solveV(scramble, df, maxNum) {
         }
         f(0);
         if (solves.length>0) {
-            return solves;
+            return [rotations, solves];
         }
     }
 }
@@ -743,14 +805,7 @@ function solve(scramble) {
                     container.removeChild(container.firstChild);
                 }
 
-                const solves = solveV(scramble, df, num+1);
-
-                const rotations = [];
-                for (let m of solves[0].split(" ")) {
-                    if (m.includes("w")) {
-                        rotations.push(m);
-                    }
-                }
+                const [rotations, solves] = solveV(scramble, df, num+1);
 
                 const pyra = new Pyra();
 
@@ -795,13 +850,30 @@ function solve(scramble) {
                     container.appendChild(div);
 
                     if (i<num) {
-                        const s = [];
-                        for (let m of solves[i].split(" ")) {
-                            if (!m.includes("w")) {
-                                s.push(m);
-                            }
+                        div.style.marginBottom = "0.4em";
+
+                        for (const m of solves[i]) {
+                            const colors = {
+                                "D": "#AA0",
+                                "F": "#0C0",
+                                "R": "#00F",
+                                "L": "#F00",
+                                "": "#0000000000"
+                            };
+
+                            const span1 = document.createElement("span");
+                            div.appendChild(span1);
+                            span1.style.paddingBottom = "4px";
+                            span1.style.borderBottom = `solid 1.5px ${colors[m[2]]}`;
+
+                            const span2 = document.createElement("span");
+                            span1.appendChild(span2);
+                            span2.style.paddingLeft = "0.1em";
+                            span2.style.paddingRight = "0.1em";
+                            span2.style.borderBottom = `solid 1.5px ${colors[m[1]]}`;
+
+                            span2.textContent = m[0];
                         }
-                        div.textContent = s.join(" ");
                     } else {
                         div.textContent = "...";
                     }
