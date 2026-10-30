@@ -418,7 +418,7 @@ function search() {
     if (worker) {
         worker.terminate();
     }
-    worker = new Worker("worker.js?v=20260805");
+    worker = new Worker("worker.js?v=20261031");
 
     worker.onmessage = e => {
         const data = e.data;

@@ -937,7 +937,7 @@ function getSubset(scramble, normal, inverse) {
             subset = "0c";
             break;
         case 2:
-            subset = "0c";
+            subset = "2c";
             break;
         case 4:
             // 上下の同じ位置のコーナーがバッドエッジかどうかが、全て一致していれば4a、そうでなければ4b。
